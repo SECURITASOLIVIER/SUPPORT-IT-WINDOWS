@@ -18,11 +18,25 @@ function actionCard(a){
  <p class="desc">${esc(a.description||a.method)}</p>
  <div>${a.rights?`<span class="badge">${esc(a.rights)}</span>`:""}${a.risk?`<span class="badge warn">${esc(a.risk)}</span>`:""}</div>
  ${cmd?`<pre class="code">${esc(cmd)}</pre>`:""}
- <div class="actions">${cmd?`<button class="btn primary" onclick='copy(${JSON.stringify(cmd)})'>Copier commande / méthode</button>`:""}<button class="btn" onclick='addReport(${JSON.stringify(a.name+" — "+(a.description||a.method))})'>+ Rapport</button></div></article>`
+ <div class="actions">${cmd?`<button class="btn primary" onclick='copy(${JSON.stringify(cmd)})'>Copier commande / méthode</button>`:""}<button class="btn" onclick='copy(${JSON.stringify((a.name||"")+"\n"+(a.description||"")+"\n"+(a.method||""))})'>Copier la fiche</button></div></article>`
 }
 function commandCard(c){return `<article class="card"><h3>${esc(c.name)}</h3><div class="meta">${esc(c.category)}</div><p class="desc">${esc(c.description)}</p><pre class="code">${esc(c.command)}</pre><div class="actions"><button class="btn primary" onclick='copy(${JSON.stringify(c.command)})'>Copier</button>${c.rights?`<span class="badge">${esc(c.rights)}</span>`:""}</div></article>`}
-function allTemplates(){return [...D.templates,...custom]}
-function templateCard(t,i){return `<article class="card"><h3>${esc(t.name)}</h3><div class="meta">${esc(t.category)}${t.custom?" • Personnel":""}</div>${t.subject?`<div class="badge">${esc(t.subject)}</div>`:""}<pre class="code">${esc(t.content)}</pre><div class="actions"><button class="btn primary" onclick='copy(${JSON.stringify((t.subject?"Objet : "+t.subject+"\n\n":"")+t.content)})'>Copier</button>${t.custom?`<button class="btn" onclick="editTemplate(${i})">Modifier</button><button class="btn red" onclick="deleteTemplate(${i})">Supprimer</button>`:""}</div></article>`}
+
+function allTemplates(){
+ return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})));
+}
+function templateCard(t){
+ const ref=JSON.stringify(t._id);
+ return `<article class="card"><h3>${esc(t.name)}</h3><div class="meta">${esc(t.category)} ${t.builtin?"• Intégré":"• Personnel"}</div>
+ ${t.subject?`<div class="badge">Objet : ${esc(t.subject)}</div>`:""}
+ <pre class="code">${esc(t.content)}</pre>
+ <div class="actions">
+  <button class="btn primary" onclick='copy(${JSON.stringify((t.subject?"Objet : "+t.subject+"\n\n":"")+t.content)})'>Copier</button>
+  <button class="btn" onclick='editTemplate(${ref})'>Modifier</button>
+  <button class="btn" onclick='duplicateTemplate(${ref})'>Dupliquer</button>
+  ${t.custom?`<button class="btn red" onclick='deleteTemplate(${ref})'>Supprimer</button>`:""}
+ </div></article>`;
+}
 function filterItems(items, fields){let q=$("#search").value.trim().toLowerCase();if(!q)return items;return items.filter(x=>fields.some(f=>String(x[f]||"").toLowerCase().includes(q)))}
 function renderActions(c){let arr=filterItems(D.actions.filter(a=>a.webCategory===c),["name","description","method","command","category"]);return `<div class="toolbar"><span class="badge">${arr.length} action(s)</span><span class="badge warn">Exécution Windows : copier la commande</span></div><div class="grid">${arr.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>'}</div>`}
 function home(){
@@ -32,17 +46,73 @@ function home(){
 let report=JSON.parse(localStorage.getItem("ssitReport")||"[]");
 function addReport(x){report.push(new Date().toLocaleString()+" — "+x);localStorage.setItem("ssitReport",JSON.stringify(report));toast("Ajouté au rapport")}
 function renderReport(){return `<div class="toolbar"><button class="btn primary" onclick="copy(report.join('\\n'))">Copier rapport</button><button class="btn red" onclick="report=[];localStorage.setItem('ssitReport','[]');render()">Vider</button></div><pre class="code" style="max-height:none">${esc(report.join("\n\n")||"Rapport vide.")}</pre>`}
+
 function communications(){
  let ts=filterItems(allTemplates(),["name","category","subject","content"]);
- return `<div class="toolbar"><button class="btn primary" onclick="newTemplate()">+ Nouveau modèle</button><span class="badge">${ts.length} modèle(s)</span></div><div class="grid">${ts.map((t)=>templateCard(t,custom.indexOf(t))).join("")}</div>`
+ let cats=[...new Set(allTemplates().map(x=>x.category))].sort();
+ return `<div class="toolbar">
+   <button class="btn primary" onclick="newTemplate()">+ Créer un template</button>
+   <button class="btn" onclick="exportTemplates()">Exporter mes templates</button>
+   <label class="btn">Importer <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label>
+   <span class="badge">${ts.length} modèle(s)</span>
+   <span class="badge">${custom.length} personnel(s)</span>
+ </div>
+ <div class="toolbar">${cats.map(c=>`<button class="btn" onclick='quickTemplateSearch(${JSON.stringify(c)})'>${esc(c)}</button>`).join("")}</div>
+ <div class="grid">${ts.map(templateCard).join("")||'<div class="empty">Aucun template trouvé.</div>'}</div>`;
 }
-function newTemplate(idx=-1){
- let t=idx>=0?custom[idx]:{category:"Divers",name:"",subject:"",content:"",custom:true};
- $("#content").innerHTML=`<div class="editor"><input id="ecat" value="${esc(t.category)}" placeholder="Catégorie"><input id="ename" value="${esc(t.name)}" placeholder="Nom"><input class="full" id="esub" value="${esc(t.subject)}" placeholder="Objet (optionnel)"><textarea class="full" id="ebody" placeholder="Contenu">${esc(t.content)}</textarea><div class="full actions"><button class="btn primary" onclick="saveTemplate(${idx})">Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div>`
+function getTemplateByRef(ref){
+ if(!ref)return null;
+ let type=ref[0],i=parseInt(ref.slice(1),10);
+ return type==="b"?D.templates[i]:custom[i];
 }
-function editTemplate(i){if(i>=0)newTemplate(i)}
-function saveTemplate(i){let t={category:$("#ecat").value||"Divers",name:$("#ename").value||"Sans nom",subject:$("#esub").value,content:$("#ebody").value,custom:true};if(i>=0)custom[i]=t;else custom.push(t);save();render()}
-function deleteTemplate(i){if(i>=0&&confirm("Supprimer ce modèle ?")){custom.splice(i,1);save();render()}}
+function newTemplate(ref=null){
+ let source=getTemplateByRef(ref);
+ let t=source?{...source}:{category:"Tickets",name:"",subject:"",content:""};
+ let editIndex=(ref&&ref[0]==="c")?parseInt(ref.slice(1),10):-1;
+ $("#content").innerHTML=`<div class="card"><h3>${source?"Modifier le template":"Créer un template"}</h3>
+ <div class="editor">
+  <div><div class="meta">Catégorie</div><input id="ecat" value="${esc(t.category||"")}" placeholder="Tickets, Matériel, Sécurité…"></div>
+  <div><div class="meta">Nom du template</div><input id="ename" value="${esc(t.name||"")}" placeholder="Ex. Incident - clôture"></div>
+  <div class="full"><div class="meta">Objet</div><input id="esub" value="${esc(t.subject||"")}" placeholder="Objet du mail / message"></div>
+  <div class="full"><div class="meta">Texte</div><textarea id="ebody" placeholder="Texte du template">${esc(t.content||"")}</textarea></div>
+  <div class="full actions">
+   <button class="btn primary" onclick="saveTemplate(${editIndex})">Enregistrer</button>
+   <button class="btn" onclick="render()">Annuler</button>
+  </div>
+ </div></div>`;
+}
+function editTemplate(ref){
+ // An integrated template is copied to personal templates when modified,
+ // preserving the shipped default.
+ newTemplate(ref);
+}
+function duplicateTemplate(ref){
+ let t=getTemplateByRef(ref); if(!t)return;
+ custom.push({...t,name:(t.name||"Template")+" - copie",custom:true});
+ save();toast("Template dupliqué");render();
+}
+function saveTemplate(i){
+ let t={category:$("#ecat").value.trim()||"Divers",name:$("#ename").value.trim()||"Sans nom",
+        subject:$("#esub").value.trim(),content:$("#ebody").value,custom:true};
+ if(i>=0)custom[i]=t;else custom.push(t);
+ save();toast("Template enregistré");render();
+}
+function deleteTemplate(ref){
+ if(!ref||ref[0]!=="c")return;
+ let i=parseInt(ref.slice(1),10);
+ if(confirm("Supprimer ce template personnel ?")){custom.splice(i,1);save();render()}
+}
+function quickTemplateSearch(cat){$("#search").value=cat;render()}
+function exportTemplates(){
+ let blob=new Blob([JSON.stringify(custom,null,2)],{type:"application/json"});
+ let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="SuperSupportIT_Templates.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importTemplates(inp){
+ let f=inp.files&&inp.files[0];if(!f)return;
+ let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x))throw 0;
+ custom=x.filter(t=>t&&t.name&&typeof t.content==="string").map(t=>({...t,custom:true}));save();toast("Templates importés");render()
+ }catch{alert("Fichier de templates invalide.")}};r.readAsText(f);
+}
 function portals(){let ps=filterItems(D.portals,["name","url"]);return `<div class="grid">${ps.map(p=>`<article class="card"><h3>${esc(p.name)}</h3><pre class="code">${esc(p.url)}</pre><div class="actions"><button class="btn primary" onclick='window.open(${JSON.stringify(p.url)},"_blank","noopener")'>Ouvrir</button><button class="btn" onclick='copy(${JSON.stringify(p.url)})'>Copier URL</button></div></article>`).join("")}</div>`}
 function tools(){let cs=filterItems(D.commands,["name","description","command","category"]);return `<div class="toolbar"><span class="badge">${cs.length} commande(s)</span></div><div class="grid">${cs.map(commandCard).join("")}</div>`}
 function render(){
@@ -54,5 +124,5 @@ function render(){
 $("#search").addEventListener("input",render);
 $("#theme").onclick=()=>{state.theme=state.theme==="light"?"dark":"light";save();render()};
 $("#export").onclick=()=>{let blob=new Blob([JSON.stringify({state,custom,report},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="SuperSupportIT_Web_Data.json";a.click();URL.revokeObjectURL(a.href)};
-window.openCat=openCat;window.closeTab=closeTab;window.copy=copy;window.addReport=addReport;window.newTemplate=newTemplate;window.editTemplate=editTemplate;window.saveTemplate=saveTemplate;window.deleteTemplate=deleteTemplate;window.render=render;
+window.openCat=openCat;window.closeTab=closeTab;window.copy=copy;window.newTemplate=newTemplate;window.editTemplate=editTemplate;window.duplicateTemplate=duplicateTemplate;window.saveTemplate=saveTemplate;window.deleteTemplate=deleteTemplate;window.quickTemplateSearch=quickTemplateSearch;window.exportTemplates=exportTemplates;window.importTemplates=importTemplates;window.render=render;
 render();
