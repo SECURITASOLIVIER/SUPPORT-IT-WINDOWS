@@ -601,6 +601,38 @@ function templateLineEmoji(line){
  if(/information|pour information|à noter|a noter/.test(l))return "ℹ️ ";
  return "";
 }
+function decorateTemplatePlainText(text){
+ const clean=formalizeTemplateText(text);
+ if(!clean)return "";
+ let decoratedCount=0;
+ return clean.split("\n").map(line=>{
+   const raw=String(line||"");
+   const trimmed=raw.trim();
+   if(!trimmed)return "";
+
+   const marker=templateHeadingEmoji(trimmed);
+   if(marker && !/[\u2600-\u27BF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/.test(trimmed)){
+     return marker+trimmed;
+   }
+
+   if(/^(bonjour|bonsoir)(\s|,|$)/i.test(trimmed))return trimmed;
+   if(/^(cordialement|bien cordialement|bonne journée|bonne journee|merci|merci d'avance|merci par avance)(\s|,|\.|$)/i.test(trimmed))return trimmed;
+   if(/^\d+[\).\-]?\s+/.test(trimmed) || /^\d+[️⃣]\s*/u.test(trimmed))return trimmed;
+   if(/^(objet\s*:)/i.test(trimmed))return trimmed;
+
+   if(/^[-•▪◦]\s*/.test(trimmed)){
+     const prefix=(trimmed.match(/^[-•▪◦]\s*/)||[""])[0];
+     const content=trimmed.replace(/^[-•▪◦]\s*/,"");
+     const emoji=decoratedCount<3?templateLineEmoji(content):"";
+     if(emoji)decoratedCount++;
+     return prefix+emoji+content;
+   }
+
+   const emoji=decoratedCount<3?templateLineEmoji(trimmed):"";
+   if(emoji)decoratedCount++;
+   return emoji+trimmed;
+ }).join("\n");
+}
 function formatTemplateHtml(text){
  const clean=formalizeTemplateText(text);
  if(!clean)return '<div class="template-empty">Aucun contenu.</div>';
@@ -644,12 +676,12 @@ function formatTemplateHtml(text){
 }
 function templateShareText(t){
  const subject=formalizeTemplateText(t&&t.subject||"");
- const body=formalizeTemplateText(t&&t.content||"");
+ const body=decorateTemplatePlainText(t&&t.content||"");
  return (subject?"Objet : "+subject+"\n\n":"")+body;
 }
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
-function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(formalizeTemplateText(t.subject||t.name||"Communication IT"),formalizeTemplateText(t.content||""))}
+function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(formalizeTemplateText(t.subject||t.name||"Communication IT"),decorateTemplatePlainText(t.content||""))}
 function toggleTemplatePreview(id){
  const box=document.getElementById(id);
  if(!box)return;
