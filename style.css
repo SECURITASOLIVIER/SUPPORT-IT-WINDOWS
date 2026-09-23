@@ -203,17 +203,42 @@ header{margin-bottom:4px}
   #search{margin:14px 0}
 }
 
+@media(max-width:800px){
+  }
+
+
+/* IT Pocket branding */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 .rocketLogo{
-  width:58px;
-  height:58px;
+  width:62px;
+  height:62px;
   object-fit:contain;
-  border-radius:18px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  padding:0;
+  box-shadow:none;
   flex:0 0 auto;
-  box-shadow:0 4px 16px rgba(0,0,0,.18);
 }
 .brandText{min-width:0}
-@media(max-width:800px){
-  .rocketLogo{width:44px;height:44px;border-radius:14px}
+.brand h1{
+  margin:0;
+  font-family:"Orbitron","Segoe UI Variable Display","Aptos Display","Segoe UI",sans-serif;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:.11em;
+  line-height:1;
+  text-transform:uppercase;
+  font-style:italic;
+  color:var(--text);
+  text-shadow:0 0 14px rgba(26,137,255,.18);
 }
-
-.rocketLogo{background:#fff;padding:2px}
+@media(max-width:800px){
+  .brand{gap:9px}
+  .rocketLogo{width:48px;height:48px}
+  .brand h1{font-size:18px;letter-spacing:.09em}
+}
