@@ -81,6 +81,13 @@ function pocketActions(){
 let custom=readLocalArray("ssitTemplates");
 function save(){localStorage.setItem("ssitState",JSON.stringify(state));localStorage.setItem("ssitTemplates",JSON.stringify(custom))}
 function esc(s=""){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
+function inlineArg(value){
+ return JSON.stringify(value)
+   .replace(/&/g,"&amp;")
+   .replace(/'/g,"&#39;")
+   .replace(/</g,"&lt;")
+   .replace(/>/g,"&gt;");
+}
 function toast(t){let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1300)}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast("Copié")}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove();toast("Copié")}}
 function safeShareName(title){
@@ -507,9 +514,9 @@ function actionCard(a){
  '<p class="desc">'+esc(a.description||m||'')+'</p>'+
  '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
- (usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
- '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(a.name||"Fiche"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ (usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+inlineArg(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
+ '<button class="btn" onclick=\'shareText('+inlineArg(a.name||"Fiche support")+','+inlineArg(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(a.name||"Fiche"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(a,id)+'</article>';
 }
@@ -520,9 +527,9 @@ function commandCard(c){
  '<div class="meta">'+esc(c.category)+' • '+esc(r.label)+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
- '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>'+esc(r.copy)+'</button>'+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
- '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(c.name||"Fiche"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+inlineArg(c.command)+')\'>'+esc(r.copy)+'</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(c.name||"Fiche support")+','+inlineArg(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(c.name||"Fiche"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
@@ -726,8 +733,8 @@ function templateCard(t){
  (subject?'<div class="template-subject"><span>Objet</span>'+esc(subject)+'</div>':'')+
  '<div id="'+id+'" class="template-preview template-preview-collapsed">'+formatTemplateHtml(body)+'</div>'+
  '<div class="actions template-actions">'+
- '<button class="btn primary" onclick=\'copy('+JSON.stringify(full)+')\'>Copier</button>'+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(t.name||"Communication IT")+','+JSON.stringify(full)+')\'>Partager</button>'+
+ '<button class="btn primary" onclick=\'copy('+inlineArg(full)+')\'>Copier</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(t.name||"Communication IT")+','+inlineArg(full)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
  '<button class="btn" data-template-btn="'+id+'" onclick=\'toggleTemplatePreview("'+id+'")\'>Voir plus</button>'+
  '<button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button>'+
@@ -764,10 +771,10 @@ function portalCard(p){
  const shareBody=(p.name||"Lien IT")+"\n"+(p.url||"");
  return '<article class="card"><h3>'+(f?'★ ':'')+esc(p.name)+'</h3><div class="meta">'+esc(p.category||"Divers")+' '+(p.builtin?'• Intégré':'• Personnel')+'</div>'+
  '<pre class="code">'+esc(p.url)+'</pre><div class="actions">'+
- '<button class="btn primary" onclick=\'window.open('+JSON.stringify(p.url)+',"_blank","noopener")\'>Ouvrir</button>'+
- '<button class="btn" onclick=\'copy('+JSON.stringify(p.url)+')\'>Copier le lien</button>'+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(p.name||"Lien IT")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
- '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(p.name||"Lien"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn primary" onclick=\'window.open('+inlineArg(p.url)+',"_blank","noopener")\'>Ouvrir</button>'+
+ '<button class="btn" onclick=\'copy('+inlineArg(p.url)+')\'>Copier le lien</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(p.name||"Lien IT")+','+inlineArg(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(p.name||"Lien"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" onclick=\'toggleFavoriteLink('+r+')\'>'+(f?'★ Favori':'☆ Favori')+'</button>'+
  '<button class="btn" onclick=\'editLink('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteLink('+r+')\'>Supprimer</button></div></article>'
 }
