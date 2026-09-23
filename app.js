@@ -48,9 +48,17 @@ function templateCard(t){
 function filterItems(items, fields){let q=$("#search").value.trim().toLowerCase();if(!q)return items;return items.filter(x=>fields.some(f=>String(x[f]||"").toLowerCase().includes(q)))}
 function renderActions(c){let arr=filterItems(D.actions.filter(a=>a.webCategory===c),["name","description","method","command","category"]);return `<div class="toolbar"><span class="badge">${arr.length} action(s)</span><span class="badge warn">Exécution Windows : copier la commande</span></div><div class="grid">${arr.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>'}</div>`}
 function home(){
- let counts={};D.actions.forEach(a=>counts[a.webCategory]=(counts[a.webCategory]||0)+1);
- return `<div class="grid">${cats.slice(1,-2).map(c=>`<article class="card"><h3>${icon(c)} ${esc(c)}</h3><p class="desc">${counts[c]||0} actions disponibles.</p><button class="btn primary" onclick='openCat(${JSON.stringify(c)})'>Ouvrir</button></article>`).join("")}</div>`
+ const actionCats=[...new Set(D.actions.map(a=>a.category).filter(Boolean))];
+ return '<div class="home-summary">'+
+   '<article class="card home-kpi"><h3>☷ Actions NO LOSS</h3><div class="big-number">'+D.actions.length+'</div><p class="desc">Toutes les actions de référence à consulter, comprendre, copier ou partager.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>⌘ Commandes rapides</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis prêts à copier vers un poste Windows.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>✉ Communications</h3><div class="big-number">'+allTemplates().length+'</div><p class="desc">Modèles corporate à copier, partager ou préparer dans l’application mail locale.</p><button class="btn primary" onclick=\'openCat("Communications")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>↗ Portails & liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Liens Microsoft et IT, favoris personnels et accès rapides.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
+ '</div>'+
+ '<div class="section-title">Catégories NO LOSS</div>'+
+ '<div class="category-cloud">'+actionCats.map(c=>'<button class="btn category-chip" onclick=\'openNoLossCategory('+JSON.stringify(c)+')\'>'+esc(c)+' <span>'+D.actions.filter(a=>a.category===c).length+'</span></button>').join("")+'</div>';
 }
+function openNoLossCategory(cat){actionFilter=cat;openCat("Toutes les actions")}
 let report=JSON.parse(localStorage.getItem("ssitReport")||"[]");
 function addReport(x){report.push(new Date().toLocaleString()+" — "+x);localStorage.setItem("ssitReport",JSON.stringify(report));toast("Ajouté au rapport")}
 function renderReport(){return `<div class="toolbar"><button class="btn primary" onclick="copy(report.join('\\n'))">Copier rapport</button><button class="btn red" onclick="report=[];localStorage.setItem('ssitReport','[]');render()">Vider</button></div><pre class="code" style="max-height:none">${esc(report.join("\n\n")||"Rapport vide.")}</pre>`}
@@ -123,9 +131,14 @@ function importTemplates(inp){
 }
 function portals(){let ps=filterItems(D.portals,["name","url"]);return `<div class="grid">${ps.map(p=>`<article class="card"><h3>${esc(p.name)}</h3><pre class="code">${esc(p.url)}</pre><div class="actions"><button class="btn primary" onclick='window.open(${JSON.stringify(p.url)},"_blank","noopener")'>Ouvrir</button><button class="btn" onclick='copy(${JSON.stringify(p.url)})'>Copier URL</button></div></article>`).join("")}</div>`}
 function tools(){let cs=filterItems(D.commands,["name","description","command","category"]);return `<div class="toolbar"><span class="badge">${cs.length} commande(s)</span></div><div class="grid">${cs.map(commandCard).join("")}</div>`}
+function setActionFilter(v){actionFilter=v;render()}
 function renderAllActions(){
+ let sourceCats=[...new Set(D.actions.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
  let a=filterItems(D.actions,["name","description","method","command","script","category","webCategory"]);
- return '<div class="toolbar slimbar"><span class="badge">'+a.length+' / '+D.actions.length+' actions</span><span class="meta-inline">Référence NO LOSS • copier, partager et comprendre</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>';
+ if(actionFilter!=="Tous")a=a.filter(x=>x.category===actionFilter);
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' / '+D.actions.length+' actions</span><span class="meta-inline">Référence NO LOSS • aucune exécution mobile</span></div>'+
+ '<div class="category-scroll"><button class="btn" onclick=\'setActionFilter("Tous")\'>Toutes</button>'+sourceCats.map(c=>'<button class="btn" onclick=\'setActionFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
+ '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>';
 }
 function renderJournal(){
  let a=filterItems(D.actions.filter(x=>x.webCategory==="Journal & Statistiques"),["name","description","method","command","script","category"]);
@@ -158,6 +171,7 @@ let hiddenLinks=JSON.parse(localStorage.getItem("itpHiddenLinks")||"[]");
 let favoriteLinks=JSON.parse(localStorage.getItem("itpFavoriteLinks")||"[]");
 let portalFilter="Tous";
 let templateFilter="Tous";
+let actionFilter="Tous";
 function savePocket(){save();localStorage.setItem("itpHiddenTemplates",JSON.stringify(hiddenTemplates));localStorage.setItem("itpCustomLinks",JSON.stringify(customLinks));localStorage.setItem("itpHiddenLinks",JSON.stringify(hiddenLinks));localStorage.setItem("itpFavoriteLinks",JSON.stringify(favoriteLinks))}
 function launchTutorial(item){
  const shell=String(item.shell||item.language||"PowerShell");
@@ -272,5 +286,5 @@ function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
 function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>'}
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,setTemplateFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
