@@ -141,7 +141,7 @@ function renderAllActions(){
  let sourceCats=[...new Set(D.actions.map(x=>x.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr"));
  let a=filterItems(D.actions,["name","description","method","command","script","category","webCategory"]);
  if(actionFilter!=="Tous")a=a.filter(x=>x.category===actionFilter);
- return '<div class="toolbar slimbar"><span class="badge">'+a.length+' / '+D.actions.length+' actions</span><span class="meta-inline">Référence NO LOSS • aucune exécution mobile</span></div>'+
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' / '+D.actions.length+' actions</span><span class="meta-inline">Référence NO LOSS • Mobile = consulter / partager • PC = exécuter si autonome</span></div>'+
  '<div class="category-scroll"><button class="btn" onclick=\'setActionFilter("Tous")\'>Toutes</button>'+sourceCats.map(c=>'<button class="btn" onclick=\'setActionFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
  '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>';
 }
@@ -153,7 +153,7 @@ function renderJournal(){
 function render(){
  document.body.classList.toggle("light",state.theme==="light");nav();tabs();
  $("#title").textContent=state.cat;
- $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket mobile — comprendre, copier, partager et communiquer.":"Aucune exécution depuis le mobile : les scripts et commandes sont préparés pour être copiés ou partagés.";
+ $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket mobile — le téléphone consulte et partage, le PC Windows exécute.":"Rôles séparés : IT Pocket sur mobile ≠ poste Windows cible. Aucun besoin d’avoir Super Support installé.";
  $("#stats").textContent=D.actions.length+" actions • "+D.commands.length+" commandes • "+allTemplates().length+" modèles";
  let c=state.cat, h=
    c==="Accueil"?home():
@@ -178,7 +178,25 @@ let portalFilter="Tous";
 let templateFilter="Tous";
 let actionFilter="Tous";
 function savePocket(){save();localStorage.setItem("itpHiddenTemplates",JSON.stringify(hiddenTemplates));localStorage.setItem("itpCustomLinks",JSON.stringify(customLinks));localStorage.setItem("itpHiddenLinks",JSON.stringify(hiddenLinks));localStorage.setItem("itpFavoriteLinks",JSON.stringify(favoriteLinks))}
+function executionProfile(item){
+ const s=String(item.script||item.command||"").trim();
+ if(!s)return {kind:"info",label:"Information / procédure",standalone:false};
+ if(item.command && !item.script)return {kind:"standalone",label:"Autonome sur PC Windows",standalone:true};
+ const internal=/\b(?:Show-Text|Show-Grid|Show-AppSupportCenter|Show-RepairableApps|Show-OfficeAddinManager|Show-OneDriveDiagnostic|Export-OneDriveDiagnostic|Start-SupportTarget|Open-Uri|Confirm-Action|Add-Report|Enable-Escape|Get-PriorityApps|Get-InstalledApps|Get-OneDriveDiagnostic|Invoke-Lms|Start-Lms|Show-Ssit|Get-Ssit|Invoke-Ssit|Write-Ssit|Apply-Ssit|Register-Ssit)\b/i.test(s);
+ if(internal)return {kind:"reference",label:"Référence technique • dépend de Super Support",standalone:false};
+ return {kind:"standalone",label:"Script autonome à exécuter sur le PC",standalone:true};
+}
+function roleBlock(item){
+ const p=executionProfile(item);
+ return '<div class="role-split">'+
+ '<div class="role-box"><div class="role-title">📱 Rôle IT Pocket</div><div class="role-text">Sur mobile : comprendre l’action, copier, partager ou envoyer par Outlook. Rien n’est exécuté sur le téléphone.</div></div>'+
+ '<div class="role-box '+(p.standalone?'role-pc':'role-ref')+'"><div class="role-title">🖥 Rôle PC Windows</div><div class="role-text">'+
+ (p.standalone?'Sur le poste cible : ouvrir PowerShell / CMD selon l’indication puis exécuter le contenu copié.':'Cette fiche sert de référence. Le bloc original dépend de fonctions de Super Support et ne doit pas être présenté comme un script autonome.')+
+ '</div></div></div>'+
+ '<div class="execution-label '+p.kind+'">'+esc(p.label)+'</div>';
+}
 function launchTutorial(item){
+ const p=executionProfile(item);
  const shell=String(item.shell||item.language||"PowerShell");
  const rights=String(item.rights||"");
  const risk=String(item.risk||"");
@@ -188,24 +206,29 @@ function launchTutorial(item){
  const isUri=/ms-settings:|ms-quick-assist:|edge:\/\/|chrome:\/\//i.test(cmd);
  const isCmd=/CMD/i.test(shell)&&!/PowerShell/i.test(shell);
  let steps=[];
- steps.push("Clique sur Copier dans IT Pocket.");
+ steps.push("Depuis IT Pocket sur le mobile, copie ou partage le contenu vers le technicien / le PC cible.");
+ if(!p.standalone){
+   steps.push("Ne colle pas ce bloc tel quel dans PowerShell : il dépend de fonctions internes de Super Support.");
+   steps.push("Utilise la méthode et la description pour comprendre l’action, ou cherche une commande autonome équivalente dans Commandes rapides.");
+   return '<ol class="tutorial-steps">'+steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>';
+ }
  if(isUrl){
-   steps.push("Ouvre ton navigateur puis colle l’adresse dans la barre d’adresse.");
+   steps.push("Sur le PC cible, ouvre un navigateur puis colle l’adresse dans la barre d’adresse.");
    steps.push("Appuie sur Entrée et connecte-toi avec le compte professionnel si demandé.");
  }else if(isUri){
-   steps.push("Appuie sur Windows + R pour ouvrir Exécuter.");
+   steps.push("Sur le PC cible, appuie sur Windows + R.");
    steps.push("Colle la commande ou l’URI puis appuie sur Entrée.");
  }else if(isCmd){
-   steps.push("Ouvre le menu Démarrer, tape cmd puis ouvre Invite de commandes"+(admin?" en tant qu’administrateur":"")+".");
-   steps.push("Colle la commande avec Ctrl + V puis appuie sur Entrée.");
+   steps.push("Sur le PC cible, ouvre Invite de commandes"+(admin?" en tant qu’administrateur":"")+".");
+   steps.push("Colle la commande puis appuie sur Entrée.");
  }else{
-   steps.push("Ouvre le menu Démarrer, tape PowerShell ou Terminal Windows puis ouvre-le"+(admin?" en tant qu’administrateur":"")+".");
-   steps.push("Vérifie que l’invite commence bien par PS, colle le script avec Ctrl + V puis appuie sur Entrée.");
+   steps.push("Sur le PC cible, ouvre PowerShell ou Terminal Windows"+(admin?" en tant qu’administrateur":"")+".");
+   steps.push("Colle le script puis appuie sur Entrée.");
  }
- steps.push("Lis le résultat affiché : succès, état détecté ou message d’erreur.");
- if(/redémarr|reboot/i.test(risk))steps.push("Si la commande l’indique, redémarre le poste pour appliquer complètement la modification.");
- if(/moyen|élevé|modifie|supprim|interrompt|resynchron/i.test(risk))steps.push("Avant une action corrective, vérifie l’impact indiqué dans Risque et préviens l’utilisateur si nécessaire.");
- steps.push("Si tu dois escalader, copie le résultat utile dans le ticket avec le nom de l’action exécutée.");
+ steps.push("Contrôle le résultat avant de passer à une autre action.");
+ if(/redémarr|reboot/i.test(risk))steps.push("Redémarre le poste uniquement si l’action ou le résultat le demande.");
+ if(/moyen|élevé|modifie|supprim|interrompt|resynchron/i.test(risk))steps.push("Vérifie l’impact et préviens l’utilisateur avant une action corrective.");
+ steps.push("Pour une escalade, partage le résultat avec le nom de l’action et le contexte.");
  return '<ol class="tutorial-steps">'+steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>';
 }
 function toggleInlineDetail(id){
@@ -216,36 +239,40 @@ function toggleInlineDetail(id){
  if(btn)btn.textContent=open?"Réduire":"Voir plus";
 }
 function detailHtml(item,id){
- const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell";
+ const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell", p=executionProfile(item);
  return '<div id="'+id+'" class="inline-detail">'+
-   (item.method?'<div class="more-label">Méthode</div><div class="more-text">'+esc(item.method)+'</div>':'')+
-   '<div class="more-label">Comment lancer • étape par étape</div>'+launchTutorial(item)+
-   (s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(s)+')\'>Copier le script</button></div>':'')+
+   roleBlock(item)+
+   (item.method?'<div class="more-label">Méthode / principe</div><div class="more-text">'+esc(item.method)+'</div>':'')+
+   '<div class="more-label">Utilisation • étape par étape</div>'+launchTutorial(item)+
+   (s?'<div class="more-label">'+(p.standalone?'Commande / script autonome':'Source technique de référence')+' • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(s)+')\'>'+(p.standalone?'Copier pour le PC':'Copier la source')+'</button></div>':'')+
    '</div>';
 }
 function actionCard(a){
- let s=a.script||a.command||"", copyText=s||a.method||a.description||"";
+ let s=a.script||a.command||"", p=executionProfile(a);
  const id="detail_"+Math.random().toString(36).slice(2);
- const shareBody=(a.name||"")+(a.description?"\n\n"+a.description:"")+(s?"\n\n"+s:"");
+ const shareBody=(a.name||"")+(a.description?"\n\n"+a.description:"")+(s?"\n\n"+(p.standalone?"SCRIPT / COMMANDE AUTONOME":"SOURCE TECHNIQUE DE RÉFÉRENCE")+"\n"+s:"");
+ const copyText=s||a.method||a.description||"";
  return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
  '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
  '<p class="desc">'+esc(a.description||a.method||'')+'</p>'+
- '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
+ '<div class="card-badges"><span class="badge '+(p.standalone?'':'warn')+'">'+esc(p.label)+'</span>'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
- (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+'<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ (copyText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(copyText)+')\'>'+(p.standalone?'Copier':'Copier source')+'</button>':'')+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(a,id)+'</article>';
 }
 function commandCard(c){
  const id="detail_"+Math.random().toString(36).slice(2);
- const shareBody=(c.name||"")+(c.description?"\n\n"+c.description:"")+"\n\n"+(c.command||"");
+ const shareBody=(c.name||"")+(c.description?"\n\n"+c.description:"")+"\n\nCOMMANDE AUTONOME\n"+(c.command||"");
  return '<article class="card compact-card"><h3>'+esc(c.name)+'</h3>'+
  '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
- '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
+ '<div class="card-badges"><span class="badge">Autonome sur PC Windows</span>'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+'<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
@@ -289,7 +316,7 @@ function newLink(ref=null){let p=ref?{...getLinkByRef(ref)}:{name:"",category:"F
 function editLink(r){newLink(r)}
 function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert("Nom obligatoire et URL http/https valide.");return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
-function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
-function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>'}
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,openOutlookText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier • Partager • Outlook • Voir plus</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
+function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Copier • Partager • Outlook • Voir plus</span></div><div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>'}
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,executionProfile,roleBlock,shareText,openOutlookText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
