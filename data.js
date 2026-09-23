@@ -12,8 +12,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$cs=Get-CimInstance Win32_ComputerSystem\n    $os=Get-CimInstance Win32_OperatingSystem\n    $bios=Get-CimInstance Win32_BIOS\n    $ram=[math]::Round($cs.TotalPhysicalMemory/1GB,1)\n    $uptime=(Get-Date)-$os.LastBootUpTime\n    $disk=Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\"\n    $free=[math]::Round($disk.FreeSpace/1GB,1)\n    $total=[math]::Round($disk.Size/1GB,1)\n    $text=@\"\nMachine       : $env:COMPUTERNAME\nUtilisateur   : $env:USERNAME\nDomaine       : $env:USERDOMAIN\nConstructeur  : $($cs.Manufacturer)\nModèle        : $($cs.Model)\nSerial        : $($bios.SerialNumber)\nWindows       : $($os.Caption)\nVersion/Build : $($os.Version) / $($os.BuildNumber)\nRAM           : $ram Go\nDisque C:     : $free Go libres / $total Go\nUptime        : $([math]::Round($uptime.TotalHours,1)) heures\nAdmin         : $(Test-IsAdmin)\n\nRESEAU\n$(Get-NetworkSummary)\n\"@\n    Show-Text \"Résumé machine\" $text -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Accueil",
@@ -26,8 +27,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-PriorityApps | Select-Object DisplayName,DisplayVersion,Publisher\n    Show-Grid \"Applications prioritaires\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -40,8 +42,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-AppSupportCenter",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -54,8 +57,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x = Get-InstalledApps | Select-Object DisplayName,DisplayVersion,Publisher,InstallLocation\n    Show-Grid \"Applications installées\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -68,8 +72,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-Process -ErrorAction SilentlyContinue | Sort-Object WorkingSet64 -Descending | Select-Object -First 30 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},@{N=\"CPU_s\";E={[math]::Round($_.CPU,1)}}\n    Show-Grid \"Top processus\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -82,8 +87,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:appsfeatures\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -96,8 +102,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-RepairableApps",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -110,8 +117,9 @@ window.SSIT_DATA = {
       "risk": "Faible : l’application peut demander d'enregistrer.",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$names=Get-Process | Where-Object {$_.MainWindowTitle} | Sort-Object ProcessName | Select-Object -ExpandProperty ProcessName -Unique\n    $f=New-Object Windows.Forms.Form;$f.Text=\"Fermer une application\";$f.Size=New-Object Drawing.Size(500,430);$f.StartPosition=\"CenterScreen\";Enable-Escape $f\n    $list=New-Object Windows.Forms.ListBox;$list.Location=New-Object Drawing.Point(20,20);$list.Size=New-Object Drawing.Size(440,300);$list.Items.AddRange([object[]]$names);$f.Controls.Add($list)\n    $b=New-Object Windows.Forms.Button;$b.Text=\"Fermer proprement\";$b.Location=New-Object Drawing.Point(300,335);$b.Size=New-Object Drawing.Size(160,38)\n    $b.Add_Click({if($list.SelectedItem){Get-Process -Name $list.SelectedItem -ErrorAction SilentlyContinue | ForEach-Object {$_.CloseMainWindow()|Out-Null};$f.Close()}});$f.Controls.Add($b)\n    $f.ShowDialog()|Out-Null",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -124,8 +132,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : données non enregistrées perdues.",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$names=Get-Process | Sort-Object ProcessName | Select-Object -ExpandProperty ProcessName -Unique\n    $f=New-Object Windows.Forms.Form;$f.Text=\"FORCER fermeture\";$f.Size=New-Object Drawing.Size(500,430);$f.StartPosition=\"CenterScreen\";Enable-Escape $f\n    $list=New-Object Windows.Forms.ListBox;$list.Location=New-Object Drawing.Point(20,20);$list.Size=New-Object Drawing.Size(440,300);$list.Items.AddRange([object[]]$names);$f.Controls.Add($list)\n    $b=New-Object Windows.Forms.Button;$b.Text=\"Forcer l'arrêt\";$b.Location=New-Object Drawing.Point(300,335);$b.Size=New-Object Drawing.Size(160,38)\n    $b.Add_Click({\n        if($list.SelectedItem -and (Confirm-Action \"Forcer fermeture\" \"Terminer $($list.SelectedItem) ? Les données non enregistrées seront perdues.\")){\n            Stop-Process -Name $list.SelectedItem -Force -ErrorAction SilentlyContinue;$f.Close()\n        }\n    });$f.Controls.Add($b);$f.ShowDialog()|Out-Null",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -138,8 +147,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : peut modifier le comportement d'Office.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-OfficeAddinManager",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -152,8 +162,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-OneDriveDiagnostic",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -166,8 +177,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-OneDriveDiagnostic",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -180,8 +192,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\logs\"\n    if(Test-Path $p){Start-SupportTarget -FilePath \"explorer.exe\" -Arguments \"`\"$p`\"\"}else{Show-Text \"OneDrive\" \"Dossier de logs introuvable.\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -194,8 +207,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=if($env:OneDriveCommercial){$env:OneDriveCommercial}else{$env:OneDrive}\n    if($p -and (Test-Path $p)){Start-SupportTarget -FilePath \"explorer.exe\" -Arguments \"`\"$p`\"\"}else{Show-Text \"OneDrive\" \"Aucun dossier OneDrive détecté.\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -208,8 +222,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$d=Get-OneDriveDiagnostic\n    $txt=if($d.EndpointTests.Count){$d.EndpointTests|Format-Table -AutoSize|Out-String}else{\"Aucun résultat de test.\"}\n    Add-Report \"OneDrive - Tests réseau\" $txt\n    Show-Text \"OneDrive - Tests services Microsoft\" $txt",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -222,8 +237,9 @@ window.SSIT_DATA = {
       "risk": "Faible à moyen : synchronisation interrompue temporairement.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$exe=Get-OneDriveExecutable\n    if(-not $exe){Show-Text \"OneDrive\" \"OneDrive.exe introuvable.\";return}\n    if(Confirm-Action \"OneDrive - redémarrage\" \"Fermer puis relancer OneDrive ?\"){\n        Start-SupportTarget -FilePath $exe -Arguments \"/shutdown\"\n        Start-Sleep -Seconds 3\n        Start-SupportTarget -FilePath $exe\n        Add-Report \"OneDrive - Redémarrage\" \"OneDrive arrêté puis relancé : $exe\"\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -236,8 +252,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : fichiers Office pourront être resynchronisés.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Invoke-CleanupReport -Name \"Office Document Cache\" -Paths @(\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\") -Processes @(\"WINWORD\",\"EXCEL\",\"POWERPNT\",\"OUTLOOK\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -250,8 +267,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : les compléments Web rechargeront leurs ressources.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Invoke-CleanupReport -Name \"Office Web Add-ins / WEF\" -Paths @(\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\Wef\") -Processes @(\"WINWORD\",\"EXCEL\",\"POWERPNT\",\"OUTLOOK\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -264,8 +282,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : certaines données locales seront recréées.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Invoke-CleanupReport -Name \"Outlook RoamCache\" -Paths @(\"$env:LOCALAPPDATA\\Microsoft\\Outlook\\RoamCache\") -Processes @(\"OUTLOOK\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -278,8 +297,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=Get-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration\" -ErrorAction SilentlyContinue\n    Show-Text \"Office Click-to-Run\" ($p | Select-Object ProductReleaseIds,ClientVersionToReport,Platform,UpdateChannel,AudienceId,CDNBaseUrl | Format-List | Out-String) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -292,8 +312,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-OfficeAddins | Select-Object App,Addin,FriendlyName,Description,LoadBehavior,Hive\n    Show-Grid \"Compléments Office\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -306,8 +327,9 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-MacroSettings | Select-Object App,VBAWarnings,AccessVBOM,ProtectedViewPath\n    Show-Grid \"Sécurité macros\" $x -AddToReport\n}\n\nfunction Open-LmsOutlookMailProfilesSafe {\n    try {\n        $paths=@()\n        foreach($root in @($env:ProgramFiles,${env:ProgramFiles(x86)})){\n            if($root){\n                $paths += (Join-Path $root 'Microsoft Office\\root\\Office16\\MLCFG32.CPL')\n                $paths += (Join-Path $root 'Microsoft Office\\Office16\\MLCFG32.CPL')\n            }\n        }\n        $cpl=$paths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1\n        if($cpl){\n            Start-Process -FilePath 'control.exe' -ArgumentList ('\"' + $cpl + '\"') -ErrorAction Stop | Out-Null\n        } else {\n            Start-Process -FilePath 'control.exe' -ArgumentList 'mlcfg32.cpl' -ErrorAction Stop | Out-Null\n        }\n    } catch {\n        Show-Text 'Profils Outlook' (\"Impossible d'ouvrir le panneau Mail / Profils Outlook.`r`n`r`n\" + $_.Exception.Message)\n    }\n}\nfunction Open-LmsOutlookOstFolderSafe {\n    $p=Join-Path $env:LOCALAPPDATA 'Microsoft\\Outlook'\n    if(Test-Path -LiteralPath $p){ Start-Process explorer.exe -ArgumentList ('\"' + $p + '\"') }\n    else { Show-Text 'OST Outlook' (\"Dossier introuvable :`r`n\" + $p) }\n}\nfunction Open-LmsOutlookPstFolderSafe {\n    $p=Join-Path $env:USERPROFILE 'Documents\\Outlook Files'\n    if(Test-Path -LiteralPath $p){ Start-Process explorer.exe -ArgumentList ('\"' + $p + '\"') }\n    else { Show-Text 'PST Outlook' (\"Dossier introuvable :`r`n\" + $p) }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -320,8 +342,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=Get-Process OUTLOOK -ErrorAction SilentlyContinue\n    $x=if($p){$p|Select-Object Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},StartTime|Format-Table -AutoSize|Out-String}else{\"Outlook n’est pas lancé.\"}\n    Show-Text \"Outlook\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -334,8 +357,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process outlook.exe -ArgumentList \"/safe\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -348,8 +372,9 @@ window.SSIT_DATA = {
       "risk": "Faible : réinitialise la personnalisation du volet.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Outlook /resetnavpane\" \"Réinitialiser le volet de navigation Outlook ?\"){Start-Process outlook.exe -ArgumentList \"/resetnavpane\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -362,8 +387,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$paths=@(\"$env:LOCALAPPDATA\\Microsoft\\Outlook\",\"$env:USERPROFILE\\Documents\\Outlook Files\")\n    $r=@()\n    foreach($p in $paths){if(Test-Path $p){$r+=Get-ChildItem $p -File -ErrorAction SilentlyContinue|Where-Object{$_.Extension -in \".ost\",\".pst\"}|Select-Object FullName,@{N=\"GB\";E={[math]::Round($_.Length/1GB,2)}},LastWriteTime}}\n    Show-Text \"OST / PST\" ($r|Format-Table -Wrap -AutoSize|Out-String) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -376,8 +402,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-LmsOutlookMailProfilesSafe",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -390,8 +417,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-LmsOutlookOstFolderSafe",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -404,8 +432,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-LmsOutlookPstFolderSafe",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -418,8 +447,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=Get-Process OneDrive -ErrorAction SilentlyContinue\n    $txt=\"Processus : \"+$(if($p){\"ACTIF PID \"+($p.Id -join \",\")}else{\"NON ACTIF\"})+\"`r`nOneDrive : $env:OneDrive`r`nOneDriveCommercial : $env:OneDriveCommercial\"\n    Show-Text \"OneDrive\" $txt -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -432,8 +462,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$exe=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\"; if(Test-Path $exe){Start-Process $exe -ArgumentList \"/shutdown\"}else{Show-Text \"OneDrive\" \"OneDrive.exe introuvable.\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -446,8 +477,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : synchronisation interrompue immédiatement.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Forcer OneDrive\" \"Forcer la fermeture de OneDrive ?\"){Stop-Process OneDrive -Force -ErrorAction SilentlyContinue}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -460,8 +492,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$exe=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\";if(Test-Path $exe){Start-Process $exe}else{Show-Text \"OneDrive\" \"Exécutable introuvable.\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -474,8 +507,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : resynchronisation possible, pas de suppression des fichiers cloud.",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Reset OneDrive\" \"Exécuter OneDrive.exe /reset ? Une resynchronisation peut suivre.\"){\n        $exe=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\";if(Test-Path $exe){Start-Process $exe -ArgumentList \"/reset\"}\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -488,8 +522,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Teams\" ((Get-Process *teams* -ErrorAction SilentlyContinue|Select-Object Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}|Format-Table -AutoSize|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Microsoft 365",
@@ -502,8 +537,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Microsoft 365",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:appsfeatures\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -516,8 +552,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : pages et ressources seront rechargées.",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$paths=@()\n    $base=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\"\n    if(Test-Path $base){\n        Get-ChildItem $base -Directory -ErrorAction SilentlyContinue |\n            Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"} |\n            ForEach-Object {\n                $paths += (Join-Path $_.FullName \"Cache\")\n                $paths += (Join-Path $_.FullName \"Code Cache\")\n                $paths += (Join-Path $_.FullName \"GPUCache\")\n            }\n    }\n    Invoke-CleanupReport -Name \"Edge - tous profils\" -Paths $paths -Processes @(\"msedge\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -530,8 +567,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : pages et ressources seront rechargées.",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$paths=@()\n    $base=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\"\n    if(Test-Path $base){\n        Get-ChildItem $base -Directory -ErrorAction SilentlyContinue |\n            Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"} |\n            ForEach-Object {\n                $paths += (Join-Path $_.FullName \"Cache\")\n                $paths += (Join-Path $_.FullName \"Code Cache\")\n                $paths += (Join-Path $_.FullName \"GPUCache\")\n            }\n    }\n    Invoke-CleanupReport -Name \"Chrome - tous profils\" -Paths $paths -Processes @(\"chrome\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -544,8 +582,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$apps=Get-InstalledApps|Where-Object{$_.DisplayName -match \"Chrome|Edge|Firefox\"}|Select-Object DisplayName,DisplayVersion,Publisher\n    $proc=Get-Process chrome,msedge,firefox -ErrorAction SilentlyContinue|Select-Object Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}\n    Show-Text \"Navigateurs\" (($apps|Format-Table -AutoSize|Out-String)+\"`r`nPROCESSUS`r`n\"+($proc|Format-Table -AutoSize|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -558,8 +597,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Caches navigateurs\" ((Get-BrowserCacheSize|Format-Table -Wrap -AutoSize|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -572,8 +612,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : sessions web/caches peuvent être rechargés. Les mots de passe ne sont pas supprimés.",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Nettoyer Chrome\" \"Fermer Chrome et supprimer son cache local (pas les favoris ni mots de passe) ?\"){\n        Stop-Process chrome -Force -ErrorAction SilentlyContinue\n        Remove-Item \"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Cache\\*\" -Recurse -Force -ErrorAction SilentlyContinue\n        Remove-Item \"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Code Cache\\*\" -Recurse -Force -ErrorAction SilentlyContinue\n        Show-Text \"Chrome\" \"Cache Chrome nettoyé.\"\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -586,8 +627,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : caches web rechargés. Favoris et mots de passe non supprimés.",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Nettoyer Edge\" \"Fermer Edge et supprimer son cache local ?\"){\n        Stop-Process msedge -Force -ErrorAction SilentlyContinue\n        Remove-Item \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Cache\\*\" -Recurse -Force -ErrorAction SilentlyContinue\n        Remove-Item \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Code Cache\\*\" -Recurse -Force -ErrorAction SilentlyContinue\n        Show-Text \"Edge\" \"Cache Edge nettoyé.\"\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -600,8 +642,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Backup-BrowserBookmarks",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -614,8 +657,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process msedge.exe -ArgumentList \"edge://wallet/passwords\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -628,8 +672,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process chrome.exe -ArgumentList \"chrome://password-manager/passwords\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -642,8 +687,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process msedge.exe -ArgumentList \"edge://extensions\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -656,8 +702,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process chrome.exe -ArgumentList \"chrome://extensions\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -670,8 +717,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process msedge.exe -ArgumentList \"edge://settings/clearBrowserData\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Navigateurs",
@@ -684,8 +732,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process chrome.exe -ArgumentList \"chrome://settings/clearBrowserData\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -698,8 +747,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Réseau - résumé\" (Get-NetworkSummary) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -712,8 +762,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Ping Internet\" (Invoke-SafeProcess ping.exe \"1.1.1.1 -n 4\" 15)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -726,8 +777,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"DNS\" (Invoke-SafePS \"Resolve-DnsName microsoft.com | Format-Table -AutoSize\" 15)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -740,8 +792,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$gw=(Get-NetRoute -DestinationPrefix \"0.0.0.0/0\" -ErrorAction SilentlyContinue|Sort-Object RouteMetric|Select-Object -First 1).NextHop\n    if($gw){Open-Uri \"http://$gw\"}else{Show-Text \"Passerelle\" \"Aucune passerelle détectée.\"}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -754,8 +807,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"ipconfig /all\" (Invoke-SafeProcess ipconfig.exe \"/all\" 20)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -768,8 +822,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"ARP\" (Invoke-SafeProcess arp.exe \"-a\" 15)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -782,8 +837,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Routes\" (Invoke-SafeProcess route.exe \"print\" 20)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -796,8 +852,9 @@ window.SSIT_DATA = {
       "risk": "Faible",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Flush DNS\" \"Vider le cache DNS local ?\"){Show-Result \"Flush DNS\" (Invoke-SafeProcess ipconfig.exe \"/flushdns\" 15)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -810,8 +867,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : coupure réseau momentanée.",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"DHCP Renew\" \"Renouveler les baux DHCP ? Connexion momentanément perturbée.\"){Show-Result \"DHCP Renew\" (Invoke-SafeProcess ipconfig.exe \"/renew\" 60)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Réseau",
@@ -824,8 +882,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : redémarrage souvent nécessaire.",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Reset Winsock\" \"Réinitialiser Winsock ? Un redémarrage peut être nécessaire.\"){Show-Result \"Winsock\" (Invoke-SafeProcess netsh.exe \"winsock reset\" 30)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -838,8 +897,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-Printer -ErrorAction SilentlyContinue | Select-Object Name,DriverName,PortName,PrinterStatus,Default\n    Show-Grid \"Imprimantes\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -852,8 +912,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:printers\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -866,8 +927,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Spooler\" ((Get-Service Spooler|Format-List *|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -880,8 +942,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : impressions momentanément interrompues.",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Spooler\" \"Redémarrer le service Spooler ?\"){Show-Result \"Spooler\" (Invoke-SafePS \"Restart-Service Spooler -Force; Get-Service Spooler\" 30)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -894,8 +957,9 @@ window.SSIT_DATA = {
       "risk": "Élevé : supprime tous les travaux d'impression en attente.",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Vider le spool\" \"SUPPRIMER tous les travaux d'impression en attente ?\"){\n        $cmd=\"Stop-Service Spooler -Force; Remove-Item '$env:windir\\System32\\spool\\PRINTERS\\*' -Force -ErrorAction SilentlyContinue; Start-Service Spooler; Get-Service Spooler\"\n        Show-Result \"Vider Spooler\" (Invoke-SafePS $cmd 45)\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Imprimantes",
@@ -908,8 +972,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$ports=Get-PrinterPort -ErrorAction SilentlyContinue|Where-Object{$_.PrinterHostAddress}\n    $txt=$ports|Select-Object Name,PrinterHostAddress,PortNumber|Format-Table -AutoSize|Out-String\n    Show-Text \"Ports imprimantes\" ($txt+\"`r`nCopiez une IP dans le navigateur pour ouvrir l'interface Web.\") -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -922,8 +987,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-PnpDevice -ErrorAction SilentlyContinue | Where-Object Status -ne \"OK\" | Select-Object Class,FriendlyName,Status,InstanceId\n    Show-Grid \"Périphériques en erreur\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -936,8 +1002,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-PnpDevice -Class Bluetooth -ErrorAction SilentlyContinue | Select-Object FriendlyName,Status,InstanceId\n    Show-Grid \"Bluetooth\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -950,8 +1017,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:bluetooth\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -964,8 +1032,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process devmgmt.msc",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -978,8 +1047,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Rescan matériel\" (Invoke-SafeProcess pnputil.exe \"/scan-devices\" 45)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Windows Update",
@@ -992,8 +1062,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:windowsupdate\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Windows Update",
@@ -1006,8 +1077,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$cmd=@'\n$paths=@(\n\"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending\",\n\"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired\"\n)\n$pending=$false\nforeach($p in $paths){if(Test-Path $p){$pending=$true;Write-Output \"Présent : $p\"}}\nif(-not $pending){Write-Output \"Aucun indicateur standard de redémarrage requis trouvé.\"}\n'@\n    Show-Result \"Reboot pending\" (Invoke-SafePS $cmd 15)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Windows Update",
@@ -1020,8 +1092,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Services Windows Update\" ((Get-Service wuauserv,bits,cryptsvc|Format-Table Status,Name,StartType -AutoSize|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1034,8 +1107,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-SccmIntuneCenter",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1048,8 +1122,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Invoke-SccmFullSync",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1062,8 +1137,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Invoke-IntuneLocalSync",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1076,8 +1152,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$r = Invoke-SafeProcess dsregcmd.exe \"/status\" 20\n    if($r.Status -ne \"SUCCESS\"){ Show-Result \"DSREGCMD\" $r; return }\n\n    $wanted = \"AzureAdJoined\",\"EnterpriseJoined\",\"DomainJoined\",\"DeviceId\",\"TenantId\",\"TenantName\",\"AzureAdPrt\",\"WorkplaceJoined\",\"WamDefaultSet\"\n    $lines = @()\n    foreach($name in $wanted){\n        $m = [regex]::Match($r.Output, \"(?im)^\\s*\" + [regex]::Escape($name) + \"\\s*:\\s*(.+)$\")\n        if($m.Success){ $lines += (\"{0,-20} : {1}\" -f $name,$m.Groups[1].Value.Trim()) }\n    }\n    if($lines.Count -eq 0){$lines = @(\"Aucun champ attendu n’a été trouvé. Utilisez DSREGCMD complet dans les actions avancées.\")}\n    Show-Text \"État Entra / appareil\" ($lines -join \"`r`n\") -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1090,8 +1167,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"dsregcmd /status - complet\" (Invoke-SafeProcess dsregcmd.exe \"/status\" 20)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1104,8 +1182,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"ms-settings:workplace\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1118,8 +1197,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$svc=Get-Service CcmExec -ErrorAction SilentlyContinue\n    $txt=if($svc){$svc|Format-List Status,Name,StartType|Out-String}else{\"Client SCCM/CcmExec non détecté.\"}\n    Show-Text \"SCCM\" $txt -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Intune / Entra",
@@ -1132,8 +1212,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Intune / Entra / SCCM",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process control.exe -ArgumentList \"smscfgrc\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "VPN / Citrix",
@@ -1146,8 +1227,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-InstalledApps|Where-Object{$_.DisplayName -match \"Citrix|Ivanti|Pulse|FortiClient|AnyConnect|Cisco Secure Client|GlobalProtect|VPN\"}|Select-Object DisplayName,DisplayVersion,Publisher\n    Show-Text \"VPN / Citrix\" ($x|Format-Table -AutoSize|Out-String) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "VPN / Citrix",
@@ -1160,8 +1242,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-Process -ErrorAction SilentlyContinue|Where-Object{$_.Name -match \"citrix|receiver|wfica|forti|pulse|ivanti|vpn|pangp|cisco\"}|Select-Object Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}\n    Show-Text \"Processus VPN/Citrix\" ($x|Format-Table -AutoSize|Out-String) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "VPN / Citrix",
@@ -1174,8 +1257,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : sessions/configuration locale Citrix affectées.",
       "actionType": "",
       "webCategory": "Réseau & Accès distant",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$candidates=@(\n        \"$env:ProgramFiles\\Citrix\\ICA Client\\SelfServicePlugin\\SelfServicePlugin.exe\",\n        \"${env:ProgramFiles(x86)}\\Citrix\\ICA Client\\SelfServicePlugin\\SelfServicePlugin.exe\"\n    )\n    $exe=$candidates|Where-Object{Test-Path $_}|Select-Object -First 1\n    if($exe -and (Confirm-Action \"Citrix\" \"Lancer le nettoyage/reset du client Citrix ?\")){Start-Process $exe -ArgumentList \"-clean\"}else{Show-Text \"Citrix\" \"Outil Citrix compatible non trouvé ou action annulée.\"}\n}\n\nfunction Measure-FolderMB([string]$Path){\n    if(-not(Test-Path $Path)){return 0}\n    $s=(Get-ChildItem $Path -Recurse -File -Force -ErrorAction SilentlyContinue|Measure-Object Length -Sum).Sum\n    [math]::Round(($s/1MB),2)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Nettoyage",
@@ -1188,8 +1272,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$rows=@(\n        [pscustomobject]@{Zone=\"TEMP utilisateur\";Path=$env:TEMP;MB=(Measure-FolderMB $env:TEMP)}\n        [pscustomobject]@{Zone=\"Windows TEMP\";Path=\"$env:windir\\Temp\";MB=(Measure-FolderMB \"$env:windir\\Temp\")}\n        [pscustomobject]@{Zone=\"CrashDumps\";Path=\"$env:LOCALAPPDATA\\CrashDumps\";MB=(Measure-FolderMB \"$env:LOCALAPPDATA\\CrashDumps\")}\n        [pscustomobject]@{Zone=\"WER\";Path=\"$env:LOCALAPPDATA\\Microsoft\\Windows\\WER\";MB=(Measure-FolderMB \"$env:LOCALAPPDATA\\Microsoft\\Windows\\WER\")}\n    )\n    Show-Text \"Analyse nettoyage\" (($rows|Format-Table -AutoSize|Out-String)+\"`r`n\"+(Get-BrowserCacheSize|Format-Table -Wrap -AutoSize|Out-String)) -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Nettoyage",
@@ -1202,8 +1287,9 @@ window.SSIT_DATA = {
       "risk": "Faible à moyen : fichiers verrouillés ignorés.",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"TEMP utilisateur\" \"Supprimer les fichiers temporaires accessibles de $env:TEMP ?\"){\n        $before=Measure-FolderMB $env:TEMP;Remove-Item \"$env:TEMP\\*\" -Recurse -Force -ErrorAction SilentlyContinue;$after=Measure-FolderMB $env:TEMP\n        Show-Text \"TEMP utilisateur\" \"Avant : $before MB`r`nAprès : $after MB`r`nGain estimé : $([math]::Round($before-$after,2)) MB\" -AddToReport\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Nettoyage",
@@ -1216,8 +1302,9 @@ window.SSIT_DATA = {
       "risk": "Moyen",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Windows TEMP\" \"Supprimer les fichiers accessibles de $env:windir\\Temp ?\"){\n        $before=Measure-FolderMB \"$env:windir\\Temp\";Remove-Item \"$env:windir\\Temp\\*\" -Recurse -Force -ErrorAction SilentlyContinue;$after=Measure-FolderMB \"$env:windir\\Temp\"\n        Show-Text \"Windows TEMP\" \"Avant : $before MB`r`nAprès : $after MB\" -AddToReport\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Nettoyage",
@@ -1230,8 +1317,9 @@ window.SSIT_DATA = {
       "risk": "Élevé : suppression définitive de la corbeille.",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Corbeille\" \"Vider définitivement la corbeille ?\"){Clear-RecycleBin -Force -ErrorAction SilentlyContinue;Show-Text \"Corbeille\" \"Commande terminée.\" -AddToReport}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Nettoyage",
@@ -1244,8 +1332,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : perdez des éléments utiles à un diagnostic futur.",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Crash Dumps\" \"Supprimer les CrashDumps locaux ?\"){Remove-Item \"$env:LOCALAPPDATA\\CrashDumps\\*\" -Recurse -Force -ErrorAction SilentlyContinue;Show-Text \"Crash Dumps\" \"Nettoyage effectué.\" -AddToReport}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1258,8 +1347,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 25 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},@{N=\"CPU_s\";E={[math]::Round($_.CPU,1)}}\n    Show-Grid \"Performance - processus\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1272,8 +1362,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$x=Get-CimInstance Win32_LogicalDisk -Filter \"DriveType=3\" | Select-Object DeviceID,@{N=\"Total_Go\";E={[math]::Round($_.Size/1GB,1)}},@{N=\"Libre_Go\";E={[math]::Round($_.FreeSpace/1GB,1)}},@{N=\"Libre_pct\";E={[math]::Round(100*$_.FreeSpace/$_.Size,1)}}\n    Show-Grid \"Disques\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1286,8 +1377,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$start=(Get-Date).AddHours(-24)\n    $x=Get-WinEvent -FilterHashtable @{LogName=@(\"System\",\"Application\");Level=1,2;StartTime=$start} -ErrorAction SilentlyContinue|Select-Object -First 80 TimeCreated,LogName,Id,ProviderName,Message|Format-Table -Wrap|Out-String\n    Show-Text \"Erreurs 24h\" $x -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1300,8 +1392,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"SFC Verify\" (Invoke-SafeProcess sfc.exe \"/verifyonly\" 900)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1314,8 +1407,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : modification des composants système.",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"SFC\" \"Lancer SFC /scannow ? Cela peut prendre plusieurs minutes.\"){Show-Result \"SFC\" (Invoke-SafeProcess sfc.exe \"/scannow\" 1800)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1328,8 +1422,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"DISM CheckHealth\" (Invoke-SafeProcess dism.exe \"/Online /Cleanup-Image /CheckHealth\" 300)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1342,8 +1437,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"DISM ScanHealth\" (Invoke-SafeProcess dism.exe \"/Online /Cleanup-Image /ScanHealth\" 1800)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1356,8 +1452,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : réparation système, peut utiliser Windows Update.",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"DISM\" \"Lancer RestoreHealth ? Cela peut durer longtemps.\"){Show-Result \"DISM RestoreHealth\" (Invoke-SafeProcess dism.exe \"/Online /Cleanup-Image /RestoreHealth\" 3600)}",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Système",
@@ -1370,8 +1467,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Poste Windows",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"CHKDSK\" (Invoke-SafeProcess chkdsk.exe \"C: /scan\" 1800)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Winget",
@@ -1384,8 +1482,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Winget list\" (Invoke-SafeProcess winget.exe \"list --accept-source-agreements\" 120)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Winget",
@@ -1398,8 +1497,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Winget upgrade\" (Invoke-SafeProcess winget.exe \"upgrade --accept-source-agreements\" 180)",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Winget",
@@ -1412,8 +1512,9 @@ window.SSIT_DATA = {
       "risk": "Moyen : plusieurs applications sont modifiées.",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "if(Confirm-Action \"Winget upgrade --all\" \"Mettre à jour toutes les applications compatibles Winget ?\"){\n        Show-Result \"Winget upgrade --all\" (Invoke-SafeProcess winget.exe \"upgrade --all --accept-source-agreements --accept-package-agreements\" 3600)\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Winget",
@@ -1426,8 +1527,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Windows Update",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Result \"Winget sources\" (Invoke-SafeProcess winget.exe \"source list\" 60)\n}\n\n$tools=@(\n    @(\"PowerShell\",\"powershell.exe\",\"\"),\n    @(\"CMD\",\"cmd.exe\",\"\"),\n    @(\"Gestionnaire des tâches\",\"taskmgr.exe\",\"\"),\n    @(\"Services\",\"services.msc\",\"\"),\n    @(\"Event Viewer\",\"eventvwr.msc\",\"\"),\n    @(\"Device Manager\",\"devmgmt.msc\",\"\"),\n    @(\"Gestion ordinateur\",\"compmgmt.msc\",\"\"),\n    @(\"Gestion disques\",\"diskmgmt.msc\",\"\"),\n    @(\"Informations système\",\"msinfo32.exe\",\"\"),\n    @(\"Registre\",\"regedit.exe\",\"\"),\n    @(\"Bureau à distance\",\"mstsc.exe\",\"\"),\n    @(\"Assistance rapide\",\"quickassist.exe\",\"\"),\n    @(\"Credential Manager\",\"control.exe\",\"/name Microsoft.CredentialManager\"),\n    @(\"Programmes et fonctionnalités\",\"appwiz.cpl\",\"\")\n)\n\nforeach($t in $tools){\n    $n=[string]$t[0]\n    $exe=[string]$t[1]\n    $args=[string]$t[2]\n\n    $escapedExe=$exe.Replace(\"'\",\"''\")\n    $escapedArgs=$args.Replace(\"'\",\"''\")\n\n    $scriptText = \"Start-SupportTarget -FilePath '$escapedExe'\"\n    if(-not [string]::IsNullOrWhiteSpace($args)){\n        $scriptText += \" -Arguments '$escapedArgs'\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Outils Tech",
@@ -1454,8 +1556,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"powershell.exe\" -RunAs",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Outils Tech",
@@ -1468,8 +1571,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"cmd.exe\" -RunAs",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Liens Microsoft",
@@ -1496,8 +1600,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$p=Join-Path $script:BaseFolder \"custom-links.txt\"\n    if(-not(Test-Path $p)){\n@\"\nServiceNow=https://\nKPI=https://\nKnowledgeBase=https://\nRemoteSupport=https://\nMonitoring=https://\nVPNPortal=https://\n\"@ | Set-Content $p -Encoding UTF8\n    }\n    Start-Process notepad.exe -ArgumentList \"`\"$p`\"\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Liens Microsoft",
@@ -1524,8 +1629,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"msedge.exe\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Edge",
@@ -1538,8 +1644,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-EdgeFavorites",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Edge",
@@ -1552,8 +1659,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://extensions\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Edge",
@@ -1566,8 +1674,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://wallet/passwords\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Edge",
@@ -1580,8 +1689,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Navigateurs",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://settings/clearBrowserData\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Edge",
@@ -1594,8 +1704,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$web=Get-WebEscalationData\n    $proc=Get-Process msedge -ErrorAction SilentlyContinue | Select-Object Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},CPU\n    $txt=\"EDGE`r`n`r`n\"+($web|Format-List|Out-String)+\"`r`nPROCESSUS`r`n\"+($proc|Format-Table -AutoSize|Out-String)\n    Show-Text \"Diagnostic Edge\" $txt -AddToReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Mes Apps",
@@ -1608,8 +1719,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-VisualApps",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Mes Apps",
@@ -1622,8 +1734,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-AppLauncher",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Mes Apps",
@@ -1636,8 +1749,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-AppSupportCenter",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Mes Apps",
@@ -1650,8 +1764,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-RepairableApps",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Diagnostic & Escalade",
@@ -1664,8 +1779,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-EscalationTicket -Scope \"Complet\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Diagnostic & Escalade",
@@ -1678,8 +1794,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-EscalationTicket -Scope \"Applicatif\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Diagnostic & Escalade",
@@ -1692,8 +1809,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-EscalationTicket -Scope \"Réseau\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Diagnostic & Escalade",
@@ -1706,8 +1824,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-EscalationTicket -Scope \"Système\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Diagnostic & Escalade",
@@ -1720,8 +1839,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-EscalationTicket -Scope \"Web\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1734,8 +1854,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-LocalInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1748,8 +1869,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-InstalledApplicationsInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1762,8 +1884,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-DriverInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1776,8 +1899,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-NetworkInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1790,8 +1914,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-PrinterInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1804,8 +1929,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-OfficeAddinsInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1818,8 +1944,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-SccmLocalInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1832,8 +1959,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-SsitIntuneGraphInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1846,8 +1974,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-SccmInventoryScript",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1860,8 +1989,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-WingetInventory",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1874,8 +2004,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-WindowsEventsForTicket",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1888,8 +2019,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Export-DsregcmdReport",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1902,8 +2034,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-ServiceNowBrowserAutomationTemplate",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1916,8 +2049,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-DellUpdateScript",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1930,8 +2064,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-HpUpdateScript",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1944,8 +2079,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-LmsAzureToolsHub",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Scripts & Inventaires",
@@ -1958,8 +2094,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "Direct",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Open-Uri \"https://entra.microsoft.com\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Rapport",
@@ -1972,8 +2109,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-Text \"Rapport session\" ($script:SessionReport -join \"`r`n\")",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Rapport",
@@ -1986,8 +2124,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "$dlg=New-Object Windows.Forms.SaveFileDialog\n    $dlg.Title='Super Support IT - Exporter le rapport'\n    $dlg.Filter='Fichier texte (*.txt)|*.txt|Tous les fichiers (*.*)|*.*'\n    $dlg.FileName=(\"SuperSupportIT_Rapport_{0}_{1}.txt\" -f $env:COMPUTERNAME,(Get-Date -Format \"yyyyMMdd_HHmmss\"))\n    if($dlg.ShowDialog() -eq [Windows.Forms.DialogResult]::OK){\n        ($script:SessionReport -join \"`r`n\") | Set-Content -LiteralPath $dlg.FileName -Encoding UTF8\n        Show-Text 'Rapport exporte' (\"Rapport enregistre :`r`n\"+$dlg.FileName)\n    }",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Rapport",
@@ -2000,8 +2139,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Diagnostic & Escalade",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Start-Process notepad.exe -ArgumentList \"`\"$script:LogFile`\"\"\n}\n\n\n\n\n\n\nfunction New-SuperSupportIcon {\n    try {\n        $bmp = New-Object System.Drawing.Bitmap 64,64\n        $g = [System.Drawing.Graphics]::FromImage($bmp)\n        $g.SmoothingMode = [System.Drawing.Drawing2D.SmoothingMode]::AntiAlias\n        $g.Clear([System.Drawing.Color]::FromArgb(18,42,73))\n\n        $brush = New-Object System.Drawing.SolidBrush(\n            [System.Drawing.Color]::FromArgb(221,28,38)\n        )\n\n        $g.FillEllipse($brush,7,24,14,14)\n        $g.FillEllipse($brush,25,24,14,14)\n        $g.FillEllipse($brush,43,24,14,14)\n\n        $handle = $bmp.GetHicon()\n        $icon = [System.Drawing.Icon]::FromHandle($handle).Clone()\n\n        $brush.Dispose()\n        $g.Dispose()\n        $bmp.Dispose()\n\n        return $icon\n    }\n    catch {\n        Write-Log \"Icone Super Support IT non générée : $($_.Exception.Message)\"\n        return $null\n    }\n}\n\n\nfunction Show-MainUI {\n    $form=New-Object Windows.Forms.Form\n    $appIcon = New-SuperSupportIcon\n    if($null -ne $appIcon){\n        $form.Icon = $appIcon\n    }\n    $form.Text=\"SUPER SUPPORT IT\"\n    $form.Size=New-Object Drawing.Size(1540,920)\n    $form.MinimumSize=New-Object Drawing.Size(1220,740)\n    $form.StartPosition=\"CenterScreen\"\n    $form.BackColor=[Drawing.Color]::FromArgb(246,248,251)\n    Enable-Escape $form\n\n    $navy=[Drawing.Color]::FromArgb(18,42,73)\n    $navy2=[Drawing.Color]::FromArgb(26,55,92)\n    $blue=[Drawing.Color]::FromArgb(0,92,165)\n    $red=[Drawing.Color]::FromArgb(221,28,38)\n    $bg=[Drawing.Color]::FromArgb(246,248,251)\n    $card=[Drawing.Color]::White\n    $border=[Drawing.Color]::FromArgb(213,220,229)\n    $text=[Drawing.Color]::FromArgb(27,38,52)\n    $muted=[Drawing.Color]::FromArgb(80,94,112)\n\n    $header=New-Object Windows.Forms.Panel\n    $header.Dock=\"Top\"\n    $header.Height=92\n    $header.BackColor=[Drawing.Color]::White\n    $form.Controls.Add($header)\n\n    $redLine=New-Object Windows.Forms.Panel\n    $redLine.Dock=\"Bottom\"\n    $redLine.Height=4\n    $redLine.BackColor=$red\n    $header.Controls.Add($redLine)\n\n    $brandDots=New-Object Windows.Forms.Label\n    $brandDots.Text=\"●  ●  ●\"\n    $brandDots.ForeColor=$red\n    $brandDots.Font=New-Object Drawing.Font(\"Segoe UI Symbol\",16,[Drawing.FontStyle]::Bold)\n    $brandDots.AutoSize=$true\n    $brandDots.Location=New-Object Drawing.Point(24,15)\n    $header.Controls.Add($brandDots)\n\n    $brand=New-Object Windows.Forms.Label\n    $brand.Text=\"SUPER SUPPORT\"\n    $brand.ForeColor=$navy\n    $brand.Font=New-Object Drawing.Font(\"Segoe UI\",21,[Drawing.FontStyle]::Bold)\n    $brand.AutoSize=$true\n    $brand.Location=New-Object Drawing.Point(132,10)\n    $header.Controls.Add($brand)\n\n    $product=New-Object Windows.Forms.Label\n    $product.Text=\"SUPER SUPPORT IT\"\n    $product.ForeColor=$blue\n    $product.Font=New-Object Drawing.Font(\"Segoe UI\",10.5,[Drawing.FontStyle]::Bold)\n    $product.AutoSize=$true\n    $product.Location=New-Object Drawing.Point(134,49)\n    $header.Controls.Add($product)\n\n    $searchTitle=New-Object Windows.Forms.Label\n    $searchTitle.Text=\"RECHERCHE\"\n    $searchTitle.ForeColor=$muted\n    $searchTitle.Font=New-Object Drawing.Font(\"Segoe UI\",8.5,[Drawing.FontStyle]::Bold)\n    $searchTitle.AutoSize=$true\n    $searchTitle.Location=New-Object Drawing.Point(575,11)\n    $header.Controls.Add($searchTitle)\n\n    $searchBox=New-Object Windows.Forms.TextBox\n    $searchBox.Size=New-Object Drawing.Size(410,32)\n    $searchBox.Location=New-Object Drawing.Point(575,32)\n    $searchBox.Font=New-Object Drawing.Font(\"Segoe UI\",10.5)\n    $header.Controls.Add($searchBox)\n\n    function Add-HeaderChip([string]$txt,[int]$x,[System.Drawing.Color]$color){\n        $p=New-Object Windows.Forms.Panel\n        $p.Size=New-Object Drawing.Size(145,32)\n        $p.Location=New-Object Drawing.Point($x,31)\n        $p.BackColor=[Drawing.Color]::FromArgb(246,248,251)\n        $p.BorderStyle=\"FixedSingle\"\n\n        $dot=New-Object Windows.Forms.Label\n        $dot.Text=\"●\"\n        $dot.ForeColor=$color\n        $dot.Font=New-Object Drawing.Font(\"Segoe UI Symbol\",9,[Drawing.FontStyle]::Bold)\n        $dot.AutoSize=$true\n        $dot.Location=New-Object Drawing.Point(8,6)\n        $p.Controls.Add($dot)\n\n        $lab=New-Object Windows.Forms.Label\n        $lab.Text=$txt\n        $lab.ForeColor=$text\n        $lab.Font=New-Object Drawing.Font(\"Segoe UI\",9,[Drawing.FontStyle]::Bold)\n        $lab.AutoSize=$true\n        $lab.Location=New-Object Drawing.Point(28,6)\n        $p.Controls.Add($lab)\n\n        $header.Controls.Add($p)\n        return $p\n    }\n\n    if(Test-IsAdmin){\n        $adminColor = [System.Drawing.Color]::FromArgb(38,166,91)\n        $adminText = \"OUI\"\n    }\n    else{\n        $adminColor = $red\n        $adminText = \"NON\"\n    }\n\n    $voiceOffColor = [System.Drawing.Color]::FromArgb(145,155,168)\n\n    $chipAdmin = Add-HeaderChip -txt (\"ADMIN : \" + $adminText) -x 1000 -color $adminColor\n    $chipVoice = Add-HeaderChip -txt \"VOIX : OFF\" -x 1155 -color $voiceOffColor\n\n    $voiceStatus=New-Object Windows.Forms.Label\n    $voiceStatus.Visible=$false\n    $header.Controls.Add($voiceStatus)\n\n    $voiceBtn=New-Object Windows.Forms.Button\n    $voiceBtn.Text=\"MICRO\"\n    $voiceBtn.Size=New-Object Drawing.Size(95,36)\n    $voiceBtn.Location=New-Object Drawing.Point(1315,29)\n    $voiceBtn.FlatStyle=\"Flat\"\n    $voiceBtn.FlatAppearance.BorderSize=0\n    $voiceBtn.BackColor=$blue\n    $voiceBtn.ForeColor=[Drawing.Color]::White\n    $voiceBtn.Font=New-Object Drawing.Font(\"Segoe UI\",9,[Drawing.FontStyle]::Bold)\n    $header.Controls.Add($voiceBtn)\n\n    $btnQuit=New-Object Windows.Forms.Button\n    $btnQuit.Text=\"FERMER\"\n    $btnQuit.Size=New-Object Drawing.Size(95,36)\n    $btnQuit.Location=New-Object Drawing.Point(1418,29)\n    $btnQuit.FlatStyle=\"Flat\"\n    $btnQuit.BackColor=[Drawing.Color]::White\n    $btnQuit.ForeColor=$navy\n    $btnQuit.FlatAppearance.BorderColor=$border\n    $header.Controls.Add($btnQuit)\n\n    $leftPanel=New-Object Windows.Forms.Panel\n    $leftPanel.Dock=\"Left\"\n    $leftPanel.Width=385\n    $leftPanel.BackColor=$navy\n    $form.Controls.Add($leftPanel)\n\n    $navTitle=New-Object Windows.Forms.Label\n    $navTitle.Text=\"ESPACE TECHNICIEN\"\n    $navTitle.ForeColor=[Drawing.Color]::FromArgb(164,184,208)\n    $navTitle.Font=New-Object Drawing.Font(\"Segoe UI\",9,[Drawing.FontStyle]::Bold)\n    $navTitle.AutoSize=$true\n    $navTitle.Location=New-Object Drawing.Point(20,18)\n    $leftPanel.Controls.Add($navTitle)\n\n    $left=New-Object Windows.Forms.ListBox\n    $left.Location=New-Object Drawing.Point(12,48)\n    $left.Size=New-Object Drawing.Size(360,780)\n    $left.Anchor=\"Top,Bottom,Left,Right\"\n    $left.Font=New-Object Drawing.Font(\"Segoe UI\",13.5,[Drawing.FontStyle]::Bold)\n    $left.BorderStyle=\"None\"\n    $left.BackColor=$navy\n    $left.ForeColor=[Drawing.Color]::White\n    $left.IntegralHeight=$false\n    $left.ItemHeight=46\n    $leftPanel.Controls.Add($left)\n\n    $cats=@(\n        \"Accueil\",\"Mes Apps\",\"Edge\",\"Applications\",\"Microsoft 365\",\"Navigateurs\",\"Réseau\",\n        \"Imprimantes\",\"Périphériques\",\"Windows Update\",\"Intune / Entra\",\"VPN / Citrix\",\n        \"Nettoyage\",\"Système\",\"Winget\",\"Outils Tech\",\"Liens Microsoft\",\n        \"Scripts & Inventaires\",\"Diagnostic & Escalade\",\"Rapport\"\n    )\n\n    $script:NavigationCategoryByDisplay=@{}\n    $script:NavigationDisplayByCategory=@{}\n\n    $menuShortcutIndex=0\n    foreach($cat in $cats){\n        $menuShortcutIndex++\n        if($cat -ne \"Scripts & Inventaires\" -or $script:Actions.ContainsKey($cat)){\n            $display=\"$(Get-NavigationIcon $cat)   $cat\"\n            [void]$left.Items.Add($display)\n            $script:NavigationCategoryByDisplay[$display]=$cat\n            $script:NavigationDisplayByCategory[$cat]=$display\n        }\n    }\n    $script:NavigationList=$left\n\n    $navFoot=New-Object Windows.Forms.Panel\n    $navFoot.Dock=\"Bottom\"\n    $navFoot.Height=52\n    $navFoot.BackColor=[Drawing.Color]::FromArgb(22,48,80)\n    $leftPanel.Controls.Add($navFoot)\n\n    $readyDot=New-Object Windows.Forms.Label\n    $readyDot.Text=\"●\"\n    $readyDot.ForeColor=[Drawing.Color]::FromArgb(46,190,110)\n    $readyDot.Font=New-Object Drawing.Font(\"Segoe UI Symbol\",8,[Drawing.FontStyle]::Bold)\n    $readyDot.AutoSize=$true\n    $readyDot.Location=New-Object Drawing.Point(16,17)\n    $navFoot.Controls.Add($readyDot)\n\n    $ready2=New-Object Windows.Forms.Label\n    $ready2.Text=\"$env:COMPUTERNAME  •  $env:USERNAME\"\n    $ready2.ForeColor=[Drawing.Color]::FromArgb(220,228,239)\n    $ready2.Font=New-Object Drawing.Font(\"Segoe UI\",9)\n    $ready2.AutoSize=$true\n    $ready2.Location=New-Object Drawing.Point(34,15)\n    $navFoot.Controls.Add($ready2)\n\n    $content=New-Object Windows.Forms.Panel\n    $content.Dock=\"Fill\"\n    $content.BackColor=$bg\n    $form.Controls.Add($content)\n    $content.BringToFront()\n\n    $section=New-Object Windows.Forms.Panel\n    $section.Dock=\"Top\"\n    $section.Height=78\n    $section.BackColor=$bg\n    $content.Controls.Add($section)\n\n    $sectionTitle=New-Object Windows.Forms.Label\n    $sectionTitle.Text=\"Accueil\"\n    $sectionTitle.ForeColor=$navy\n    $sectionTitle.Font=New-Object Drawing.Font(\"Segoe UI\",20,[Drawing.FontStyle]::Bold)\n    $sectionTitle.AutoSize=$true\n    $sectionTitle.Location=New-Object Drawing.Point(20,12)\n    $section.Controls.Add($sectionTitle)\n\n    $sectionSub=New-Object Windows.Forms.Label\n    $sectionSub.Text=\"Actions et informations de support.\"\n    $sectionSub.ForeColor=$muted\n    $sectionSub.Font=New-Object Drawing.Font(\"Segoe UI\",10)\n    $sectionSub.AutoSize=$true\n    $sectionSub.Location=New-Object Drawing.Point(22,48)\n    $section.Controls.Add($sectionSub)\n\n    $panel=New-Object Windows.Forms.FlowLayoutPanel\n    $panel.Dock=\"Fill\"\n    $panel.AutoScroll=$true\n    $panel.WrapContents=$true\n    $panel.Padding=New-Object Windows.Forms.Padding(12)\n    $panel.BackColor=$bg\n    $content.Controls.Add($panel)\n    $panel.BringToFront()\n\n    function CategorySubtitle([string]$cat){\n        switch($cat){\n            \"Intune / Entra\" {\"SCCM, Intune, Entra, MDM, Company Portal et synchronisations.\"}\n            \"Scripts & Inventaires\" {\"Inventaires, exports et scripts réutilisables pour support et escalade.\"}\n            \"Diagnostic & Escalade\" {\"Collectes prêtes pour Applicatif, Réseau, Infra, Web et Système.\"}\n            \"Mes Apps\" {\"Applications utiles : lancer, diagnostiquer et agir.\"}\n            default {\"Actions et informations de support.\"}\n        }\n    }\n\n    function StyleButton($b,[bool]$primary=$false,[bool]$danger=$false){\n        $b.FlatStyle=\"Flat\"\n        $b.Cursor=[Windows.Forms.Cursors]::Hand\n        $b.Font=New-Object Drawing.Font(\"Segoe UI\",9.2,[Drawing.FontStyle]::Bold)\n        if($primary){\n            $b.FlatAppearance.BorderSize=0\n            $b.BackColor=if($danger){$red}else{$blue}\n            $b.ForeColor=[Drawing.Color]::White\n        }else{\n            $b.BackColor=[Drawing.Color]::White\n            $b.ForeColor=$navy\n            $b.FlatAppearance.BorderColor=$border\n            $b.FlatAppearance.BorderSize=1\n        }\n    }\n\n    function Render([string]$cat,[string]$filter=\"\"){\n        $panel.SuspendLayout()\n        $panel.Controls.Clear()\n\n        $sectionTitle.Text=$cat\n        $sectionSub.Text=CategorySubtitle $cat\n\n        if(-not $script:Actions.ContainsKey($cat)){\n            $panel.ResumeLayout()\n            return\n        }\n\n        foreach($a in $script:Actions[$cat]){\n            if(-not [string]::IsNullOrWhiteSpace($filter)){\n                $hay=\"$($a.Name) $($a.Description) $($a.Technical)\"\n                if($hay -notlike \"*$filter*\"){continue}\n            }\n\n            $cardBox=New-Object Windows.Forms.Panel\n            $cardBox.Size=New-Object Drawing.Size(360,220)\n            $cardBox.Margin=New-Object Windows.Forms.Padding(10)\n            $cardBox.BackColor=[Drawing.Color]::White\n            $cardBox.BorderStyle=\"FixedSingle\"\n\n            $img=Get-TechnologyIconImage -Name $a.Name -Category $cat\n            if($img){\n                $pic=New-Object Windows.Forms.PictureBox\n                $pic.Size=New-Object Drawing.Size(62,62)\n                $pic.Location=New-Object Drawing.Point(14,14)\n                $pic.SizeMode=\"Zoom\"\n                $pic.Image=$img\n                $cardBox.Controls.Add($pic)\n\n                $kind=Get-ActionKind -Name $a.Name\n                $verbBadge=New-Object Windows.Forms.PictureBox\n                $verbBadge.Size=New-Object Drawing.Size(31,31)\n                $verbBadge.Location=New-Object Drawing.Point(54,51)\n                $verbBadge.SizeMode=\"Zoom\"\n                $verbBadge.Image=New-SemanticBadgeImage -Kind $kind -Size 31\n                $verbBadge.BackColor=[Drawing.Color]::Transparent\n                $cardBox.Controls.Add($verbBadge)\n                $verbBadge.BringToFront()\n            }\n            else{\n                $fallback=New-IconBadge -Icon (Get-LogicalActionIcon -Name $a.Name -Category $cat) `\n                    -BackColor $(if($a.Advanced){$red}else{$blue}) -Size 58\n                $fallback.Location=New-Object Drawing.Point(16,16)\n                $cardBox.Controls.Add($fallback)\n            }\n\n            $name=New-Object Windows.Forms.Label\n            $name.Text=$a.Name\n            $name.Font=New-Object Drawing.Font(\"Segoe UI\",12,[Drawing.FontStyle]::Bold)\n            $name.ForeColor=$text\n            $name.Location=New-Object Drawing.Point(88,16)\n            $name.Size=New-Object Drawing.Size(250,46)\n            $name.AutoEllipsis=$true\n            $cardBox.Controls.Add($name)\n\n            $typeLabel=New-Object Windows.Forms.Label\n            $typeLabel.Text=if($a.Advanced){\"Action avancée\"}elseif($a.ActionType -eq \"Direct\"){\"Raccourci / ouverture\"}else{\"Action support\"}\n            $typeLabel.ForeColor=if($a.Advanced){$red}else{$blue}\n            $typeLabel.Font=New-Object Drawing.Font(\"Segoe UI\",9,[Drawing.FontStyle]::Bold)\n            $typeLabel.Location=New-Object Drawing.Point(88,60)\n            $typeLabel.Size=New-Object Drawing.Size(240,22)\n            $cardBox.Controls.Add($typeLabel)\n\n            $desc=New-Object Windows.Forms.Label\n            $desc.Text=$a.Description\n            $desc.Font=New-Object Drawing.Font(\"Segoe UI\",9.5)\n            $desc.ForeColor=$muted\n            $desc.Location=New-Object Drawing.Point(18,88)\n            $desc.Size=New-Object Drawing.Size(320,58)\n            $desc.AutoEllipsis=$true\n            $cardBox.Controls.Add($desc)\n\n            if($a.ActionType -eq \"Direct\"){\n                $open=New-Object Windows.Forms.Button\n                $open.Text=\"Ouvrir\"\n                $open.Location=New-Object Drawing.Point(18,158)\n                $open.Size=New-Object Drawing.Size(102,36)\n                $open.Tag=[string]$a.Id\n                $open.Add_Click({param($s,$e)Invoke-RegisteredAction -ActionId ([string]$s.Tag)})\n                StyleButton $open $true $false\n                $cardBox.Controls.Add($open)\n\n                $copy=New-Object Windows.Forms.Button\n                $copy.Text=\"Copier / EN\"\n                $copy.Location=New-Object Drawing.Point(128,158)\n                $copy.Size=New-Object Drawing.Size(112,36)\n                $copy.Tag=[string]$a.Id\n                $copy.Add_Click({\n                    param($s,$e)\n                    $act=$script:ActionRegistry[[string]$s.Tag]\n                    if($act){\n                        Copy-SupportText -Text ([string]$act.Technical) -Label $act.Name\n                    }\n                })\n                StyleButton $copy $false $false\n                $cardBox.Controls.Add($copy)\n\n                $info=New-Object Windows.Forms.Button\n                $info.Text=\"Infos\"\n                $info.Location=New-Object Drawing.Point(248,158)\n                $info.Size=New-Object Drawing.Size(92,36)\n                $info.Tag=[string]$a.Id\n                $info.Add_Click({\n                    param($s,$e)\n                    $act=$script:ActionRegistry[[string]$s.Tag]\n                    if($act){\n                        Show-InfoAction -Title $act.Name -Description $act.Description `\n                            -Technical $act.Technical -Risk $act.Risk -Rights $act.Rights\n                    }\n                })\n                StyleButton $info $false $false\n                $cardBox.Controls.Add($info)\n            }\n            else{\n                $run=New-Object Windows.Forms.Button\n                $run.Text=if($a.ActionType -eq \"Info\"){\"Afficher\"}else{\"Exécuter\"}\n                $run.Location=New-Object Drawing.Point(18,158)\n                $run.Size=New-Object Drawing.Size(150,36)\n                $run.Tag=[string]$a.Id\n                $run.Add_Click({param($s,$e)Invoke-RegisteredAction -ActionId ([string]$s.Tag)})\n                StyleButton $run $true ([bool]$a.Advanced)\n                $cardBox.Controls.Add($run)\n\n                $info=New-Object Windows.Forms.Button\n                $info.Text=\"Informations\"\n                $info.Location=New-Object Drawing.Point(180,158)\n                $info.Size=New-Object Drawing.Size(160,36)\n                $info.Tag=[string]$a.Id\n                $info.Add_Click({\n                    param($s,$e)\n                    $act=$script:ActionRegistry[[string]$s.Tag]\n                    if($act){\n                        Show-InfoAction -Title $act.Name -Description $act.Description `\n                            -Technical $act.Technical -Risk $act.Risk -Rights $act.Rights\n                    }\n                })\n                StyleButton $info $false $false\n                $cardBox.Controls.Add($info)\n            }\n\n            $panel.Controls.Add($cardBox)\n        }\n\n        $panel.ResumeLayout()\n    }\n\n    $left.Add_SelectedIndexChanged({\n        if($left.SelectedItem){\n            $cat=$script:NavigationCategoryByDisplay[[string]$left.SelectedItem]\n            if($cat){Render $cat $searchBox.Text}\n        }\n    })\n\n    $searchBox.Add_TextChanged({\n        if($left.SelectedItem){\n            $cat=$script:NavigationCategoryByDisplay[[string]$left.SelectedItem]\n            if($cat){Render $cat $searchBox.Text}\n        }\n    })\n\n    $script:VoiceEngine=$null\n    $voiceBtn.Add_Click({\n        if($null -eq $script:VoiceEngine){\n            $script:VoiceEngine=Start-VoiceControl -MainForm $form -StatusLabel $voiceStatus\n            if($script:VoiceEngine){\n                $voiceBtn.Text=\"STOP\"\n                $voiceBtn.BackColor=$red\n                foreach($ctl in $chipVoice.Controls){\n                    if($ctl -is [Windows.Forms.Label] -and $ctl.Text -ne \"●\"){$ctl.Text=\"VOIX : ON\"}\n                    if($ctl -is [Windows.Forms.Label] -and $ctl.Text -eq \"●\"){$ctl.ForeColor=[Drawing.Color]::FromArgb(38,166,91)}\n                }\n            }\n        }else{\n            Stop-VoiceControl -Engine $script:VoiceEngine -StatusLabel $voiceStatus\n            $script:VoiceEngine=$null\n            $voiceBtn.Text=\"MICRO\"\n            $voiceBtn.BackColor=$blue\n        }\n    })\n\n    $btnQuit.Add_Click({try{$form.Close()}catch{try{$form.Dispose()}catch{}}})\n\n    $form.Add_FormClosing({\n        Stop-CurrentAction\n        if($script:VoiceEngine){\n            Stop-VoiceControl -Engine $script:VoiceEngine -StatusLabel $voiceStatus\n            $script:VoiceEngine=$null\n        }\n    })\n\n    $left.SelectedItem=$script:NavigationDisplayByCategory[\"Accueil\"]\n    $form.ShowDialog()|Out-Null\n}\n\n\n\nif($script:SsitTheme -eq 'Light'){\n    $script:UiNavy=[Drawing.Color]::FromArgb(248,250,253)\n    $script:UiNavy2=[Drawing.Color]::FromArgb(235,241,247)\n}else{\n    $script:UiNavy=[Drawing.Color]::FromArgb(4,14,28)\n    $script:UiNavy2=[Drawing.Color]::FromArgb(7,28,50)\n}\n$script:UiBlue   = [Drawing.Color]::FromArgb(35,105,190) # bleu franc, moins turquoise\n$script:UiRed    = [Drawing.Color]::FromArgb(232,24,38)\n$script:UiGreen  = [Drawing.Color]::FromArgb(40,220,110)\n$script:UiOrange = [Drawing.Color]::FromArgb(255,170,40)\n$script:UiBg     = if($script:SsitTheme -eq 'Light'){[Drawing.Color]::White}else{[Drawing.Color]::FromArgb(5,18,32)}\n$script:UiText   = if($script:SsitTheme -eq 'Light'){[Drawing.Color]::FromArgb(20,28,38)}else{[Drawing.Color]::FromArgb(238,247,255)}\n$script:UiMuted  = if($script:SsitTheme -eq 'Light'){[Drawing.Color]::FromArgb(72,84,98)}else{[Drawing.Color]::FromArgb(165,198,224)}\n$script:UiBorder = [Drawing.Color]::FromArgb(74,105,145)\n\nfunction Set-SsitThemePalette {\n    if($script:SsitTheme -eq 'Light'){\n        $script:UiNavy=[Drawing.Color]::FromArgb(248,250,253)\n        $script:UiNavy2=[Drawing.Color]::FromArgb(235,241,247)\n        $script:UiBg=[Drawing.Color]::White\n        $script:UiText=[Drawing.Color]::FromArgb(20,28,38)\n        $script:UiMuted=[Drawing.Color]::FromArgb(72,84,98)\n    }else{\n        $script:UiNavy=[Drawing.Color]::FromArgb(4,14,28)\n        $script:UiNavy2=[Drawing.Color]::FromArgb(7,28,50)\n        $script:UiBg=[Drawing.Color]::FromArgb(5,18,32)\n        $script:UiText=[Drawing.Color]::FromArgb(238,247,255)\n        $script:UiMuted=[Drawing.Color]::FromArgb(165,198,224)\n    }\n}\n\nfunction Show-CopyChoice {\n    param([string]$Text,[string]$Label=\"Informations\")\n    Copy-SupportText -Text $Text -Label $Label\n}\n\nfunction New-LmsVectorIcon {\n    param(\n        [ValidateSet(\"Home\",\"Apps\",\"Browser\",\"Network\",\"Printer\",\"Device\",\"Update\",\"Cloud\",\"Shield\",\"Broom\",\"System\",\"Terminal\",\"Tools\",\"Link\",\"Document\",\"Escalation\",\"Report\",\"Mic\",\"Repair\",\"Power\",\"Disk\",\"Service\",\"Process\",\"User\")]\n        [string]$Kind,\n        [int]$Size=56,\n        [Drawing.Color]$Color=[Drawing.Color]::FromArgb(0,120,212)\n    )\n\n    $bmp=New-Object Drawing.Bitmap 64,64\n    $g=[Drawing.Graphics]::FromImage($bmp)\n    $g.SmoothingMode=[Drawing.Drawing2D.SmoothingMode]::AntiAlias\n    $g.Clear([Drawing.Color]::Transparent)\n\n    $pen=New-Object Drawing.Pen($Color,4)\n    $pen2=New-Object Drawing.Pen($Color,3)\n    $brush=New-Object Drawing.SolidBrush($Color)\n    $white=New-Object Drawing.SolidBrush([Drawing.Color]::White)\n\n    switch($Kind){\n        \"Home\" {\n            $g.DrawLine($pen,8,30,32,8);$g.DrawLine($pen,32,8,56,30)\n            $g.DrawRectangle($pen,15,28,34,27);$g.FillRectangle($brush,27,40,10,15)\n        }\n        \"Apps\" {\n            $g.FillRectangle($brush,10,10,18,18);$g.FillRectangle($brush,36,10,18,18)\n            $g.FillRectangle($brush,10,36,18,18);$g.FillRectangle($brush,36,36,18,18)\n        }\n        \"Browser\" {\n            $g.DrawEllipse($pen,8,8,48,48);$g.DrawEllipse($pen2,23,8,18,48)\n            $g.DrawLine($pen2,9,32,55,32)\n        }\n        \"Network\" {\n            $g.FillEllipse($brush,27,5,10,10);$g.FillEllipse($brush,6,45,10,10);$g.FillEllipse($brush,48,45,10,10)\n            $g.DrawLine($pen2,32,15,12,45);$g.DrawLine($pen2,32,15,53,45);$g.DrawLine($pen2,16,50,48,50)\n        }\n        \"Printer\" {\n            $g.FillRectangle($brush,16,6,32,18);$g.FillRectangle($brush,7,22,50,24)\n            $g.FillRectangle($white,18,38,28,17);$g.DrawRectangle($pen2,18,38,28,17)\n        }\n        \"Device\" {\n            $g.DrawRectangle($pen,6,9,38,31);$g.DrawLine($pen2,25,40,25,50);$g.DrawLine($pen2,15,51,35,51)\n            $g.DrawRectangle($pen,44,25,13,28)\n        }\n        \"Update\" {\n            $g.DrawArc($pen,9,9,46,46,35,280)\n            $pts=[Drawing.Point[]]@((New-Object Drawing.Point(47,6)),(New-Object Drawing.Point(58,14)),(New-Object Drawing.Point(46,20)))\n            $g.FillPolygon($brush,$pts)\n        }\n        \"Cloud\" {\n            $g.FillEllipse($brush,7,28,20,18);$g.FillEllipse($brush,20,15,25,30);$g.FillEllipse($brush,39,27,18,20);$g.FillRectangle($brush,14,34,37,14)\n        }\n        \"Shield\" {\n            $pts=[Drawing.Point[]]@((New-Object Drawing.Point(32,4)),(New-Object Drawing.Point(52,13)),(New-Object Drawing.Point(48,40)),(New-Object Drawing.Point(32,57)),(New-Object Drawing.Point(16,40)),(New-Object Drawing.Point(12,13)))\n            $g.FillPolygon($brush,$pts)\n        }\n        \"Broom\" {\n            $g.DrawLine($pen,19,51,47,10)\n            $pts=[Drawing.Point[]]@((New-Object Drawing.Point(6,48)),(New-Object Drawing.Point(21,35)),(New-Object Drawing.Point(31,44)),(New-Object Drawing.Point(17,58)))\n            $g.FillPolygon($brush,$pts)\n        }\n        \"System\" {\n            $g.DrawEllipse($pen,13,13,38,38);$g.FillEllipse($brush,26,26,12,12)\n            $g.DrawLine($pen2,32,3,32,13);$g.DrawLine($pen2,32,51,32,61);$g.DrawLine($pen2,3,32,13,32);$g.DrawLine($pen2,51,32,61,32)\n            $g.DrawLine($pen2,11,11,18,18);$g.DrawLine($pen2,46,46,53,53);$g.DrawLine($pen2,53,11,46,18);$g.DrawLine($pen2,18,46,11,53)\n        }\n        \"Terminal\" {\n            $g.FillRectangle($brush,6,10,52,44)\n            $pw=New-Object Drawing.Pen([Drawing.Color]::White,3)\n            $g.DrawLine($pw,15,23,24,32);$g.DrawLine($pw,24,32,15,41);$g.DrawLine($pw,29,42,45,42)\n            $pw.Dispose()\n        }\n        \"Tools\" {\n            $g.DrawLine($pen,12,53,48,14);$g.DrawEllipse($pen,42,7,14,14);$g.DrawEllipse($pen,7,47,13,13)\n        }\n        \"Link\" {\n            $g.DrawArc($pen,5,16,31,28,45,270);$g.DrawArc($pen,28,20,31,28,225,270);$g.DrawLine($pen2,24,39,40,25)\n        }\n        \"Document\" {\n            $g.DrawRectangle($pen,13,5,38,54);$g.DrawLine($pen2,20,20,44,20);$g.DrawLine($pen2,20,29,44,29);$g.DrawLine($pen2,20,38,44,38);$g.DrawLine($pen2,20,47,39,47)\n        }\n        \"Escalation\" {\n            $g.DrawRectangle($pen,10,8,44,48);$g.DrawLine($pen,18,43,44,18);$g.DrawLine($pen,34,18,44,18);$g.DrawLine($pen,44,18,44,28)\n        }\n        \"Report\" {\n            $g.DrawRectangle($pen,11,5,42,54);$g.FillRectangle($brush,18,39,7,12);$g.FillRectangle($brush,29,31,7,20);$g.FillRectangle($brush,40,22,7,29)\n        }\n        \"Mic\" {\n            $g.DrawEllipse($pen,22,6,20,31);$g.DrawArc($pen,14,20,36,28,0,180);$g.DrawLine($pen,32,48,32,58);$g.DrawLine($pen2,22,58,42,58)\n        }\n        \"Repair\" {\n            $g.DrawLine($pen,12,53,48,14);$g.DrawEllipse($pen,42,7,14,14);$g.FillEllipse($brush,7,47,13,13)\n        }\n        \"Power\" {\n            $g.DrawArc($pen,10,12,44,44,-45,270);$g.DrawLine($pen,32,4,32,31)\n        }\n        \"Disk\" {\n            $g.FillRectangle($brush,7,18,50,30);$g.FillEllipse($white,44,33,6,6)\n        }\n        \"Service\" {\n            $g.FillRectangle($brush,8,11,48,10);$g.FillRectangle($brush,8,27,48,10);$g.FillRectangle($brush,8,43,48,10)\n            $g.FillEllipse($white,45,13,6,6);$g.FillEllipse($white,45,29,6,6);$g.FillEllipse($white,45,45,6,6)\n        }\n        \"Process\" {\n            $g.FillRectangle($brush,7,10,17,17);$g.FillRectangle($brush,40,10,17,17);$g.FillRectangle($brush,24,41,17,17)\n            $g.DrawLine($pen2,16,27,32,41);$g.DrawLine($pen2,48,27,32,41)\n        }\n        \"User\" {\n            $g.FillEllipse($brush,22,7,20,20);$g.FillEllipse($brush,12,32,40,25)\n        }\n    }\n\n    $pen.Dispose();$pen2.Dispose();$brush.Dispose();$white.Dispose();$g.Dispose()\n    return $bmp\n}\n\nfunction Get-WindowsStockIconImage {\n    param([int]$Id,[switch]$Large)\n    switch($Id){\n        16 {New-LmsVectorIcon Printer 56}\n        17 {New-LmsVectorIcon Network 56}\n        47 {New-LmsVectorIcon Shield 56}\n        8  {New-LmsVectorIcon Device 56}\n        1  {New-LmsVectorIcon Document 56}\n        default {New-LmsVectorIcon Apps 56}\n    }\n}\n\nfunction Get-LmsCategoryIcon {\n    param([string]$Category)\n    switch($Category){\n        \"Accueil\" {New-LmsVectorIcon Home 52 ([Drawing.Color]::White)}\n        \"Mes Apps\" {New-LmsVectorIcon Apps 52 ([Drawing.Color]::White)}\n        \"Edge\" {\n            $e=Find-ExistingExecutable @(\"msedge.exe\",\"${env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe\")\n            if($e){Get-AppIconImage $e}else{New-LmsVectorIcon Browser 52 ([Drawing.Color]::White)}\n        }\n        \"Applications\" {New-LmsVectorIcon Apps 52 ([Drawing.Color]::White)}\n        \"Microsoft 365\" {\n            $e=Find-ExistingExecutable @(\"OUTLOOK.EXE\",\"WINWORD.EXE\")\n            if($e){Get-AppIconImage $e}else{New-LmsVectorIcon Apps 52 ([Drawing.Color]::White)}\n        }\n        \"Navigateurs\" {New-LmsVectorIcon Browser 52 ([Drawing.Color]::White)}\n        \"Réseau\" {New-LmsVectorIcon Network 52 ([Drawing.Color]::White)}\n        \"Imprimantes\" {New-LmsVectorIcon Printer 52 ([Drawing.Color]::White)}\n        \"Périphériques\" {New-LmsVectorIcon Device 52 ([Drawing.Color]::White)}\n        \"Windows Update\" {New-LmsVectorIcon Update 52 ([Drawing.Color]::White)}\n        \"Intune / Entra\" {New-LmsVectorIcon Cloud 52 ([Drawing.Color]::White)}\n        \"VPN / Citrix\" {New-LmsVectorIcon Shield 52 ([Drawing.Color]::White)}\n        \"Nettoyage\" {New-LmsVectorIcon Broom 52 ([Drawing.Color]::White)}\n        \"Système\" {New-LmsVectorIcon System 52 ([Drawing.Color]::White)}\n        \"Winget\" {New-LmsVectorIcon Terminal 52 ([Drawing.Color]::White)}\n        \"Outils Tech\" {New-LmsVectorIcon Tools 52 ([Drawing.Color]::White)}\n        \"Commandes & Scripts\" {New-LmsVectorIcon Terminal 52 ([Drawing.Color]::White)}\n        \"Liens Microsoft\" {New-LmsVectorIcon Link 52 ([Drawing.Color]::White)}\n        \"Scripts & Inventaires\" {New-LmsVectorIcon Document 52 ([Drawing.Color]::White)}\n        \"Diagnostic & Escalade\" {New-LmsVectorIcon Escalation 52 ([Drawing.Color]::White)}\n        \"Rapport\" {New-LmsVectorIcon Report 52 ([Drawing.Color]::White)}\n        default {New-LmsVectorIcon Apps 52 ([Drawing.Color]::White)}\n    }\n}\n\nfunction Get-LmsTechnologyIcon {\n    param([string]$Name,[string]$Category)\n    $s=(\"$Name $Category\").ToLowerInvariant()\n\n    $cand=@()\n    if($s -match \"onedrive\"){$cand=@(\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\",\"OneDrive.exe\")}\n    elseif($s -match \"outlook\"){$cand=@(\"OUTLOOK.EXE\")}\n    elseif($s -match \"excel\"){$cand=@(\"EXCEL.EXE\")}\n    elseif($s -match \"word\"){$cand=@(\"WINWORD.EXE\")}\n    elseif($s -match \"powerpoint\"){$cand=@(\"POWERPNT.EXE\")}\n    elseif($s -match \"teams\"){$cand=@(\"ms-teams.exe\",\"Teams.exe\")}\n    elseif($s -match \"edge\"){$cand=@(\"msedge.exe\")}\n    elseif($s -match \"chrome\"){$cand=@(\"chrome.exe\")}\n    elseif($s -match \"firefox\"){$cand=@(\"firefox.exe\")}\n    elseif($s -match \"powershell\"){$cand=@(\"powershell.exe\")}\n    elseif($s -match \"bureau à distance|remote desktop|rdp\"){$cand=@(\"mstsc.exe\")}\n    elseif($s -match \"anydesk\"){$cand=@(\"AnyDesk.exe\")}\n    elseif($s -match \"citrix\"){$cand=@(\"SelfService.exe\",\"wfcrun32.exe\")}\n    elseif($s -match \"forti\"){$cand=@(\"FortiClient.exe\")}\n    elseif($s -match \"ivanti\"){$cand=@(\"PulseUI.exe\",\"IvantiSecureAccessClient.exe\")}\n    elseif($s -match \"printerlogic\"){$cand=@(\"PrinterInstallerClient.exe\")}\n\n    if($cand.Count){\n        $e=Find-ExistingExecutable $cand\n        if($e){return Get-AppIconImage $e}\n    }\n\n    if($s -match \"réseau|ethernet|wifi|dns|ipconfig|arp|route|ping|tcp\"){return New-LmsVectorIcon Network 64}\n    if($s -match \"imprim|spool\"){return New-LmsVectorIcon Printer 64}\n    if($s -match \"nettoy|cache|temp|corbeille\"){return New-LmsVectorIcon Broom 64 $script:UiRed}\n    if($s -match \"répar|repair|sfc|dism|restorehealth\"){return New-LmsVectorIcon Repair 64 $script:UiRed}\n    if($s -match \"alimentation|veille|battery|batterie|power\"){return New-LmsVectorIcon Power 64}\n    if($s -match \"disque|storage|espace\"){return New-LmsVectorIcon Disk 64}\n    if($s -match \"service\"){return New-LmsVectorIcon Service 64}\n    if($s -match \"process|démarrage|startup\"){return New-LmsVectorIcon Process 64}\n    if($s -match \"compte|groupe|user\"){return New-LmsVectorIcon User 64}\n    if($s -match \"sccm|intune|entra|azure|mdm|company portal\"){return New-LmsVectorIcon Cloud 64}\n    if($s -match \"defender|firewall|bitlocker|sécur|tpm|vpn\"){return New-LmsVectorIcon Shield 64}\n    if($s -match \"driver|pilote|périph|bluetooth|usb\"){return New-LmsVectorIcon Device 64}\n    if($s -match \"rapport|ticket|inventaire|export|script\"){return New-LmsVectorIcon Document 64}\n    return New-LmsVectorIcon System 64\n}\n\nfunction Get-LmsDeviceInventory {\n    $drivers=@{}\n    try{\n        foreach($d in Get-CimInstance Win32_PnPSignedDriver -ErrorAction SilentlyContinue){\n            if($d.DeviceID){$drivers[$d.DeviceID]=$d}\n        }\n    }catch{}\n    @(Get-PnpDevice -ErrorAction SilentlyContinue | ForEach-Object {\n        $d=$drivers[$_.InstanceId]\n        [pscustomobject]@{\n            Classe=$_.Class\n            Nom=$_.FriendlyName\n            Etat=$_.Status\n            InstanceId=$_.InstanceId\n            Fabricant=if($d){$d.Manufacturer}else{\"\"}\n            Pilote=if($d){$d.DriverVersion}else{\"\"}\n        }\n    } | Sort-Object Classe,Nom)\n}\n\nfunction Show-LmsDeviceManager {\n    $script:SsitDevices=@(Get-LmsDeviceInventory)\n\n    $f=New-Object Windows.Forms.Form\n    $f.Text=\"SUPER SUPPORT IT - Périphériques\"\n    $f.StartPosition=\"CenterScreen\"\n    $f.Size=New-Object Drawing.Size(1380,820)\n    $f.MinimumSize=New-Object Drawing.Size(1000,650)\n    $f.BackColor=[Drawing.Color]::FromArgb(4,14,28)\n    Enable-Escape $f\n\n    $root=New-Object Windows.Forms.TableLayoutPanel\n    $root.Dock=\"Fill\"\n    $root.RowCount=4\n    $root.ColumnCount=1\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,92)))\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,58)))\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Percent,100)))\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,72)))\n    $f.Controls.Add($root)\n\n    $head=New-Object Windows.Forms.Panel\n    $head.Dock=\"Fill\";$head.BackColor=[Drawing.Color]::FromArgb(6,28,50)\n    $root.Controls.Add($head,0,0)\n\n    $title=New-Object Windows.Forms.Label\n    $title.Text=\"PÉRIPHÉRIQUES & PILOTES\"\n    $title.ForeColor=[Drawing.Color]::FromArgb(70,220,255)\n    $title.Font=New-Object Drawing.Font(\"Segoe UI\",20,[Drawing.FontStyle]::Bold)\n    $title.AutoSize=$true;$title.Location=New-Object Drawing.Point(22,13)\n    $head.Controls.Add($title)\n\n    $sub=New-Object Windows.Forms.Label\n    $sub.Text=\"Inventaire • état • pilote • activation • désactivation • rescan\"\n    $sub.ForeColor=[Drawing.Color]::FromArgb(195,220,238)\n    $sub.AutoSize=$true;$sub.Location=New-Object Drawing.Point(25,55)\n    $head.Controls.Add($sub)\n\n    $accent=New-Object Windows.Forms.Panel\n    $accent.Dock=\"Bottom\";$accent.Height=3;$accent.BackColor=[Drawing.Color]::FromArgb(0,220,255)\n    $head.Controls.Add($accent)\n\n    $filters=New-Object Windows.Forms.TableLayoutPanel\n    $filters.Dock=\"Fill\";$filters.ColumnCount=3;$filters.Padding=New-Object Windows.Forms.Padding(14,10,14,5)\n    [void]$filters.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle([Windows.Forms.SizeType]::Percent,60)))\n    [void]$filters.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle([Windows.Forms.SizeType]::Absolute,190)))\n    [void]$filters.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle([Windows.Forms.SizeType]::Absolute,220)))\n    $root.Controls.Add($filters,0,1)\n\n    $search=New-Object Windows.Forms.TextBox\n    $search.Dock=\"Fill\";$search.Font=New-Object Drawing.Font(\"Segoe UI\",11);$search.Margin=New-Object Windows.Forms.Padding(2,4,12,4)\n    $filters.Controls.Add($search,0,0)\n\n    $status=New-Object Windows.Forms.ComboBox\n    $status.Dock=\"Fill\";$status.DropDownStyle=\"DropDownList\"\n    foreach($x in @(\"Tous\",\"OK\",\"Anomalies\")){[void]$status.Items.Add($x)}\n    $status.SelectedIndex=0\n    $filters.Controls.Add($status,1,0)\n\n    $count=New-Object Windows.Forms.Label\n    $count.Dock=\"Fill\";$count.TextAlign=\"MiddleRight\"\n    $count.ForeColor=[Drawing.Color]::White\n    $filters.Controls.Add($count,2,0)\n\n    $content=New-Object Windows.Forms.TableLayoutPanel\n    $content.Dock=\"Fill\";$content.ColumnCount=2;$content.Padding=New-Object Windows.Forms.Padding(14)\n    [void]$content.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle([Windows.Forms.SizeType]::Percent,68)))\n    [void]$content.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle([Windows.Forms.SizeType]::Percent,32)))\n    $root.Controls.Add($content,0,2)\n\n    $grid=New-Object Windows.Forms.DataGridView\n    $grid.Dock=\"Fill\";$grid.ReadOnly=$true;$grid.RowHeadersVisible=$false\n    $grid.SelectionMode=\"FullRowSelect\";$grid.MultiSelect=$false\n    $grid.AllowUserToAddRows=$false;$grid.AutoGenerateColumns=$false;$grid.AllowUserToResizeColumns=$true;$grid.AutoSizeColumnsMode=\"None\"\n    Set-SsitReadableGrid $grid\n    $content.Controls.Add($grid,0,0)\n\n    foreach($spec in @(\n        @(\"Etat\",\"Etat\",12),@(\"Classe\",\"Classe\",18),@(\"Nom\",\"Périphérique\",34),\n        @(\"Fabricant\",\"Fabricant\",18),@(\"Pilote\",\"Pilote\",18)\n    )){\n        $c=New-Object Windows.Forms.DataGridViewTextBoxColumn\n        $c.Name=$spec[0];$c.HeaderText=$spec[1];$c.Width=$spec[2];$c.MinimumWidth=90;$c.Resizable=[Windows.Forms.DataGridViewTriState]::True\n        [void]$grid.Columns.Add($c)\n    }\n\n    $detail=New-Object Windows.Forms.RichTextBox\n    $detail.Dock=\"Fill\";$detail.ReadOnly=$true\n    $detail.BackColor=[Drawing.Color]::FromArgb(8,31,55)\n    $detail.ForeColor=[Drawing.Color]::White\n    $detail.Font=New-Object Drawing.Font(\"Consolas\",10)\n    $detail.BorderStyle=\"FixedSingle\"\n    $detail.Text=\"Sélectionnez un périphérique.\"\n    $content.Controls.Add($detail,1,0)\n\n    function Get-SelectedDevice {\n        if($grid.CurrentRow -and $grid.CurrentRow.Tag){return $grid.CurrentRow.Tag}\n        return $null\n    }\n\n    function Update-DeviceDetail {\n        $d=Get-SelectedDevice\n        if($null -eq $d){$detail.Text=\"Sélectionnez un périphérique.\";return}\n        $detail.Text=@\"\nPÉRIPHÉRIQUE\nNom        : $($d.Nom)\nClasse     : $($d.Classe)\nEtat       : $($d.Etat)\nFabricant  : $($d.Fabricant)\nPilote     : $($d.Pilote)\nDate       : $($d.DatePilote)\nINF        : $($d.InfPilote)\n\nINSTANCE ID\n$($d.InstanceId)\n\"@\n    }\n\n    function Refresh-Devices {\n        $grid.Rows.Clear()\n        $term=[string]$search.Text\n        $mode=[string]$status.SelectedItem\n        $shown=0\n        foreach($d in @($script:SsitDevices)){\n            if($term){\n                $hay=\"$($d.Nom) $($d.Classe) $($d.Etat) $($d.Fabricant) $($d.InstanceId)\"\n                if($hay -notlike \"*$term*\"){continue}\n            }\n            if($mode -eq \"OK\" -and $d.Etat -ne \"OK\"){continue}\n            if($mode -eq \"Anomalies\" -and $d.Etat -eq \"OK\"){continue}\n            $i=$grid.Rows.Add($d.Etat,$d.Classe,$d.Nom,$d.Fabricant,$d.Pilote)\n            $grid.Rows[$i].Tag=$d\n            $shown++\n        }\n        $count.Text=\"$shown / $($script:SsitDevices.Count)\"\n        if($grid.Rows.Count -gt 0){\n            $grid.Rows[0].Selected=$true\n            $grid.CurrentCell=$grid.Rows[0].Cells[0]\n        }\n        Update-DeviceDetail\n    }\n\n    $bar=New-Object Windows.Forms.FlowLayoutPanel\n    $bar.Dock=\"Fill\";$bar.Padding=New-Object Windows.Forms.Padding(14,12,14,0)\n    $root.Controls.Add($bar,0,3)\n\n    function Add-DeviceButton {\n        param([string]$Text,[int]$Width,[scriptblock]$Run)\n        $b=New-Object Windows.Forms.Button\n        $b.Text=$Text;$b.Width=$Width;$b.Height=38\n        $b.Add_Click($Run)\n        $bar.Controls.Add($b)\n    }\n\n    Add-DeviceButton \"Activer\" 110 {\n        $d=Get-SelectedDevice\n        if($d){\n            try{Enable-PnpDevice -InstanceId $d.InstanceId -Confirm:$false -ErrorAction Stop;Show-Text \"Périphérique\" \"Activation demandée.\"}\n            catch{Show-Text \"Périphérique\" (\"Activation impossible. Une élévation administrateur peut être nécessaire.`r`n`r`n\"+$_.Exception.Message)}\n        }\n    }\n\n    Add-DeviceButton \"Désactiver\" 120 {\n        $d=Get-SelectedDevice\n        if($d -and (Confirm-Action \"Désactiver\" (\"Désactiver \"+$d.Nom+\" ?\"))){\n            try{Disable-PnpDevice -InstanceId $d.InstanceId -Confirm:$false -ErrorAction Stop;Show-Text \"Périphérique\" \"Désactivation demandée.\"}\n            catch{Show-Text \"Périphérique\" (\"Désactivation impossible. Une élévation administrateur peut être nécessaire.`r`n`r`n\"+$_.Exception.Message)}\n        }\n    }\n\n    Add-DeviceButton \"Rescan\" 110 {\n        Invoke-SsitPnPRescan\n        $script:SsitDevices=@(Get-LmsDeviceInventory)\n        Refresh-Devices\n    }\n\n    Add-DeviceButton \"Gestionnaire Windows\" 175 {Start-Process devmgmt.msc}\n\n    Add-DeviceButton \"Copier infos\" 130 {\n        $d=Get-SelectedDevice\n        if($d){Copy-LmsText $detail.Text \"Périphérique\"}\n    }\n\n    Add-DeviceButton \"Actualiser\" 120 {\n        $script:SsitDevices=@(Get-LmsDeviceInventory)\n        Refresh-Devices\n    }\n\n    Add-DeviceButton \"FERMER\" 115 {$f.Close()}\n\n    $search.Add_TextChanged({Refresh-Devices})\n    $status.Add_SelectedIndexChanged({Refresh-Devices})\n    $grid.Add_SelectionChanged({Update-DeviceDetail})\n\n    Apply-SsitNeonButtons $f\n    Refresh-Devices\n    $f.ShowDialog()|Out-Null\n}\n\nfunction Get-LmsCommandLibrary {\n    @(\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"IPCONFIG complet\";Description=\"Configuration réseau complète.\";Commande='ipconfig /all';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Résumé PowerShell\";Description=\"Interface active, IPv4, passerelle et DNS.\";Commande='Get-NetIPConfiguration';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Vider cache DNS\";Description=\"Vide le cache DNS local.\";Commande='ipconfig /flushdns';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"DHCP release / renew\";Description=\"Renouvelle le bail DHCP.\";Commande='ipconfig /release; ipconfig /renew';Admin=$false;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Winsock reset\";Description=\"Réinitialise Winsock.\";Commande='netsh winsock reset';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Reset TCP/IP\";Description=\"Réinitialise la pile TCP/IP.\";Commande='netsh int ip reset';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Routes\";Description=\"Table de routage.\";Commande='route print';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"ARP\";Description=\"Voisins ARP vus par le poste.\";Commande='arp -a';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Test TCP 443\";Description=\"Test vers Microsoft.\";Commande='Test-NetConnection microsoft.com -Port 443';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Réseau\";Nom=\"Proxy WinHTTP\";Description=\"Proxy système.\";Commande='netsh winhttp show proxy';Admin=$false;Lecture=$true},\n\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"SystemInfo\";Description=\"Résumé Windows et matériel.\";Commande='systeminfo';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"SFC\";Description=\"Vérifie/répare les fichiers système.\";Commande='sfc /scannow';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"DISM CheckHealth\";Description=\"État rapide du magasin de composants.\";Commande='DISM /Online /Cleanup-Image /CheckHealth';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"DISM ScanHealth\";Description=\"Analyse approfondie.\";Commande='DISM /Online /Cleanup-Image /ScanHealth';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"DISM RestoreHealth\";Description=\"Répare le magasin de composants.\";Commande='DISM /Online /Cleanup-Image /RestoreHealth';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"CHKDSK scan\";Description=\"Analyse C: en ligne.\";Commande='chkdsk C: /scan';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"Erreurs 24h\";Description=\"Erreurs/critique du journal System.\";Commande='Get-WinEvent -FilterHashtable @{LogName=\"System\";Level=1,2;StartTime=(Get-Date).AddHours(-24)} -ErrorAction SilentlyContinue | Select TimeCreated,Id,ProviderName,Message';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Système\";Nom=\"Services auto arrêtés\";Description=\"Services automatiques non démarrés.\";Commande='Get-CimInstance Win32_Service | Where-Object {$_.StartMode -eq \"Auto\" -and $_.State -ne \"Running\"} | Select Name,DisplayName,State';Admin=$false;Lecture=$true},\n\n        [pscustomobject]@{Categorie=\"Applications\";Nom=\"Winget list\";Description=\"Applications connues Winget.\";Commande='winget list';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Applications\";Nom=\"Winget upgrade\";Description=\"Mises à jour disponibles.\";Commande='winget upgrade';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Applications\";Nom=\"Top RAM\";Description=\"Top processus mémoire.\";Commande='Get-Process | Sort WorkingSet64 -Descending | Select -First 15 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Applications\";Nom=\"Top CPU\";Description=\"Top processus CPU.\";Commande='Get-Process | Sort CPU -Descending | Select -First 15 Name,Id,CPU';Admin=$false;Lecture=$true},\n\n        [pscustomobject]@{Categorie=\"Office / M365\";Nom=\"Outlook Safe\";Description=\"Outlook sans compléments classiques.\";Commande='outlook.exe /safe';Admin=$false;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Office / M365\";Nom=\"Reset NavPane\";Description=\"Réinitialise le volet Outlook.\";Commande='outlook.exe /resetnavpane';Admin=$false;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Office / M365\";Nom=\"Processus Office\";Description=\"Processus Office principaux.\";Commande='Get-Process OUTLOOK,WINWORD,EXCEL,POWERPNT,ONEDRIVE -ErrorAction SilentlyContinue | Select Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Office / M365\";Nom=\"OneDrive reset\";Description=\"Réinitialise OneDrive.\";Commande='& \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\" /reset';Admin=$false;Lecture=$false},\n\n        [pscustomobject]@{Categorie=\"Intune / Entra\";Nom=\"DSREGCMD\";Description=\"Join, Tenant, Device ID, SSO, MDM.\";Commande='dsregcmd /status';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Intune / Entra\";Nom=\"Tâches MDM\";Description=\"Tâches EnterpriseMgmt.\";Commande='Get-ScheduledTask | Where-Object {$_.TaskPath -like \"\\Microsoft\\Windows\\EnterpriseMgmt\\*\"} | Select TaskName,TaskPath,State';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Intune / Entra\";Nom=\"Forcer MDM\";Description=\"Démarre les tâches EnterpriseMgmt.\";Commande='Get-ScheduledTask | Where-Object {$_.TaskPath -like \"\\Microsoft\\Windows\\EnterpriseMgmt\\*\"} | Start-ScheduledTask';Admin=$true;Lecture=$false},\n\n        [pscustomobject]@{Categorie=\"SCCM\";Nom=\"Client SCCM\";Description=\"Informations SMS_Client.\";Commande='Get-CimInstance -Namespace root\\ccm -ClassName SMS_Client';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"SCCM\";Nom=\"Machine Policy\";Description=\"Demande Machine Policy.\";Commande='Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000021}\"}';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"SCCM\";Nom=\"Hardware Inventory\";Description=\"Inventaire matériel.\";Commande='Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000001}\"}';Admin=$true;Lecture=$false},\n        [pscustomobject]@{Categorie=\"SCCM\";Nom=\"Application Eval\";Description=\"Évaluation déploiements applicatifs.\";Commande='Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000121}\"}';Admin=$true;Lecture=$false},\n\n        [pscustomobject]@{Categorie=\"Sécurité\";Nom=\"Defender\";Description=\"État Defender.\";Commande='Get-MpComputerStatus';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Sécurité\";Nom=\"BitLocker\";Description=\"État BitLocker.\";Commande='Get-BitLockerVolume';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Sécurité\";Nom=\"TPM\";Description=\"État TPM.\";Commande='Get-Tpm';Admin=$false;Lecture=$true},\n\n        [pscustomobject]@{Categorie=\"Impression\";Nom=\"Imprimantes\";Description=\"Liste imprimantes.\";Commande='Get-Printer | Select Name,DriverName,PortName,PrinterStatus';Admin=$false;Lecture=$true},\n        [pscustomobject]@{Categorie=\"Impression\";Nom=\"Restart Spooler\";Description=\"Redémarre Spooler.\";Commande='Restart-Service Spooler -Force';Admin=$true;Lecture=$false},\n\n        [pscustomobject]@{Categorie=\"Assistance distante\";Nom=\"RDP\";Description=\"Bureau à distance.\";Commande='mstsc.exe';Admin=$false;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Assistance distante\";Nom=\"Quick Assist\";Description=\"Assistance rapide Windows.\";Commande='Start-Process \"ms-quick-assist:\"';Admin=$false;Lecture=$false},\n        [pscustomobject]@{Categorie=\"Assistance distante\";Nom=\"WhoAmI\";Description=\"Identité et groupes.\";Commande='whoami /all';Admin=$false;Lecture=$true}\n    )\n}\n\nfunction Show-LmsCommandLibrary {\n    param([string]$InitialCategory=\"\")\n    $all=@(Get-LmsCommandLibrary)\n\n    $f=New-Object Windows.Forms.Form;$f.Text=\"SUPER SUPPORT IT • Commandes & Scripts\"\n    $f.Size=New-Object Drawing.Size(1320,820);$f.MinimumSize=New-Object Drawing.Size(950,620);$f.StartPosition=\"CenterScreen\";$f.BackColor=$script:UiBg;Enable-Escape $f\n\n    $layout=New-Object Windows.Forms.TableLayoutPanel;$layout.Dock=\"Fill\";$layout.ColumnCount=1;$layout.RowCount=4\n    [void]$layout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,90)))\n    [void]$layout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,58)))\n    [void]$layout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Percent,100)))\n    [void]$layout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,74)));$f.Controls.Add($layout)\n\n    $head=New-Object Windows.Forms.Panel;$head.Dock=\"Fill\";$head.BackColor=$script:UiNavy;$layout.Controls.Add($head,0,0)\n    $dots=New-Object Windows.Forms.Label;$dots.Text=\"●  ●  ●\";$dots.ForeColor=$script:UiRed;$dots.Font=New-Object Drawing.Font(\"Segoe UI Symbol\",14,[Drawing.FontStyle]::Bold);$dots.AutoSize=$true;$dots.Location=New-Object Drawing.Point(22,16);$head.Controls.Add($dots)\n    $ttl=New-Object Windows.Forms.Label;$ttl.Text=\"COMMANDES & SCRIPTS SUPPORT\";$ttl.ForeColor=[Drawing.Color]::White;$ttl.Font=New-Object Drawing.Font(\"Segoe UI\",20,[Drawing.FontStyle]::Bold);$ttl.AutoSize=$true;$ttl.Location=New-Object Drawing.Point(135,12);$head.Controls.Add($ttl)\n    $sub=New-Object Windows.Forms.Label;$sub.Text=\"Copier-coller prêt pour assistance distante • Réseau • Système • Office • SCCM • Intune • Sécurité\";$sub.ForeColor=[Drawing.Color]::FromArgb(190,210,234);$sub.AutoSize=$true;$sub.Location=New-Object Drawing.Point(137,52);$head.Controls.Add($sub)\n    $red=New-Object Windows.Forms.Panel;$red.Dock=\"Bottom\";$red.Height=4;$red.BackColor=$script:UiRed;$head.Controls.Add($red)\n\n    $filters=New-Object Windows.Forms.FlowLayoutPanel;$filters.Dock=\"Fill\";$filters.Padding=New-Object Windows.Forms.Padding(18,10,0,0);$layout.Controls.Add($filters,0,1)\n    $search=New-Object Windows.Forms.TextBox;$search.Width=360;$filters.Controls.Add($search)\n    $combo=New-Object Windows.Forms.ComboBox;$combo.Width=230;$combo.DropDownStyle=\"DropDownList\";[void]$combo.Items.Add(\"Toutes catégories\")\n    foreach($c in ($all.Categorie|Sort-Object -Unique)){[void]$combo.Items.Add($c)}\n    if($InitialCategory -and $combo.Items.Contains($InitialCategory)){$combo.SelectedItem=$InitialCategory}else{$combo.SelectedIndex=0}\n    $filters.Controls.Add($combo)\n\n    $split=New-Object Windows.Forms.SplitContainer;$split.Dock=\"Fill\";$split.SplitterDistance=600;$layout.Controls.Add($split,0,2)\n    $grid=New-Object Windows.Forms.DataGridView;$grid.Dock=\"Fill\";$grid.ReadOnly=$true;$grid.RowHeadersVisible=$false;$grid.SelectionMode=\"FullRowSelect\";$grid.MultiSelect=$false;$grid.AutoSizeColumnsMode=\"Fill\";$grid.BackgroundColor=[Drawing.Color]::White;$grid.EnableHeadersVisualStyles=$false;$grid.ColumnHeadersDefaultCellStyle.BackColor=$script:UiNavy;$grid.ColumnHeadersDefaultCellStyle.ForeColor=[Drawing.Color]::White;$split.Panel1.Controls.Add($grid)\n    Set-SsitReadableGrid $grid\n    $grid.Add_HandleCreated({ param($sender,$e) Set-SsitReadableGrid $sender })\n    $grid.Add_DataBindingComplete({ param($sender,$e) Set-SsitReadableGrid $sender })\n    $detail=New-Object Windows.Forms.RichTextBox;$detail.Dock=\"Fill\";$detail.ReadOnly=$true;$detail.WordWrap=$true;$detail.Font=New-Object Drawing.Font(\"Consolas\",10.5);$detail.BackColor=[Drawing.Color]::White;$split.Panel2.Padding=New-Object Windows.Forms.Padding(12);$split.Panel2.Controls.Add($detail)\n\n    function Refresh-LmsCommands {\n        $term=$search.Text;$cat=[string]$combo.SelectedItem\n        $data=@($all|Where-Object{($cat -eq \"Toutes catégories\" -or $_.Categorie -eq $cat) -and ([string]::IsNullOrWhiteSpace($term) -or \"$($_.Categorie) $($_.Nom) $($_.Description) $($_.Commande)\" -like \"*$term*\")})\n        $grid.DataSource=$null;$grid.DataSource=@($data|Select Categorie,Nom,Description,Admin)\n        Set-SsitReadableGrid $grid\n    }\n    function Selected-LmsCommand {\n        if(-not $grid.CurrentRow){return $null}\n        $name=[string]$grid.CurrentRow.Cells[\"Nom\"].Value\n        return $all|Where-Object{$_.Nom -eq $name}|Select-Object -First 1\n    }\n\n    $grid.Add_SelectionChanged({$x=Selected-LmsCommand;if($x){$detail.Text=\"[$($x.Categorie)]  $($x.Nom)`r`n`r`n$($x.Description)`r`n`r`nADMIN : $($x.Admin)`r`n`r`nCOMMANDE / SCRIPT`r`n$($x.Commande)\"}})\n    $search.Add_TextChanged({Refresh-LmsCommands});$combo.Add_SelectedIndexChanged({Refresh-LmsCommands})\n\n    $bar=New-Object Windows.Forms.FlowLayoutPanel;$bar.Dock=\"Fill\";$bar.Padding=New-Object Windows.Forms.Padding(12,14,0,0);$layout.Controls.Add($bar,0,3)\n    foreach($label in @(\"Copier commande\",\"Copier fiche\",\"Exécuter lecture\",\"PowerShell Admin\",\"Fermer\")){\n        $b=New-Object Windows.Forms.Button;$b.Text=$label;$b.Height=40;$b.Width=if($label -eq \"Copier commande\"){145}elseif($label -eq \"PowerShell Admin\"){145}elseif($label -eq \"Exécuter lecture\"){135}else{120}\n        switch($label){\n            \"Copier commande\" {$b.Add_Click({$x=Selected-LmsCommand;if($x){Copy-SupportText -Text $x.Commande -Label $x.Nom}})}\n            \"Copier fiche\" {$b.Add_Click({$x=Selected-LmsCommand;if($x){Copy-SupportText -Text $detail.Text -Label $x.Nom}})}\n            \"Exécuter lecture\" {$b.Add_Click({$x=Selected-LmsCommand;if(-not $x){return};if(-not $x.Lecture){Show-Text \"Commande protégée\" \"Cette commande peut modifier le poste : elle est disponible en copie uniquement.\";return};try{$out=& powershell.exe -NoProfile -ExecutionPolicy Bypass -Command $x.Commande 2>&1|Out-String;Show-Text $x.Nom $out -AddToReport}catch{Show-Text $x.Nom $_.Exception.Message}})}\n            \"PowerShell Admin\" {$b.Add_Click({try{Start-Process powershell.exe -Verb RunAs}catch{}})}\n            \"Fermer\" {$b.Add_Click({try{$f.Close()}catch{try{$f.Dispose()}catch{}}})}\n        }\n        if($label -eq \"Copier commande\"){$b.BackColor=$script:UiBlue;$b.ForeColor=[Drawing.Color]::White;$b.FlatStyle=\"Flat\";$b.FlatAppearance.BorderSize=0}\n        $bar.Controls.Add($b)\n    }\n\n    Refresh-LmsCommands\n    $f.ShowDialog()|Out-Null",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Périphériques",
@@ -2014,8 +2154,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Périphériques & Pilotes",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsDeviceManager",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Applications",
@@ -2028,8 +2169,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Applications",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsSoftwareManager",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Commandes & Scripts",
@@ -2042,8 +2184,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsCommandLibrary",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Commandes & Scripts",
@@ -2056,8 +2199,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsCommandLibrary -InitialCategory \"Réseau\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Commandes & Scripts",
@@ -2070,8 +2214,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsCommandLibrary -InitialCategory \"Système\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Commandes & Scripts",
@@ -2084,8 +2229,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsCommandLibrary -InitialCategory \"Office / M365\"",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Commandes & Scripts",
@@ -2098,8 +2244,9 @@ window.SSIT_DATA = {
       "risk": "",
       "actionType": "",
       "webCategory": "Outils Support",
-      "script": "",
-      "shell": "PowerShell"
+      "script": "Show-LmsCommandLibrary -InitialCategory \"SCCM\"\n}\n\n\nfunction Invoke-LmsKeyboardMenu {\n param([int]$Number)\n if($Number -ge 1 -and $Number -le @($script:LmsKeyboardCategories).Count){\n   $script:CurrentCategory=[string]$script:LmsKeyboardCategories[$Number-1]\n   try{$script:LmsKeyboardSearchBox.Clear()}catch{}\n   RenderV2 $script:CurrentCategory ''\n }\n}\nfunction Invoke-LmsKeyboardAction {\n param([int]$Number)\n if($Number -ge 1 -and $script:VisibleActionByNumber -and $script:VisibleActionByNumber.ContainsKey($Number)){\n   $x=$script:VisibleActionByNumber[$Number]\n   if($x.Type -eq 'Action' -and $script:ActionRegistry.ContainsKey($x.Id)){Invoke-RegisteredAction ([string]$x.Id)}\n   elseif(($x.Type -eq 'Quick' -or $x.Type -eq 'Script') -and $x.Run -is [scriptblock]){& $x.Run}\n }\n}\nfunction Show-LmsKeyboardHelp {\n Show-Text 'Raccourcis clavier' @\"\nRACCOURCIS SUPER SUPPORT IT\n\nAlt + 1 ... 9   = ouvrir menu 1 a 9\nAlt + 0         = ouvrir menu 10\n\nAlt + Maj + 1 ... 9 = executer action 1 a 9 du menu\nAlt + Maj + 0       = executer action 10\n\nF1    = aide\nEchap = annuler l'action en cours\n\nLOGIQUE : Alt = MENU | Alt + Maj = ACTION\n\"@\n}\n\n\nfunction Open-LmsBrowserInternalUrl {\n param([ValidateSet('Edge','Chrome','Firefox')][string]$Browser,[string]$Url)\n $exe=$null\n if($Browser -eq 'Edge'){\n  foreach($p in @(\"${env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe\",\"$env:ProgramFiles\\Microsoft\\Edge\\Application\\msedge.exe\")){if(Test-Path $p){$exe=$p;break}}\n } elseif($Browser -eq 'Chrome'){\n  foreach($p in @(\"$env:ProgramFiles\\Google\\Chrome\\Application\\chrome.exe\",\"${env:ProgramFiles(x86)}\\Google\\Chrome\\Application\\chrome.exe\",\"$env:LOCALAPPDATA\\Google\\Chrome\\Application\\chrome.exe\")){if(Test-Path $p){$exe=$p;break}}\n } else {\n  foreach($p in @(\"$env:ProgramFiles\\Mozilla Firefox\\firefox.exe\",\"${env:ProgramFiles(x86)}\\Mozilla Firefox\\firefox.exe\")){if(Test-Path $p){$exe=$p;break}}\n }\n if([string]::IsNullOrWhiteSpace($exe)){Show-Text 'Navigateur' \"$Browser introuvable.\";return}\n try{Start-Process -FilePath $exe -ArgumentList @($Url) -ErrorAction Stop|Out-Null}catch{Show-Text 'Navigateur' (\"Ouverture impossible : \"+$_.Exception.Message)}\n}\n\n\nfunction Open-LmsUrl {\n    param([Parameter(Mandatory=$true)][string]$Url)\n    try { Start-Process -FilePath $Url -ErrorAction Stop | Out-Null }\n    catch { Show-Text 'Lien' (\"Ouverture impossible : \" + $_.Exception.Message) }\n}\n\nfunction Open-LmsBrowserPage {\n    param(\n        [ValidateSet('Edge','Chrome')][string]$Browser,\n        [Parameter(Mandatory=$true)][string]$Url\n    )\n    $exe = $null\n    $candidates = if($Browser -eq 'Edge'){\n        @(\"${env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe\",\n          \"$env:ProgramFiles\\Microsoft\\Edge\\Application\\msedge.exe\")\n    } else {\n        @(\"$env:ProgramFiles\\Google\\Chrome\\Application\\chrome.exe\",\n          \"${env:ProgramFiles(x86)}\\Google\\Chrome\\Application\\chrome.exe\",\n          \"$env:LOCALAPPDATA\\Google\\Chrome\\Application\\chrome.exe\")\n    }\n    foreach($p in $candidates){ if($p -and (Test-Path -LiteralPath $p)){ $exe=$p; break } }\n    if(-not $exe){ Show-Text 'Navigateur' \"$Browser introuvable.\"; return }\n    try {\n        Start-Process -FilePath $exe -ArgumentList @('--new-tab', $Url) -ErrorAction Stop | Out-Null\n    } catch {\n        Show-Text \"Navigateur\" (\"Impossible d’ouvrir \" + $Url + \" : \" + $_.Exception.Message)\n    }\n}\n\n\nfunction Show-LmsIntuneWindowsInventory {\n    try {\n        if(-not (Get-Module -ListAvailable -Name Microsoft.Graph.DeviceManagement)){\n            Show-Text 'Inventaire Windows Intune' @\"\nLe module Microsoft.Graph.DeviceManagement n’est pas installé.\n\nMécanisme :\n- Authentification Microsoft Graph\n- Permission : DeviceManagementManagedDevices.Read.All\n- Lecture : managedDevices\n- Filtre local : OperatingSystem = Windows\n\nAucune modification n’est effectuée dans Intune.\n\"@\n            return\n        }\n\n        Import-Module Microsoft.Graph.DeviceManagement -ErrorAction Stop\n        Connect-MgGraph -Scopes 'DeviceManagementManagedDevices.Read.All' -NoWelcome -ErrorAction Stop\n        $data = Get-MgDeviceManagementManagedDevice -All -ErrorAction Stop |\n            Where-Object { $_.OperatingSystem -eq 'Windows' } |\n            Select-Object DeviceName,UserPrincipalName,SerialNumber,Manufacturer,Model,OSVersion,ComplianceState,LastSyncDateTime\n\n        if(-not $data){ Show-Text 'Inventaire Windows Intune' 'Aucun appareil Windows retourné par Microsoft Graph.'; return }\n        $data | Out-GridView -Title 'Inventaire Windows Intune - Lecture Microsoft Graph'\n    } catch {\n        Show-Text 'Inventaire Windows Intune' (\"Erreur : \" + $_.Exception.Message)\n    } finally {\n        try { Disconnect-MgGraph -ErrorAction SilentlyContinue | Out-Null } catch {}\n    }\n}\n\n\nfunction Copy-LmsText {\n    param([string]$Text,[string]$Label='Informations')\n    if([string]::IsNullOrWhiteSpace($Text)){return}\n    try{[Windows.Forms.Clipboard]::SetText([string]$Text);Write-Log (\"COPIE : \"+$Label)}catch{Show-Text 'Copie' $_.Exception.Message}\n}\n\nfunction Get-LmsActionCopyCommand {\n    param([object]$Action)\n    if($null -eq $Action){return ''}\n    $cmd=[string]$Action.Command\n    if([string]::IsNullOrWhiteSpace($cmd) -or $cmd -eq [string]$Action.Description){$cmd=[string]$Action.Technical}\n    if([string]::IsNullOrWhiteSpace($cmd)){$cmd=[string]$Action.Execute}\n    return $cmd\n}\n\nfunction Show-LmsActionDetails {\n    param([Parameter(Mandatory)][string]$ActionId)\n\n    $a=$script:ActionRegistry[$ActionId]\n    if($null -eq $a){Show-Text \"Action\" \"Action introuvable.\";return",
+      "shell": "PowerShell",
+      "scriptSource": "SuperSupportIT_MASTER.ps1"
     },
     {
       "category": "Outils Tech",
