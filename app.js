@@ -15,6 +15,11 @@ async function shareText(title,text){
  await copy(payload.text);
  toast("Partage indisponible : contenu copié");
 }
+function openOutlookText(title,text){
+ const subject=String(title||"IT Pocket");
+ const body=String(text||"");
+ window.location.href="mailto:?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+}
 function openCat(c){state.cat=c;if(!state.tabs.includes(c))state.tabs.push(c);save();render()}
 function closeTab(c,e){e.stopPropagation();state.tabs=state.tabs.filter(x=>x!==c);if(state.cat===c)state.cat=state.tabs.at(-1)||"Accueil";save();render()}
 function nav(){ $("#nav").innerHTML=cats.map(c=>`<button class="navbtn ${state.cat===c?"active":""}" onclick='openCat(${JSON.stringify(c)})'>${icon(c)} ${esc(c)}</button>`).join("")}
@@ -228,7 +233,7 @@ function actionCard(a){
  '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
  (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+'<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(a,id)+'</article>';
 }
@@ -240,7 +245,7 @@ function commandCard(c){
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
- '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+'<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
@@ -286,5 +291,5 @@ function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
 function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>'}
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,openOutlookText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
