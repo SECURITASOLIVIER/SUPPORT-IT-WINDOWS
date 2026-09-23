@@ -66,12 +66,12 @@ function renderActions(c){let arr=filterItems(D.actions.filter(a=>a.webCategory=
 function home(){
  const pa=pocketActions(); const actionCats=[...new Set(pa.map(a=>a.category).filter(Boolean))];
  return '<div class="home-summary">'+
-   '<article class="card home-kpi"><h3>☷ Actions NO LOSS</h3><div class="big-number">'+pocketActions().length+'</div><p class="desc">Toutes les actions de référence à consulter, comprendre, copier ou partager.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
-   '<article class="card home-kpi"><h3>⌘ Commandes rapides</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis prêts à copier vers un poste Windows.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
-   '<article class="card home-kpi"><h3>✉ Communications</h3><div class="big-number">'+allTemplates().length+'</div><p class="desc">Modèles corporate à copier, partager ou préparer dans l’application mail locale.</p><button class="btn primary" onclick=\'openCat("Communications")\'>Ouvrir</button></article>'+
-   '<article class="card home-kpi"><h3>↗ Portails & liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Liens Microsoft et IT, favoris personnels et accès rapides.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>☷ Actions</h3><div class="big-number">'+pocketActions().length+'</div><p class="desc">Diagnostics, informations et actions.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>⌘ Commandes rapides</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>✉ Communications</h3><div class="big-number">'+allTemplates().length+'</div><p class="desc">Modèles et messages corporate.</p><button class="btn primary" onclick=\'openCat("Communications")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>↗ Portails & liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Portails, outils et favoris.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
  '</div>'+
- '<div class="section-title">Catégories NO LOSS</div>'+
+ '<div class="section-title">Thématiques</div>'+
  '<div class="category-cloud">'+actionCats.map(c=>'<button class="btn category-chip" onclick=\'openNoLossCategory('+JSON.stringify(c)+')\'>'+esc(c)+' <span>'+pocketActions().filter(a=>a.category===c).length+'</span></button>').join("")+'</div>';
 }
 function openNoLossCategory(cat){actionFilter=cat;openCat("Toutes les actions")}
@@ -153,7 +153,7 @@ function renderAllActions(){
  let a=filterItems(D.actions.filter(x=>!isContainerAction(x)),["name","description","method","command","script","category","webCategory"]);
  if(actionFilter!=="Tous")a=a.filter(x=>x.category===actionFilter);
  if(typeFilter!=="Tous")a=a.filter(x=>actionKind(x)===typeFilter);
- return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span><span class="meta-inline">Diagnostic • Information • Action</span></div>'+
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span></div>'+
  typeToolbar()+
  '<div class="category-scroll"><button class="btn" onclick=\'setActionFilter("Tous")\'>Toutes les thématiques</button>'+sourceCats.map(c=>'<button class="btn" onclick=\'setActionFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
  '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune fiche trouvée.</div>')+'</div>';
@@ -166,7 +166,6 @@ function renderJournal(){
 function render(){
  document.body.classList.toggle("light",state.theme==="light");nav();tabs();
  $("#title").textContent=state.cat;
- $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket — scripts, diagnostics, informations, actions et communications.":"Fiches classées par thématique : Diagnostic • Information • Action.";
  $("#stats").textContent=D.actions.length+" actions source • "+pocketCenterOptions.length+" options éclatées • "+D.commands.length+" commandes";
  let c=state.cat, h=
    c==="Accueil"?home():
@@ -344,14 +343,14 @@ function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="
 function renderActions(c){
  let a=filterItems(D.actions.filter(x=>x.webCategory===c&&!isContainerAction(x)),["name","description","method","command","script","category"]);
  if(typeFilter!=="Tous")a=a.filter(x=>actionKind(x)===typeFilter);
- return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span><span class="meta-inline">Scripts et procédures de la thématique</span></div>'+
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span></div>'+
  typeToolbar()+
  '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune fiche trouvée.</div>')+'</div>';
 }
 function tools(){
  let c=filterItems(D.commands,["name","description","command","category","shell"]);
  if(typeFilter!=="Tous")c=c.filter(x=>actionKind(x)===typeFilter);
- return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Scripts et commandes autonomes</span></div>'+
+ return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span></div>'+
  typeToolbar()+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
