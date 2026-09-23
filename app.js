@@ -132,8 +132,27 @@ let hiddenLinks=JSON.parse(localStorage.getItem("itpHiddenLinks")||"[]");
 let favoriteLinks=JSON.parse(localStorage.getItem("itpFavoriteLinks")||"[]");
 let portalFilter="Tous";
 function savePocket(){save();localStorage.setItem("itpHiddenTemplates",JSON.stringify(hiddenTemplates));localStorage.setItem("itpCustomLinks",JSON.stringify(customLinks));localStorage.setItem("itpHiddenLinks",JSON.stringify(hiddenLinks));localStorage.setItem("itpFavoriteLinks",JSON.stringify(favoriteLinks))}
-function actionCard(a){let s=a.script||a.command||"",sh=a.shell||a.language||"PowerShell";return '<article class="card"><h3>'+esc(a.name)+'</h3><div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div><p class="desc">'+esc(a.description||a.method||'')+'</p><div>'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+(a.method?'<details class="details"><summary>Comprendre / méthode</summary><pre class="code">'+esc(a.method)+'</pre></details>':'')+(s?'<details class="details" open><summary>Script / commande • '+esc(sh)+'</summary><pre class="code scriptfull">'+esc(s)+'</pre></details>':'')+'<div class="actions">'+(s?'<button class="btn primary" onclick=\'copy('+JSON.stringify(s)+')\'>Copier le script</button>':'')+'<button class="btn" onclick=\'copy('+JSON.stringify((a.name||"")+"\n"+(a.description||"")+"\n\nMéthode : "+(a.method||"")+(s?"\n\nScript :\n"+s:""))+')\'>Copier la fiche</button></div></article>'}
-function commandCard(c){return '<article class="card"><h3>'+esc(c.name)+'</h3><div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div><p class="desc">'+esc(c.description||'')+'</p><div>'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div><pre class="code scriptfull">'+esc(c.command)+'</pre><div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier la commande</button></div></article>'}
+function actionCard(a){
+ let s=a.script||a.command||"", sh=a.shell||a.language||"PowerShell", copyText=s||a.method||a.description||"";
+ return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
+ '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
+ '<p class="desc">'+esc(a.description||a.method||'')+'</p>'+
+ '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions">'+
+ (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
+ '<details class="more"><summary class="btn">Voir plus</summary><div class="morebox">'+
+ (a.method?'<div class="more-label">Méthode</div><div class="more-text">'+esc(a.method)+'</div>':'')+
+ (s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre>':'')+
+ '</div></details></div></article>';
+}
+function commandCard(c){
+ return '<article class="card compact-card"><h3>'+esc(c.name)+'</h3>'+
+ '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
+ '<p class="desc">'+esc(c.description||'')+'</p>'+
+ '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
+ '<details class="more"><summary class="btn">Voir plus</summary><div class="morebox"><div class="more-label">Commande</div><pre class="code scriptfull">'+esc(c.command)+'</pre></div></details></div></article>';
+}
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
 function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;window.open("https://outlook.office.com/mail/deeplink/compose?subject="+encodeURIComponent(t.subject||"")+"&body="+encodeURIComponent(t.content||""),"_blank","noopener")}
@@ -154,7 +173,7 @@ function newLink(ref=null){let p=ref?{...getLinkByRef(ref)}:{name:"",category:"F
 function editLink(r){newLink(r)}
 function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert("Nom obligatoire et URL http/https valide.");return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
-function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar"><span class="badge">'+a.length+' action(s)</span><span class="badge warn">Web : copie du script, exécution locale dans PowerShell/CMD</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
-function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar"><span class="badge">'+c.length+' commande(s)</span><span class="badge">Shell + droits + risque</span></div><div class="grid">'+c.map(commandCard).join("")+'</div>'}
+function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier pour exécuter localement • Voir plus pour afficher le détail</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
+function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span><span class="meta-inline">Commande masquée par défaut</span></div><div class="grid">'+c.map(commandCard).join("")+'</div>'}
 Object.assign(window,{actionCard,commandCard,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
