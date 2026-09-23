@@ -176,3 +176,22 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
   .home-kpi{min-height:160px}
   .big-number{font-size:28px}
 }
+
+.module-note{
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px dashed var(--line);
+  border-radius:9px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+  background:var(--panel);
+}
+.role-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.role-box{border:1px solid var(--line);border-radius:9px;padding:10px;background:var(--panel)}
+.role-title{font-size:12px;font-weight:700;margin-bottom:5px}
+.role-text{font-size:12px;line-height:1.45;color:var(--muted)}
+.execution-label{display:inline-block;margin:0 0 12px;padding:4px 8px;border-radius:20px;font-size:11px;background:var(--panel);color:var(--muted)}
+.execution-label.standalone{color:#bfe0ff}
+.execution-label.reference{color:#ffd999}
+@media(max-width:800px){.role-split{grid-template-columns:1fr}}
