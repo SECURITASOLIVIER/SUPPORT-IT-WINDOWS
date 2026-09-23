@@ -243,12 +243,26 @@ function isContainerAction(item){
  return ((/\b(?:Centre|Hub)\b/i.test(n) && !/^(?:Gestionnaire de périphériques|Gestionnaire mots de passe)/i.test(n)) ||
         /^\s*(?:Ouvre|Lance)\s+(?:le|la|les|un|une)\s+centre/i.test(s));
 }
+function resourceType(item){
+ const s=String(item.script||item.command||"").trim();
+ const shell=String(item.shell||item.language||"").toLowerCase();
+ if(/^https?:\/\//i.test(s))return {kind:"link",label:"Lien",detail:"Lien • Navigateur",copy:"Copier le lien"};
+ if(/^(?:ms-settings:|ms-quick-assist:|companyportal:|edge:\/\/|chrome:\/\/)/i.test(s))return {kind:"uri",label:"Action",detail:"Raccourci Windows",copy:"Copier le raccourci"};
+ if(/cmd|invite de commandes/i.test(shell) || /^(?:ipconfig|ping|tracert|nslookup|netsh|route|arp|hostname|whoami|query\s+user|cmdkey|gpupdate|sfc|dism|chkdsk|pnputil|mstsc\.exe)\b/i.test(s))
+   return {kind:"cmd",label:"Commande",detail:"Commande • CMD",copy:"Copier la commande"};
+ return {kind:"powershell",label:"Script",detail:"Script • PowerShell",copy:"Copier le script"};
+}
+function contentSectionTitle(item){
+ const r=resourceType(item);
+ return r.kind==="link"?"LIEN":r.kind==="uri"?"RACCOURCI WINDOWS":r.kind==="cmd"?"COMMANDE":"SCRIPT POWERSHELL";
+}
 function actionKind(item){
+ const r=resourceType(item);
+ if(r.kind==="link")return "Information";
+ if(r.kind==="uri")return "Action";
  const text=[item.name,item.description,item.method,item.risk,item.actionType].filter(Boolean).join(" ").toLowerCase();
- if(/diagnostic|diagnosti|test|tester|contr[oô]l|v[ée]rifi|inventaire|liste|affiche|lecture|[ée]tat|version|historique|logs?|rapport|analyse|scan|information|info\b/.test(text))
+ if(/diagnostic|diagnosti|test|tester|contr[oô]l|v[ée]rifi|inventaire|liste|affiche|lecture|[ée]tat|version|historique|logs?|rapport|analyse|scan/.test(text))
    return "Diagnostic";
- if(/ouvrir|lancer|acc[eè]s|portail|dossier|param[eè]tr|page|lien|documentation|copier/.test(text))
-   return "Information";
  return "Action";
 }
 function typeBadge(item){
@@ -272,33 +286,27 @@ function cleanMethod(item){
 }
 function supportSteps(item){
  const p=executionProfile(item);
- const shell=String(item.shell||item.language||"PowerShell");
+ const r=resourceType(item);
  const rights=String(item.rights||"");
  const risk=String(item.risk||"");
- const cmd=String(item.script||item.command||"");
  const admin=/admin/i.test(rights);
- const isUrl=/^https?:\/\//i.test(cmd.trim());
- const isUri=/ms-settings:|ms-quick-assist:|edge:\/\/|chrome:\/\//i.test(cmd);
- const isCmd=/CMD/i.test(shell)&&!/PowerShell/i.test(shell);
  let steps=[];
- if(!p.standalone){
-   return steps;
- }
- if(isUrl){
+ if(!p.standalone)return steps;
+ if(r.kind==="link"){
    steps.push("Ouvrir le lien dans un navigateur.");
-   steps.push("S’authentifier avec le compte professionnel si nécessaire.");
- }else if(isUri){
-   steps.push("Appuyer sur Windows + R.");
-   steps.push("Coller la commande ou l’URI puis valider.");
- }else if(isCmd){
+   if(/compte|microsoft|intune|entra|mfa|sign/i.test(String(item.name||"")+" "+String(item.description||"")))steps.push("Se connecter avec le compte professionnel si demandé.");
+ }else if(r.kind==="uri"){
+   steps.push("Sur le PC Windows, appuyer sur Windows + R.");
+   steps.push("Coller le raccourci puis valider.");
+ }else if(r.kind==="cmd"){
    steps.push("Ouvrir Invite de commandes"+(admin?" en administrateur":"")+".");
    steps.push("Coller la commande puis valider.");
  }else{
    steps.push("Ouvrir PowerShell ou Terminal Windows"+(admin?" en administrateur":"")+".");
-   steps.push("Coller le script ou la commande puis valider.");
+   steps.push("Coller le script puis valider.");
  }
  if(/moyen|élevé|modifie|supprim|interrompt|resynchron|redémarr|reboot/i.test(risk)){
-   steps.push("Vérifier l’impact et prévenir l’utilisateur avant toute action corrective.");
+   steps.push("Vérifier l’impact indiqué avant l’action.");
  }
  return steps;
 }
@@ -342,7 +350,7 @@ function buildSupportShare(item){
  }
  if(p.standalone&&s){
    lines.push("");
-   lines.push("SCRIPT / COMMANDE");
+   lines.push(contentSectionTitle(item));
    lines.push(s);
  }
  if(check){
@@ -369,7 +377,7 @@ function toggleInlineDetail(id){
  if(btn)btn.textContent=open?"Réduire":"Voir plus";
 }
 function detailHtml(item,id){
- const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell", p=executionProfile(item), m=cleanMethod(item);
+ const s=item.script||item.command||"", p=executionProfile(item), m=cleanMethod(item), r=resourceType(item);
  const objective=String(item.description||m||item.name||"Action de support");
  const check=specificCheck(item);
  return '<div id="'+id+'" class="inline-detail">'+
@@ -380,38 +388,38 @@ function detailHtml(item,id){
       (item.risk?'<span class="badge warn">'+esc(item.risk)+'</span>':'')+
     '</div></div>':'')+
    ((supportSteps(item).length)?'<div class="detail-section"><div class="more-label">Procédure</div>'+launchTutorial(item)+'</div>':'')+
-   (p.standalone&&s?'<div class="detail-section"><div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
+   (p.standalone&&s?'<div class="detail-section"><div class="more-label">'+esc(r.detail)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
    (check?'<div class="detail-section"><div class="more-label">Vérification</div><div class="more-text">'+esc(check)+'</div></div>':'')+
    (item.escalation?'<div class="detail-section"><div class="more-label">Escalade</div><div class="more-text">'+esc(item.escalation)+'</div></div>':'')+
    '</div>';
 }
 function actionCard(a){
- let s=a.script||a.command||"", p=executionProfile(a), m=cleanMethod(a);
+ let s=a.script||a.command||"", p=executionProfile(a), m=cleanMethod(a), r=resourceType(a);
  const id="detail_"+Math.random().toString(36).slice(2);
  const usefulText=p.standalone&&s?s:(m||a.description||"");
  const shareBody=buildSupportShare(a);
  return '<article class="card compact-card">'+
  typeBadge(a)+'<h3>'+esc(a.name)+'</h3>'+
- '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
+ '<div class="meta">'+esc(a.category)+' • '+esc(r.label)+'</div>'+
  '<p class="desc">'+esc(a.description||m||'')+'</p>'+
  '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
- (usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(usefulText)+')\'>Copier</button>':'')+
+ (usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(a.name||"Fiche"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(a,id)+'</article>';
 }
 function commandCard(c){
- const id="detail_"+Math.random().toString(36).slice(2);
+ const id="detail_"+Math.random().toString(36).slice(2), r=resourceType(c);
  const shareBody=buildSupportShare(c);
  return '<article class="card compact-card">'+typeBadge(c)+'<h3>'+esc(c.name)+'</h3>'+
- '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
+ '<div class="meta">'+esc(c.category)+' • '+esc(r.label)+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
- '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier commande</button>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>'+esc(r.copy)+'</button>'+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
- '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(c.name||"Commande"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(c.name||"Fiche"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
@@ -469,5 +477,5 @@ function tools(){
  return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span></div>'+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
