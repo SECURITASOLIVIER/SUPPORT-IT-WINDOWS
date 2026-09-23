@@ -4975,10 +4975,10 @@ window.SSIT_DATA = {
       "content": "PHISHING\n\n\nObjet : 🚨 Rappel – Comment signaler un mail suspect dans Outlook\n\n\nBonjour à tous 👋\n\nSi vous recevez un mail suspect (phishing / hameçonnage) :\n\n1️⃣ Ne cliquez sur rien et n'ouvrez pas les pièces jointes.\n\n2️⃣ Dans Outlook, cliquez sur 📩 \"Signaler un message\" → \"Phishing\".\n\n3️⃣ Si l'option n'apparaît pas, transférez le mail en pièce jointe à ou👉 [Adresse sécurité]\n\nMerci pour votre vigilance 💪\n\nChaque signalement aide à protéger tout le monde 🛡️\n\nBonne journée,\n\n\n[Ton prénom]"
     },
     {
-      "name": "Applications - Déploiement [Application] to catalogue applicatif",
+      "name": "Applications - Déploiement de [Application] dans le catalogue applicatif",
       "category": "Matériel",
-      "subject": "Applications - Déploiement [Application] to catalogue applicatif",
-      "content": "deployement\n\n\nBonjour,\n\nL'application [Application] to catalogue applicatif a bien été déployée sur votre ordinateur 💻.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d'être connecté au réseau de l'compte professionnel 🏢 ou d'utiliser le VPN 🔐 si vous êtes en télétravail.\n\n\n👉 Si l'application n'apparaît pas immédiatement, un redémarrage de votre poste peut permettre de finaliser l'installation 🔄.\n\n\nMerci de nous faire un retour que l'installation s'est bien déroulée afin de clôturer votre demande. 😊\n\nBien cordialement,"
+      "subject": "Applications - Déploiement de [Application] dans le catalogue applicatif",
+      "content": "Bonjour,\n\nL'application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d'être connecté au réseau de l'entreprise ou au VPN lorsque vous êtes en télétravail.\n\nSi l'application n'apparaît pas immédiatement, un redémarrage du poste peut permettre de finaliser l'installation.\n\nMerci de nous confirmer que l'installation s'est bien déroulée afin que nous puissions clôturer votre demande.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - PC prêt avant expédition / appel",
@@ -6159,6 +6159,222 @@ window.SSIT_DATA = {
       "name": "Google Workspace Status",
       "category": "Statuts services",
       "url": "https://www.google.com/appsstatus/dashboard/"
+    },
+    {
+      "name": "ANSSI - Cyber.gouv.fr",
+      "category": "Cybersécurité France",
+      "url": "https://cyber.gouv.fr/",
+      "description": "Actualités, publications et recommandations officielles de l'ANSSI."
+    },
+    {
+      "name": "MesServicesCyber - ANSSI",
+      "category": "Cybersécurité France",
+      "url": "https://messervices.cyber.gouv.fr/",
+      "description": "Guides, outils, diagnostics et services cyber proposés par l'ANSSI."
+    },
+    {
+      "name": "CERT-FR - Alertes de sécurité",
+      "category": "Cybersécurité France",
+      "url": "https://cert.ssi.gouv.fr/alerte/",
+      "description": "Alertes françaises sur les vulnérabilités et menaces nécessitant une attention immédiate."
+    },
+    {
+      "name": "CERT-FR - Avis de sécurité",
+      "category": "Cybersécurité France",
+      "url": "https://cert.ssi.gouv.fr/avis/",
+      "description": "Avis techniques officiels sur les vulnérabilités et leurs correctifs."
+    },
+    {
+      "name": "CERT-FR - Bulletins d'actualité",
+      "category": "Veille & Actualité IT",
+      "url": "https://cert.ssi.gouv.fr/actualite/",
+      "description": "Veille cyber régulière du CERT-FR."
+    },
+    {
+      "name": "17Cyber - Diagnostic",
+      "category": "Cybersécurité France",
+      "url": "https://www.cybermalveillance.gouv.fr/diagnostic/accueil",
+      "description": "Diagnostic public pour identifier un incident cyber et obtenir des recommandations adaptées."
+    },
+    {
+      "name": "Cybermalveillance.gouv.fr",
+      "category": "Cybersécurité France",
+      "url": "https://www.cybermalveillance.gouv.fr/",
+      "description": "Prévention, assistance et ressources françaises contre les cybermenaces."
+    },
+    {
+      "name": "CNIL",
+      "category": "Cybersécurité France",
+      "url": "https://www.cnil.fr/",
+      "description": "Référence française pour la protection des données et les bonnes pratiques RGPD."
+    },
+    {
+      "name": "Microsoft Security Update Guide",
+      "category": "Veille & Actualité IT",
+      "url": "https://msrc.microsoft.com/update-guide",
+      "description": "Recherche des CVE, correctifs et publications de sécurité Microsoft."
+    },
+    {
+      "name": "Microsoft Security Blog",
+      "category": "Veille & Actualité IT",
+      "url": "https://www.microsoft.com/en-us/security/blog/",
+      "description": "Analyses et actualités officielles Microsoft Security."
+    },
+    {
+      "name": "Microsoft 365 Roadmap",
+      "category": "Veille & Actualité IT",
+      "url": "https://www.microsoft.com/microsoft-365/roadmap",
+      "description": "Fonctionnalités Microsoft 365 en développement, déploiement ou disponibles."
+    },
+    {
+      "name": "Windows IT Pro Blog",
+      "category": "Veille & Actualité IT",
+      "url": "https://techcommunity.microsoft.com/category/windows/blog/windows-itpro-blog",
+      "description": "Actualités et évolutions Windows pour les professionnels IT."
+    },
+    {
+      "name": "Microsoft Intune Blog",
+      "category": "Veille & Actualité IT",
+      "url": "https://techcommunity.microsoft.com/category/microsoft-intune/blog/microsoftintuneblog",
+      "description": "Nouveautés, conseils et évolutions officielles Microsoft Intune."
+    },
+    {
+      "name": "GitHub Changelog",
+      "category": "Veille & Actualité IT",
+      "url": "https://github.blog/changelog/",
+      "description": "Nouveautés et changements des services GitHub."
+    },
+    {
+      "name": "Cloudflare Blog",
+      "category": "Veille & Actualité IT",
+      "url": "https://blog.cloudflare.com/",
+      "description": "Actualités réseau, sécurité, DNS et Internet."
+    },
+    {
+      "name": "Intune - Monitor & Troubleshoot",
+      "category": "Documentation & Diagnostic",
+      "url": "https://learn.microsoft.com/intune/monitor-troubleshoot",
+      "description": "Documentation officielle pour surveiller et dépanner les appareils Intune."
+    },
+    {
+      "name": "Windows Client Management",
+      "category": "Documentation & Diagnostic",
+      "url": "https://learn.microsoft.com/windows/client-management/",
+      "description": "Documentation Windows pour la gestion, l'enrôlement et le dépannage des postes."
+    },
+    {
+      "name": "Windows Package Manager - WinGet",
+      "category": "Documentation & Diagnostic",
+      "url": "https://learn.microsoft.com/windows/package-manager/winget/",
+      "description": "Documentation officielle WinGet pour installer, rechercher et mettre à jour des applications."
+    },
+    {
+      "name": "PowerShell Documentation",
+      "category": "Documentation & Diagnostic",
+      "url": "https://learn.microsoft.com/powershell/",
+      "description": "Documentation officielle PowerShell."
+    },
+    {
+      "name": "PowerShell Gallery",
+      "category": "Documentation & Diagnostic",
+      "url": "https://www.powershellgallery.com/",
+      "description": "Modules et scripts PowerShell publiés dans la galerie officielle."
+    },
+    {
+      "name": "Microsoft Graph Documentation",
+      "category": "Documentation & Diagnostic",
+      "url": "https://learn.microsoft.com/graph/",
+      "description": "Référence officielle Microsoft Graph, permissions et API."
+    },
+    {
+      "name": "CVE.org",
+      "category": "Documentation & Diagnostic",
+      "url": "https://www.cve.org/",
+      "description": "Référence internationale des identifiants CVE."
+    },
+    {
+      "name": "NVD - NIST",
+      "category": "Documentation & Diagnostic",
+      "url": "https://nvd.nist.gov/vuln/search",
+      "description": "Base publique de vulnérabilités du NIST avec scores et références."
+    },
+    {
+      "name": "CISA - Known Exploited Vulnerabilities",
+      "category": "Documentation & Diagnostic",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "description": "Catalogue officiel des vulnérabilités connues comme activement exploitées."
+    },
+    {
+      "name": "Cloudflare Radar",
+      "category": "Tests Web & Réseau",
+      "url": "https://radar.cloudflare.com/",
+      "description": "État et tendances d'Internet, trafic, routage et incidents."
+    },
+    {
+      "name": "Cloudflare - Test DNS 1.1.1.1",
+      "category": "Tests Web & Réseau",
+      "url": "https://1.1.1.1/help",
+      "description": "Vérifier le résolveur DNS, DNS over HTTPS/TLS et la connectivité Cloudflare."
+    },
+    {
+      "name": "Speedtest",
+      "category": "Tests Web & Réseau",
+      "url": "https://www.speedtest.net/",
+      "description": "Mesurer rapidement débit, latence et qualité de connexion."
+    },
+    {
+      "name": "Test IPv6",
+      "category": "Tests Web & Réseau",
+      "url": "https://test-ipv6.com/",
+      "description": "Tester la disponibilité et le fonctionnement IPv6 du poste ou du réseau."
+    },
+    {
+      "name": "DownDetector France",
+      "category": "Tests Web & Réseau",
+      "url": "https://downdetector.fr/",
+      "description": "Repérer rapidement des signalements d'incident sur des services grand public."
+    },
+    {
+      "name": "Have I Been Pwned",
+      "category": "Tests Web & Réseau",
+      "url": "https://haveibeenpwned.com/",
+      "description": "Vérifier si une adresse e-mail apparaît dans des fuites de données connues."
+    },
+    {
+      "name": "ChatGPT",
+      "category": "IA",
+      "url": "https://chatgpt.com/",
+      "description": "Assistant IA généraliste pour diagnostic, rédaction, scripts et explications techniques."
+    },
+    {
+      "name": "Microsoft Copilot",
+      "category": "IA",
+      "url": "https://copilot.microsoft.com/",
+      "description": "Assistant IA Microsoft pour recherche, rédaction et environnement Microsoft."
+    },
+    {
+      "name": "Mistral Le Chat",
+      "category": "IA",
+      "url": "https://chat.mistral.ai/",
+      "description": "Assistant IA de Mistral AI, acteur français."
+    },
+    {
+      "name": "Google Gemini",
+      "category": "IA",
+      "url": "https://gemini.google.com/",
+      "description": "Assistant IA Google pour recherche, synthèse et aide technique."
+    },
+    {
+      "name": "Claude",
+      "category": "IA",
+      "url": "https://claude.ai/",
+      "description": "Assistant IA Anthropic adapté à l'analyse de textes et de code."
+    },
+    {
+      "name": "GitHub Copilot Documentation",
+      "category": "IA",
+      "url": "https://docs.github.com/copilot",
+      "description": "Documentation officielle GitHub Copilot pour le développement assisté par IA."
     }
   ]
 };
