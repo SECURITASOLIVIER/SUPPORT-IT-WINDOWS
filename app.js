@@ -1,16 +1,24 @@
 
 const D=window.SSIT_DATA, $=s=>document.querySelector(s);
-const cats=["Accueil","Diagnostic & Escalade","Poste Windows","Sécurité Windows","Windows Update","Périphériques & Pilotes","Réseau & Accès distant","Microsoft 365","Applications","Navigateurs","Intune / Entra / SCCM","Communications","Outils Support","Portails","Journal & Statistiques"];
+const cats=["Accueil","Toutes les actions","Diagnostic & Escalade","Poste Windows","Sécurité Windows","Windows Update","Périphériques & Pilotes","Réseau & Accès distant","Microsoft 365","Applications","Navigateurs","Intune / Entra / SCCM","Outils Support","Commandes rapides","Communications","Portails","Journal & Statistiques"];
 let state=JSON.parse(localStorage.getItem("ssitState")||'{"cat":"Accueil","tabs":["Accueil"],"theme":"dark"}');
 let custom=JSON.parse(localStorage.getItem("ssitTemplates")||"[]");
 function save(){localStorage.setItem("ssitState",JSON.stringify(state));localStorage.setItem("ssitTemplates",JSON.stringify(custom))}
 function esc(s=""){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 function toast(t){let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1300)}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast("Copié")}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove();toast("Copié")}}
+async function shareText(title,text){
+ const payload={title:title||"IT Pocket",text:String(text||"")};
+ if(navigator.share){
+   try{await navigator.share(payload);return}catch(e){if(e&&e.name==="AbortError")return}
+ }
+ await copy(payload.text);
+ toast("Partage indisponible : contenu copié");
+}
 function openCat(c){state.cat=c;if(!state.tabs.includes(c))state.tabs.push(c);save();render()}
 function closeTab(c,e){e.stopPropagation();state.tabs=state.tabs.filter(x=>x!==c);if(state.cat===c)state.cat=state.tabs.at(-1)||"Accueil";save();render()}
 function nav(){ $("#nav").innerHTML=cats.map(c=>`<button class="navbtn ${state.cat===c?"active":""}" onclick='openCat(${JSON.stringify(c)})'>${icon(c)} ${esc(c)}</button>`).join("")}
-function icon(c){return {"Accueil":"⌂","Diagnostic & Escalade":"🩺","Poste Windows":"🖥","Sécurité Windows":"🛡","Windows Update":"↻","Périphériques & Pilotes":"⌨","Réseau & Accès distant":"🌐","Microsoft 365":"▦","Applications":"📦","Navigateurs":"🌍","Intune / Entra / SCCM":"☁","Communications":"✉","Outils Support":"⌘","Portails":"↗","Journal & Statistiques":"📊"}[c]||"•"}
+function icon(c){return {"Accueil":"⌂","Toutes les actions":"☷","Diagnostic & Escalade":"🩺","Poste Windows":"🖥","Sécurité Windows":"🛡","Windows Update":"↻","Périphériques & Pilotes":"⌨","Réseau & Accès distant":"🌐","Microsoft 365":"▦","Applications":"📦","Navigateurs":"🌍","Intune / Entra / SCCM":"☁","Communications":"✉","Outils Support":"🧰","Commandes rapides":"⌘","Portails":"↗","Journal & Statistiques":"📊"}[c]||"•"}
 function tabs(){ $("#tabs").innerHTML=state.tabs.map(c=>`<button class="tab ${state.cat===c?"active":""}" onclick='openCat(${JSON.stringify(c)})'>${icon(c)} ${esc(c)} <span onclick='closeTab(${JSON.stringify(c)},event)'>×</span></button>`).join("")}
 function actionCard(a){
  let cmd=a.command||a.method||"";
@@ -102,7 +110,7 @@ function deleteTemplate(ref){
  let i=parseInt(ref.slice(1),10);
  if(confirm("Supprimer ce template personnel ?")){custom.splice(i,1);save();render()}
 }
-function quickTemplateSearch(cat){$("#search").value=cat;render()}
+function quickTemplateSearch(cat){setTemplateFilter(cat)}
 function exportTemplates(){
  let blob=new Blob([JSON.stringify(custom,null,2)],{type:"application/json"});
  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="SuperSupportIT_Templates.json";a.click();URL.revokeObjectURL(a.href);
@@ -115,11 +123,29 @@ function importTemplates(inp){
 }
 function portals(){let ps=filterItems(D.portals,["name","url"]);return `<div class="grid">${ps.map(p=>`<article class="card"><h3>${esc(p.name)}</h3><pre class="code">${esc(p.url)}</pre><div class="actions"><button class="btn primary" onclick='window.open(${JSON.stringify(p.url)},"_blank","noopener")'>Ouvrir</button><button class="btn" onclick='copy(${JSON.stringify(p.url)})'>Copier URL</button></div></article>`).join("")}</div>`}
 function tools(){let cs=filterItems(D.commands,["name","description","command","category"]);return `<div class="toolbar"><span class="badge">${cs.length} commande(s)</span></div><div class="grid">${cs.map(commandCard).join("")}</div>`}
+function renderAllActions(){
+ let a=filterItems(D.actions,["name","description","method","command","script","category","webCategory"]);
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' / '+D.actions.length+' actions</span><span class="meta-inline">Référence NO LOSS • copier, partager et comprendre</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>';
+}
+function renderJournal(){
+ let a=filterItems(D.actions.filter(x=>x.webCategory==="Journal & Statistiques"),["name","description","method","command","script","category"]);
+ return (a.length?'<div class="section-title">Actions</div><div class="grid">'+a.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">Rapport local IT Pocket</div>'+renderReport();
+}
 function render(){
  document.body.classList.toggle("light",state.theme==="light");nav();tabs();
- $("#title").textContent=state.cat;$("#subtitle").textContent=state.cat==="Accueil"?"Version Web complète — recherche, commandes, procédures, communications et portails.":"Navigation persistante : changer de menu ne ferme pas les autres onglets.";
- $("#stats").textContent=`${D.actions.length} actions • ${D.commands.length} commandes • ${allTemplates().length} modèles`;
- let c=state.cat, h=c==="Accueil"?home():c==="Communications"?communications():c==="Outils Support"?tools():c==="Portails"?portals():c==="Journal & Statistiques"?renderReport():renderActions(c);$("#content").innerHTML=h
+ $("#title").textContent=state.cat;
+ $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket mobile — comprendre, copier, partager et communiquer.":"Aucune exécution depuis le mobile : les scripts et commandes sont préparés pour être copiés ou partagés.";
+ $("#stats").textContent=D.actions.length+" actions • "+D.commands.length+" commandes • "+allTemplates().length+" modèles";
+ let c=state.cat, h=
+   c==="Accueil"?home():
+   c==="Toutes les actions"?renderAllActions():
+   c==="Communications"?communications():
+   c==="Commandes rapides"?tools():
+   c==="Portails"?portals():
+   c==="Journal & Statistiques"?renderJournal():
+   renderActions(c);
+ $("#content").innerHTML=h
 }
 $("#search").addEventListener("input",render);
 $("#theme").onclick=()=>{state.theme=state.theme==="light"?"dark":"light";save();render()};
@@ -131,6 +157,7 @@ let customLinks=JSON.parse(localStorage.getItem("itpCustomLinks")||"[]");
 let hiddenLinks=JSON.parse(localStorage.getItem("itpHiddenLinks")||"[]");
 let favoriteLinks=JSON.parse(localStorage.getItem("itpFavoriteLinks")||"[]");
 let portalFilter="Tous";
+let templateFilter="Tous";
 function savePocket(){save();localStorage.setItem("itpHiddenTemplates",JSON.stringify(hiddenTemplates));localStorage.setItem("itpCustomLinks",JSON.stringify(customLinks));localStorage.setItem("itpHiddenLinks",JSON.stringify(hiddenLinks));localStorage.setItem("itpFavoriteLinks",JSON.stringify(favoriteLinks))}
 function launchTutorial(item){
  const shell=String(item.shell||item.language||"PowerShell");
@@ -180,30 +207,54 @@ function detailHtml(item,id){
 function actionCard(a){
  let s=a.script||a.command||"", copyText=s||a.method||a.description||"";
  const id="detail_"+Math.random().toString(36).slice(2);
+ const shareBody=(a.name||"")+(a.description?"\n\n"+a.description:"")+(s?"\n\n"+s:"");
  return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
  '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
  '<p class="desc">'+esc(a.description||a.method||'')+'</p>'+
  '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
  (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(a,id)+'</article>';
 }
 function commandCard(c){
  const id="detail_"+Math.random().toString(36).slice(2);
+ const shareBody=(c.name||"")+(c.description?"\n\n"+c.description:"")+"\n\n"+(c.command||"");
  return '<article class="card compact-card"><h3>'+esc(c.name)+'</h3>'+
  '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
 function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;window.location.href="mailto:?subject="+encodeURIComponent(t.subject||"")+"&body="+encodeURIComponent(t.content||"")}
-function templateCard(t){let r=JSON.stringify(t._id);return '<article class="card"><h3>'+esc(t.name)+'</h3><div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+(t.subject?'<div class="badge">Objet : '+esc(t.subject)+'</div>':'')+'<pre class="code">'+esc(t.content)+'</pre><div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify((t.subject?"Objet : "+t.subject+"\n\n":"")+t.content)+')\'>Copier</button><button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button><button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteTemplate('+r+')\'>Supprimer</button></div></article>'}
-function communications(){let ts=filterItems(allTemplates(),["name","category","subject","content"]),cs=[...new Set(allTemplates().map(x=>x.category))].sort();return '<div class="toolbar"><button class="btn primary" onclick="newTemplate()">+ Créer un template</button><button class="btn" onclick="exportTemplates()">Exporter</button><label class="btn">Importer <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label><span class="badge">'+ts.length+' modèle(s)</span></div><div class="toolbar">'+cs.map(c=>'<button class="btn" onclick=\'quickTemplateSearch('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">Aucun template trouvé.</div>')+'</div>'}
+function templateCard(t){
+ let r=JSON.stringify(t._id);
+ const full=(t.subject?"Objet : "+t.subject+"\n\n":"")+t.content;
+ return '<article class="card"><h3>'+esc(t.name)+'</h3><div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+
+ (t.subject?'<div class="badge">Objet : '+esc(t.subject)+'</div>':'')+
+ '<pre class="code">'+esc(t.content)+'</pre><div class="actions">'+
+ '<button class="btn primary" onclick=\'copy('+JSON.stringify(full)+')\'>Copier</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(t.name||"Communication IT")+','+JSON.stringify(full)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
+ '<button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteTemplate('+r+')\'>Supprimer</button></div></article>';
+}
+function setTemplateFilter(v){templateFilter=v;render()}
+function communications(){
+ let all=allTemplates(), ts=filterItems(all,["name","category","subject","content"]);
+ if(templateFilter!=="Tous")ts=ts.filter(t=>t.category===templateFilter);
+ let cs=[...new Set(all.map(x=>x.category))].sort();
+ let actionCards=filterItems(D.actions.filter(x=>x.webCategory==="Communications"),["name","description","method","command","script","category"]);
+ return '<div class="toolbar"><button class="btn primary" onclick="newTemplate()">+ Créer un template</button><button class="btn" onclick="exportTemplates()">Exporter</button><label class="btn">Importer <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label><span class="badge">'+ts.length+' modèle(s)</span></div>'+
+ '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>Tous</button>'+cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
+ (actionCards.length?'<div class="section-title">Actions Communication</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">Modèles corporate</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">Aucun template trouvé.</div>')+'</div>';
+}
 function newTemplate(ref=null){let t=ref?{...getTemplateByRef(ref)}:{category:"Tickets",name:"",subject:"",content:""};$("#content").innerHTML='<div class="card"><h3>'+(ref?'Modifier le template':'Créer un template')+'</h3><div class="editor"><div><div class="meta">Catégorie</div><input id="ecat" value="'+esc(t.category||"")+'"></div><div><div class="meta">Nom</div><input id="ename" value="'+esc(t.name||"")+'"></div><div class="full"><div class="meta">Objet</div><input id="esub" value="'+esc(t.subject||"")+'"></div><div class="full"><div class="meta">Texte</div><textarea id="ebody">'+esc(t.content||"")+'</textarea></div><div class="full actions"><button class="btn primary" onclick=\'saveTemplateRef('+JSON.stringify(ref||"")+')\'>Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div></div>'}
 function editTemplate(ref){newTemplate(ref)}
 function saveTemplateRef(ref){let t={category:$("#ecat").value.trim()||"Divers",name:$("#ename").value.trim()||"Sans nom",subject:$("#esub").value.trim(),content:$("#ebody").value,custom:true};if(ref&&ref[0]==="c")custom[parseInt(ref.slice(1),10)]=t;else{if(ref&&ref[0]==="b"&&!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);custom.push(t)}savePocket();toast("Template enregistré");render()}
@@ -219,7 +270,7 @@ function newLink(ref=null){let p=ref?{...getLinkByRef(ref)}:{name:"",category:"F
 function editLink(r){newLink(r)}
 function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert("Nom obligatoire et URL http/https valide.");return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
-function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier pour exécuter localement • Voir plus pour afficher le détail</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
-function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span><span class="meta-inline">Commande masquée par défaut</span></div><div class="grid">'+c.map(commandCard).join("")+'</div>'}
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
+function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' / '+D.commands.length+' commande(s)</span><span class="meta-inline">Copier • Partager • Voir plus</span></div><div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>'}
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,shareText,setTemplateFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
