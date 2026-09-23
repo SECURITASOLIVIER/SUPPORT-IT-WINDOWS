@@ -38,3 +38,56 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
 
 .tutorial-steps{margin:0 0 14px;padding-left:22px;color:var(--text);font-size:13px;line-height:1.55}
 .tutorial-steps li{margin:5px 0;padding-left:2px}
+
+/* FIX layout Voir plus : aucun chevauchement entre cartes */
+.compact-card{min-width:0;overflow:hidden}
+.compact-actions{
+  display:grid;
+  grid-template-columns:max-content max-content;
+  gap:8px;
+  align-items:start;
+  width:100%;
+}
+.compact-actions>.btn{grid-column:1}
+.more{
+  display:block;
+  grid-column:2;
+  min-width:0;
+  max-width:100%;
+  position:static;
+}
+.more[open]{
+  grid-column:1 / -1;
+  width:100%;
+  max-width:100%;
+}
+.more>summary{
+  width:max-content;
+  max-width:100%;
+}
+.morebox{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  margin-top:9px;
+  overflow:hidden;
+}
+.morebox .code,
+.scriptfull{
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow:auto;
+}
+.tutorial-steps{
+  width:100%;
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+@media(max-width:800px){
+  .compact-actions{grid-template-columns:max-content max-content}
+  .morebox{width:100%;min-width:0;max-width:100%}
+}
