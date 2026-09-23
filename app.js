@@ -94,16 +94,15 @@ async function shareText(title,text){
  const full=String(text||"");
  let nativeError=null;
 
- // Priorité au partage natif iPhone / Android / Safari / Chrome.
+ // Fonctionne par capacité navigateur, pas par OS :
+ // Windows/PC, macOS, Android, iPhone/iPad si Web Share est disponible.
  if(typeof navigator!=="undefined" && typeof navigator.share==="function"){
    try{
-     // Pour un contenu normal, le texte direct est le plus fiable.
      if(full.length<=12000){
        await navigator.share({title:subject,text:full});
        return;
      }
 
-     // Pour un contenu très long, préférer un fichier texte si le navigateur le permet.
      const f=makeTextShareFile(subject,full);
      if(f && typeof navigator.canShare==="function"){
        const payload={title:subject,text:"Contenu complet IT Pocket en pièce jointe.",files:[f]};
@@ -113,7 +112,6 @@ async function shareText(title,text){
        }
      }
 
-     // Dernier essai natif avec le texte complet.
      await navigator.share({title:subject,text:full});
      return;
    }catch(e){
@@ -122,14 +120,14 @@ async function shareText(title,text){
    }
  }
 
- // Fallback garanti : copie complète + retour visible.
+ // Fallback universel desktop/mobile : copie complète.
  try{
    await copy(full);
-   toast("Partage indisponible : contenu copié");
+   toast("Partage natif indisponible : contenu copié");
    if(nativeError) console.warn("IT Pocket share fallback",nativeError);
  }catch(e){
    console.error("IT Pocket share failed",e);
-   alert("Le partage natif n’est pas disponible sur ce navigateur. Le contenu n’a pas pu être partagé.");
+   alert("Partage indisponible sur ce navigateur. Le contenu n’a pas pu être copié.");
  }
 }
 async function openOutlookText(title,text){
