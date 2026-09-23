@@ -195,3 +195,19 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
 .execution-label.standalone{color:#bfe0ff}
 .execution-label.reference{color:#ffd999}
 @media(max-width:800px){.role-split{grid-template-columns:1fr}}
+
+
+/* Simple thematic filters */
+.type-filter{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:0 0 10px;
+  margin-bottom:4px;
+  -webkit-overflow-scrolling:touch;
+}
+.type-filter .btn{flex:0 0 auto;white-space:nowrap}
+.type-diagnostic{background:#153b5c;color:#bfe0ff}
+.type-information{background:var(--panel2);color:var(--muted)}
+.type-action{background:#4b2f12;color:#ffd999}
+.compact-card>.badge{align-self:flex-start;margin-bottom:8px}
