@@ -153,7 +153,7 @@ function renderJournal(){
 function render(){
  document.body.classList.toggle("light",state.theme==="light");nav();tabs();
  $("#title").textContent=state.cat;
- $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket mobile — le téléphone consulte et partage, le PC Windows exécute.":"Rôles séparés : IT Pocket sur mobile ≠ poste Windows cible. Aucun besoin d’avoir Super Support installé.";
+ $("#subtitle").textContent=state.cat==="Accueil"?"IT Pocket mobile — le téléphone consulte et partage, le PC Windows exécute.":"Rôles séparés : IT Pocket sur mobile ≠ poste Windows cible. IT Pocket fonctionne comme une solution indépendante.";
  $("#stats").textContent=D.actions.length+" actions • "+D.commands.length+" commandes • "+allTemplates().length+" modèles";
  let c=state.cat, h=
    c==="Accueil"?home():
@@ -183,7 +183,7 @@ function executionProfile(item){
  if(!s)return {kind:"info",label:"Information / procédure",standalone:false};
  if(item.command && !item.script)return {kind:"standalone",label:"Autonome sur PC Windows",standalone:true};
  const internal=/\b(?:Show-Text|Show-Grid|Show-AppSupportCenter|Show-RepairableApps|Show-OfficeAddinManager|Show-OneDriveDiagnostic|Export-OneDriveDiagnostic|Start-SupportTarget|Open-Uri|Confirm-Action|Add-Report|Enable-Escape|Get-PriorityApps|Get-InstalledApps|Get-OneDriveDiagnostic|Invoke-Lms|Start-Lms|Show-Ssit|Get-Ssit|Invoke-Ssit|Write-Ssit|Apply-Ssit|Register-Ssit)\b/i.test(s);
- if(internal)return {kind:"reference",label:"Référence technique • dépend de Super Support",standalone:false};
+ if(internal)return {kind:"reference",label:"Module interne • non autonome",standalone:false};
  return {kind:"standalone",label:"Script autonome à exécuter sur le PC",standalone:true};
 }
 function roleBlock(item){
@@ -191,7 +191,7 @@ function roleBlock(item){
  return '<div class="role-split">'+
  '<div class="role-box"><div class="role-title">📱 Rôle IT Pocket</div><div class="role-text">Sur mobile : comprendre l’action, copier, partager ou envoyer par Outlook. Rien n’est exécuté sur le téléphone.</div></div>'+
  '<div class="role-box '+(p.standalone?'role-pc':'role-ref')+'"><div class="role-title">🖥 Rôle PC Windows</div><div class="role-text">'+
- (p.standalone?'Sur le poste cible : ouvrir PowerShell / CMD selon l’indication puis exécuter le contenu copié.':'Cette fiche sert de référence. Le bloc original dépend de fonctions de Super Support et ne doit pas être présenté comme un script autonome.')+
+ (p.standalone?'Sur le poste cible : ouvrir PowerShell / CMD selon l’indication puis exécuter le contenu copié.':'Cette fiche décrit un module interne. Ses options doivent être utilisées via les fiches indépendantes proposées dans IT Pocket.')+
  '</div></div></div>'+
  '<div class="execution-label '+p.kind+'">'+esc(p.label)+'</div>';
 }
@@ -208,7 +208,7 @@ function launchTutorial(item){
  let steps=[];
  steps.push("Depuis IT Pocket sur le mobile, copie ou partage le contenu vers le technicien / le PC cible.");
  if(!p.standalone){
-   steps.push("Ne colle pas ce bloc tel quel dans PowerShell : il dépend de fonctions internes de Super Support.");
+   steps.push("Ne colle pas ce bloc tel quel dans PowerShell : cette fiche représente un module interne non autonome.");
    steps.push("Utilise la méthode et la description pour comprendre l’action, ou cherche une commande autonome équivalente dans Commandes rapides.");
    return '<ol class="tutorial-steps">'+steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>';
  }
@@ -244,20 +244,23 @@ function detailHtml(item,id){
    roleBlock(item)+
    (item.method?'<div class="more-label">Méthode / principe</div><div class="more-text">'+esc(item.method)+'</div>':'')+
    '<div class="more-label">Utilisation • étape par étape</div>'+launchTutorial(item)+
-   (s?'<div class="more-label">'+(p.standalone?'Commande / script autonome':'Source technique de référence')+' • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(s)+')\'>'+(p.standalone?'Copier pour le PC':'Copier la source')+'</button></div>':'')+
+   (p.standalone&&s?'<div class="more-label">Commande / script autonome • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(s)+')\'>Copier pour le PC</button></div>':'')+
+   (!p.standalone?'<div class="module-note">Les options de ce module sont destinées à être présentées séparément dans IT Pocket : scripts autonomes, liens et procédures.</div>':'')+
    '</div>';
 }
 function actionCard(a){
  let s=a.script||a.command||"", p=executionProfile(a);
  const id="detail_"+Math.random().toString(36).slice(2);
- const shareBody=(a.name||"")+(a.description?"\n\n"+a.description:"")+(s?"\n\n"+(p.standalone?"SCRIPT / COMMANDE AUTONOME":"SOURCE TECHNIQUE DE RÉFÉRENCE")+"\n"+s:"");
- const copyText=s||a.method||a.description||"";
+ const usefulText=p.standalone?s:(a.method||a.description||"");
+ const shareBody=(a.name||"")+(a.description?"\n\n"+a.description:"")+
+   (p.standalone&&s?"\n\nSCRIPT / COMMANDE AUTONOME\n"+s:"")+
+   (!p.standalone&&a.method?"\n\nMéthode / principe : "+a.method:"");
  return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
  '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
  '<p class="desc">'+esc(a.description||a.method||'')+'</p>'+
  '<div class="card-badges"><span class="badge '+(p.standalone?'':'warn')+'">'+esc(p.label)+'</span>'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
- (copyText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(copyText)+')\'>'+(p.standalone?'Copier':'Copier source')+'</button>':'')+
+ (usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+JSON.stringify(usefulText)+')\'>'+(p.standalone?'Copier':'Copier la fiche')+'</button>':'')+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify(a.name||"IT Pocket")+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
