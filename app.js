@@ -132,6 +132,36 @@ let hiddenLinks=JSON.parse(localStorage.getItem("itpHiddenLinks")||"[]");
 let favoriteLinks=JSON.parse(localStorage.getItem("itpFavoriteLinks")||"[]");
 let portalFilter="Tous";
 function savePocket(){save();localStorage.setItem("itpHiddenTemplates",JSON.stringify(hiddenTemplates));localStorage.setItem("itpCustomLinks",JSON.stringify(customLinks));localStorage.setItem("itpHiddenLinks",JSON.stringify(hiddenLinks));localStorage.setItem("itpFavoriteLinks",JSON.stringify(favoriteLinks))}
+function launchTutorial(item){
+ const shell=String(item.shell||item.language||"PowerShell");
+ const rights=String(item.rights||"");
+ const risk=String(item.risk||"");
+ const cmd=String(item.script||item.command||"");
+ const admin=/admin/i.test(rights);
+ const isUrl=/^https?:\/\//i.test(cmd.trim());
+ const isUri=/ms-settings:|ms-quick-assist:|edge:\/\/|chrome:\/\//i.test(cmd);
+ const isCmd=/CMD/i.test(shell)&&!/PowerShell/i.test(shell);
+ let steps=[];
+ steps.push("Clique sur Copier dans IT Pocket.");
+ if(isUrl){
+   steps.push("Ouvre ton navigateur puis colle l’adresse dans la barre d’adresse.");
+   steps.push("Appuie sur Entrée et connecte-toi avec le compte professionnel si demandé.");
+ }else if(isUri){
+   steps.push("Appuie sur Windows + R pour ouvrir Exécuter.");
+   steps.push("Colle la commande ou l’URI puis appuie sur Entrée.");
+ }else if(isCmd){
+   steps.push("Ouvre le menu Démarrer, tape cmd puis ouvre Invite de commandes"+(admin?" en tant qu’administrateur":"")+".");
+   steps.push("Colle la commande avec Ctrl + V puis appuie sur Entrée.");
+ }else{
+   steps.push("Ouvre le menu Démarrer, tape PowerShell ou Terminal Windows puis ouvre-le"+(admin?" en tant qu’administrateur":"")+".");
+   steps.push("Vérifie que l’invite commence bien par PS, colle le script avec Ctrl + V puis appuie sur Entrée.");
+ }
+ steps.push("Lis le résultat affiché : succès, état détecté ou message d’erreur.");
+ if(/redémarr|reboot/i.test(risk))steps.push("Si la commande l’indique, redémarre le poste pour appliquer complètement la modification.");
+ if(/moyen|élevé|modifie|supprim|interrompt|resynchron/i.test(risk))steps.push("Avant une action corrective, vérifie l’impact indiqué dans Risque et préviens l’utilisateur si nécessaire.");
+ steps.push("Si tu dois escalader, copie le résultat utile dans le ticket avec le nom de l’action exécutée.");
+ return '<ol class="tutorial-steps">'+steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>';
+}
 function actionCard(a){
  let s=a.script||a.command||"", sh=a.shell||a.language||"PowerShell", copyText=s||a.method||a.description||"";
  return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
@@ -142,6 +172,7 @@ function actionCard(a){
  (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
  '<details class="more"><summary class="btn">Voir plus</summary><div class="morebox">'+
  (a.method?'<div class="more-label">Méthode</div><div class="more-text">'+esc(a.method)+'</div>':'')+
+ '<div class="more-label">Comment lancer • étape par étape</div>'+launchTutorial(a)+
  (s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre>':'')+
  '</div></details></div></article>';
 }
@@ -151,7 +182,7 @@ function commandCard(c){
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
- '<details class="more"><summary class="btn">Voir plus</summary><div class="morebox"><div class="more-label">Commande</div><pre class="code scriptfull">'+esc(c.command)+'</pre></div></details></div></article>';
+ '<details class="more"><summary class="btn">Voir plus</summary><div class="morebox"><div class="more-label">Comment lancer • étape par étape</div>'+launchTutorial(c)+'<div class="more-label">Commande</div><pre class="code scriptfull">'+esc(c.command)+'</pre></div></details></div></article>';
 }
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
@@ -175,5 +206,5 @@ function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier pour exécuter localement • Voir plus pour afficher le détail</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
 function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span><span class="meta-inline">Commande masquée par défaut</span></div><div class="grid">'+c.map(commandCard).join("")+'</div>'}
-Object.assign(window,{actionCard,commandCard,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,launchTutorial,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
