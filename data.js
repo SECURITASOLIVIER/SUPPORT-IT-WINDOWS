@@ -6375,6 +6375,61 @@ window.SSIT_DATA = {
       "category": "IA",
       "url": "https://docs.github.com/copilot",
       "description": "Documentation officielle GitHub Copilot pour le développement assisté par IA."
+    },
+    {
+      "name": "CNIL - Guide sécurité des données",
+      "category": "Cybersécurité France",
+      "url": "https://www.cnil.fr/fr/guide-de-la-securite-des-donnees-personnelles"
+    },
+    {
+      "name": "CNIL - Recommandations MFA",
+      "category": "Cybersécurité France",
+      "url": "https://www.cnil.fr/fr/recommandation-mfa"
+    },
+    {
+      "name": "DINUM - Intelligence artificielle",
+      "category": "IA & Numérique France",
+      "url": "https://www.numerique.gouv.fr/intelligence-artificielle/"
+    },
+    {
+      "name": "NVD - National Vulnerability Database",
+      "category": "Veille IT & Cyber",
+      "url": "https://nvd.nist.gov/"
+    },
+    {
+      "name": "OpenAI Status",
+      "category": "IA",
+      "url": "https://status.openai.com/"
+    },
+    {
+      "name": "GitHub Docs",
+      "category": "Documentation & Communauté",
+      "url": "https://docs.github.com/"
+    },
+    {
+      "name": "Stack Overflow",
+      "category": "Documentation & Communauté",
+      "url": "https://stackoverflow.com/"
+    },
+    {
+      "name": "Mozilla Support",
+      "category": "Documentation & Communauté",
+      "url": "https://support.mozilla.org/"
+    },
+    {
+      "name": "Google Workspace Admin Help",
+      "category": "Documentation & Communauté",
+      "url": "https://support.google.com/a/"
+    },
+    {
+      "name": "Apple Support France",
+      "category": "Constructeurs",
+      "url": "https://support.apple.com/fr-fr"
+    },
+    {
+      "name": "Cisco Security Advisories",
+      "category": "Veille IT & Cyber",
+      "url": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x"
     }
   ]
 };
