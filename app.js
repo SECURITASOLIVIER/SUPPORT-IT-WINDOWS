@@ -6,7 +6,7 @@ const pocketCenterOptions=[{"category":"Office / M365 • Outlook","webCategory"
 function isPocketCenterWrapper(a){
  const n=String(a.name||""), s=String(a.script||"");
  if(a.pocketExpanded)return false;
- if(/^(Centre applications support|Centre SCCM \/ Intune|Centre de gestion périphériques|Centre tests réseau personnalisés|Azure Tools Hub|Centre Intune Azure MS|Centre Applications|Centre commandes Office \/ M365|Centre Citrix \/ FortiClient \/ Ivanti|Centre Communications)$/i.test(n))return true;
+ if(/^Centre(?:\s|\b|\s+d)/i.test(n) || /^Azure Tools Hub$/i.test(n))return true;
  if(/Centre/i.test(n) && /^Show-[\w-]+(?:Center|Centre|Hub)\s*$/i.test(s.trim()))return true;
  if(/Centre/i.test(n) && /^Ouvre le Centre?/i.test(s.trim()))return true;
  return false;
