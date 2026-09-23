@@ -312,14 +312,17 @@ function toggleInlineDetail(id){
 }
 function detailHtml(item,id){
  const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell", p=executionProfile(item), m=cleanMethod(item);
- const shareBody=buildSupportShare(item);
+ const objective=String(item.description||m||item.name||"Action de support");
  return '<div id="'+id+'" class="inline-detail">'+
-   (m?'<div class="more-label">Principe</div><div class="more-text">'+esc(m)+'</div>':'')+
-   '<div class="more-label">Procédure</div>'+launchTutorial(item)+
-   (p.standalone&&s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre>':'')+
-   '<div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(p.standalone&&s?s:shareBody)+')\'>Copier</button>'+
-   '<button class="btn" onclick=\'shareText('+JSON.stringify(item.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
-   '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(item.name||"Fiche"))+','+JSON.stringify(shareBody)+')\'>Outlook</button></div>'+
+   '<div class="detail-section objective-section"><div class="more-label">Objectif</div><div class="more-text">'+esc(objective)+'</div></div>'+
+   (m&&m!==objective?'<div class="detail-section"><div class="more-label">À comprendre</div><div class="more-text">'+esc(m)+'</div></div>':'')+
+   ((item.rights||item.risk)?'<div class="detail-section"><div class="more-label">Prérequis / impact</div><div class="detail-meta">'+
+      (item.rights?'<span class="badge">'+esc(item.rights)+'</span>':'')+
+      (item.risk?'<span class="badge warn">'+esc(item.risk)+'</span>':'')+
+    '</div></div>':'')+
+   '<div class="detail-section"><div class="more-label">Procédure</div>'+launchTutorial(item)+'</div>'+
+   (p.standalone&&s?'<div class="detail-section"><div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
+   '<div class="detail-section"><div class="more-label">Contrôle</div><div class="more-text">Vérifier que l’objectif est atteint. En cas d’échec, relever le résultat et le message d’erreur exact.</div></div>'+
    '</div>';
 }
 function actionCard(a){
@@ -346,7 +349,7 @@ function commandCard(c){
  '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
- '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier commande</button>'+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(c.name||"Fiche support")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(c.name||"Commande"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
