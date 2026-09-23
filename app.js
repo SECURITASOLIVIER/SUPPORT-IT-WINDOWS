@@ -574,22 +574,16 @@ function formalizeTemplateText(text){
 }
 function templateEmoji(t){
  const s=[t&&t.category,t&&t.name,t&&t.subject,t&&t.content].filter(Boolean).join(" ").toLowerCase();
- if(/mfa|authenticator|authentification|mot de passe|sécurit|security|bitlocker|defender/.test(s))return "🔐";
  if(/matériel|materiel|expédition|expedition|livraison|remise|restitution|casque|chargeur|poste|pc\b/.test(s))return "📦";
- if(/onboarding|arrivée|arrivee|nouvel utilisateur|nouveau collaborateur/.test(s))return "👋";
- if(/offboarding|départ|depart|sortie collaborateur/.test(s))return "↩️";
  if(/réseau|reseau|vpn|wifi|connexion|dns|dhcp/.test(s))return "🌐";
- if(/teams|mtr|salle de réunion|salle de reunion|meeting room|visio/.test(s))return "🎥";
  if(/outlook|mail|email|e-mail|microsoft 365|office/.test(s))return "📧";
- if(/ticket|incident|demande|support|helpdesk/.test(s))return "🎫";
  if(/mise à jour|mise a jour|update|correctif|patch/.test(s))return "🔄";
  if(/application|logiciel|software|installation|désinstallation|desinstallation/.test(s))return "💻";
- return "💬";
+ return "";
 }
 function templateHeadingEmoji(line){
  const s=String(line||"").trim().toLowerCase();
  if(/^(important|attention|alerte|à retenir|a retenir|urgent|urgence)\b/.test(s))return "⚠️ ";
- if(/^(sécurité|securite|mfa|authentification|mot de passe)\b/.test(s))return "🔐 ";
  if(/^(information|info|contexte|à noter|a noter)\b/.test(s))return "ℹ️ ";
  if(/^(validation|résultat|resultat|confirmation|résolu|resolu)\b/.test(s))return "✅ ";
  return "";
@@ -611,20 +605,9 @@ function templateSafeLinkify(text){
 function templateLineEmoji(line){
  const s=String(line||"").trim();
  if(!s)return "";
- // Do not add another emoji when the template already contains one.
  if(/[\u2600-\u27BF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/.test(s))return "";
  const l=s.toLowerCase();
  if(/attention|important|alerte|urgent|urgence|vigilance/.test(l))return "⚠️ ";
- if(/mfa|authenticator|authentification|sécurit|securit|bitlocker|defender/.test(l))return "🔐 ";
- if(/mot de passe|password/.test(l))return "🔑 ";
- if(/outlook|mail|e-mail|email|boîte partagée|boite partagee/.test(l))return "📧 ";
- if(/teams|réunion|reunion|mtr|visio/.test(l))return "💬 ";
- if(/réseau|reseau|vpn|wifi|connexion|dns|dhcp/.test(l))return "🌐 ";
- if(/matériel|materiel|ordinateur|poste|pc\b|casque|chargeur|livraison|expédition|expedition|restitution/.test(l))return "📦 ";
- if(/ticket|incident|demande de support/.test(l))return "🎫 ";
- if(/téléphone|telephone|hotline|appel/.test(l))return "📞 ";
- if(/mise à jour|mise a jour|update|redémarr|redemarr/.test(l))return "🔄 ";
- if(/install|application|logiciel|software/.test(l))return "💻 ";
  if(/résolu|resolu|validation|confirm|fonctionne correctement|clôtur|clotur/.test(l))return "✅ ";
  if(/information|pour information|à noter|a noter/.test(l))return "ℹ️ ";
  return "";
