@@ -267,7 +267,6 @@ function render(){
 }
 $("#search").addEventListener("input",render);
 $("#theme").onclick=()=>{state.theme=state.theme==="light"?"dark":"light";save();render()};
-$("#export").onclick=()=>{let blob=new Blob([JSON.stringify({state,custom,report},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="SuperSupportIT_Web_Data.json";a.click();URL.revokeObjectURL(a.href)};
 window.openCat=openCat;window.closeTab=closeTab;window.copy=copy;window.newTemplate=newTemplate;window.editTemplate=editTemplate;window.duplicateTemplate=duplicateTemplate;window.saveTemplate=saveTemplate;window.deleteTemplate=deleteTemplate;window.quickTemplateSearch=quickTemplateSearch;window.exportTemplates=exportTemplates;window.importTemplates=importTemplates;window.render=render;
 
 let hiddenTemplates=JSON.parse(localStorage.getItem("itpHiddenTemplates")||"[]");
