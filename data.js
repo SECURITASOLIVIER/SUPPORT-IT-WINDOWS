@@ -1,5 +1,5 @@
 window.SSIT_DATA = {
-  "version": "IT POCKET WEB 1.2",
+  "version": "IT POCKET WEB 1.3",
   "actions": [
     {
       "category": "Accueil",
@@ -3067,6 +3067,376 @@ window.SSIT_DATA = {
   ],
   "commands": [
     {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - diagnostic complet",
+      "description": "Version, processus, compléments COM, sécurité macros et taille du cache Office.",
+      "command": "$ErrorActionPreference=\"SilentlyContinue\"\n$roots=@(\"$env:ProgramFiles\\Microsoft Office\\root\\Office16\",\"${env:ProgramFiles(x86)}\\Microsoft Office\\root\\Office16\")\n$exePath=$roots|ForEach-Object{Join-Path $_ \"WINWORD.EXE\"}|Where-Object{Test-Path $_}|Select-Object -First 1\n$p=Get-Process WINWORD -ErrorAction SilentlyContinue|Select-Object -First 1\n$ver=if($exePath){(Get-Item $exePath).VersionInfo.ProductVersion}else{\"Non détecté\"}\n$addins=@()\n$addinPath=\"HKCU:\\Software\\Microsoft\\Office\\Word\\Addins\"\nif(Test-Path $addinPath){$addins=Get-ChildItem $addinPath|ForEach-Object{Get-ItemProperty $_.PSPath|Select-Object @{N=\"Addin\";E={$_.PSChildName}},FriendlyName,LoadBehavior}}\n$sec=Get-ItemProperty \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Word\\Security\" -ErrorAction SilentlyContinue\n$cache=\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\"\n$cacheMB=0\nif(Test-Path $cache){$sum=(Get-ChildItem $cache -Recurse -File|Measure-Object Length -Sum).Sum;if($sum){$cacheMB=[math]::Round($sum/1MB,2)}}\n[pscustomobject]@{Application=\"Word\";Executable=$exePath;Version=$ver;ProcessusActif=[bool]$p;PID=if($p){$p.Id}else{\"\"};RAM_MB=if($p){[math]::Round($p.WorkingSet64/1MB,1)}else{\"\"};CacheOffice_MB=$cacheMB;VBAWarnings=$sec.VBAWarnings}\n$addins|Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - mode sans échec",
+      "description": "Démarre Word sans compléments pour isoler un problème.",
+      "command": "Start-Process winword.exe -ArgumentList \"/safe\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - mode /a",
+      "description": "Démarre Word sans Normal.dotm ni compléments.",
+      "command": "Start-Process winword.exe -ArgumentList \"/a\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - forcer fermeture",
+      "description": "Termine Word lorsqu’il est bloqué.",
+      "command": "Stop-Process -Name WINWORD -Force -ErrorAction SilentlyContinue",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : documents non enregistrés"
+    },
+    {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - redémarrer",
+      "description": "Ferme Word puis le relance.",
+      "command": "Stop-Process -Name WINWORD -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; Start-Process winword.exe",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : documents non enregistrés"
+    },
+    {
+      "category": "Microsoft 365 • Word",
+      "webCategory": "Microsoft 365",
+      "name": "Word - nettoyer cache",
+      "description": "Ferme Word puis vide les caches locaux Office ciblés sans supprimer les documents.",
+      "command": "Stop-Process -Name WINWORD -Force -ErrorAction SilentlyContinue\n$paths=@(\"$env:LOCALAPPDATA\\\\Microsoft\\\\Office\\\\16.0\\\\OfficeFileCache\",\"$env:LOCALAPPDATA\\\\Microsoft\\\\Windows\\\\INetCache\\\\Content.Word\")\nforeach($p in $paths){if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}\n\"Word : cache local nettoyé\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme Word"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - diagnostic complet",
+      "description": "Version, processus, compléments COM, sécurité macros et taille du cache Office.",
+      "command": "$ErrorActionPreference=\"SilentlyContinue\"\n$roots=@(\"$env:ProgramFiles\\Microsoft Office\\root\\Office16\",\"${env:ProgramFiles(x86)}\\Microsoft Office\\root\\Office16\")\n$exePath=$roots|ForEach-Object{Join-Path $_ \"EXCEL.EXE\"}|Where-Object{Test-Path $_}|Select-Object -First 1\n$p=Get-Process EXCEL -ErrorAction SilentlyContinue|Select-Object -First 1\n$ver=if($exePath){(Get-Item $exePath).VersionInfo.ProductVersion}else{\"Non détecté\"}\n$addins=@()\n$addinPath=\"HKCU:\\Software\\Microsoft\\Office\\Excel\\Addins\"\nif(Test-Path $addinPath){$addins=Get-ChildItem $addinPath|ForEach-Object{Get-ItemProperty $_.PSPath|Select-Object @{N=\"Addin\";E={$_.PSChildName}},FriendlyName,LoadBehavior}}\n$sec=Get-ItemProperty \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Excel\\Security\" -ErrorAction SilentlyContinue\n$cache=\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\"\n$cacheMB=0\nif(Test-Path $cache){$sum=(Get-ChildItem $cache -Recurse -File|Measure-Object Length -Sum).Sum;if($sum){$cacheMB=[math]::Round($sum/1MB,2)}}\n[pscustomobject]@{Application=\"Excel\";Executable=$exePath;Version=$ver;ProcessusActif=[bool]$p;PID=if($p){$p.Id}else{\"\"};RAM_MB=if($p){[math]::Round($p.WorkingSet64/1MB,1)}else{\"\"};CacheOffice_MB=$cacheMB;VBAWarnings=$sec.VBAWarnings}\n$addins|Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - mode sans échec",
+      "description": "Démarre Excel sans compléments.",
+      "command": "Start-Process excel.exe -ArgumentList \"/safe\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - nouvelle instance",
+      "description": "Démarre Excel dans une nouvelle instance pour isoler certains blocages.",
+      "command": "Start-Process excel.exe -ArgumentList \"/x\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - forcer fermeture",
+      "description": "Termine Excel lorsqu’il est bloqué.",
+      "command": "Stop-Process -Name EXCEL -Force -ErrorAction SilentlyContinue",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : classeurs non enregistrés"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - redémarrer",
+      "description": "Ferme Excel puis le relance.",
+      "command": "Stop-Process -Name EXCEL -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; Start-Process excel.exe",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : classeurs non enregistrés"
+    },
+    {
+      "category": "Microsoft 365 • Excel",
+      "webCategory": "Microsoft 365",
+      "name": "Excel - nettoyer cache",
+      "description": "Ferme Excel puis vide les caches locaux Office ciblés.",
+      "command": "Stop-Process -Name EXCEL -Force -ErrorAction SilentlyContinue\n$paths=@(\"$env:LOCALAPPDATA\\\\Microsoft\\\\Office\\\\16.0\\\\OfficeFileCache\",\"$env:LOCALAPPDATA\\\\Microsoft\\\\Windows\\\\INetCache\\\\Content.MSO\")\nforeach($p in $paths){if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}\n\"Excel : cache local nettoyé\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme Excel"
+    },
+    {
+      "category": "Microsoft 365 • PowerPoint",
+      "webCategory": "Microsoft 365",
+      "name": "PowerPoint - diagnostic complet",
+      "description": "Version, processus, compléments COM, sécurité macros et taille du cache Office.",
+      "command": "$ErrorActionPreference=\"SilentlyContinue\"\n$roots=@(\"$env:ProgramFiles\\Microsoft Office\\root\\Office16\",\"${env:ProgramFiles(x86)}\\Microsoft Office\\root\\Office16\")\n$exePath=$roots|ForEach-Object{Join-Path $_ \"POWERPNT.EXE\"}|Where-Object{Test-Path $_}|Select-Object -First 1\n$p=Get-Process POWERPNT -ErrorAction SilentlyContinue|Select-Object -First 1\n$ver=if($exePath){(Get-Item $exePath).VersionInfo.ProductVersion}else{\"Non détecté\"}\n$addins=@()\n$addinPath=\"HKCU:\\Software\\Microsoft\\Office\\PowerPoint\\Addins\"\nif(Test-Path $addinPath){$addins=Get-ChildItem $addinPath|ForEach-Object{Get-ItemProperty $_.PSPath|Select-Object @{N=\"Addin\";E={$_.PSChildName}},FriendlyName,LoadBehavior}}\n$sec=Get-ItemProperty \"HKCU:\\Software\\Microsoft\\Office\\16.0\\PowerPoint\\Security\" -ErrorAction SilentlyContinue\n$cache=\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\"\n$cacheMB=0\nif(Test-Path $cache){$sum=(Get-ChildItem $cache -Recurse -File|Measure-Object Length -Sum).Sum;if($sum){$cacheMB=[math]::Round($sum/1MB,2)}}\n[pscustomobject]@{Application=\"PowerPoint\";Executable=$exePath;Version=$ver;ProcessusActif=[bool]$p;PID=if($p){$p.Id}else{\"\"};RAM_MB=if($p){[math]::Round($p.WorkingSet64/1MB,1)}else{\"\"};CacheOffice_MB=$cacheMB;VBAWarnings=$sec.VBAWarnings}\n$addins|Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • PowerPoint",
+      "webCategory": "Microsoft 365",
+      "name": "PowerPoint - mode sans échec",
+      "description": "Démarre PowerPoint sans compléments.",
+      "command": "Start-Process powerpnt.exe -ArgumentList \"/safe\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Microsoft 365 • PowerPoint",
+      "webCategory": "Microsoft 365",
+      "name": "PowerPoint - forcer fermeture",
+      "description": "Termine PowerPoint lorsqu’il est bloqué.",
+      "command": "Stop-Process -Name POWERPNT -Force -ErrorAction SilentlyContinue",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : présentation non enregistrée"
+    },
+    {
+      "category": "Microsoft 365 • PowerPoint",
+      "webCategory": "Microsoft 365",
+      "name": "PowerPoint - redémarrer",
+      "description": "Ferme PowerPoint puis le relance.",
+      "command": "Stop-Process -Name POWERPNT -Force -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; Start-Process powerpnt.exe",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : présentation non enregistrée"
+    },
+    {
+      "category": "Microsoft 365 • PowerPoint",
+      "webCategory": "Microsoft 365",
+      "name": "PowerPoint - nettoyer cache",
+      "description": "Ferme PowerPoint puis vide les caches locaux Office ciblés.",
+      "command": "Stop-Process -Name POWERPNT -Force -ErrorAction SilentlyContinue\n$paths=@(\"$env:LOCALAPPDATA\\\\Microsoft\\\\Office\\\\16.0\\\\OfficeFileCache\",\"$env:LOCALAPPDATA\\\\Microsoft\\\\Windows\\\\INetCache\\\\Content.MSO\")\nforeach($p in $paths){if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}\n\"PowerPoint : cache local nettoyé\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme PowerPoint"
+    },
+    {
+      "category": "Microsoft 365 • Teams",
+      "webCategory": "Microsoft 365",
+      "name": "Teams - diagnostic complet",
+      "description": "État des processus Teams, package New Teams, version, emplacement et consommation mémoire.",
+      "command": "$p=Get-Process -ErrorAction SilentlyContinue|Where-Object {$_.Name -match \"^(ms-teams|Teams)$\"}; $pkg=Get-AppxPackage -Name MSTeams -ErrorAction SilentlyContinue; $p|Select Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},StartTime,Path|Format-Table -AutoSize; $pkg|Select Name,Version,InstallLocation,Status|Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • Teams",
+      "webCategory": "Microsoft 365",
+      "name": "Teams - forcer fermeture",
+      "description": "Termine les processus Teams classique ou nouveau Teams.",
+      "command": "Get-Process -ErrorAction SilentlyContinue|Where-Object {$_.Name -match \"^(ms-teams|Teams)$\"}|Stop-Process -Force",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : appel ou brouillon interrompu"
+    },
+    {
+      "category": "Microsoft 365 • Teams",
+      "webCategory": "Microsoft 365",
+      "name": "Teams - redémarrer",
+      "description": "Ferme Teams puis relance le nouveau client.",
+      "command": "Get-Process -ErrorAction SilentlyContinue|Where-Object {$_.Name -match \"^(ms-teams|Teams)$\"}|Stop-Process -Force; Start-Sleep -Seconds 2; Start-Process \"msteams:\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : appel interrompu"
+    },
+    {
+      "category": "Microsoft 365 • Teams",
+      "webCategory": "Microsoft 365",
+      "name": "Teams - package New Teams",
+      "description": "Affiche version, emplacement et statut du package MSTeams.",
+      "command": "Get-AppxPackage -Name MSTeams -ErrorAction SilentlyContinue | Select Name,Version,InstallLocation,Status | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • Teams",
+      "webCategory": "Microsoft 365",
+      "name": "Teams - nettoyer cache",
+      "description": "Ferme Teams puis vide uniquement les caches locaux du nouveau et de l’ancien client.",
+      "command": "Get-Process -ErrorAction SilentlyContinue|Where-Object {$_.Name -match \"^(ms-teams|Teams)$\"}|Stop-Process -Force\n$paths=@(\"$env:LOCALAPPDATA\\Packages\\MSTeams_8wekyb3d8bbwe\\LocalCache\",\"$env:APPDATA\\Microsoft\\Teams\\Cache\",\"$env:APPDATA\\Microsoft\\Teams\\Code Cache\",\"$env:APPDATA\\Microsoft\\Teams\\GPUCache\")\nforeach($p in $paths){if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}\n\"Teams : cache local nettoyé\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme Teams"
+    },
+    {
+      "category": "Microsoft 365 • Office",
+      "webCategory": "Microsoft 365",
+      "name": "Office - version et canal",
+      "description": "Affiche version, architecture, produits et canal Microsoft 365 Apps.",
+      "command": "Get-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration\" -ErrorAction SilentlyContinue | Select ProductReleaseIds,Platform,VersionToReport,ClientVersionToReport,UpdateChannel | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Microsoft 365 • Office",
+      "webCategory": "Microsoft 365",
+      "name": "Office - demander mise à jour",
+      "description": "Lance la mise à jour Click-to-Run Microsoft 365 Apps.",
+      "command": "$c=@(\"$env:ProgramFiles\\Common Files\\Microsoft Shared\\ClickToRun\\OfficeC2RClient.exe\",\"${env:ProgramFiles(x86)}\\Common Files\\Microsoft Shared\\ClickToRun\\OfficeC2RClient.exe\")|Where-Object{Test-Path $_}|Select-Object -First 1;if($c){& $c /update user}else{Write-Warning \"OfficeC2RClient introuvable\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur / Admin selon politique",
+      "risk": "Moyen : mise à jour Office"
+    },
+    {
+      "category": "Microsoft 365 • Office",
+      "webCategory": "Microsoft 365",
+      "name": "Office - ouvrir réparation Windows",
+      "description": "Ouvre Applications installées pour accéder à Modifier/Réparer Microsoft 365.",
+      "command": "ms-settings:appsfeatures",
+      "shell": "URI Windows",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Général",
+      "webCategory": "Navigateurs",
+      "name": "Navigateurs - diagnostic complet",
+      "description": "Versions, processus, mémoire et profils détectés pour Edge, Chrome et Firefox.",
+      "command": "$ErrorActionPreference=\"SilentlyContinue\"\n$defs=@(\n @{Name=\"Edge\";Proc=\"msedge\";Paths=@(\"${env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe\",\"$env:ProgramFiles\\Microsoft\\Edge\\Application\\msedge.exe\",\"$env:LOCALAPPDATA\\Microsoft\\Edge\\Application\\msedge.exe\");Profile=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\"},\n @{Name=\"Chrome\";Proc=\"chrome\";Paths=@(\"$env:ProgramFiles\\Google\\Chrome\\Application\\chrome.exe\",\"${env:ProgramFiles(x86)}\\Google\\Chrome\\Application\\chrome.exe\",\"$env:LOCALAPPDATA\\Google\\Chrome\\Application\\chrome.exe\");Profile=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\"},\n @{Name=\"Firefox\";Proc=\"firefox\";Paths=@(\"$env:ProgramFiles\\Mozilla Firefox\\firefox.exe\",\"${env:ProgramFiles(x86)}\\Mozilla Firefox\\firefox.exe\");Profile=\"$env:APPDATA\\Mozilla\\Firefox\\Profiles\"}\n)\nforeach($d in $defs){\n $exe=$d.Paths|Where-Object{Test-Path $_}|Select-Object -First 1\n $p=Get-Process $d.Proc -ErrorAction SilentlyContinue\n $profiles=if(Test-Path $d.Profile){@(Get-ChildItem $d.Profile -Directory -ErrorAction SilentlyContinue).Count}else{0}\n [pscustomobject]@{Navigateur=$d.Name;Installe=[bool]$exe;Version=if($exe){(Get-Item $exe).VersionInfo.ProductVersion}else{\"Non détecté\"};Processus=@($p).Count;RAM_MB=[math]::Round(((@($p)|Measure-Object WorkingSet64 -Sum).Sum)/1MB,1);Profils=$profiles;Executable=$exe}\n}|Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs • Général",
+      "webCategory": "Navigateurs",
+      "name": "Navigateurs - taille des caches",
+      "description": "Mesure les principaux caches Edge et Chrome.",
+      "command": "$paths=@(\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Cache\",\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Code Cache\",\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Cache\",\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Code Cache\")\nforeach($p in $paths){if(Test-Path $p){$s=(Get-ChildItem $p -Recurse -File -ErrorAction SilentlyContinue|Measure-Object Length -Sum).Sum;[pscustomobject]@{Chemin=$p;Taille_MB=[math]::Round($s/1MB,2)}}}|Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs • Général",
+      "webCategory": "Navigateurs",
+      "name": "Navigateurs - sauvegarder favoris",
+      "description": "Sauvegarde les fichiers Bookmarks Chrome et Edge de tous les profils sur le Bureau.",
+      "command": "$dest=Join-Path $env:USERPROFILE (\"Desktop\\ITPocket_Browser_Backup_\"+(Get-Date -Format \"yyyyMMdd_HHmmss\"))\nNew-Item -ItemType Directory -Force -Path $dest|Out-Null\n$defs=@(@{Name=\"Chrome\";Base=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\"},@{Name=\"Edge\";Base=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\"})\nforeach($b in $defs){if(Test-Path $b.Base){Get-ChildItem $b.Base -Directory -ErrorAction SilentlyContinue|Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"}|ForEach-Object{$src=Join-Path $_.FullName \"Bookmarks\";if(Test-Path $src){$dd=Join-Path $dest ($b.Name+\"_\"+$_.Name);New-Item -ItemType Directory -Force -Path $dd|Out-Null;Copy-Item $src (Join-Path $dd \"Bookmarks.json\") -Force}}}}\n\"Backup : $dest\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture / copie locale"
+    },
+    {
+      "category": "Navigateurs • Edge",
+      "webCategory": "Navigateurs",
+      "name": "Edge - nettoyer caches tous profils",
+      "description": "Ferme Edge puis vide Cache, Code Cache et GPUCache sur tous les profils locaux.",
+      "command": "Stop-Process -Name msedge -Force -ErrorAction SilentlyContinue\n$base=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\"\nif(Test-Path $base){Get-ChildItem $base -Directory -ErrorAction SilentlyContinue|Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"}|ForEach-Object{foreach($n in \"Cache\",\"Code Cache\",\"GPUCache\"){$p=Join-Path $_.FullName $n;if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}}}\n\"Edge : caches nettoyés\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme Edge"
+    },
+    {
+      "category": "Navigateurs • Edge",
+      "webCategory": "Navigateurs",
+      "name": "Edge - extensions",
+      "description": "Ouvre la page des extensions Edge.",
+      "command": "edge://extensions",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Edge",
+      "webCategory": "Navigateurs",
+      "name": "Edge - gestionnaire mots de passe",
+      "description": "Ouvre le gestionnaire officiel de mots de passe Edge sans lire les mots de passe.",
+      "command": "edge://wallet/passwords",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Edge",
+      "webCategory": "Navigateurs",
+      "name": "Edge - effacer données navigateur",
+      "description": "Ouvre l’écran officiel de suppression des données de navigation Edge.",
+      "command": "edge://settings/clearBrowserData",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Chrome",
+      "webCategory": "Navigateurs",
+      "name": "Chrome - nettoyer caches tous profils",
+      "description": "Ferme Chrome puis vide Cache, Code Cache et GPUCache sur tous les profils locaux.",
+      "command": "Stop-Process -Name chrome -Force -ErrorAction SilentlyContinue\n$base=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\"\nif(Test-Path $base){Get-ChildItem $base -Directory -ErrorAction SilentlyContinue|Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"}|ForEach-Object{foreach($n in \"Cache\",\"Code Cache\",\"GPUCache\"){$p=Join-Path $_.FullName $n;if(Test-Path $p){Remove-Item (Join-Path $p \"*\") -Recurse -Force -ErrorAction SilentlyContinue}}}}\n\"Chrome : caches nettoyés\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Moyen : ferme Chrome"
+    },
+    {
+      "category": "Navigateurs • Chrome",
+      "webCategory": "Navigateurs",
+      "name": "Chrome - extensions",
+      "description": "Ouvre la page des extensions Chrome.",
+      "command": "chrome://extensions",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Chrome",
+      "webCategory": "Navigateurs",
+      "name": "Chrome - gestionnaire mots de passe",
+      "description": "Ouvre le gestionnaire officiel de mots de passe Chrome.",
+      "command": "chrome://password-manager/passwords",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Chrome",
+      "webCategory": "Navigateurs",
+      "name": "Chrome - effacer données navigateur",
+      "description": "Ouvre l’écran officiel de suppression des données de navigation Chrome.",
+      "command": "chrome://settings/clearBrowserData",
+      "shell": "URI Navigateur",
+      "rights": "Utilisateur",
+      "risk": "Faible"
+    },
+    {
+      "category": "Navigateurs • Firefox",
+      "webCategory": "Navigateurs",
+      "name": "Firefox - diagnostic",
+      "description": "Version, processus, mémoire et profils Firefox.",
+      "command": "$exe=@(\"$env:ProgramFiles\\Mozilla Firefox\\firefox.exe\",\"${env:ProgramFiles(x86)}\\Mozilla Firefox\\firefox.exe\")|Where-Object{Test-Path $_}|Select-Object -First 1;$p=Get-Process firefox -ErrorAction SilentlyContinue;[pscustomobject]@{Version=if($exe){(Get-Item $exe).VersionInfo.ProductVersion}else{\"Non détecté\"};Processus=@($p).Count;RAM_MB=[math]::Round(((@($p)|Measure-Object WorkingSet64 -Sum).Sum)/1MB,1);Profils=if(Test-Path \"$env:APPDATA\\Mozilla\\Firefox\\Profiles\"){@(Get-ChildItem \"$env:APPDATA\\Mozilla\\Firefox\\Profiles\" -Directory).Count}else{0};Executable=$exe}|Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
       "category": "Microsoft 365 • OneDrive",
       "webCategory": "Microsoft 365",
       "name": "OneDrive - diagnostic technicien",
@@ -3078,7 +3448,7 @@ window.SSIT_DATA = {
     },
     {
       "category": "Poste Windows",
-      "webCategory": "Poste Windows",
+      "webCategory": "Diagnostic & Escalade",
       "name": "Résumé machine",
       "description": "Affiche les informations essentielles du poste : Windows, fabricant, modèle, série, BIOS, CPU, RAM, disque, utilisateur et réseau.",
       "command": "$os=Get-CimInstance Win32_OperatingSystem; $cs=Get-CimInstance Win32_ComputerSystem; $bios=Get-CimInstance Win32_BIOS; $cpu=Get-CimInstance Win32_Processor|Select-Object -First 1; $disk=Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\"; $net=Get-NetIPConfiguration|Where-Object {$_.IPv4DefaultGateway}|Select-Object -First 1; [pscustomobject]@{Machine=$env:COMPUTERNAME;Utilisateur=$env:USERNAME;Windows=$os.Caption;Version=$os.Version;Build=$os.BuildNumber;Fabricant=$cs.Manufacturer;Modele=$cs.Model;Serie=$bios.SerialNumber;BIOS=$bios.SMBIOSBIOSVersion;CPU=$cpu.Name;RAM_GB=[math]::Round($cs.TotalPhysicalMemory/1GB,1);DisqueC_Libre_GB=[math]::Round($disk.FreeSpace/1GB,1);IPv4=($net.IPv4Address.IPAddress -join \", \");Passerelle=$net.IPv4DefaultGateway.NextHop;DNS=($net.DNSServer.ServerAddresses -join \", \") } | Format-List",
@@ -4189,16 +4559,6 @@ window.SSIT_DATA = {
     {
       "category": "Profil & Comptes",
       "webCategory": "Poste Windows",
-      "name": "WhoAmI",
-      "description": "",
-      "command": "whoami /all",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture"
-    },
-    {
-      "category": "Profil & Comptes",
-      "webCategory": "Poste Windows",
       "name": "Profils locaux",
       "description": "",
       "command": "Get-CimInstance Win32_UserProfile | Where-Object {$_.LocalPath} | Select LocalPath,Loaded,Special,LastUseTime,SID | Format-Table -Auto",
@@ -4293,7 +4653,8 @@ window.SSIT_DATA = {
       "command": "Get-NetAdapter | Where-Object Status -eq 'Up' | Select-Object Name,InterfaceDescription,MacAddress,LinkSpeed,Status | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Réseau",
@@ -4302,7 +4663,8 @@ window.SSIT_DATA = {
       "command": "Get-NetIPConfiguration | Where-Object {$_.IPv4Address} | Select-Object InterfaceAlias,IPv4Address,IPv4DefaultGateway,DNSServer | Format-List",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Réseau",
@@ -4311,7 +4673,8 @@ window.SSIT_DATA = {
       "command": "ipconfig /renew",
       "shell": "CMD / PowerShell",
       "rights": "Selon politique du poste",
-      "risk": "Coupure réseau momentanée possible"
+      "risk": "Coupure réseau momentanée possible",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Réseau",
@@ -4320,16 +4683,8 @@ window.SSIT_DATA = {
       "command": "Resolve-DnsName login.microsoftonline.com -ErrorAction Stop",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Réseau",
-      "name": "Test HTTPS Microsoft 443",
-      "description": "Teste la connectivité TCP 443 vers l'identité Microsoft.",
-      "command": "Test-NetConnection login.microsoftonline.com -Port 443 -InformationLevel Detailed",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Réseau",
@@ -4338,7 +4693,8 @@ window.SSIT_DATA = {
       "command": "Get-NetRoute -AddressFamily IPv4 | Sort-Object DestinationPrefix,RouteMetric | Format-Table ifIndex,DestinationPrefix,NextHop,RouteMetric,InterfaceMetric -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Réseau",
@@ -4347,16 +4703,8 @@ window.SSIT_DATA = {
       "command": "Get-NetNeighbor -AddressFamily IPv4 | Select-Object InterfaceAlias,IPAddress,LinkLayerAddress,State | Sort-Object InterfaceAlias,IPAddress | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Réseau",
-      "name": "Reset Winsock",
-      "description": "Réinitialise le catalogue Winsock.",
-      "command": "netsh winsock reset",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Redémarrage souvent nécessaire"
+      "risk": "Lecture seule",
+      "webCategory": "Réseau & Accès distant"
     },
     {
       "category": "Système",
@@ -4365,7 +4713,8 @@ window.SSIT_DATA = {
       "command": "$os=Get-CimInstance Win32_OperatingSystem; [pscustomobject]@{Computer=$env:COMPUTERNAME;Windows=$os.Caption;Version=$os.Version;Build=$os.BuildNumber;Architecture=$os.OSArchitecture;LastBoot=$os.LastBootUpTime;Uptime=(New-TimeSpan -Start $os.LastBootUpTime -End (Get-Date)).ToString()} | Format-List",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Poste Windows"
     },
     {
       "category": "Système",
@@ -4374,16 +4723,8 @@ window.SSIT_DATA = {
       "command": "Get-CimInstance Win32_LogicalDisk -Filter \"DriveType=3\" | Select-Object DeviceID,@{N='Total_GB';E={[math]::Round($_.Size/1GB,1)}},@{N='Free_GB';E={[math]::Round($_.FreeSpace/1GB,1)}},@{N='Free_%';E={[math]::Round(100*$_.FreeSpace/$_.Size,1)}} | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Système",
-      "name": "Top RAM",
-      "description": "Top 20 processus par mémoire vive.",
-      "command": "Get-Process -ErrorAction SilentlyContinue | Sort-Object WorkingSet64 -Descending | Select-Object -First 20 Name,Id,@{N='RAM_MB';E={[math]::Round($_.WorkingSet64/1MB,1)}},CPU | Format-Table -AutoSize",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Poste Windows"
     },
     {
       "category": "Système",
@@ -4392,7 +4733,8 @@ window.SSIT_DATA = {
       "command": "$s=(Get-Date).AddHours(-24); Get-WinEvent -FilterHashtable @{LogName='System','Application';Level=1,2;StartTime=$s} -ErrorAction SilentlyContinue | Select-Object TimeCreated,LogName,Id,ProviderName,Message | Sort-Object TimeCreated -Descending | Format-Table -Wrap",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Diagnostic & Escalade"
     },
     {
       "category": "Système",
@@ -4401,7 +4743,8 @@ window.SSIT_DATA = {
       "command": "Get-CimInstance Win32_Service | Where-Object {$_.StartMode -eq 'Auto' -and $_.State -ne 'Running'} | Select-Object Name,DisplayName,State,StartMode | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Poste Windows"
     },
     {
       "category": "Système",
@@ -4410,34 +4753,8 @@ window.SSIT_DATA = {
       "command": "$cbs=Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending';$wu=Test-Path 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired';$pfr=[bool](Get-ItemProperty 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager' -Name PendingFileRenameOperations -ErrorAction SilentlyContinue);[pscustomobject]@{CBS=$cbs;WindowsUpdate=$wu;PendingFileRename=$pfr}|Format-List",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Système",
-      "name": "SFC vérification seule",
-      "description": "Vérifie les fichiers système sans réparer.",
-      "command": "sfc /verifyonly",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Système",
-      "name": "SFC réparation",
-      "description": "Analyse et répare les fichiers système Windows.",
-      "command": "sfc /scannow",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Modifie les composants système si nécessaire"
-    },
-    {
-      "category": "Système",
-      "name": "CHKDSK C: /scan",
-      "description": "Analyse en ligne du volume C:.",
-      "command": "chkdsk C: /scan",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur recommandé",
-      "risk": "Analyse en ligne"
+      "risk": "Lecture seule",
+      "webCategory": "Poste Windows"
     },
     {
       "category": "Applications",
@@ -4446,25 +4763,8 @@ window.SSIT_DATA = {
       "command": "$p='HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'; Get-ItemProperty $p -ErrorAction SilentlyContinue | Where-Object DisplayName | Select-Object DisplayName,DisplayVersion,Publisher,InstallDate | Sort-Object DisplayName -Unique | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Applications",
-      "name": "Winget mises à jour",
-      "description": "Liste les mises à jour disponibles.",
-      "command": "winget upgrade",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Applications",
-      "name": "Winget tout mettre à jour",
-      "description": "Met à jour tous les packages compatibles.",
-      "command": "winget upgrade --all --accept-source-agreements --accept-package-agreements",
-      "shell": "CMD / PowerShell",
-      "rights": "Selon applications",
-      "risk": "Modifie plusieurs applications"
+      "risk": "Lecture seule",
+      "webCategory": "Applications"
     },
     {
       "category": "Microsoft 365",
@@ -4473,16 +4773,8 @@ window.SSIT_DATA = {
       "command": "Start-Process outlook.exe -ArgumentList '/safe'",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Faible"
-    },
-    {
-      "category": "Microsoft 365",
-      "name": "Outlook Reset NavPane",
-      "description": "Réinitialise le volet de navigation Outlook classique.",
-      "command": "Start-Process outlook.exe -ArgumentList '/resetnavpane'",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Réinitialise la personnalisation du volet"
+      "risk": "Faible",
+      "webCategory": "Microsoft 365"
     },
     {
       "category": "Microsoft 365",
@@ -4491,16 +4783,8 @@ window.SSIT_DATA = {
       "command": "Get-ChildItem \"$env:LOCALAPPDATA\\Microsoft\\Outlook\",\"$env:USERPROFILE\\Documents\\Outlook Files\" -Include *.ost,*.pst -File -Recurse -ErrorAction SilentlyContinue | Select-Object FullName,@{N='Size_GB';E={[math]::Round($_.Length/1GB,2)}},LastWriteTime | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Microsoft 365",
-      "name": "Office Click-to-Run",
-      "description": "Version, canal et architecture Microsoft 365 Apps.",
-      "command": "Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration' -ErrorAction SilentlyContinue | Select-Object ProductReleaseIds,ClientVersionToReport,Platform,UpdateChannel,CDNBaseUrl | Format-List",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Microsoft 365"
     },
     {
       "category": "Microsoft 365",
@@ -4509,34 +4793,8 @@ window.SSIT_DATA = {
       "command": "Get-Process OneDrive -ErrorAction SilentlyContinue | Select-Object Name,Id,Path; Get-ChildItem Env:OneDrive* | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Microsoft 365",
-      "name": "OneDrive reset",
-      "description": "Détecte OneDrive.exe puis lance /reset.",
-      "command": "$c=@(\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\",\"$env:ProgramFiles\\Microsoft OneDrive\\OneDrive.exe\",\"${env:ProgramFiles(x86)}\\Microsoft OneDrive\\OneDrive.exe\");$od=$c|Where-Object{$_ -and (Test-Path $_)}|Select-Object -First 1;if($od){Start-Process $od -ArgumentList '/reset'}else{Write-Warning 'OneDrive.exe introuvable'}",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Resynchronisation possible"
-    },
-    {
-      "category": "Microsoft 365",
-      "name": "Teams processus",
-      "description": "Affiche les processus Teams et leur consommation.",
-      "command": "Get-Process *teams* -ErrorAction SilentlyContinue | Select-Object Name,Id,CPU,@{N='RAM_MB';E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-Table -AutoSize",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Intune / Entra",
-      "name": "DSREGCMD complet",
-      "description": "État Entra Join, Device ID, Tenant, SSO et MDM.",
-      "command": "dsregcmd /status",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Microsoft 365"
     },
     {
       "category": "Intune / Entra",
@@ -4545,7 +4803,8 @@ window.SSIT_DATA = {
       "command": "dsregcmd /status | Select-String 'AzureAdJoined|DomainJoined|DeviceId|TenantId|MdmUrl|AzureAdPrt|WamDefaultSet'",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Intune / Entra / SCCM"
     },
     {
       "category": "Intune / Entra",
@@ -4554,7 +4813,8 @@ window.SSIT_DATA = {
       "command": "Get-ScheduledTask | Where-Object {$_.TaskPath -like '\\Microsoft\\Windows\\EnterpriseMgmt\\*'} | Select-Object TaskName,TaskPath,State | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Intune / Entra / SCCM"
     },
     {
       "category": "Intune / Entra",
@@ -4563,7 +4823,8 @@ window.SSIT_DATA = {
       "command": "Get-ScheduledTask | Where-Object {$_.TaskPath -like '\\Microsoft\\Windows\\EnterpriseMgmt\\*' -and $_.TaskName -match 'PushLaunch|Schedule'} | Start-ScheduledTask",
       "shell": "PowerShell",
       "rights": "Administrateur recommandé",
-      "risk": "Déclenche une synchronisation MDM"
+      "risk": "Déclenche une synchronisation MDM",
+      "webCategory": "Intune / Entra / SCCM"
     },
     {
       "category": "SCCM",
@@ -4572,7 +4833,8 @@ window.SSIT_DATA = {
       "command": "Get-Service CcmExec -ErrorAction SilentlyContinue; Get-CimInstance -Namespace root\\ccm -ClassName SMS_Client -ErrorAction SilentlyContinue",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Intune / Entra / SCCM"
     },
     {
       "category": "Sécurité",
@@ -4581,25 +4843,8 @@ window.SSIT_DATA = {
       "command": "Get-MpComputerStatus | Format-List AMServiceEnabled,AntivirusEnabled,RealTimeProtectionEnabled,AntivirusSignatureVersion,AntivirusSignatureLastUpdated,QuickScanAge,FullScanAge",
       "shell": "PowerShell",
       "rights": "Selon politiques de sécurité",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Sécurité",
-      "name": "BitLocker",
-      "description": "État de chiffrement des volumes.",
-      "command": "Get-BitLockerVolume | Select-Object MountPoint,VolumeStatus,ProtectionStatus,EncryptionPercentage,EncryptionMethod | Format-Table -AutoSize",
-      "shell": "PowerShell",
-      "rights": "Administrateur recommandé",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Sécurité",
-      "name": "TPM",
-      "description": "État de la puce TPM.",
-      "command": "Get-Tpm | Format-List TpmPresent,TpmReady,TpmEnabled,TpmActivated,ManufacturerIdTxt,ManufacturerVersion",
-      "shell": "PowerShell",
-      "rights": "Administrateur recommandé",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Sécurité Windows"
     },
     {
       "category": "Périphériques",
@@ -4608,7 +4853,8 @@ window.SSIT_DATA = {
       "command": "Get-PnpDevice -ErrorAction SilentlyContinue | Where-Object Status -ne 'OK' | Select-Object Class,FriendlyName,Status,InstanceId | Format-Table -AutoSize",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture seule",
+      "webCategory": "Poste Windows"
     },
     {
       "category": "Périphériques",
@@ -4617,34 +4863,8 @@ window.SSIT_DATA = {
       "command": "pnputil /scan-devices",
       "shell": "CMD / PowerShell",
       "rights": "Administrateur recommandé",
-      "risk": "Faible"
-    },
-    {
-      "category": "Impression",
-      "name": "Imprimantes",
-      "description": "Imprimantes, pilotes, ports et statut.",
-      "command": "Get-Printer | Select-Object Name,DriverName,PortName,PrinterStatus | Format-Table -AutoSize",
-      "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Impression",
-      "name": "Redémarrer Spooler",
-      "description": "Redémarre le service d'impression.",
-      "command": "Restart-Service Spooler -Force; Get-Service Spooler",
-      "shell": "PowerShell",
-      "rights": "Administrateur",
-      "risk": "Interrompt brièvement l'impression"
-    },
-    {
-      "category": "Assistance distante",
-      "name": "Bureau à distance",
-      "description": "Ouvre le client RDP Windows.",
-      "command": "mstsc.exe",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Faible"
+      "risk": "Faible",
+      "webCategory": "Périphériques & Pilotes"
     },
     {
       "category": "Assistance distante",
@@ -4653,16 +4873,8 @@ window.SSIT_DATA = {
       "command": "Start-Process 'ms-quick-assist:'",
       "shell": "PowerShell",
       "rights": "Utilisateur",
-      "risk": "Faible"
-    },
-    {
-      "category": "Identité",
-      "name": "WhoAmI complet",
-      "description": "Compte, SID, groupes et privilèges.",
-      "command": "whoami /all",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Faible",
+      "webCategory": "Outils Support"
     }
   ],
   "templates": [
