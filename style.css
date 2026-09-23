@@ -91,3 +91,116 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
   .compact-actions{grid-template-columns:max-content max-content}
   .morebox{width:100%;min-width:0;max-width:100%}
 }
+
+
+/* IT Pocket responsive detail modal */
+.detail-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(0,0,0,.58);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.detail-sheet{
+  width:min(900px,96vw);
+  max-height:92vh;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:0 20px 70px #0008;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+.detail-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
+  padding:16px;
+  border-bottom:1px solid var(--line);
+  background:var(--panel);
+}
+.detail-head h3{margin:0 0 4px;font-size:19px}
+.detail-body{
+  padding:16px;
+  overflow:auto;
+  min-width:0;
+}
+.detail-desc{color:var(--muted);line-height:1.5;margin-top:0}
+.detail-badges{margin-bottom:14px}
+.detail-sheet .code{
+  width:100%;
+  max-width:100%;
+  max-height:42vh;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  overflow:auto;
+}
+.detail-close{white-space:nowrap}
+
+/* Make mobile/tablet layout reliable even when Safari uses a wider layout viewport */
+@media (max-width:1100px), (pointer:coarse){
+  #app{grid-template-columns:1fr}
+  aside{
+    position:relative;
+    top:auto;
+    height:auto;
+    width:100%;
+    padding:14px;
+    overflow:visible;
+  }
+  nav{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .navbtn{
+    width:auto;
+    min-width:max-content;
+    flex:0 0 auto;
+  }
+  .asideBottom{
+    grid-template-columns:1fr 1fr;
+  }
+  main{
+    width:100%;
+    max-width:100%;
+    padding:14px;
+  }
+  header{
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+  header h2{font-size:24px}
+  .stats{text-align:left}
+  .grid{grid-template-columns:1fr}
+  .card{width:100%;min-width:0}
+  .compact-card{min-height:auto}
+  .compact-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .detail-modal{
+    align-items:flex-end;
+    padding:0;
+  }
+  .detail-sheet{
+    width:100%;
+    max-width:none;
+    max-height:94vh;
+    border-radius:18px 18px 0 0;
+    border-left:0;
+    border-right:0;
+    border-bottom:0;
+  }
+  .detail-head{position:sticky;top:0;z-index:2}
+  .detail-body{padding:14px}
+}
