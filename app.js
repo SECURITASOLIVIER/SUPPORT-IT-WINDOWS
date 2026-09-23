@@ -162,48 +162,42 @@ function launchTutorial(item){
  steps.push("Si tu dois escalader, copie le résultat utile dans le ticket avec le nom de l’action exécutée.");
  return '<ol class="tutorial-steps">'+steps.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ol>';
 }
-function openDetail(item){
+function toggleInlineDetail(id){
+ const box=document.getElementById(id);
+ if(!box)return;
+ const open=box.classList.toggle("open");
+ const btn=document.querySelector('[data-detail-btn="'+id+'"]');
+ if(btn)btn.textContent=open?"Réduire":"Voir plus";
+}
+function detailHtml(item,id){
  const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell";
- const modal=document.createElement("div");
- modal.className="detail-modal";
- modal.innerHTML='<div class="detail-sheet" role="dialog" aria-modal="true">'+
-   '<div class="detail-head"><div><h3>'+esc(item.name||"Détail")+'</h3><div class="meta">'+esc(item.category||"")+'</div></div>'+
-   '<button class="btn detail-close" aria-label="Fermer">✕ Fermer</button></div>'+
-   '<div class="detail-body">'+
-   (item.description?'<p class="detail-desc">'+esc(item.description)+'</p>':'')+
-   (item.rights||item.risk?'<div class="detail-badges">'+(item.rights?'<span class="badge">'+esc(item.rights)+'</span>':'')+(item.risk?'<span class="badge warn">'+esc(item.risk)+'</span>':'')+'</div>':'')+
+ return '<div id="'+id+'" class="inline-detail">'+
    (item.method?'<div class="more-label">Méthode</div><div class="more-text">'+esc(item.method)+'</div>':'')+
    '<div class="more-label">Comment lancer • étape par étape</div>'+launchTutorial(item)+
-   (s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn primary detail-copy">Copier</button></div>':'')+
-   '</div></div>';
- document.body.appendChild(modal);
- const close=()=>modal.remove();
- modal.querySelector(".detail-close").onclick=close;
- modal.addEventListener("click",e=>{if(e.target===modal)close()});
- const cp=modal.querySelector(".detail-copy"); if(cp)cp.onclick=()=>copy(s);
- const onKey=e=>{if(e.key==="Escape"){close();document.removeEventListener("keydown",onKey)}};document.addEventListener("keydown",onKey);
+   (s?'<div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre><div class="actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(s)+')\'>Copier le script</button></div>':'')+
+   '</div>';
 }
 function actionCard(a){
  let s=a.script||a.command||"", copyText=s||a.method||a.description||"";
- const key="detail_"+Math.random().toString(36).slice(2);
- window[key]=a;
+ const id="detail_"+Math.random().toString(36).slice(2);
  return '<article class="card compact-card"><h3>'+esc(a.name)+'</h3>'+
  '<div class="meta">'+esc(a.category)+(a.language?' • '+esc(a.language):'')+'</div>'+
  '<p class="desc">'+esc(a.description||a.method||'')+'</p>'+
  '<div class="card-badges">'+(a.rights?'<span class="badge">'+esc(a.rights)+'</span>':'')+(a.risk?'<span class="badge warn">'+esc(a.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+
  (copyText?'<button class="btn primary" onclick=\'copy('+JSON.stringify(copyText)+')\'>Copier</button>':'')+
- '<button class="btn" onclick="openDetail(window.'+key+')">Voir plus</button></div></article>';
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
+ detailHtml(a,id)+'</article>';
 }
 function commandCard(c){
- const key="detail_"+Math.random().toString(36).slice(2);
- window[key]=c;
+ const id="detail_"+Math.random().toString(36).slice(2);
  return '<article class="card compact-card"><h3>'+esc(c.name)+'</h3>'+
  '<div class="meta">'+esc(c.category)+(c.shell?' • '+esc(c.shell):'')+'</div>'+
  '<p class="desc">'+esc(c.description||'')+'</p>'+
  '<div class="card-badges">'+(c.rights?'<span class="badge">'+esc(c.rights)+'</span>':'')+(c.risk?'<span class="badge warn">'+esc(c.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+JSON.stringify(c.command)+')\'>Copier</button>'+
- '<button class="btn" onclick="openDetail(window.'+key+')">Voir plus</button></div></article>';
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
+ detailHtml(c,id)+'</article>';
 }
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
@@ -227,5 +221,5 @@ function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){let a=filterItems(D.actions.filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);return '<div class="toolbar slimbar"><span class="badge">'+a.length+' action(s)</span><span class="meta-inline">Copier pour exécuter localement • Voir plus pour afficher le détail</span></div><div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>')+'</div>'}
 function tools(){let c=filterItems(D.commands,["name","description","command","category","shell"]);return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span><span class="meta-inline">Commande masquée par défaut</span></div><div class="grid">'+c.map(commandCard).join("")+'</div>'}
-Object.assign(window,{actionCard,commandCard,openDetail,launchTutorial,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
