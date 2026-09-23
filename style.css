@@ -285,3 +285,26 @@ body.light .brand h1,
 body:not(.light) .brand h1{
   color:#fff !important;
 }
+
+/* Compact template navigation */
+.template-preview-collapsed{
+  display:none;
+  margin-top:12px;
+}
+.template-preview-collapsed.open{
+  display:block;
+}
+.template-actions{
+  margin-top:12px;
+}
+.template-card{
+  min-width:0;
+  align-self:start;
+}
+@media(max-width:800px){
+  .template-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+}
