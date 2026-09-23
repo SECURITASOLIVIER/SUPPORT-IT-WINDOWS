@@ -65,18 +65,59 @@ function save(){localStorage.setItem("ssitState",JSON.stringify(state));localSto
 function esc(s=""){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 function toast(t){let x=$("#toast");x.textContent=t;x.classList.add("show");setTimeout(()=>x.classList.remove("show"),1300)}
 async function copy(t){try{await navigator.clipboard.writeText(t);toast("Copié")}catch{let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();document.execCommand("copy");a.remove();toast("Copié")}}
-async function shareText(title,text){
- const payload={title:title||"IT Pocket",text:String(text||"")};
- if(navigator.share){
-   try{await navigator.share(payload);return}catch(e){if(e&&e.name==="AbortError")return}
- }
- await copy(payload.text);
- toast("Partage indisponible : contenu copié");
+function safeShareName(title){
+ return String(title||"IT Pocket").replace(/[\\/:*?"<>|]+/g," ").replace(/\s+/g," ").trim().slice(0,80)||"IT Pocket";
 }
-function openOutlookText(title,text){
+function makeTextShareFile(title,text){
+ try{return new File([String(text||"")],safeShareName(title)+".txt",{type:"text/plain;charset=utf-8"})}catch{return null}
+}
+async function shareText(title,text){
+ const subject=String(title||"IT Pocket");
+ const full=String(text||"");
+ if(navigator.share){
+   const f=makeTextShareFile(subject,full);
+   if(f && full.length>10000 && navigator.canShare){
+     const withFile={title:subject,text:"Contenu complet IT Pocket en pièce jointe.",files:[f]};
+     try{
+       if(navigator.canShare(withFile)){await navigator.share(withFile);return}
+     }catch(e){if(e&&e.name==="AbortError")return}
+   }
+   try{await navigator.share({title:subject,text:full});return}
+   catch(e){if(e&&e.name==="AbortError")return}
+ }
+ await copy(full);
+ toast("Partage non disponible : contenu complet copié");
+}
+async function openOutlookText(title,text){
  const subject=String(title||"IT Pocket");
  const body=String(text||"");
- window.location.href="mailto:?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+ const encSubject=encodeURIComponent(subject);
+ const encBody=encodeURIComponent(body);
+ const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent||"");
+
+ // Les très gros contenus passent par le partage natif sous forme de fichier texte :
+ // cela évite la troncature des URL mailto/deep-link.
+ if(encBody.length>14000 && navigator.share){
+   const f=makeTextShareFile(subject,body);
+   if(f && navigator.canShare){
+     const payload={title:subject,text:"Fiche IT Pocket complète en pièce jointe. Choisir Outlook.",files:[f]};
+     try{
+       if(navigator.canShare(payload)){await navigator.share(payload);return}
+     }catch(e){if(e&&e.name==="AbortError")return}
+   }
+ }
+
+ const mailto="mailto:?subject="+encSubject+"&body="+encBody;
+ if(isMobile){
+   const outlook="ms-outlook://compose?subject="+encSubject+"&body="+encBody;
+   const before=Date.now();
+   window.location.href=outlook;
+   setTimeout(()=>{
+     if(!document.hidden && Date.now()-before<2500) window.location.href=mailto;
+   },900);
+ }else{
+   window.location.href=mailto;
+ }
 }
 function openCat(c){state.cat=c;save();render()}
 function closeTab(c,e){e.stopPropagation();state.tabs=state.tabs.filter(x=>x!==c);if(state.cat===c)state.cat=state.tabs.at(-1)||"Accueil";save();render()}
@@ -435,7 +476,7 @@ function commandCard(c){
 }
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
-function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;window.location.href="mailto:?subject="+encodeURIComponent(t.subject||"")+"&body="+encodeURIComponent(t.content||"")}
+function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(t.subject||t.name||"Communication IT",t.content||"")}
 function templateCard(t){
  let r=JSON.stringify(t._id);
  const full=(t.subject?"Objet : "+t.subject+"\n\n":"")+t.content;
@@ -467,7 +508,18 @@ function isFavoriteLink(r){return favoriteLinks.includes(r)}
 function toggleFavoriteLink(r){favoriteLinks=isFavoriteLink(r)?favoriteLinks.filter(x=>x!==r):favoriteLinks.concat(r);savePocket();render()}
 function setPortalFilter(v){portalFilter=v;render()}
 function getLinkByRef(r){if(!r)return null;let i=parseInt(r.slice(1),10);return r[0]==="b"?D.portals[i]:customLinks[i]}
-function portalCard(p){let r=JSON.stringify(p._id),f=isFavoriteLink(p._id);return '<article class="card"><h3>'+(f?'★ ':'')+esc(p.name)+'</h3><div class="meta">'+esc(p.category||"Divers")+' '+(p.builtin?'• Intégré':'• Personnel')+'</div><pre class="code">'+esc(p.url)+'</pre><div class="actions"><button class="btn primary" onclick=\'window.open('+JSON.stringify(p.url)+',"_blank","noopener")\'>Ouvrir</button><button class="btn" onclick=\'copy('+JSON.stringify(p.url)+')\'>Copier URL</button><button class="btn" onclick=\'toggleFavoriteLink('+r+')\'>'+(f?'★ Favori':'☆ Favori')+'</button><button class="btn" onclick=\'editLink('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteLink('+r+')\'>Supprimer</button></div></article>'}
+function portalCard(p){
+ let r=JSON.stringify(p._id),f=isFavoriteLink(p._id);
+ const shareBody=(p.name||"Lien IT")+"\n"+(p.url||"");
+ return '<article class="card"><h3>'+(f?'★ ':'')+esc(p.name)+'</h3><div class="meta">'+esc(p.category||"Divers")+' '+(p.builtin?'• Intégré':'• Personnel')+'</div>'+
+ '<pre class="code">'+esc(p.url)+'</pre><div class="actions">'+
+ '<button class="btn primary" onclick=\'window.open('+JSON.stringify(p.url)+',"_blank","noopener")\'>Ouvrir</button>'+
+ '<button class="btn" onclick=\'copy('+JSON.stringify(p.url)+')\'>Copier le lien</button>'+
+ '<button class="btn" onclick=\'shareText('+JSON.stringify(p.name||"Lien IT")+','+JSON.stringify(shareBody)+')\'>Partager</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+JSON.stringify("[Support] "+(p.name||"Lien"))+','+JSON.stringify(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" onclick=\'toggleFavoriteLink('+r+')\'>'+(f?'★ Favori':'☆ Favori')+'</button>'+
+ '<button class="btn" onclick=\'editLink('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteLink('+r+')\'>Supprimer</button></div></article>'
+}
 function portals(){let ps=filterItems(allPortals(),["name","url","category"]);if(portalFilter==="Favoris")ps=ps.filter(p=>isFavoriteLink(p._id));else if(portalFilter!=="Tous")ps=ps.filter(p=>(p.category||"Divers")===portalFilter);let cs=[...new Set(allPortals().map(x=>x.category||"Divers"))].sort();return '<div class="toolbar"><button class="btn primary" onclick="newLink()">+ Ajouter un lien</button><button class="btn" onclick=\'setPortalFilter("Tous")\'>Tous</button><button class="btn" onclick=\'setPortalFilter("Favoris")\'>★ Favoris</button><span class="badge">'+ps.length+' lien(s)</span></div><div class="toolbar">'+cs.map(c=>'<button class="btn" onclick=\'setPortalFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div><div class="grid">'+(ps.map(portalCard).join("")||'<div class="empty">Aucun lien trouvé.</div>')+'</div>'}
 function newLink(ref=null){let p=ref?{...getLinkByRef(ref)}:{name:"",category:"Favoris",url:"https://"};$("#content").innerHTML='<div class="card"><h3>'+(ref?'Modifier le lien':'Ajouter un lien favori')+'</h3><div class="editor"><div><div class="meta">Nom</div><input id="lname" value="'+esc(p.name||"")+'"></div><div><div class="meta">Catégorie</div><input id="lcat" value="'+esc(p.category||"Favoris")+'"></div><div class="full"><div class="meta">URL</div><input id="lurl" value="'+esc(p.url||"https://")+'"></div><div class="full actions"><button class="btn primary" onclick=\'saveLink('+JSON.stringify(ref||"")+')\'>Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div></div>'}
 function editLink(r){newLink(r)}
