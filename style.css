@@ -202,3 +202,16 @@ header{margin-bottom:4px}
   .brand h1{margin:0;font-size:18px}
   #search{margin:14px 0}
 }
+
+.rocketLogo{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:18px;
+  flex:0 0 auto;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);
+}
+.brandText{min-width:0}
+@media(max-width:800px){
+  .rocketLogo{width:44px;height:44px;border-radius:14px}
+}
