@@ -588,13 +588,10 @@ function templateEmoji(t){
 }
 function templateHeadingEmoji(line){
  const s=String(line||"").trim().toLowerCase();
- if(/^(important|attention|alerte|à retenir|a retenir)\b/.test(s))return "⚠️ ";
- if(/^(étapes|etapes|procédure|procedure|actions? à réaliser|actions? a realiser)\b/.test(s))return "📋 ";
- if(/^(sécurité|securite|mfa|authentification)\b/.test(s))return "🔐 ";
- if(/^(information|info|contexte)\b/.test(s))return "ℹ️ ";
- if(/^(matériel|materiel|équipement|equipement)\b/.test(s))return "📦 ";
- if(/^(réseau|reseau|vpn|connexion)\b/.test(s))return "🌐 ";
- if(/^(validation|résultat|resultat|confirmation)\b/.test(s))return "✅ ";
+ if(/^(important|attention|alerte|à retenir|a retenir|urgent|urgence)\b/.test(s))return "⚠️ ";
+ if(/^(sécurité|securite|mfa|authentification|mot de passe)\b/.test(s))return "🔐 ";
+ if(/^(information|info|contexte|à noter|a noter)\b/.test(s))return "ℹ️ ";
+ if(/^(validation|résultat|resultat|confirmation|résolu|resolu)\b/.test(s))return "✅ ";
  return "";
 }
 function templateSafeLinkify(text){
@@ -635,10 +632,8 @@ function templateLineEmoji(line){
 function decorateTemplatePlainText(text){
  const clean=formalizeTemplateText(text);
  if(!clean)return "";
- let decoratedCount=0;
  return clean.split("\n").map(line=>{
-   const raw=String(line||"");
-   const trimmed=raw.trim();
+   const trimmed=String(line||"").trim();
    if(!trimmed)return "";
 
    const marker=templateHeadingEmoji(trimmed);
@@ -646,37 +641,22 @@ function decorateTemplatePlainText(text){
      return marker+trimmed;
    }
 
-   if(/^(bonjour|bonsoir)(\s|,|$)/i.test(trimmed))return trimmed;
-   if(/^(cordialement|bien cordialement|bonne journée|bonne journee|merci|merci d'avance|merci par avance)(\s|,|\.|$)/i.test(trimmed))return trimmed;
-   if(/^\d+[\).\-]?\s+/.test(trimmed) || /^\d+[️⃣]\s*/u.test(trimmed))return trimmed;
-   if(/^(objet\s*:)/i.test(trimmed))return trimmed;
-
-   if(/^[-•▪◦]\s*/.test(trimmed)){
-     const prefix=(trimmed.match(/^[-•▪◦]\s*/)||[""])[0];
-     const content=trimmed.replace(/^[-•▪◦]\s*/,"");
-     const emoji=decoratedCount<3?templateLineEmoji(content):"";
-     if(emoji)decoratedCount++;
-     return prefix+emoji+content;
-   }
-
-   const emoji=decoratedCount<3?templateLineEmoji(trimmed):"";
-   if(emoji)decoratedCount++;
-   return emoji+trimmed;
+   // Keep existing bullets, numbered steps and original user-authored emojis.
+   return trimmed;
  }).join("\n");
 }
 function formatTemplateHtml(text){
  const clean=formalizeTemplateText(text);
  if(!clean)return '<div class="template-empty">Aucun contenu.</div>';
- let decoratedCount=0;
  return clean.split("\n").map(line=>{
-   const raw=String(line||"");
-   const trimmed=raw.trim();
+   const trimmed=String(line||"").trim();
    if(!trimmed)return '<div class="tpl-space" aria-hidden="true"></div>';
 
    const marker=templateHeadingEmoji(trimmed);
    if(marker){
+     const already=/[\u2600-\u27BF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/.test(trimmed);
      return '<div class="tpl-callout">'+
-       '<span class="tpl-callout-icon">'+esc(marker.trim())+'</span>'+
+       '<span class="tpl-callout-icon">'+esc(already?"":marker.trim())+'</span>'+
        '<div>'+templateSafeLinkify(trimmed)+'</div>'+
      '</div>';
    }
@@ -692,17 +672,13 @@ function formatTemplateHtml(text){
    }
    if(/^[-•▪◦]\s*/.test(trimmed)){
      const content=trimmed.replace(/^[-•▪◦]\s*/,"");
-     const emoji=decoratedCount<3?templateLineEmoji(content):"";
-     if(emoji)decoratedCount++;
-     return '<div class="tpl-line tpl-bullet">'+esc(emoji)+templateSafeLinkify(content)+'</div>';
+     return '<div class="tpl-line tpl-bullet">'+templateSafeLinkify(content)+'</div>';
    }
    if(/^(objet\s*:)/i.test(trimmed)){
      return '<div class="tpl-line tpl-object">'+templateSafeLinkify(trimmed)+'</div>';
    }
 
-   const emoji=decoratedCount<3?templateLineEmoji(trimmed):"";
-   if(emoji)decoratedCount++;
-   return '<div class="tpl-line">'+esc(emoji)+templateSafeLinkify(trimmed)+'</div>';
+   return '<div class="tpl-line">'+templateSafeLinkify(trimmed)+'</div>';
  }).join("");
 }
 function templateShareText(t){
@@ -725,10 +701,9 @@ function templateCard(t){
  const body=formalizeTemplateText(t.content||"");
  const subject=formalizeTemplateText(t.subject||"");
  const full=templateShareText({...t,subject,content:body});
- const emoji=templateEmoji(t);
  const id="tpl_"+Math.random().toString(36).slice(2);
  return '<article class="card template-card">'+
- '<h3><span class="template-emoji">'+emoji+'</span> '+esc(t.name)+'</h3>'+
+ '<h3>'+esc(t.name)+'</h3>'+
  '<div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+
  (subject?'<div class="template-subject"><span>Objet</span>'+esc(subject)+'</div>':'')+
  '<div id="'+id+'" class="template-preview template-preview-collapsed">'+formatTemplateHtml(body)+'</div>'+
