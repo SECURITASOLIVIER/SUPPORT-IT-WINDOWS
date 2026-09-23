@@ -502,19 +502,107 @@ function commandCard(c){
  '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>Voir plus</button></div>'+
  detailHtml(c,id)+'</article>';
 }
+function normalizeTemplateText(text){
+ let t=String(text==null?"":text);
+ t=t.replace(/\\r\\n/g,"\n").replace(/\\n/g,"\n").replace(/\\t/g," ");
+ t=t.replace(/^\s*[>"'\x60]+\s*/,"");
+ t=t.replace(/\s*["'\x60]+\s*\)?\s*>?\s*$/,"");
+ t=t.replace(/^\s*>\s?/gm,"");
+ t=t.replace(/\r\n?/g,"\n").replace(/[ \t]+$/gm,"").replace(/\n{3,}/g,"\n\n");
+ return t.trim();
+}
+function formalizeTemplateText(text){
+ let t=normalizeTemplateText(text);
+ const reps=[
+  [/\b[Pp]eux-tu\b/g,m=>m[0]==="P"?"Pouvez-vous":"pouvez-vous"],
+  [/\b[Tt]u peux\b/g,m=>m[0]==="T"?"Vous pouvez":"vous pouvez"],
+  [/\b[Tt]u dois\b/g,m=>m[0]==="T"?"Vous devez":"vous devez"],
+  [/\b[Tt]u es\b/g,m=>m[0]==="T"?"Vous êtes":"vous êtes"],
+  [/\b[Tt]u as\b/g,m=>m[0]==="T"?"Vous avez":"vous avez"],
+  [/\b[Tt]u vas\b/g,m=>m[0]==="T"?"Vous allez":"vous allez"],
+  [/\b[Tt]u veux\b/g,m=>m[0]==="T"?"Vous voulez":"vous voulez"],
+  [/\b[Tt]u\b/g,m=>m[0]==="T"?"Vous":"vous"],
+  [/\b[Tt]oi\b/g,m=>m[0]==="T"?"Vous":"vous"],
+  [/\b[Tt]on\b/g,m=>m[0]==="T"?"Votre":"votre"],
+  [/\b[Tt]a\b/g,m=>m[0]==="T"?"Votre":"votre"],
+  [/\b[Tt]es\b/g,m=>m[0]==="T"?"Vos":"vos"],
+  [/\b[Nn]['’]hésite pas\b/g,m=>m[0]==="N"?"N’hésitez pas":"n’hésitez pas"],
+  [/\b[Cc]lique sur\b/g,m=>m[0]==="C"?"Cliquez sur":"cliquez sur"],
+  [/\b[Oo]uvre\b/g,m=>m[0]==="O"?"Ouvrez":"ouvrez"],
+  [/\b[Aa]joute\b/g,m=>m[0]==="A"?"Ajoutez":"ajoutez"],
+  [/\b[Ss]électionne\b/g,m=>m[0]==="S"?"Sélectionnez":"sélectionnez"],
+  [/\b[Cc]hoisis\b/g,m=>m[0]==="C"?"Choisissez":"choisissez"],
+  [/\b[Vv]alide\b/g,m=>m[0]==="V"?"Validez":"validez"],
+  [/\b[Tt]élécharge\b/g,m=>m[0]==="T"?"Téléchargez":"téléchargez"],
+  [/\b[Aa]ccède\b/g,m=>m[0]==="A"?"Accédez":"accédez"],
+  [/\b[Rr]edémarre\b/g,m=>m[0]==="R"?"Redémarrez":"redémarrez"],
+  [/\b[Ee]nregistre\b/g,m=>m[0]==="E"?"Enregistrez":"enregistrez"]
+ ];
+ for(const [re,fn] of reps)t=t.replace(re,fn);
+ return t;
+}
+function templateEmoji(t){
+ const s=[t&&t.category,t&&t.name,t&&t.subject,t&&t.content].filter(Boolean).join(" ").toLowerCase();
+ if(/mfa|authenticator|authentification|mot de passe|sécurit|security|bitlocker|defender/.test(s))return "🔐";
+ if(/matériel|materiel|expédition|expedition|livraison|remise|restitution|casque|chargeur|poste|pc\b/.test(s))return "📦";
+ if(/onboarding|arrivée|arrivee|nouvel utilisateur|nouveau collaborateur/.test(s))return "👋";
+ if(/offboarding|départ|depart|sortie collaborateur/.test(s))return "↩️";
+ if(/réseau|reseau|vpn|wifi|connexion|dns|dhcp/.test(s))return "🌐";
+ if(/teams|mtr|salle de réunion|salle de reunion|meeting room|visio/.test(s))return "🎥";
+ if(/outlook|mail|email|e-mail|microsoft 365|office/.test(s))return "📧";
+ if(/ticket|incident|demande|support|helpdesk/.test(s))return "🎫";
+ if(/mise à jour|mise a jour|update|correctif|patch/.test(s))return "🔄";
+ if(/application|logiciel|software|installation|désinstallation|desinstallation/.test(s))return "💻";
+ return "💬";
+}
+function templateHeadingEmoji(line){
+ const s=String(line||"").trim().toLowerCase();
+ if(/^(important|attention|alerte|à retenir|a retenir)\b/.test(s))return "⚠️ ";
+ if(/^(étapes|etapes|procédure|procedure|actions? à réaliser|actions? a realiser)\b/.test(s))return "📋 ";
+ if(/^(sécurité|securite|mfa|authentification)\b/.test(s))return "🔐 ";
+ if(/^(information|info|contexte)\b/.test(s))return "ℹ️ ";
+ if(/^(matériel|materiel|équipement|equipement)\b/.test(s))return "📦 ";
+ if(/^(réseau|reseau|vpn|connexion)\b/.test(s))return "🌐 ";
+ if(/^(validation|résultat|resultat|confirmation)\b/.test(s))return "✅ ";
+ return "";
+}
+function formatTemplateHtml(text){
+ const clean=formalizeTemplateText(text);
+ if(!clean)return '<div class="template-empty">Aucun contenu.</div>';
+ return clean.split("\n").map(line=>{
+   const trimmed=String(line||"").trim();
+   if(!trimmed)return '<div class="tpl-space" aria-hidden="true"></div>';
+   const marker=templateHeadingEmoji(trimmed);
+   const heading=!!marker || /^(bonjour|bonsoir|objet\s*:|merci pour votre collaboration\.?$)/i.test(trimmed);
+   return '<div class="tpl-line'+(heading?' tpl-title':'')+'">'+esc(marker+trimmed)+'</div>';
+ }).join("");
+}
+function templateShareText(t){
+ const subject=formalizeTemplateText(t&&t.subject||"");
+ const body=formalizeTemplateText(t&&t.content||"");
+ return (subject?"Objet : "+subject+"\n\n":"")+body;
+}
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
-function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(t.subject||t.name||"Communication IT",t.content||"")}
+function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(formalizeTemplateText(t.subject||t.name||"Communication IT"),formalizeTemplateText(t.content||""))}
 function templateCard(t){
  let r=JSON.stringify(t._id);
- const full=(t.subject?"Objet : "+t.subject+"\n\n":"")+t.content;
- return '<article class="card"><h3>'+esc(t.name)+'</h3><div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+
- (t.subject?'<div class="badge">Objet : '+esc(t.subject)+'</div>':'')+
- '<pre class="code">'+esc(t.content)+'</pre><div class="actions">'+
+ const body=formalizeTemplateText(t.content||"");
+ const subject=formalizeTemplateText(t.subject||"");
+ const full=templateShareText({...t,subject,content:body});
+ const emoji=templateEmoji(t);
+ return '<article class="card template-card">'+
+ '<h3><span class="template-emoji">'+emoji+'</span> '+esc(t.name)+'</h3>'+
+ '<div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+
+ (subject?'<div class="template-subject"><span>Objet</span>'+esc(subject)+'</div>':'')+
+ '<div class="template-preview">'+formatTemplateHtml(body)+'</div>'+
+ '<div class="actions">'+
  '<button class="btn primary" onclick=\'copy('+JSON.stringify(full)+')\'>Copier</button>'+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(t.name||"Communication IT")+','+JSON.stringify(full)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
- '<button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button><button class="btn red" onclick=\'deleteTemplate('+r+')\'>Supprimer</button></div></article>';
+ '<button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button>'+
+ '<button class="btn red" onclick=\'deleteTemplate('+r+')\'>Supprimer</button>'+
+ '</div></article>';
 }
 function setTemplateFilter(v){templateFilter=v;render()}
 function communications(){
@@ -527,9 +615,14 @@ function communications(){
  (actionCards.length?'<div class="section-title">Actions Communication</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
  '<div class="section-title">Modèles corporate</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">Aucun template trouvé.</div>')+'</div>';
 }
-function newTemplate(ref=null){let t=ref?{...getTemplateByRef(ref)}:{category:"Tickets",name:"",subject:"",content:""};$("#content").innerHTML='<div class="card"><h3>'+(ref?'Modifier le template':'Créer un template')+'</h3><div class="editor"><div><div class="meta">Catégorie</div><input id="ecat" value="'+esc(t.category||"")+'"></div><div><div class="meta">Nom</div><input id="ename" value="'+esc(t.name||"")+'"></div><div class="full"><div class="meta">Objet</div><input id="esub" value="'+esc(t.subject||"")+'"></div><div class="full"><div class="meta">Texte</div><textarea id="ebody">'+esc(t.content||"")+'</textarea></div><div class="full actions"><button class="btn primary" onclick=\'saveTemplateRef('+JSON.stringify(ref||"")+')\'>Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div></div>'}
+function newTemplate(ref=null){
+ let t=ref?{...getTemplateByRef(ref)}:{category:"Tickets",name:"",subject:"",content:""};
+ t.subject=formalizeTemplateText(t.subject||"");
+ t.content=formalizeTemplateText(t.content||"");
+ $("#content").innerHTML='<div class="card"><h3>'+(ref?'Modifier le template':'Créer un template')+'</h3><div class="editor"><div><div class="meta">Catégorie</div><input id="ecat" value="'+esc(t.category||"")+'"></div><div><div class="meta">Nom</div><input id="ename" value="'+esc(t.name||"")+'"></div><div class="full"><div class="meta">Objet</div><input id="esub" value="'+esc(t.subject||"")+'"></div><div class="full"><div class="meta">Texte</div><textarea id="ebody">'+esc(t.content||"")+'</textarea></div><div class="full actions"><button class="btn primary" onclick=\'saveTemplateRef('+JSON.stringify(ref||"")+')\'>Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div></div>'
+}
 function editTemplate(ref){newTemplate(ref)}
-function saveTemplateRef(ref){let t={category:$("#ecat").value.trim()||"Divers",name:$("#ename").value.trim()||"Sans nom",subject:$("#esub").value.trim(),content:$("#ebody").value,custom:true};if(ref&&ref[0]==="c")custom[parseInt(ref.slice(1),10)]=t;else{if(ref&&ref[0]==="b"&&!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);custom.push(t)}savePocket();toast("Template enregistré");render()}
+function saveTemplateRef(ref){let t={category:$("#ecat").value.trim()||"Divers",name:$("#ename").value.trim()||"Sans nom",subject:formalizeTemplateText($("#esub").value.trim()),content:formalizeTemplateText($("#ebody").value),custom:true};if(ref&&ref[0]==="c")custom[parseInt(ref.slice(1),10)]=t;else{if(ref&&ref[0]==="b"&&!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);custom.push(t)}savePocket();toast("Template enregistré");render()}
 function deleteTemplate(ref){if(!ref||!confirm("Supprimer ce template ?"))return;if(ref[0]==="c")custom.splice(parseInt(ref.slice(1),10),1);else if(!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);savePocket();render()}
 function allPortals(){return (D.portals||[]).map((p,i)=>({...p,builtin:true,_id:"b"+i})).filter(p=>!hiddenLinks.includes(p._id)).concat(customLinks.map((p,i)=>({...p,custom:true,_id:"c"+i})))}
 function isFavoriteLink(r){return favoriteLinks.includes(r)}
