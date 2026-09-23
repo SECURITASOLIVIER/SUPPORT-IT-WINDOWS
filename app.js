@@ -574,32 +574,47 @@ function templateSafeLinkify(text){
    out+=esc(s.slice(last,m.index));
    const url=m[1];
    const safe=esc(url);
-   if(/\.(?:png|jpe?g|gif|webp)(?:\?.*)?$/i.test(url)){
-     out+='<a class="tpl-image-link" href="'+safe+'" target="_blank" rel="noopener"><img class="tpl-image" src="'+safe+'" alt="Illustration du template" loading="lazy"></a>';
-   }else{
-     out+='<a class="tpl-link" href="'+safe+'" target="_blank" rel="noopener">'+safe+'</a>';
-   }
+   out+='<a class="tpl-link" href="'+safe+'" target="_blank" rel="noopener">'+safe+'</a>';
    last=m.index+url.length;
  }
  out+=esc(s.slice(last));
  return out;
 }
+function templateLineEmoji(line){
+ const s=String(line||"").trim();
+ if(!s)return "";
+ // Do not add another emoji when the template already contains one.
+ if(/[\u2600-\u27BF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/.test(s))return "";
+ const l=s.toLowerCase();
+ if(/attention|important|alerte|urgent|urgence|vigilance/.test(l))return "⚠️ ";
+ if(/mfa|authenticator|authentification|sécurit|securit|bitlocker|defender/.test(l))return "🔐 ";
+ if(/mot de passe|password/.test(l))return "🔑 ";
+ if(/outlook|mail|e-mail|email|boîte partagée|boite partagee/.test(l))return "📧 ";
+ if(/teams|réunion|reunion|mtr|visio/.test(l))return "💬 ";
+ if(/réseau|reseau|vpn|wifi|connexion|dns|dhcp/.test(l))return "🌐 ";
+ if(/matériel|materiel|ordinateur|poste|pc\b|casque|chargeur|livraison|expédition|expedition|restitution/.test(l))return "📦 ";
+ if(/ticket|incident|demande de support/.test(l))return "🎫 ";
+ if(/téléphone|telephone|hotline|appel/.test(l))return "📞 ";
+ if(/mise à jour|mise a jour|update|redémarr|redemarr/.test(l))return "🔄 ";
+ if(/install|application|logiciel|software/.test(l))return "💻 ";
+ if(/résolu|resolu|validation|confirm|fonctionne correctement|clôtur|clotur/.test(l))return "✅ ";
+ if(/information|pour information|à noter|a noter/.test(l))return "ℹ️ ";
+ return "";
+}
 function formatTemplateHtml(text){
  const clean=formalizeTemplateText(text);
  if(!clean)return '<div class="template-empty">Aucun contenu.</div>';
+ let decoratedCount=0;
  return clean.split("\n").map(line=>{
    const raw=String(line||"");
    const trimmed=raw.trim();
    if(!trimmed)return '<div class="tpl-space" aria-hidden="true"></div>';
 
-   const imageOnly=/^https?:\/\/\S+\.(?:png|jpe?g|gif|webp)(?:\?\S*)?$/i.test(trimmed);
-   if(imageOnly)return '<div class="tpl-media">'+templateSafeLinkify(trimmed)+'</div>';
-
    const marker=templateHeadingEmoji(trimmed);
    if(marker){
      return '<div class="tpl-callout">'+
        '<span class="tpl-callout-icon">'+esc(marker.trim())+'</span>'+
-       '<div>'+templateSafeLinkify(trimmed.replace(/^(important|attention|alerte|à retenir|a retenir|étapes|etapes|procédure|procedure|actions? à réaliser|actions? a realiser|sécurité|securite|mfa|authentification|information|info|contexte|matériel|materiel|équipement|equipement|réseau|reseau|vpn|connexion|validation|résultat|resultat|confirmation)\s*:?\s*/i,"$&"))+'</div>'+
+       '<div>'+templateSafeLinkify(trimmed)+'</div>'+
      '</div>';
    }
 
@@ -613,13 +628,18 @@ function formatTemplateHtml(text){
      return '<div class="tpl-line tpl-step">'+templateSafeLinkify(trimmed)+'</div>';
    }
    if(/^[-•▪◦]\s*/.test(trimmed)){
-     return '<div class="tpl-line tpl-bullet">'+templateSafeLinkify(trimmed.replace(/^[-•▪◦]\s*/,""))+'</div>';
+     const content=trimmed.replace(/^[-•▪◦]\s*/,"");
+     const emoji=decoratedCount<3?templateLineEmoji(content):"";
+     if(emoji)decoratedCount++;
+     return '<div class="tpl-line tpl-bullet">'+esc(emoji)+templateSafeLinkify(content)+'</div>';
    }
    if(/^(objet\s*:)/i.test(trimmed)){
      return '<div class="tpl-line tpl-object">'+templateSafeLinkify(trimmed)+'</div>';
    }
 
-   return '<div class="tpl-line">'+templateSafeLinkify(trimmed)+'</div>';
+   const emoji=decoratedCount<3?templateLineEmoji(trimmed):"";
+   if(emoji)decoratedCount++;
+   return '<div class="tpl-line">'+esc(emoji)+templateSafeLinkify(trimmed)+'</div>';
  }).join("");
 }
 function templateShareText(t){
