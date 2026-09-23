@@ -268,21 +268,39 @@ function supportSteps(item){
  }
  return steps;
 }
+function specificCheck(item){
+ const candidates=[item.expected,item.result,item.validation,item.check].filter(Boolean).map(x=>String(x).trim());
+ for(const x of candidates){
+   if(x && !/v[ée]rifier que l.?objectif|contr[oô]ler le r[ée]sultat|r[ée]sultat attendu/i.test(x))return x;
+ }
+ return "";
+}
 function buildSupportShare(item){
  const p=executionProfile(item);
  const s=String(item.script||item.command||"").trim();
  const method=cleanMethod(item);
  const steps=supportSteps(item);
+ const objective=String(item.description||method||item.name||"Action de support").trim();
+ const check=specificCheck(item);
  const lines=[];
  lines.push("FICHE SUPPORT IT");
  lines.push("");
- lines.push("Sujet : "+String(item.name||"Support"));
- lines.push("Thématique : "+String(item.category||item.webCategory||"Support"));
- lines.push("Type : "+actionKind(item));
- if(item.description)lines.push("Objectif : "+String(item.description));
- if(item.rights)lines.push("Droits / prérequis : "+String(item.rights));
- if(item.risk)lines.push("Risque / impact : "+String(item.risk));
- if(method)lines.push("Principe : "+method);
+ lines.push(String(item.name||"Support"));
+ lines.push(String(item.category||item.webCategory||"Support")+" • "+actionKind(item));
+ lines.push("");
+ lines.push("OBJECTIF");
+ lines.push(objective);
+ if(method && method!==objective){
+   lines.push("");
+   lines.push("À COMPRENDRE");
+   lines.push(method);
+ }
+ if(item.rights || item.risk){
+   lines.push("");
+   lines.push("PRÉREQUIS / IMPACT");
+   if(item.rights)lines.push("Droits : "+String(item.rights));
+   if(item.risk)lines.push("Impact : "+String(item.risk));
+ }
  lines.push("");
  lines.push("PROCÉDURE");
  steps.forEach((x,i)=>lines.push((i+1)+". "+x));
@@ -291,12 +309,16 @@ function buildSupportShare(item){
    lines.push("SCRIPT / COMMANDE");
    lines.push(s);
  }
- lines.push("");
- lines.push("CONTRÔLE");
- lines.push("Vérifier que le résultat correspond à l’objectif de la fiche et relever tout message d’erreur exact.");
- lines.push("");
- lines.push("SI ÉCHEC / ESCALADE");
- lines.push("Transmettre le contexte, les étapes déjà réalisées, le résultat obtenu, le message d’erreur exact et les éléments utiles collectés.");
+ if(check){
+   lines.push("");
+   lines.push("VÉRIFICATION");
+   lines.push(check);
+ }
+ if(item.escalation){
+   lines.push("");
+   lines.push("ESCALADE");
+   lines.push(String(item.escalation));
+ }
  return lines.join("\n");
 }
 function launchTutorial(item){
@@ -313,6 +335,7 @@ function toggleInlineDetail(id){
 function detailHtml(item,id){
  const s=item.script||item.command||"", sh=item.shell||item.language||"PowerShell", p=executionProfile(item), m=cleanMethod(item);
  const objective=String(item.description||m||item.name||"Action de support");
+ const check=specificCheck(item);
  return '<div id="'+id+'" class="inline-detail">'+
    '<div class="detail-section objective-section"><div class="more-label">Objectif</div><div class="more-text">'+esc(objective)+'</div></div>'+
    (m&&m!==objective?'<div class="detail-section"><div class="more-label">À comprendre</div><div class="more-text">'+esc(m)+'</div></div>':'')+
@@ -322,7 +345,8 @@ function detailHtml(item,id){
     '</div></div>':'')+
    '<div class="detail-section"><div class="more-label">Procédure</div>'+launchTutorial(item)+'</div>'+
    (p.standalone&&s?'<div class="detail-section"><div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
-   '<div class="detail-section"><div class="more-label">Contrôle</div><div class="more-text">Vérifier que l’objectif est atteint. En cas d’échec, relever le résultat et le message d’erreur exact.</div></div>'+
+   (check?'<div class="detail-section"><div class="more-label">Vérification</div><div class="more-text">'+esc(check)+'</div></div>':'')+
+   (item.escalation?'<div class="detail-section"><div class="more-label">Escalade</div><div class="more-text">'+esc(item.escalation)+'</div></div>':'')+
    '</div>';
 }
 function actionCard(a){
@@ -405,5 +429,5 @@ function tools(){
  return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span></div>'+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,supportSteps,buildSupportShare,cleanMethod,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
