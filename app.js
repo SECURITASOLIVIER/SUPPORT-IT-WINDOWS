@@ -73,17 +73,13 @@ function templateCard(t){
 function filterItems(items, fields){let q=$("#search").value.trim().toLowerCase();if(!q)return items;return items.filter(x=>fields.some(f=>String(x[f]||"").toLowerCase().includes(q)))}
 function renderActions(c){let arr=filterItems(D.actions.filter(a=>a.webCategory===c),["name","description","method","command","category"]);return `<div class="toolbar"><span class="badge">${arr.length} action(s)</span><span class="badge warn">Exécution Windows : copier la commande</span></div><div class="grid">${arr.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>'}</div>`}
 function home(){
- const pa=pocketActions(); const actionCats=[...new Set(pa.map(a=>a.category).filter(Boolean))];
  return '<div class="home-summary">'+
    '<article class="card home-kpi"><h3>☷ Actions</h3><div class="big-number">'+pocketActions().length+'</div><p class="desc">Diagnostics, informations et actions.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
-   '<article class="card home-kpi"><h3>⌘ Commandes rapides</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>⌘ Commandes</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
    '<article class="card home-kpi"><h3>✉ Communications</h3><div class="big-number">'+allTemplates().length+'</div><p class="desc">Modèles et messages corporate.</p><button class="btn primary" onclick=\'openCat("Communications")\'>Ouvrir</button></article>'+
-   '<article class="card home-kpi"><h3>↗ Portails & liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Portails, outils et favoris.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
- '</div>'+
- '<div class="section-title">Thématiques</div>'+
- '<div class="category-cloud">'+actionCats.map(c=>'<button class="btn category-chip" onclick=\'openNoLossCategory('+JSON.stringify(c)+')\'>'+esc(c)+' <span>'+pocketActions().filter(a=>a.category===c).length+'</span></button>').join("")+'</div>';
+   '<article class="card home-kpi"><h3>↗ Liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Portails, outils et favoris.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
+ '</div>';
 }
-function openNoLossCategory(cat){actionFilter=cat;openCat("Toutes les actions")}
 let report=JSON.parse(localStorage.getItem("ssitReport")||"[]");
 function addReport(x){report.push(new Date().toLocaleString()+" — "+x);localStorage.setItem("ssitReport",JSON.stringify(report));toast("Ajouté au rapport")}
 function renderReport(){return `<div class="toolbar"><button class="btn primary" onclick="copy(report.join('\\n'))">Copier rapport</button><button class="btn red" onclick="report=[];localStorage.setItem('ssitReport','[]');render()">Vider</button></div><pre class="code" style="max-height:none">${esc(report.join("\n\n")||"Rapport vide.")}</pre>`}
@@ -406,5 +402,5 @@ function tools(){
  return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span></div>'+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,supportSteps,buildSupportShare,cleanMethod,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,openNoLossCategory,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,supportSteps,buildSupportShare,cleanMethod,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 render();
