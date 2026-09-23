@@ -4,7 +4,7 @@ body.light{--bg:#eef4fa;--panel:#fff;--panel2:#f7fbff;--text:#14283c;--muted:#5c
 *{box-sizing:border-box}body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
 #app{display:grid;grid-template-columns:285px 1fr;min-height:100vh}aside{background:#071827;border-right:1px solid #173957;padding:18px;position:sticky;top:0;height:100vh;overflow:auto}
 .brand b{color:var(--red);letter-spacing:5px}.brand h1{font-size:19px;margin:7px 0 2px;color:white}.brand small{color:#91b5d6}
-input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:9px;padding:11px}
+input,textarea,select{width:100%;background:var(--panel2);border:1px solid var(--line);color: #fff;border-radius:9px;padding:11px}
 #search{margin:20px 0}.navbtn{width:100%;text-align:left;border:0;background:transparent;color:#dcecff;padding:11px;border-radius:8px;margin:2px 0;cursor:pointer}.navbtn:hover,.navbtn.active{background:#12395b}
 .asideBottom{display:grid;gap:7px;margin-top:18px}button{cursor:pointer}.asideBottom button,.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:9px 11px}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:white}.btn.red{background:var(--red);border-color:var(--red);color:white}
@@ -279,4 +279,9 @@ header{margin-bottom:4px}
   .scrollTopBtn{right:14px;bottom:18px;width:46px;height:46px;font-size:24px}
   .all-menu-home{grid-template-columns:1fr 1fr}
   .all-menu-home .home-kpi{min-height:190px}
+}
+
+body.light .brand h1,
+body:not(.light) .brand h1{
+  color:#fff !important;
 }
