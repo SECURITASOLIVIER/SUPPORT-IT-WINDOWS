@@ -246,7 +246,6 @@ function supportSteps(item){
    const m=cleanMethod(item);
    if(m)steps.push("Appliquer la méthode indiquée : "+m);
    else steps.push("Consulter les informations de la fiche et appliquer l’action adaptée au contexte.");
-   steps.push("Documenter le résultat obtenu dans le ticket ou le compte rendu.");
    return steps;
  }
  if(isUrl){
