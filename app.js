@@ -20,29 +20,42 @@ const pocketSecurityOptions=[
  {category:"Intune • Utilisateur",webCategory:"Intune / Entra / SCCM",name:"Portail d’entreprise Web",description:"Accéder aux appareils et applications publiés via Microsoft Intune.",method:"Company Portal Web",command:"https://portal.manage.microsoft.com/",shell:"Navigateur",rights:"Compte professionnel",risk:"Lecture",pocketExpanded:true},
  {category:"Intune • Administration",webCategory:"Intune / Entra / SCCM",name:"Centre d’administration Intune",description:"Accéder à l’administration Microsoft Intune selon les droits du compte.",method:"Microsoft Intune Admin Center",command:"https://intune.microsoft.com/",shell:"Navigateur",rights:"Droits Intune requis",risk:"Administration",pocketExpanded:true}
 ];
+function commandWebCategory(c){
+ const k=String(c.webCategory||"").trim();
+ if(k)return k;
+ const cat=String(c.category||"").toLowerCase();
+ if(/r[ée]seau/.test(cat))return "Réseau & Accès distant";
+ if(/microsoft 365|office|onedrive|outlook|teams/.test(cat))return "Microsoft 365";
+ if(/intune|entra|sccm|mdm/.test(cat))return "Intune / Entra / SCCM";
+ if(/s[ée]curit|defender|bitlocker|tpm/.test(cat))return "Sécurité Windows";
+ if(/windows update/.test(cat))return "Windows Update";
+ if(/p[ée]riph|impression|imprimante|mat[ée]riel|pilote/.test(cat))return "Périphériques & Pilotes";
+ if(/application|winget/.test(cat))return "Applications";
+ if(/navigateur|edge|chrome|firefox/.test(cat))return "Navigateurs";
+ if(/assistance|outil/.test(cat))return "Outils Support";
+ return "Poste Windows";
+}
 function pocketActions(){
- const extras=[...pocketCenterOptions,...pocketSecurityOptions];
  const commandItems=(D.commands||[]).map(c=>({
    ...c,
    category:c.category||"Outils",
-   webCategory:c.webCategory||"Outils Support",
+   webCategory:commandWebCategory(c),
    script:"",
    method:"",
    language:c.shell||"",
    _fromCommand:true
  }));
- const commandNames=new Set(commandItems.map(x=>String(x.name||"").toLowerCase()));
- const source=(D.actions||[]).filter(a=>{
-   if(isPocketCenterWrapper(a)||isContainerAction(a))return false;
-   if(commandNames.has(String(a.name||"").toLowerCase()))return false;
-   return executionProfile(a).standalone;
- });
- const merged=[...extras,...commandItems,...source];
+ const directLinks=(pocketSecurityOptions||[]).filter(x=>String(x.command||"").trim());
+ const merged=[...commandItems,...directLinks];
  const seen=new Set();
  return merged.filter(x=>{
-   const key=(String(x.name||"").trim().toLowerCase()+"|"+String(x.command||x.script||"").trim());
-   if(!x.name||seen.has(key))return false;
-   seen.add(key);return true;
+   const payload=String(x.command||x.script||"").trim();
+   if(!x.name||!payload)return false;
+   if(!executionProfile(x).standalone)return false;
+   const key=String(x.name).trim().toLowerCase()+"|"+payload;
+   if(seen.has(key))return false;
+   seen.add(key);
+   return true;
  });
 }
 
@@ -178,9 +191,9 @@ function portals(){let ps=filterItems(D.portals,["name","url"]);return `<div cla
 function tools(){let cs=filterItems(D.commands,["name","description","command","category"]);return `<div class="toolbar"><span class="badge">${cs.length} commande(s)</span></div><div class="grid">${cs.map(commandCard).join("")}</div>`}
 function setActionFilter(v){actionFilter=v;render()}
 function renderAllActions(){
- let a=filterItems(pocketActions(),["name","description","method","command","script","category","webCategory"]);
- return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span></div>'+
- '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune fiche trouvée.</div>')+'</div>';
+ let a=filterItems(pocketActions(),["name","description","command","script","category","webCategory"]);
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' script(s) / action(s)</span></div>'+
+ '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucun script trouvé.</div>')+'</div>';
 }
 function renderJournal(){
  let a=filterItems(pocketActions().filter(x=>x.webCategory==="Journal & Statistiques"),["name","description","method","command","script","category"]);
@@ -252,7 +265,9 @@ function typeToolbar(){
 }
 function cleanMethod(item){
  const m=String(item.method||"").trim();
+ if(!m)return "";
  if(/^Option du Centre\b/i.test(m))return "";
+ if(/^(?:Registre|CIM|WMI|Get-|Start-|Open-|PowerShell|Processus|Services|Lecture locale|HKLM|HKCU|root\\|Azure Tools Hub)/i.test(m))return "";
  return m;
 }
 function supportSteps(item){
@@ -441,9 +456,13 @@ function editLink(r){newLink(r)}
 function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert("Nom obligatoire et URL http/https valide.");return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
 function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){
- let a=filterItems(pocketActions().filter(x=>x.webCategory===c),["name","description","method","command","script","category"]);
+ let base=pocketActions();
+ let a=c==="Diagnostic & Escalade"
+   ? base.filter(x=>actionKind(x)==="Diagnostic")
+   : base.filter(x=>x.webCategory===c);
+ a=filterItems(a,["name","description","command","script","category","webCategory"]);
  return '<div class="toolbar slimbar"><span class="badge">'+a.length+' fiche(s)</span></div>'+
- '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucune fiche trouvée.</div>')+'</div>';
+ '<div class="grid">'+(a.map(actionCard).join("")||'<div class="empty">Aucun script ou lien autonome dans cette rubrique.</div>')+'</div>';
 }
 function tools(){
  let c=filterItems(D.commands,["name","description","command","category","shell"]);
