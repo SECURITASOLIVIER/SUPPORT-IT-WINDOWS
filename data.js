@@ -1,5 +1,5 @@
 window.SSIT_DATA = {
-  "version": "IT POCKET WEB 1.1",
+  "version": "IT POCKET WEB 1.2",
   "actions": [
     {
       "category": "Accueil",
@@ -3067,13 +3067,1224 @@ window.SSIT_DATA = {
   ],
   "commands": [
     {
+      "category": "Microsoft 365 • OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "OneDrive - diagnostic technicien",
+      "description": "Collecte version, processus, comptes, dossiers, démarrage, connectivité Microsoft et logs OneDrive.",
+      "command": "$ErrorActionPreference = \"SilentlyContinue\"\n\n# Client OneDrive\n$exe = @(\n  \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\",\n  \"$env:ProgramFiles\\Microsoft OneDrive\\OneDrive.exe\",\n  \"${env:ProgramFiles(x86)}\\Microsoft OneDrive\\OneDrive.exe\"\n) | Where-Object { Test-Path $_ -PathType Leaf } | Select-Object -First 1\n\n$proc = Get-Process OneDrive -ErrorAction SilentlyContinue | Select-Object -First 1\n$version = if($exe){ (Get-Item $exe).VersionInfo.ProductVersion } else { \"Introuvable\" }\n$run = (Get-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" -Name OneDrive -ErrorAction SilentlyContinue).OneDrive\n\n# Comptes OneDrive\n$accounts = @()\n$root = \"HKCU:\\Software\\Microsoft\\OneDrive\\Accounts\"\nif(Test-Path $root){\n  $accounts = Get-ChildItem $root | ForEach-Object {\n    $v = Get-ItemProperty $_.PSPath\n    [pscustomobject]@{\n      Type=$_.PSChildName; Email=$v.UserEmail; DisplayName=$v.DisplayName\n      TenantName=$v.TenantName; UserFolder=$v.UserFolder\n    }\n  }\n}\n\n# Dossiers synchronisés\n$folders = @($env:OneDrive,$env:OneDriveCommercial,$env:OneDriveConsumer) | Where-Object {$_} | Select-Object -Unique\n$folderStats = foreach($folder in $folders){\n  if(Test-Path $folder){\n    $files = Get-ChildItem $folder -File -Recurse -ErrorAction SilentlyContinue\n    [pscustomobject]@{\n      Folder=$folder\n      Files=$files.Count\n      SizeGB=[math]::Round((($files | Measure-Object Length -Sum).Sum)/1GB,2)\n    }\n  }\n}\n\n# Connectivité Microsoft\n$endpointTests = foreach($hostName in \"login.microsoftonline.com\",\"onedrive.live.com\",\"graph.microsoft.com\"){\n  $dns = try { [bool](Resolve-DnsName $hostName -ErrorAction Stop) } catch { $false }\n  $tcp = try { Test-NetConnection $hostName -Port 443 -InformationLevel Quiet -WarningAction SilentlyContinue } catch { $false }\n  [pscustomobject]@{Endpoint=$hostName;DNS=$dns;TCP443=$tcp}\n}\n\n# Logs récents\n$logRoot = \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\logs\"\n$recentLogs = if(Test-Path $logRoot){\n  Get-ChildItem $logRoot -Recurse -File -ErrorAction SilentlyContinue |\n    Sort-Object LastWriteTime -Descending |\n    Select-Object -First 20 FullName,Length,LastWriteTime\n}\n\n\"=== ONEDRIVE - DIAGNOSTIC TECHNICIEN ===\"\n\"Machine : $env:COMPUTERNAME\"\n\"Utilisateur : $env:USERNAME\"\n\"Executable : $exe\"\n\"Version : $version\"\n\"Processus actif : $([bool]$proc)\"\nif($proc){\"PID : $($proc.Id) | RAM MB : $([math]::Round($proc.WorkingSet64/1MB,1)) | Démarré : $($proc.StartTime)\"}\n\"Démarrage session : $run\"\n\"\"\n\"=== COMPTES ===\"\n$accounts | Format-Table -AutoSize\n\"=== DOSSIERS ===\"\n$folderStats | Format-Table -AutoSize\n\"=== CONNECTIVITÉ MICROSOFT ===\"\n$endpointTests | Format-Table -AutoSize\n\"=== LOGS RÉCENTS ===\"\n$recentLogs | Format-Table LastWriteTime,Length,FullName -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Poste Windows",
+      "webCategory": "Poste Windows",
+      "name": "Résumé machine",
+      "description": "Affiche les informations essentielles du poste : Windows, fabricant, modèle, série, BIOS, CPU, RAM, disque, utilisateur et réseau.",
+      "command": "$os=Get-CimInstance Win32_OperatingSystem; $cs=Get-CimInstance Win32_ComputerSystem; $bios=Get-CimInstance Win32_BIOS; $cpu=Get-CimInstance Win32_Processor|Select-Object -First 1; $disk=Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\"; $net=Get-NetIPConfiguration|Where-Object {$_.IPv4DefaultGateway}|Select-Object -First 1; [pscustomobject]@{Machine=$env:COMPUTERNAME;Utilisateur=$env:USERNAME;Windows=$os.Caption;Version=$os.Version;Build=$os.BuildNumber;Fabricant=$cs.Manufacturer;Modele=$cs.Model;Serie=$bios.SerialNumber;BIOS=$bios.SMBIOSBIOSVersion;CPU=$cpu.Name;RAM_GB=[math]::Round($cs.TotalPhysicalMemory/1GB,1);DisqueC_Libre_GB=[math]::Round($disk.FreeSpace/1GB,1);IPv4=($net.IPv4Address.IPAddress -join \", \");Passerelle=$net.IPv4DefaultGateway.NextHop;DNS=($net.DNSServer.ServerAddresses -join \", \") } | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications",
+      "webCategory": "Applications",
+      "name": "Top applications détectées",
+      "description": "Liste les principales applications installées avec version et éditeur.",
+      "command": "$paths=@(\"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\",\"HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\",\"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\"); Get-ItemProperty $paths -ErrorAction SilentlyContinue | Where-Object DisplayName | Select-Object DisplayName,DisplayVersion,Publisher | Sort-Object DisplayName -Unique | Select-Object -First 50 | Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications",
+      "webCategory": "Applications",
+      "name": "Inventaire applications",
+      "description": "Liste les logiciels installés depuis les clés Uninstall HKLM, WOW6432Node et HKCU.",
+      "command": "$paths=@(\"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\",\"HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\",\"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\"); Get-ItemProperty $paths -ErrorAction SilentlyContinue | Where-Object DisplayName | Select-Object DisplayName,DisplayVersion,Publisher,InstallDate,InstallLocation,UninstallString | Sort-Object DisplayName -Unique | Format-Table -AutoSize",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
       "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
       "name": "IPCONFIG complet",
-      "description": "Configuration IP, DNS, DHCP et cartes réseau.",
+      "description": "",
       "command": "ipconfig /all",
       "shell": "CMD / PowerShell",
       "rights": "Utilisateur",
-      "risk": "Lecture seule"
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Résumé IP PowerShell",
+      "description": "",
+      "command": "Get-NetIPConfiguration | Format-List InterfaceAlias,InterfaceDescription,IPv4Address,IPv6Address,IPv4DefaultGateway,DNSServer",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Cartes réseau",
+      "description": "",
+      "command": "Get-NetAdapter | Sort-Object Status,Name | Format-Table Name,InterfaceDescription,Status,LinkSpeed,MacAddress -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "DNS configurés",
+      "description": "",
+      "command": "Get-DnsClientServerAddress | Where-Object {$_.ServerAddresses} | Format-Table InterfaceAlias,AddressFamily,ServerAddresses -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Cache DNS",
+      "description": "",
+      "command": "Get-DnsClientCache | Select-Object Entry,Name,Data,Status | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Vider cache DNS",
+      "description": "",
+      "command": "ipconfig /flushdns",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Résolution DNS Microsoft",
+      "description": "",
+      "command": "Resolve-DnsName login.microsoftonline.com -ErrorAction Continue",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "NSLOOKUP",
+      "description": "",
+      "command": "nslookup login.microsoftonline.com",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Tester passerelle",
+      "description": "",
+      "command": "$gw=(Get-NetRoute -DestinationPrefix \"0.0.0.0/0\" -ErrorAction SilentlyContinue | Sort-Object RouteMetric | Select-Object -First 1).NextHop; if($gw){Test-Connection $gw -Count 3}else{\"Aucune passerelle IPv4\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Test Internet 443",
+      "description": "",
+      "command": "Test-NetConnection login.microsoftonline.com -Port 443 -InformationLevel Detailed",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Test Graph 443",
+      "description": "",
+      "command": "Test-NetConnection graph.microsoft.com -Port 443 -InformationLevel Detailed",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Connexions TCP",
+      "description": "",
+      "command": "Get-NetTCPConnection -State Established -ErrorAction SilentlyContinue | Sort-Object RemoteAddress | Select-Object LocalAddress,LocalPort,RemoteAddress,RemotePort,OwningProcess | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "NETSTAT",
+      "description": "",
+      "command": "netstat -ano",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Routes",
+      "description": "",
+      "command": "route print",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "ARP",
+      "description": "",
+      "command": "arp -a",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Proxy WinHTTP",
+      "description": "",
+      "command": "netsh winhttp show proxy",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Proxy utilisateur",
+      "description": "",
+      "command": "Get-ItemProperty \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\" | Select ProxyEnable,ProxyServer,AutoConfigURL",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "DHCP Release / Renew",
+      "description": "",
+      "command": "ipconfig /release; ipconfig /renew",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Winsock reset",
+      "description": "",
+      "command": "netsh winsock reset",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "Réseau",
+      "webCategory": "Réseau & Accès distant",
+      "name": "Reset TCP/IP",
+      "description": "",
+      "command": "netsh int ip reset",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "SystemInfo",
+      "description": "",
+      "command": "systeminfo",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Windows / Build",
+      "description": "",
+      "command": "Get-CimInstance Win32_OperatingSystem | Select Caption,Version,BuildNumber,OSArchitecture,InstallDate,LastBootUpTime | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Uptime",
+      "description": "",
+      "command": "$os=Get-CimInstance Win32_OperatingSystem; New-TimeSpan -Start $os.LastBootUpTime -End (Get-Date)",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "BIOS",
+      "description": "",
+      "command": "Get-CimInstance Win32_ComputerSystem | Select Manufacturer,Model; Get-CimInstance Win32_BIOS | Select Manufacturer,SMBIOSBIOSVersion,SerialNumber,ReleaseDate",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "SFC VerifyOnly",
+      "description": "",
+      "command": "sfc /verifyonly",
+      "shell": "CMD / PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "SFC ScanNow",
+      "description": "",
+      "command": "sfc /scannow",
+      "shell": "CMD / PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "DISM CheckHealth",
+      "description": "",
+      "command": "DISM /Online /Cleanup-Image /CheckHealth",
+      "shell": "CMD / PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "DISM ScanHealth",
+      "description": "",
+      "command": "DISM /Online /Cleanup-Image /ScanHealth",
+      "shell": "CMD / PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "DISM RestoreHealth",
+      "description": "",
+      "command": "DISM /Online /Cleanup-Image /RestoreHealth",
+      "shell": "CMD / PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "CHKDSK Online",
+      "description": "",
+      "command": "chkdsk C: /scan",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Erreurs système 24h",
+      "description": "",
+      "command": "Get-WinEvent -FilterHashtable @{LogName=\"System\";Level=1,2;StartTime=(Get-Date).AddHours(-24)} -ErrorAction SilentlyContinue | Select TimeCreated,Id,ProviderName,Message | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Erreurs applications 24h",
+      "description": "",
+      "command": "Get-WinEvent -FilterHashtable @{LogName=\"Application\";Level=1,2;StartTime=(Get-Date).AddHours(-24)} -ErrorAction SilentlyContinue | Select TimeCreated,Id,ProviderName,Message | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Fiabilité récente",
+      "description": "",
+      "command": "Get-CimInstance Win32_ReliabilityRecords -ErrorAction SilentlyContinue | Sort-Object TimeGenerated -Descending | Select -First 30 TimeGenerated,SourceName,EventIdentifier,Message | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Système",
+      "webCategory": "Poste Windows",
+      "name": "Redémarrage en attente",
+      "description": "",
+      "command": "$p=@(); if(Test-Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Component Based Servicing\\RebootPending\"){$p+=\"CBS\"}; if(Test-Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\WindowsUpdate\\Auto Update\\RebootRequired\"){$p+=\"Windows Update\"}; $x=(Get-ItemProperty \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\" -Name PendingFileRenameOperations -ErrorAction SilentlyContinue); if($x){$p+=\"PendingFileRenameOperations\"}; if($p){$p}else{\"Aucun indicateur détecté\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Top RAM",
+      "description": "",
+      "command": "Get-Process | Sort-Object WorkingSet64 -Descending | Select -First 15 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Top CPU",
+      "description": "",
+      "command": "Get-Process | Sort-Object CPU -Descending | Select -First 15 Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Tous les processus",
+      "description": "",
+      "command": "Get-Process | Sort-Object Name | Select Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Services auto arrêtés",
+      "description": "",
+      "command": "Get-CimInstance Win32_Service | Where-Object {$_.StartMode -eq \"Auto\" -and $_.State -ne \"Running\"} | Select Name,DisplayName,State,StartMode | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Services en erreur",
+      "description": "",
+      "command": "Get-CimInstance Win32_Service | Where-Object {$_.ExitCode -ne 0 -or $_.State -eq \"Stopped\"} | Select Name,DisplayName,State,StartMode,ExitCode | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Processus & Services",
+      "webCategory": "Poste Windows",
+      "name": "Redémarrer Spooler",
+      "description": "",
+      "command": "Restart-Service Spooler -Force",
+      "shell": "PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Disque & Stockage",
+      "webCategory": "Poste Windows",
+      "name": "Volumes",
+      "description": "",
+      "command": "Get-Volume | Select DriveLetter,FileSystemLabel,FileSystem,HealthStatus,SizeRemaining,Size | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Disque & Stockage",
+      "webCategory": "Poste Windows",
+      "name": "Disques physiques",
+      "description": "",
+      "command": "Get-PhysicalDisk -ErrorAction SilentlyContinue | Select FriendlyName,MediaType,HealthStatus,OperationalStatus,Size | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Disque & Stockage",
+      "webCategory": "Poste Windows",
+      "name": "Disques WMI",
+      "description": "",
+      "command": "Get-CimInstance Win32_DiskDrive | Select Model,SerialNumber,InterfaceType,Status,Size | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Disque & Stockage",
+      "webCategory": "Poste Windows",
+      "name": "Espace C:",
+      "description": "",
+      "command": "Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\" | Select DeviceID,@{N=\"FreeGB\";E={[math]::Round($_.FreeSpace/1GB,2)}},@{N=\"SizeGB\";E={[math]::Round($_.Size/1GB,2)}}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Disque & Stockage",
+      "webCategory": "Poste Windows",
+      "name": "Taille TEMP utilisateur",
+      "description": "",
+      "command": "$p=$env:TEMP; $s=(Get-ChildItem $p -Force -Recurse -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum; [pscustomobject]@{Path=$p;SizeGB=[math]::Round($s/1GB,2)}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Winget list",
+      "description": "",
+      "command": "winget list",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Winget upgrade",
+      "description": "",
+      "command": "winget upgrade",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Winget sources",
+      "description": "",
+      "command": "winget source list",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Winget upgrade all",
+      "description": "",
+      "command": "winget upgrade --all --accept-source-agreements --accept-package-agreements",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Applications registre",
+      "description": "",
+      "command": "$paths=\"HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\",\"HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*\"; Get-ItemProperty $paths -ErrorAction SilentlyContinue | Where-Object DisplayName | Select DisplayName,DisplayVersion,Publisher,InstallDate | Sort DisplayName | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "AppX installées",
+      "description": "",
+      "command": "Get-AppxPackage | Select Name,Version,PackageFullName | Sort Name | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Applications & Winget",
+      "webCategory": "Applications",
+      "name": "Crash applications 48h",
+      "description": "",
+      "command": "Get-WinEvent -FilterHashtable @{LogName=\"Application\";StartTime=(Get-Date).AddHours(-48)} -ErrorAction SilentlyContinue | Where-Object {$_.ProviderName -in \"Application Error\",\"Application Hang\",\"Windows Error Reporting\"} | Select TimeCreated,ProviderName,Id,Message | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Office Click-to-Run",
+      "description": "",
+      "command": "Get-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Office\\ClickToRun\\Configuration\" -ErrorAction SilentlyContinue | Select VersionToReport,ClientVersionToReport,UpdateChannel,CDNBaseUrl,Platform,ProductReleaseIds | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Processus Office",
+      "description": "",
+      "command": "Get-Process OUTLOOK,WINWORD,EXCEL,POWERPNT,MS-TEAMS,Teams,OneDrive -ErrorAction SilentlyContinue | Select Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Outlook Safe",
+      "description": "",
+      "command": "Start-Process outlook.exe -ArgumentList \"/safe\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Outlook Reset NavPane",
+      "description": "",
+      "command": "Start-Process outlook.exe -ArgumentList \"/resetnavpane\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "OST / PST",
+      "description": "",
+      "command": "Get-ChildItem \"$env:LOCALAPPDATA\\Microsoft\\Outlook\",\"$env:USERPROFILE\\Documents\\Outlook Files\" -Include *.ost,*.pst -File -ErrorAction SilentlyContinue | Select FullName,@{N=\"SizeGB\";E={[math]::Round($_.Length/1GB,2)}},LastWriteTime | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Compléments Outlook",
+      "description": "",
+      "command": "Get-ChildItem \"HKCU:\\Software\\Microsoft\\Office\\Outlook\\Addins\" -ErrorAction SilentlyContinue | ForEach-Object {Get-ItemProperty $_.PSPath | Select @{N=\"Addin\";E={$_.PSChildName}},FriendlyName,Description,LoadBehavior} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Profils Outlook",
+      "description": "",
+      "command": "Get-ChildItem \"HKCU:\\Software\\Microsoft\\Office\\16.0\\Outlook\\Profiles\" -ErrorAction SilentlyContinue | Select PSChildName",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Office / M365",
+      "webCategory": "Microsoft 365",
+      "name": "Teams processus",
+      "description": "",
+      "command": "Get-Process Teams,ms-teams -ErrorAction SilentlyContinue | Select Name,Id,Path,StartTime,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "Processus OneDrive",
+      "description": "",
+      "command": "Get-Process OneDrive -ErrorAction SilentlyContinue | Select Name,Id,Path,ProductVersion,StartTime,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}} | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "Comptes OneDrive",
+      "description": "",
+      "command": "Get-ChildItem \"HKCU:\\Software\\Microsoft\\OneDrive\\Accounts\" -ErrorAction SilentlyContinue | ForEach-Object {Get-ItemProperty $_.PSPath | Select @{N=\"Compte\";E={$_.PSChildName}},UserEmail,DisplayName,UserFolder,TenantName} | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "Logs OneDrive",
+      "description": "",
+      "command": "Start-Process explorer.exe \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\logs\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "OneDrive Reset",
+      "description": "",
+      "command": "& \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\" /reset",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "OneDrive",
+      "webCategory": "Microsoft 365",
+      "name": "Relancer OneDrive",
+      "description": "",
+      "command": "Start-Process \"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs",
+      "webCategory": "Navigateurs",
+      "name": "Edge version",
+      "description": "",
+      "command": "(Get-Item \"${env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe\" -ErrorAction SilentlyContinue).VersionInfo | Select ProductVersion,FileVersion,FileName",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs",
+      "webCategory": "Navigateurs",
+      "name": "Chrome version",
+      "description": "",
+      "command": "$p=\"$env:ProgramFiles\\Google\\Chrome\\Application\\chrome.exe\"; if(!(Test-Path $p)){$p=\"${env:ProgramFiles(x86)}\\Google\\Chrome\\Application\\chrome.exe\"}; if(Test-Path $p){(Get-Item $p).VersionInfo | Select ProductVersion,FileVersion,FileName}else{\"Chrome non détecté\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs",
+      "webCategory": "Navigateurs",
+      "name": "Processus navigateurs",
+      "description": "",
+      "command": "Get-Process msedge,chrome,firefox -ErrorAction SilentlyContinue | Select Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},Path | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs",
+      "webCategory": "Navigateurs",
+      "name": "Edge profils",
+      "description": "",
+      "command": "Get-ChildItem \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\" -Directory -ErrorAction SilentlyContinue | Where-Object {$_.Name -match \"^Default$|^Profile \"} | Select Name,FullName,LastWriteTime | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Navigateurs",
+      "webCategory": "Navigateurs",
+      "name": "Chrome profils",
+      "description": "",
+      "command": "Get-ChildItem \"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\" -Directory -ErrorAction SilentlyContinue | Where-Object {$_.Name -match \"^Default$|^Profile \"} | Select Name,FullName,LastWriteTime | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "DSREGCMD status",
+      "description": "",
+      "command": "dsregcmd /status",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Enregistrements MDM",
+      "description": "",
+      "command": "Get-ChildItem \"HKLM:\\SOFTWARE\\Microsoft\\Enrollments\" -ErrorAction SilentlyContinue | ForEach-Object {Get-ItemProperty $_.PSPath -ErrorAction SilentlyContinue | Select @{N=\"Enrollment\";E={$_.PSChildName}},UPN,DiscoveryServiceFullURL,ProviderID,EnrollmentType} | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Tâches EnterpriseMgmt",
+      "description": "",
+      "command": "Get-ScheduledTask -ErrorAction SilentlyContinue | Where-Object {$_.TaskPath -like \"\\Microsoft\\Windows\\EnterpriseMgmt\\*\"} | Select TaskName,TaskPath,State | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Forcer synchro MDM",
+      "description": "",
+      "command": "Get-ScheduledTask -ErrorAction SilentlyContinue | Where-Object {$_.TaskPath -like \"\\Microsoft\\Windows\\EnterpriseMgmt\\*\" -and $_.TaskName -match \"PushLaunch|Schedule\"} | Start-ScheduledTask",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Action"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Certificats MDM",
+      "description": "",
+      "command": "Get-ChildItem Cert:\\LocalMachine\\My | Where-Object {$_.Issuer -match \"Intune|MDM|Microsoft\" -or $_.Subject -match \"MS-Organization\"} | Select Subject,Issuer,Thumbprint,NotBefore,NotAfter | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Ouvrir Accès travail",
+      "description": "",
+      "command": "Start-Process \"ms-settings:environnement professionnel\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Intune / Entra",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Ouvrir Company Portal",
+      "description": "",
+      "command": "Start-Process \"companyportal:\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Client SCCM",
+      "description": "",
+      "command": "Get-CimInstance -Namespace root\\ccm -ClassName SMS_Client -ErrorAction SilentlyContinue | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Service CcmExec",
+      "description": "",
+      "command": "Get-Service CcmExec -ErrorAction SilentlyContinue | Format-List Name,DisplayName,Status,StartType",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Site assigné",
+      "description": "",
+      "command": "Get-CimInstance -Namespace root\\ccm -ClassName SMS_Authority -ErrorAction SilentlyContinue | Select Name,CurrentManagementPoint | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Cache SCCM",
+      "description": "",
+      "command": "$ui=New-Object -ComObject UIResource.UIResourceMgr; $c=$ui.GetCacheInfo(); $c.GetCacheElements() | Select ContentID,ContentVersion,Location,LastReferenceTime | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Machine Policy Retrieval",
+      "description": "",
+      "command": "Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000021}\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Machine Policy Evaluation",
+      "description": "",
+      "command": "Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000022}\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Hardware Inventory",
+      "description": "",
+      "command": "Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000001}\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Software Updates Scan",
+      "description": "",
+      "command": "Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000113}\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "SCCM",
+      "webCategory": "Intune / Entra / SCCM",
+      "name": "Application Eval",
+      "description": "",
+      "command": "Invoke-CimMethod -Namespace root\\ccm -ClassName SMS_Client -MethodName TriggerSchedule -Arguments @{sScheduleID=\"{00000000-0000-0000-0000-000000000121}\"}",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Defender statut",
+      "description": "",
+      "command": "Get-MpComputerStatus | Format-List",
+      "shell": "PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Menaces Defender",
+      "description": "",
+      "command": "Get-MpThreatDetection -ErrorAction SilentlyContinue | Select InitialDetectionTime,ThreatID,Resources,ActionSuccess | Format-List",
+      "shell": "PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Pare-feu profils",
+      "description": "",
+      "command": "Get-NetFirewallProfile | Select Name,Enabled,DefaultInboundAction,DefaultOutboundAction | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "BitLocker",
+      "description": "",
+      "command": "Get-BitLockerVolume | Select MountPoint,VolumeStatus,ProtectionStatus,EncryptionPercentage,EncryptionMethod | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "TPM",
+      "description": "",
+      "command": "Get-Tpm | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Secure Boot",
+      "description": "",
+      "command": "Confirm-SecureBootUEFI",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Administrateurs locaux",
+      "description": "",
+      "command": "Get-LocalGroupMember -Group \"Administrateurs\" -ErrorAction SilentlyContinue | Select Name,ObjectClass,PrincipalSource | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Sécurité",
+      "webCategory": "Sécurité Windows",
+      "name": "Identité complète",
+      "description": "",
+      "command": "whoami /all",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Impression",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Imprimantes",
+      "description": "",
+      "command": "Get-Printer | Select Name,DriverName,PortName,PrinterStatus,Shared | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Impression",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Ports imprimantes",
+      "description": "",
+      "command": "Get-PrinterPort | Select Name,PrinterHostAddress,PortNumber,Description | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Impression",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Files d'attente",
+      "description": "",
+      "command": "Get-Printer | ForEach-Object {Get-PrintJob -PrinterName $_.Name -ErrorAction SilentlyContinue} | Select PrinterName,ID,DocumentName,JobStatus,SubmittedTime | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Impression",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Vider file Spooler",
+      "description": "",
+      "command": "Stop-Service Spooler -Force; Remove-Item \"$env:windir\\System32\\spool\\PRINTERS\\*\" -Force -ErrorAction SilentlyContinue; Start-Service Spooler",
+      "shell": "PowerShell",
+      "rights": "Administrateur recommandé",
+      "risk": "Action"
+    },
+    {
+      "category": "Windows Update",
+      "webCategory": "Windows Update",
+      "name": "Correctifs installés",
+      "description": "",
+      "command": "Get-HotFix | Sort-Object InstalledOn -Descending | Select -First 30 HotFixID,Description,InstalledOn,InstalledBy | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Windows Update",
+      "webCategory": "Windows Update",
+      "name": "Services Update",
+      "description": "",
+      "command": "Get-Service wuauserv,bits,usosvc -ErrorAction SilentlyContinue | Select Name,Status,StartType | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Windows Update",
+      "webCategory": "Windows Update",
+      "name": "Historique Update log",
+      "description": "",
+      "command": "Get-WindowsUpdateLog -LogPath \"$env:USERPROFILE\\Desktop\\WindowsUpdate.log\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Windows Update",
+      "webCategory": "Windows Update",
+      "name": "Déclencher scan",
+      "description": "",
+      "command": "Start-Process UsoClient.exe -ArgumentList \"StartScan\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Machine",
+      "description": "",
+      "command": "Get-CimInstance Win32_ComputerSystem | Select Manufacturer,Model,TotalPhysicalMemory,Domain,UserName | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "CPU",
+      "description": "",
+      "command": "Get-CimInstance Win32_Processor | Select Name,NumberOfCores,NumberOfLogicalProcessors,MaxClockSpeed,LoadPercentage | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "RAM modules",
+      "description": "",
+      "command": "Get-CimInstance Win32_PhysicalMemory | Select Manufacturer,PartNumber,SerialNumber,Speed,@{N=\"CapacityGB\";E={[math]::Round($_.Capacity/1GB,2)}} | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Batterie",
+      "description": "",
+      "command": "Get-CimInstance Win32_Battery -ErrorAction SilentlyContinue | Select Name,BatteryStatus,EstimatedChargeRemaining,EstimatedRunTime | Format-List",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "PnP en erreur",
+      "description": "",
+      "command": "Get-PnpDevice -ErrorAction SilentlyContinue | Where-Object {$_.Status -ne \"OK\"} | Select Class,FriendlyName,Status,InstanceId | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Matériel",
+      "webCategory": "Périphériques & Pilotes",
+      "name": "Pilotes signés",
+      "description": "",
+      "command": "Get-CimInstance Win32_PnPSignedDriver | Select DeviceName,Manufacturer,DriverVersion,DriverDate,InfName | Sort DeviceName | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "WhoAmI",
+      "description": "",
+      "command": "whoami /all",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "Profils locaux",
+      "description": "",
+      "command": "Get-CimInstance Win32_UserProfile | Where-Object {$_.LocalPath} | Select LocalPath,Loaded,Special,LastUseTime,SID | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "Utilisateurs locaux",
+      "description": "",
+      "command": "Get-LocalUser | Select Name,Enabled,LastLogon,PasswordExpires,UserMayChangePassword | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "Groupes locaux",
+      "description": "",
+      "command": "Get-LocalGroup | Select Name,Description | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "Lecteurs mappés",
+      "description": "",
+      "command": "Get-PSDrive -PSProvider FileSystem | Select Name,Root,DisplayRoot,Used,Free | Format-Table -Auto",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Profil & Comptes",
+      "webCategory": "Poste Windows",
+      "name": "Identifiants enregistrés",
+      "description": "",
+      "command": "cmdkey /list",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Assistance distante",
+      "webCategory": "Outils Support",
+      "name": "Quick Assist",
+      "description": "",
+      "command": "Start-Process \"ms-quick-assist:\"",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Assistance distante",
+      "webCategory": "Outils Support",
+      "name": "Bureau à distance",
+      "description": "",
+      "command": "Start-Process mstsc.exe",
+      "shell": "PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Assistance distante",
+      "webCategory": "Outils Support",
+      "name": "Sessions locales",
+      "description": "",
+      "command": "query user",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
+    },
+    {
+      "category": "Assistance distante",
+      "webCategory": "Outils Support",
+      "name": "Nom machine",
+      "description": "",
+      "command": "hostname",
+      "shell": "CMD / PowerShell",
+      "rights": "Utilisateur",
+      "risk": "Lecture"
     },
     {
       "category": "Réseau",
@@ -3092,15 +4303,6 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture seule"
-    },
-    {
-      "category": "Réseau",
-      "name": "Vider cache DNS",
-      "description": "Vide uniquement le cache DNS local.",
-      "command": "ipconfig /flushdns",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Faible"
     },
     {
       "category": "Réseau",
@@ -3149,30 +4351,12 @@ window.SSIT_DATA = {
     },
     {
       "category": "Réseau",
-      "name": "Proxy WinHTTP",
-      "description": "Affiche le proxy WinHTTP utilisé par les services système.",
-      "command": "netsh winhttp show proxy",
-      "shell": "CMD / PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Réseau",
       "name": "Reset Winsock",
       "description": "Réinitialise le catalogue Winsock.",
       "command": "netsh winsock reset",
       "shell": "CMD / PowerShell",
       "rights": "Administrateur",
       "risk": "Redémarrage souvent nécessaire"
-    },
-    {
-      "category": "Réseau",
-      "name": "Reset TCP/IP",
-      "description": "Réinitialise la pile TCP/IP Windows.",
-      "command": "netsh int ip reset",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Redémarrage généralement nécessaire"
     },
     {
       "category": "Système",
@@ -3248,33 +4432,6 @@ window.SSIT_DATA = {
     },
     {
       "category": "Système",
-      "name": "DISM CheckHealth",
-      "description": "Vérification rapide du magasin de composants.",
-      "command": "DISM /Online /Cleanup-Image /CheckHealth",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Faible"
-    },
-    {
-      "category": "Système",
-      "name": "DISM ScanHealth",
-      "description": "Analyse approfondie du magasin de composants.",
-      "command": "DISM /Online /Cleanup-Image /ScanHealth",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Faible"
-    },
-    {
-      "category": "Système",
-      "name": "DISM RestoreHealth",
-      "description": "Tente de réparer le magasin de composants.",
-      "command": "DISM /Online /Cleanup-Image /RestoreHealth",
-      "shell": "CMD / PowerShell",
-      "rights": "Administrateur",
-      "risk": "Peut utiliser Windows Update"
-    },
-    {
-      "category": "Système",
       "name": "CHKDSK C: /scan",
       "description": "Analyse en ligne du volume C:.",
       "command": "chkdsk C: /scan",
@@ -3288,15 +4445,6 @@ window.SSIT_DATA = {
       "description": "Inventaire registre sans Win32_Product.",
       "command": "$p='HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*','HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'; Get-ItemProperty $p -ErrorAction SilentlyContinue | Where-Object DisplayName | Select-Object DisplayName,DisplayVersion,Publisher,InstallDate | Sort-Object DisplayName -Unique | Format-Table -AutoSize",
       "shell": "PowerShell",
-      "rights": "Utilisateur",
-      "risk": "Lecture seule"
-    },
-    {
-      "category": "Applications",
-      "name": "Winget list",
-      "description": "Liste les applications connues de Winget.",
-      "command": "winget list",
-      "shell": "CMD / PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture seule"
     },
@@ -3518,6 +4666,930 @@ window.SSIT_DATA = {
     }
   ],
   "templates": [
+    {
+      "name": "Teams - Message automatique support",
+      "category": "Tickets",
+      "subject": "Teams - Message automatique support",
+      "content": "Bonjour,\n\nMerci pour votre message.\n\n\nCeci est un message automatique.\n\nJe suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\n\nPour toute demande de support ou incident, merci d'ouvrir un ticket Ticket :\n\n🔗 [Portail support]\n\n📞 En cas d'urgence uniquement, la Hotline est joignable au [Hotline support], selon les horaires du service informatique sans interruption.\n\n\nMerci de votre compréhension."
+    },
+    {
+      "name": "Ticket - DEMANDE - Premier contact",
+      "category": "Matériel",
+      "subject": "Ticket - DEMANDE - Premier contact",
+      "content": "DEMANDE - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre demande XX.\n\nAfin de pouvoir traiter votre demande, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - DEMANDE - Relance",
+      "category": "Matériel",
+      "subject": "Ticket - DEMANDE - Relance",
+      "content": "DEMANDE - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre le traitement de votre demande.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - DEMANDE - Dernière relance avant clôture",
+      "category": "Matériel",
+      "subject": "Ticket - DEMANDE - Dernière relance avant clôture",
+      "content": "DEMANDE - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre demande à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - DEMANDE - Clôture administrative",
+      "category": "Matériel",
+      "subject": "Ticket - DEMANDE - Clôture administrative",
+      "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre demande.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - INCIDENT - Premier contact",
+      "category": "Matériel",
+      "subject": "Ticket - INCIDENT - Premier contact",
+      "content": "INCIDENT - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre incident XX.\n\nAfin de pouvoir poursuivre sa résolution, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - INCIDENT - Demande d'informations diagnostic",
+      "category": "Matériel",
+      "subject": "Ticket - INCIDENT - Demande d'informations diagnostic",
+      "content": "Bonjour,\n\nJe vous contacte au sujet du ticket que vous avez ouvert.\n\nAfin de poursuivre l'analyse et résoudre votre incident, pourriez-vous nous transmettre les informations suivantes :\n\n\t• Le message d'erreur exact rencontré ;\n\n\t• Une capture d'écran de l'erreur (si possible) ;\n\n\t• Les étapes qui ont conduit à l'apparition du problème.\n\nCes éléments nous permettront d'identifier plus rapidement l'origine de l'incident et de vous apporter une solution adaptée.\n\nDans l'attente de votre retour.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - INCIDENT - Relance",
+      "category": "Matériel",
+      "subject": "Ticket - INCIDENT - Relance",
+      "content": "INCIDENT - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre sa résolution.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - INCIDENT - Dernière relance avant clôture",
+      "category": "Matériel",
+      "subject": "Ticket - INCIDENT - Dernière relance avant clôture",
+      "content": "INCIDENT - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre ticket à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - INCIDENT - Clôture administrative",
+      "category": "Matériel",
+      "subject": "Ticket - INCIDENT - Clôture administrative",
+      "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre ticket.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,"
+    },
+    {
+      "name": "Ticket - Mauvais type de ticket REQ / Incident",
+      "category": "Tickets",
+      "subject": "Ticket - Mauvais type de ticket REQ / Incident",
+      "content": "REQ = incident cancel\n\nBonjour,\n\nVotre ticket n'est pas une demande mais un incident.\n\nAfin de déclarer un incident auprès de nos équipe de support, nous vous invitons de créer un ticket INCIDENT depuis le site [Portail support] dans la rubrique.\n\nMerci de votre compréhension\n\nCordialement"
+    },
+    {
+      "name": "MFA - Réinitialisation collaborateur + procédure",
+      "category": "Accès & MFA",
+      "subject": "MFA - Réinitialisation collaborateur + procédure",
+      "content": "Bonjour,\n\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+    },
+    {
+      "name": "MFA - Procédure Microsoft Authenticator",
+      "category": "Accès & MFA",
+      "subject": "MFA - Procédure Microsoft Authenticator",
+      "content": "Reconfigurer Microsoft Authenticator pour sécuriser vos accès via l'authentification multifacteur (MFA)\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n\t• Disponible sur l'App Store (iOS) et Google Play (Android).\n\n2. Accédez à la page de configuration MFA 👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n\t• Cliquez sur + Ajouter une méthode.\n\n\t• Sélectionnez Application d'authentification.\n\n\t• Choisissez Microsoft Authenticator.\n\n4. Associez votre compte à l'application mobile\n\n\t• Ouvrez l'application sur votre téléphone.\n\n\t• Ajoutez un compte professionnel ou scolaire.\n\n\t• Scannez le code QR affiché à l'écran.\n\n5. Validez la configuration\n\n\t• Une notification sera envoyée sur votre téléphone.\n\n\t• Suivez les instructions affichées pour confirmer l'association.\n\n🔒 Important : Cette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci de votre collaboration.\n\nCordialement,"
+    },
+    {
+      "name": "MFA - RESET MFA",
+      "category": "Accès & MFA",
+      "subject": "MFA - RESET MFA",
+      "content": "RESET MFA\n\n\nObjet : Reconfiguration de Microsoft Authenticator pour l'authentification multifacteur (MFA)\n\nBonjour,\n\nNous vous informons que vous pouvez désormais reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+    },
+    {
+      "name": "[Application / portail] - RESET MOT DE PASSE",
+      "category": "Accès & MFA",
+      "subject": "[Application / portail] - RESET MOT DE PASSE",
+      "content": "RESET MOT DE PASSE [Application / portail]\n\nBonjour,\n\n🔐 Votre mot de passe a été réinitialisé temporairement :\n\n[Mot de passe temporaire]\n\n\n🌐 Rappel de l'adresse de connexion du portail :\n\n\n👤 Identifiant :\n\n[Identifiant professionnel]\n\n\n⚠️ Attention !\n\n\nPour que l'agent puisse modifier son mot de passe, il faudra saisir le mot de passe temporaire puis créer un nouveau mot de passe\n\n\n🛠️ Il pourra alors le personnaliser en cliquant sur \"Changer\"\n\n📏 Le nouveau mot de passe devra contenir :\n\n• ✅ 14 caractères minimum\n\n• ❌ Ne doit pas contenir le prénom, le nom, le nom de la société etc…\n\n\nCordialement"
+    },
+    {
+      "name": "Sécurité - PHISHING",
+      "category": "Sécurité",
+      "subject": "Sécurité - PHISHING",
+      "content": "PHISHING\n\n\nObjet : 🚨 Rappel – Comment signaler un mail suspect dans Outlook\n\n\nBonjour à tous 👋\n\nSi vous recevez un mail suspect (phishing / hameçonnage) :\n\n1️⃣ Ne cliquez sur rien et n'ouvrez pas les pièces jointes.\n\n2️⃣ Dans Outlook, cliquez sur 📩 \"Signaler un message\" → \"Phishing\".\n\n3️⃣ Si l'option n'apparaît pas, transférez le mail en pièce jointe à ou👉 [Adresse sécurité]\n\nMerci pour votre vigilance 💪\n\nChaque signalement aide à protéger tout le monde 🛡️\n\nBonne journée,\n\n\n[Ton prénom]"
+    },
+    {
+      "name": "Applications - Déploiement [Application] to catalogue applicatif",
+      "category": "Matériel",
+      "subject": "Applications - Déploiement [Application] to catalogue applicatif",
+      "content": "deployement\n\n\nBonjour,\n\nL'application [Application] to catalogue applicatif a bien été déployée sur votre ordinateur 💻.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d'être connecté au réseau de l'compte professionnel 🏢 ou d'utiliser le VPN 🔐 si vous êtes en télétravail.\n\n\n👉 Si l'application n'apparaît pas immédiatement, un redémarrage de votre poste peut permettre de finaliser l'installation 🔄.\n\n\nMerci de nous faire un retour que l'installation s'est bien déroulée afin de clôturer votre demande. 😊\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - PC prêt avant expédition / appel",
+      "category": "Matériel",
+      "subject": "Matériel - PC prêt avant expédition / appel",
+      "content": "Bonjour,\n\n\nNous vous informons que votre ordinateur est désormais prêt et disponible.\n\nAvant de procéder à son expédition, nous souhaiterions organiser un premier appel de connexion à distance afin de :\n\n\t• Vérifier ensemble le bon fonctionnement de l'équipement\n\n\t• Finaliser les réglages nécessaires\n\n\t• Répondre à vos éventuelles questions\n\n📅 Merci de nous faire part de vos disponibilités dans les prochains jours afin que nous puissions planifier cet échange.\n\nUne fois l'appel effectué, nous procéderons à l'envoi de votre matériel dans les meilleurs délais.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "MFA - Réinitialisation + méthodes d'authentification",
+      "category": "Accès & MFA",
+      "subject": "MFA - Réinitialisation + méthodes d'authentification",
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique."
+    },
+    {
+      "name": "Matériel - Retrait service informatique service informatique",
+      "category": "Matériel",
+      "subject": "Matériel - Retrait service informatique service informatique",
+      "content": "Bonjour,\n\nNous vous informons que votre matériel est désormais disponible et peut être retiré auprès du service informatique, situé au 5ᵉ étage.\n\n🕘 Horaires d'ouverture : selon les horaires du service informatique.\n\nN'hésitez pas à vous présenter durant cette plage horaire pour récupérer votre équipement. Pour toute question ou besoin d'assistance, nous restons à votre disposition.\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Compte environnement professionnel au lieu de compte professionnel",
+      "category": "Matériel",
+      "subject": "Matériel - Compte environnement professionnel au lieu de compte professionnel",
+      "content": "Bonjour,\n\n\n📌 Je vous contacte au sujet de votre demande de PC pour [Nom du collaborateur].\n\n⚠️ Je constate que le collaborateur dispose d'un compte environnement professionnel au lieu d'un compte compte professionnel.\n\n👉 Merci de contacter les RH afin qu'ils effectuent la modification dans [Application / portail], pour que le collaborateur puisse bénéficier d'un compte compte professionnel et ainsi obtenir un compte Microsoft avec les licences associées.\n\n❌ Sans cette modification dans [Application / portail], le PC ne pourra pas être utilisé.\n\n\nBien à vous,"
+    },
+    {
+      "name": "Applications - [Application] hors périmètre service informatique",
+      "category": "Applications",
+      "subject": "Applications - [Application] hors périmètre service informatique",
+      "content": "Bonjour,\n\n\nLa service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, vous pouvez contacter leur support directement via le site :\n\nhttps://app.[Application].fr/index/, rubrique Aide.\n\n\nMerci de votre compréhension."
+    },
+    {
+      "name": "Accès - Mot de passe + MFA réinitialisés",
+      "category": "Accès & MFA",
+      "subject": "Accès - Mot de passe + MFA réinitialisés",
+      "content": "Bonjour,\n\n\nVotre mot de passe a été réinitialisé.\n\n\nVous pouvez définir un nouveau mot de passe en utilisant le lien sécurisé ci‑dessous.\n\nCe lien reste valable pendant une semaine.\n\nhttps://privatebin.net/?5289f7bde3bb0b01#12VsAqV1ATm5k7EC8wRSJ5SQ7QxBTVCzAvZsxhPeCThR\n\n\nUne fois votre nouveau mot de passe créé, merci de vous rendre sur votre espace MyAccount Microsoft afin de le modifier et de le personnaliser.\n\n\nhttps://myaccount.microsoft.com/\n\n\nPar ailleurs, votre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant la méthode de votre choix : application Microsoft Authenticator, SMS ou adresse e‑mail.\n\n\nN'hésitez pas à revenir vers nous si vous rencontrez la moindre difficulté.\n\n\nCordialement."
+    },
+    {
+      "name": "Matériel - Compatibilité dock USB-C / adresse agence",
+      "category": "Matériel",
+      "subject": "Matériel - Compatibilité dock USB-C / adresse agence",
+      "content": "Bonjour,\n\n\nDans le cadre du remplacement de votre ordinateur portable, pouvez-vous m'envoyer une photo de votre station d'accueil (ou de votre écran dock), ou simplement le modèle indiqué dessus ?\n\n\nCela nous permet uniquement de vérifier si votre matériel actuel est compatible USB C.\n\nSi votre équipement devait être remplacé, voici les tarifs informatifs :\n\n\n• 100 € pour une station d'accueil\n\n• 140 € pour un écran standard\n\n• 175 € pour un écran docking\n\n\nVoici un exemple de station d'accueil USB C pour vous aider à identifier votre matériel :\n\n\nPouvez-vous également me confirmer l'adresse de votre agence, afin de prévoir l'envoi du matériel si nécessaire ?\n\n\nMerci d'avance pour votre retour,"
+    },
+    {
+      "name": "Matériel - PC prêt et disponible",
+      "category": "Matériel",
+      "subject": "Matériel - PC prêt et disponible",
+      "content": "Bonjour,\n\n\nVotre ordinateur est désormais préparé et disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nMerci de nous confirmer lorsque le matériel aura bien été récupéré.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - PC prêt pour expédition",
+      "category": "Matériel",
+      "subject": "Matériel - PC prêt pour expédition",
+      "content": "Bonjour,\n\n\nVotre ordinateur est désormais préparé et prêt à être expédié.\n\nMerci de nous confirmer l'adresse de livraison ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre si nécessaire.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Confirmation expédition",
+      "category": "Matériel",
+      "subject": "Matériel - Confirmation expédition",
+      "content": "Bonjour,\n\n\nVotre matériel a bien été expédié.\n\nMerci de nous confirmer sa bonne réception afin de nous assurer que tout est conforme.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Casque disponible",
+      "category": "Matériel",
+      "subject": "Matériel - Casque disponible",
+      "content": "Bonjour,\n\n\nVotre casque est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Chargeur disponible",
+      "category": "Matériel",
+      "subject": "Matériel - Chargeur disponible",
+      "content": "Bonjour,\n\n\nVotre chargeur est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Accessoires disponibles",
+      "category": "Matériel",
+      "subject": "Matériel - Accessoires disponibles",
+      "content": "Bonjour,\n\n\nLe matériel demandé est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Préparation en cours",
+      "category": "Matériel",
+      "subject": "Matériel - Préparation en cours",
+      "content": "Bonjour,\n\n\nVotre matériel est actuellement en cours de préparation par le service informatique.\n\nNous reviendrons vers vous dès qu'il sera disponible ou prêt à être expédié.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Informations expédition",
+      "category": "Matériel",
+      "subject": "Matériel - Informations expédition",
+      "content": "Bonjour,\n\n\nAfin de préparer l'expédition de votre matériel, merci de nous confirmer votre adresse de livraison complète ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre.\n\n\nMerci d'avance.\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Bonne réception à confirmer",
+      "category": "Matériel",
+      "subject": "Matériel - Bonne réception à confirmer",
+      "content": "Bonjour,\n\n\nNous souhaitons vérifier que vous avez bien reçu votre matériel et que celui-ci est fonctionnel.\n\nMerci de nous confirmer la bonne réception afin que nous puissions clôturer la demande.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Retour ancien PC",
+      "category": "Matériel",
+      "subject": "Matériel - Retour ancien PC",
+      "content": "Bonjour,\n\n\nDans le cadre du remplacement de votre ordinateur, merci de prévoir la restitution de votre ancien matériel auprès du service informatique ainsi que des accessoires concernés si nécessaire.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Rendez-vous première connexion",
+      "category": "Accès & MFA",
+      "subject": "Matériel - Rendez-vous première connexion",
+      "content": "Bonjour,\n\n\nVotre ordinateur est prêt.\n\nNous vous proposons un court rendez-vous avec le service informatique afin d'effectuer la première connexion et de vérifier que vos principaux accès fonctionnent correctement.\n\nMerci de nous communiquer vos disponibilités.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Matériel - Mise à disposition complète",
+      "category": "Matériel",
+      "subject": "Matériel - Mise à disposition complète",
+      "content": "Bonjour,\n\n\nVotre matériel est désormais prêt et disponible : ordinateur, chargeur et accessoires prévus dans votre demande.\n\nVous pouvez venir le récupérer auprès du service informatique pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+    },
+    {
+      "name": "Modern environnement professionnel - Demande installation application",
+      "category": "Applications",
+      "subject": "Modern environnement professionnel - Demande installation application",
+      "content": "Bonjour,\n\nVotre demande d'installation d'application a bien été prise en compte par le service informatique.\n\nMerci de nous préciser le nom exact de l'application, sa version si nécessaire, ainsi que le besoin métier associé. Nous vérifierons sa disponibilité et les modalités de déploiement.\n\nBien cordialement,"
+    },
+    {
+      "name": "Modern environnement professionnel - Installation application terminée",
+      "category": "Applications",
+      "subject": "Modern environnement professionnel - Installation application terminée",
+      "content": "Bonjour,\n\nL'installation de l'application demandée a été réalisée.\n\nMerci de vérifier son lancement et son bon fonctionnement. En cas d'anomalie, vous pouvez revenir vers le service informatique avec une capture ou le message d'erreur rencontré.\n\nBien cordialement,"
+    },
+    {
+      "name": "Modern environnement professionnel - Demande désinstallation application",
+      "category": "Applications",
+      "subject": "Modern environnement professionnel - Demande désinstallation application",
+      "content": "Bonjour,\n\nVotre demande de désinstallation a bien été prise en compte.\n\nMerci de confirmer le nom exact de l'application concernée et, si nécessaire, le poste sur lequel l'opération doit être réalisée.\n\nBien cordialement,"
+    },
+    {
+      "name": "Modern environnement professionnel - Désinstallation terminée",
+      "category": "Applications",
+      "subject": "Modern environnement professionnel - Désinstallation terminée",
+      "content": "Bonjour,\n\nLa désinstallation de l'application demandée a été réalisée.\n\nMerci de nous signaler si un composant ou un raccourci associé reste présent sur votre poste.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - Téléphone professionnel prêt",
+      "category": "Matériel",
+      "subject": "Mobile - Téléphone professionnel prêt",
+      "content": "Bonjour,\n\nVotre téléphone professionnel est prêt à être remis.\n\nMerci de nous communiquer vos disponibilités afin d'organiser un rendez-vous avec le service informatique au service informatique.\n\nHoraires du service informatique : selon les horaires du service informatique.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - Rendez-vous préparation / remise",
+      "category": "Matériel",
+      "subject": "Mobile - Rendez-vous préparation / remise",
+      "content": "Bonjour,\n\nVotre nouveau mobile est disponible auprès du service informatique au service informatique.\n\nMerci de nous communiquer vos disponibilités afin de planifier la remise et la configuration du téléphone. Prévoir environ 30 minutes.\n\nHoraires du service informatique : selon les horaires du service informatique.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - Remise Android terminée",
+      "category": "Matériel",
+      "subject": "Mobile - Remise Android terminée",
+      "content": "Bonjour,\n\nVotre téléphone professionnel vous a été remis avec les accessoires prévus.\n\nPour accéder à votre environnement professionnel, vérifiez la connexion à Company Portal et la présence du profil professionnel. Les applications professionnelles sont disponibles dans l'espace de travail.\n\nEn cas de difficulté, contactez le service informatique.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - iOS problème d'accès Microsoft",
+      "category": "Accès & MFA",
+      "subject": "Mobile - iOS problème d'accès Microsoft",
+      "content": "Bonjour,\n\nNous allons vérifier votre accès Microsoft sur iOS.\n\nMerci de vérifier que les applications Microsoft concernées sont à jour. Si nécessaire, le service informatique pourra vous accompagner pour nettoyer l'ancien enregistrement et refaire la connexion au compte professionnel.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - Intune iOS accompagnement",
+      "category": "Accès & MFA",
+      "subject": "Mobile - Intune iOS accompagnement",
+      "content": "Bonjour,\n\nLe service informatique peut vous accompagner pour l'enregistrement de votre iPhone ou iPad dans l'environnement professionnel.\n\nMerci de prévoir votre téléphone, votre mot de passe professionnel et votre méthode MFA. La configuration comprend la connexion, le profil de gestion lorsque celui-ci est requis et la vérification des applications professionnelles.\n\nBien cordialement,"
+    },
+    {
+      "name": "Mobile - Intune Android accompagnement",
+      "category": "Accès & MFA",
+      "subject": "Mobile - Intune Android accompagnement",
+      "content": "Bonjour,\n\nLe service informatique peut vous accompagner pour la configuration de votre téléphone Android dans Intune.\n\nMerci de prévoir votre téléphone, votre mot de passe professionnel et votre méthode MFA. Nous vérifierons Company Portal, le profil professionnel et l'accès aux applications de travail.\n\nBien cordialement,"
+    },
+    {
+      "name": "Ticket - Prise en charge",
+      "category": "Tickets",
+      "subject": "Ticket - Prise en charge",
+      "content": "Bonjour [Prénom],\n\nVotre ticket [N° ticket] concernant « [Sujet] » a bien été pris en charge.\n\nJe commence l'analyse et je reviendrai vers vous dès que j'aurai un premier résultat ou si des informations complémentaires sont nécessaires.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Demande d'informations",
+      "category": "Tickets",
+      "subject": "Ticket - Demande d'informations",
+      "content": "Bonjour [Prénom],\n\nAfin de poursuivre l'analyse du ticket [N° ticket], pouvez-vous me transmettre :\n- une capture du message d'erreur ;\n- l'heure approximative du dernier échec ;\n- le nom du poste concerné ;\n- les étapes permettant de reproduire le problème.\n\nMerci d'avance.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Demande de disponibilité",
+      "category": "Tickets",
+      "subject": "Ticket - Demande de disponibilité",
+      "content": "Bonjour [Prénom],\n\nPour avancer sur le ticket [N° ticket], j'aurais besoin d'un créneau où vous êtes disponible devant le poste concerné.\n\nPouvez-vous me proposer un créneau qui vous convient ?\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Intervention à distance",
+      "category": "Tickets",
+      "subject": "Ticket - Intervention à distance",
+      "content": "Bonjour [Prénom],\n\nJe peux poursuivre le diagnostic à distance sur le poste [Nom du poste].\n\nMerci de me confirmer lorsque vous êtes disponible et d'enregistrer votre travail avant l'intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - En attente utilisateur",
+      "category": "Tickets",
+      "subject": "Ticket - En attente utilisateur",
+      "content": "Bonjour [Prénom],\n\nLe ticket [N° ticket] est actuellement en attente de votre retour concernant [information attendue].\n\nDès réception, nous pourrons reprendre l'analyse.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - En attente équipe tierce",
+      "category": "Tickets",
+      "subject": "Ticket - En attente équipe tierce",
+      "content": "Bonjour [Prénom],\n\nVotre ticket [N° ticket] nécessite l'intervention de l'équipe [Équipe / fournisseur].\n\nLe dossier leur a été transmis avec les éléments de diagnostic disponibles. Nous vous tiendrons informé de l'avancement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Résolution proposée",
+      "category": "Tickets",
+      "subject": "Ticket - Résolution proposée",
+      "content": "Bonjour [Prénom],\n\nUne correction a été appliquée sur le ticket [N° ticket].\n\nPouvez-vous effectuer un nouveau test et me confirmer si le fonctionnement est revenu à la normale ?\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Résolution confirmée",
+      "category": "Tickets",
+      "subject": "Ticket - Résolution confirmée",
+      "content": "Bonjour [Prénom],\n\nMerci pour votre confirmation.\n\nLe ticket [N° ticket] est résolu et peut être clôturé.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Clôture sans retour",
+      "category": "Tickets",
+      "subject": "Ticket - Clôture sans retour",
+      "content": "Bonjour [Prénom],\n\nSans retour après nos précédentes sollicitations, le ticket [N° ticket] va être clôturé administrativement.\n\nSi le problème est toujours présent, vous pourrez rouvrir une demande en précisant le numéro du ticket initial.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Mauvaise catégorie",
+      "category": "Tickets",
+      "subject": "Ticket - Mauvaise catégorie",
+      "content": "Bonjour [Prénom],\n\nLa demande a été enregistrée dans une catégorie qui ne correspond pas au besoin identifié.\n\nLe ticket va être réorienté vers la catégorie / équipe adaptée afin de faciliter son traitement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Doublon",
+      "category": "Tickets",
+      "subject": "Ticket - Doublon",
+      "content": "Bonjour [Prénom],\n\nLe ticket [N° ticket] fait doublon avec le ticket [N° ticket principal].\n\nPour éviter les traitements parallèles, nous poursuivons le suivi uniquement sur le ticket principal.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Ticket - Hors périmètre",
+      "category": "Tickets",
+      "subject": "Ticket - Hors périmètre",
+      "content": "Bonjour [Prénom],\n\nAprès analyse, cette demande ne relève pas du périmètre du support informatique concerné.\n\nJe vous invite à contacter [Équipe / fournisseur / service] pour la suite du traitement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Premier contact support",
+      "category": "Mails",
+      "subject": "Mail - Premier contact support",
+      "content": "Bonjour [Prénom],\n\nJe vous contacte concernant votre demande relative à [Sujet].\n\nPouvez-vous me confirmer si le problème est toujours présent et, si oui, me transmettre les éléments disponibles ?\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Confirmation de prise en compte",
+      "category": "Mails",
+      "subject": "Mail - Confirmation de prise en compte",
+      "content": "Bonjour [Prénom],\n\nVotre demande concernant [Sujet] est bien prise en compte.\n\nNous reviendrons vers vous dès que l'analyse aura progressé.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Proposition de créneau",
+      "category": "Mails",
+      "subject": "Mail - Proposition de créneau",
+      "content": "Bonjour [Prénom],\n\nJe vous propose une intervention le [Date] à [Heure] pour traiter [Sujet].\n\nMerci de me confirmer si ce créneau vous convient.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Intervention terminée",
+      "category": "Mails",
+      "subject": "Mail - Intervention terminée",
+      "content": "Bonjour [Prénom],\n\nL'intervention concernant [Sujet] est terminée.\n\nActions réalisées :\n- [Action 1]\n- [Action 2]\n- [Action 3]\n\nMerci de me confirmer que tout fonctionne correctement de votre côté.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Information utilisateur",
+      "category": "Mails",
+      "subject": "Mail - Information utilisateur",
+      "content": "Bonjour [Prénom],\n\nPour information, [Message / changement / consigne].\n\nAucune action n'est requise de votre part sauf si vous constatez une anomalie.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Demande de test utilisateur",
+      "category": "Mails",
+      "subject": "Mail - Demande de test utilisateur",
+      "content": "Bonjour [Prénom],\n\nUne action a été réalisée sur [Application / poste / compte].\n\nPouvez-vous effectuer le test suivant : [Test demandé] et me communiquer le résultat ?\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Relance simple",
+      "category": "Mails",
+      "subject": "Mail - Relance simple",
+      "content": "Bonjour [Prénom],\n\nJe reviens vers vous concernant [Sujet].\n\nAvez-vous eu l'occasion d'effectuer le test demandé / de vérifier si le problème est toujours présent ?\n\nMerci d'avance pour votre retour.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mail - Dernière relance",
+      "category": "Mails",
+      "subject": "Mail - Dernière relance",
+      "content": "Bonjour [Prénom],\n\nDernière relance concernant [Sujet].\n\nSans retour de votre part, nous considérerons que la situation ne nécessite plus d'action immédiate et le dossier pourra être clôturé.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Rapport - Diagnostic synthétique",
+      "category": "Rapports",
+      "subject": "Rapport - Diagnostic synthétique",
+      "content": "RAPPORT DE DIAGNOSTIC\n\nUtilisateur : [Utilisateur]\nPoste : [Nom du poste]\nDate : [Date]\nSujet : [Incident]\n\nConstat :\n[Constat]\n\nTests réalisés :\n- [Test 1] : [Résultat]\n- [Test 2] : [Résultat]\n- [Test 3] : [Résultat]\n\nActions réalisées :\n- [Action 1]\n- [Action 2]\n\nRésultat final :\n[Résultat]\n\nSuite / escalade :\n[Suite]"
+    },
+    {
+      "name": "Rapport - Escalade N2/N3",
+      "category": "Rapports",
+      "subject": "Rapport - Escalade N2/N3",
+      "content": "ESCALADE SUPPORT\n\nTicket : [N° ticket]\nUtilisateur : [Utilisateur]\nPoste : [Poste]\nImpact : [Impact]\nDébut incident : [Date / heure]\n\nSymptôme :\n[Description]\n\nReproduction :\n[Étapes]\n\nDéjà testé :\n- [Test 1]\n- [Test 2]\n- [Test 3]\n\nRésultats / logs :\n[Informations utiles]\n\nBesoin attendu :\n[Expertise / action demandée]"
+    },
+    {
+      "name": "Rapport - Incident récurrent",
+      "category": "Rapports",
+      "subject": "Rapport - Incident récurrent",
+      "content": "INCIDENT RÉCURRENT\n\nSujet : [Sujet]\nPérimètre : [Utilisateurs / postes concernés]\nFréquence : [Fréquence]\nPremier cas connu : [Date]\n\nSymptômes communs :\n[Symptômes]\n\nÉléments identiques :\n[Version / application / réseau / matériel]\n\nContournement actuel :\n[Contournement]\n\nAnalyse demandée :\n[Besoin]"
+    },
+    {
+      "name": "Rapport - Intervention poste",
+      "category": "Rapports",
+      "subject": "Rapport - Intervention poste",
+      "content": "COMPTE RENDU D'INTERVENTION\n\nPoste : [Nom]\nUtilisateur : [Nom]\nMotif : [Motif]\n\nAvant intervention :\n[État]\n\nActions :\n- [Action]\n- [Action]\n- [Action]\n\nAprès intervention :\n[État]\n\nTests de validation :\n[Tests]\n\nStatut : [Résolu / À surveiller / Escaladé]"
+    },
+    {
+      "name": "Rapport - Matériel",
+      "category": "Rapports",
+      "subject": "Rapport - Matériel",
+      "content": "RAPPORT MATÉRIEL\n\nUtilisateur : [Nom]\nType : [PC / écran / dock / casque / mobile]\nMarque / modèle : [Référence]\nN° série : [Numéro]\nÉtat constaté : [État]\n\nTests :\n[Tests]\n\nConclusion :\n[Réparation / remplacement / retour fournisseur / aucun défaut]"
+    },
+    {
+      "name": "Rapport - Réseau",
+      "category": "Rapports",
+      "subject": "Rapport - Réseau",
+      "content": "RAPPORT RÉSEAU\n\nPoste : [Nom]\nInterface : [Ethernet / Wi-Fi]\nIPv4 : [IP]\nPasserelle : [Passerelle]\nDNS : [DNS]\nVPN : [État]\n\nTests :\n- Ping passerelle : [Résultat]\n- DNS : [Résultat]\n- HTTPS : [Résultat]\n- VPN : [Résultat]\n\nConclusion :\n[Conclusion]"
+    },
+    {
+      "name": "Rapport - M365",
+      "category": "Rapports",
+      "subject": "Rapport - M365",
+      "content": "RAPPORT MICROSOFT 365\n\nUtilisateur : [Compte]\nApplication : [Outlook / Teams / OneDrive / Office]\nVersion : [Version]\n\nSymptôme :\n[Symptôme]\n\nTests :\n- Web : [Résultat]\n- Client local : [Résultat]\n- Autre poste / profil : [Résultat]\n\nActions :\n[Actions]\n\nConclusion :\n[Conclusion]"
+    },
+    {
+      "name": "Rapport - Sécurité",
+      "category": "Rapports",
+      "subject": "Rapport - Sécurité",
+      "content": "RAPPORT SÉCURITÉ\n\nTicket : [N°]\nUtilisateur / poste : [Informations]\nType : [Phishing / malware / compte / accès / autre]\n\nConstat :\n[Constat]\n\nActions immédiates :\n- [Action]\n- [Action]\n\nÉléments transmis :\n[Logs / captures / message / URL]\n\nEscalade :\n[Équipe sécurité / SOC / autre]"
+    },
+    {
+      "name": "PC - Préparation terminée",
+      "category": "Matériel",
+      "subject": "PC - Préparation terminée",
+      "content": "Bonjour [Prénom],\n\nVotre poste est préparé et prêt.\n\nÉléments préparés :\n- PC : [Modèle]\n- Chargeur\n- [Dock / casque / accessoires]\n- Configuration professionnelle\n\nMerci de me confirmer le mode de remise souhaité : retrait ou expédition.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "PC - Expédition effectuée",
+      "category": "Matériel",
+      "subject": "PC - Expédition effectuée",
+      "content": "Bonjour [Prénom],\n\nVotre matériel a été expédié.\n\nContenu :\n- [Matériel]\n- [Accessoires]\n\nTransporteur : [Transporteur]\nSuivi : [N° de suivi]\n\nMerci de confirmer la bonne réception du colis.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "PC - Retrait disponible",
+      "category": "Matériel",
+      "subject": "PC - Retrait disponible",
+      "content": "Bonjour [Prénom],\n\nVotre matériel est disponible auprès du service informatique.\n\nMerci de convenir d'un créneau avant votre passage afin de garantir sa disponibilité.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "PC - Retour ancien matériel",
+      "category": "Matériel",
+      "subject": "PC - Retour ancien matériel",
+      "content": "Bonjour [Prénom],\n\nSuite à la mise à disposition de votre nouveau matériel, merci de prévoir le retour des équipements remplacés :\n\n- [Ancien PC]\n- [Chargeur]\n- [Dock / accessoires]\n\nMerci de me confirmer lorsque le matériel est prêt à être retourné.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "PC - Remplacement validé",
+      "category": "Matériel",
+      "subject": "PC - Remplacement validé",
+      "content": "Bonjour [Prénom],\n\nLe remplacement de votre poste a été validé.\n\nNous lançons la préparation du nouvel équipement et vous informerons dès qu'il sera prêt.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "PC - Diagnostic matériel nécessaire",
+      "category": "Matériel",
+      "subject": "PC - Diagnostic matériel nécessaire",
+      "content": "Bonjour [Prénom],\n\nLes premiers tests orientent le diagnostic vers un problème matériel.\n\nMerci de laisser le poste disponible pour les tests complémentaires / la prise en charge.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Écran - Mise à disposition",
+      "category": "Matériel",
+      "subject": "Écran - Mise à disposition",
+      "content": "Bonjour [Prénom],\n\nUn écran [Modèle / taille] est disponible pour vous.\n\nMerci de confirmer si vous avez également besoin d'un câble [HDMI / DisplayPort / USB-C] ou d'un adaptateur.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Dock - Mise à disposition",
+      "category": "Matériel",
+      "subject": "Dock - Mise à disposition",
+      "content": "Bonjour [Prénom],\n\nUne station d'accueil compatible est disponible.\n\nAvant remise, merci de me confirmer le modèle exact du PC afin de vérifier la compatibilité alimentation / vidéo / USB-C.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Casque - Mise à disposition",
+      "category": "Matériel",
+      "subject": "Casque - Mise à disposition",
+      "content": "Bonjour [Prénom],\n\nUn casque est disponible pour vous.\n\nMerci de me confirmer si vous souhaitez un retrait ou un envoi avec votre prochain matériel.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Chargeur - Mise à disposition",
+      "category": "Matériel",
+      "subject": "Chargeur - Mise à disposition",
+      "content": "Bonjour [Prénom],\n\nUn chargeur compatible est disponible.\n\nMerci de confirmer le modèle du poste ainsi que le mode de remise souhaité.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Phishing - Accusé de réception",
+      "category": "Sécurité",
+      "subject": "Phishing - Accusé de réception",
+      "content": "Bonjour [Prénom],\n\nMerci pour votre signalement.\n\nNe cliquez plus sur les liens du message et n'ouvrez aucune pièce jointe supplémentaire.\n\nLe message va être analysé. Si vous avez saisi un mot de passe ou validé une demande d'authentification, merci de le signaler immédiatement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Phishing - Utilisateur a cliqué",
+      "category": "Sécurité",
+      "subject": "Phishing - Utilisateur a cliqué",
+      "content": "Bonjour [Prénom],\n\nSuite au clic sur le lien suspect, merci de :\n1. ne plus interagir avec le message ;\n2. nous préciser si un identifiant ou mot de passe a été saisi ;\n3. indiquer si une validation MFA a été effectuée ;\n4. rester disponible pour les actions de sécurisation du compte.\n\nLe dossier est traité en priorité.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Compte - Suspicion de compromission",
+      "category": "Sécurité",
+      "subject": "Compte - Suspicion de compromission",
+      "content": "Bonjour [Prénom],\n\nUne vérification de sécurité est nécessaire sur votre compte.\n\nPar précaution, certaines sessions ou méthodes d'authentification peuvent être réinitialisées. Merci de rester disponible pour confirmer votre identité et effectuer une nouvelle connexion.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Blocage fichier / URL",
+      "category": "Sécurité",
+      "subject": "Blocage fichier / URL",
+      "content": "Bonjour [Prénom],\n\nL'accès à [fichier / URL / application] est bloqué par un mécanisme de sécurité.\n\nMerci de transmettre :\n- le nom ou l'adresse complète ;\n- une capture du blocage ;\n- le besoin métier associé.\n\nUne analyse pourra ensuite être réalisée.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Alerte antivirus",
+      "category": "Sécurité",
+      "subject": "Alerte antivirus",
+      "content": "Bonjour [Prénom],\n\nUne alerte de sécurité a été détectée sur le poste [Nom du poste].\n\nMerci de ne pas éteindre le poste sauf consigne contraire et de limiter son utilisation jusqu'à la fin des vérifications.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Demande d'exception sécurité",
+      "category": "Sécurité",
+      "subject": "Demande d'exception sécurité",
+      "content": "Bonjour [Prénom],\n\nPour étudier une exception de sécurité, merci de préciser :\n- l'application / URL concernée ;\n- la justification métier ;\n- la population concernée ;\n- la durée souhaitée ;\n- l'impact en cas de refus.\n\nLa demande pourra ensuite être soumise à validation.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Mot de passe - Réinitialisé",
+      "category": "Accès & MFA",
+      "subject": "Mot de passe - Réinitialisé",
+      "content": "Bonjour [Prénom],\n\nVotre mot de passe a été réinitialisé.\n\nLors de la prochaine connexion, utilisez le mot de passe temporaire communiqué via le canal prévu, puis définissez un nouveau mot de passe conforme à la politique de sécurité.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "MFA - Réinitialisation effectuée",
+      "category": "Accès & MFA",
+      "subject": "MFA - Réinitialisation effectuée",
+      "content": "Bonjour [Prénom],\n\nVos méthodes d'authentification multifacteur ont été réinitialisées.\n\nLors de votre prochaine connexion, l'enregistrement d'une nouvelle méthode vous sera demandé.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "MFA - Nouvelle méthode",
+      "category": "Accès & MFA",
+      "subject": "MFA - Nouvelle méthode",
+      "content": "Bonjour [Prénom],\n\nPour ajouter une nouvelle méthode MFA :\n1. ouvrez la page de sécurité de votre compte ;\n2. ajoutez la méthode souhaitée ;\n3. suivez la validation demandée ;\n4. effectuez un test de connexion.\n\nContactez le support si l'enregistrement échoue.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Accès - Demande de justification",
+      "category": "Accès & MFA",
+      "subject": "Accès - Demande de justification",
+      "content": "Bonjour [Prénom],\n\nPour traiter votre demande d'accès à [Ressource], merci de préciser :\n- le besoin métier ;\n- le niveau d'accès attendu ;\n- la durée si l'accès est temporaire ;\n- le responsable / valideur concerné.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Accès - Accord requis",
+      "category": "Accès & MFA",
+      "subject": "Accès - Accord requis",
+      "content": "Bonjour [Prénom],\n\nLa demande d'accès à [Ressource] nécessite une validation préalable de [Responsable / propriétaire].\n\nDès validation, le traitement pourra se poursuivre.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Accès - Ajout effectué",
+      "category": "Accès & MFA",
+      "subject": "Accès - Ajout effectué",
+      "content": "Bonjour [Prénom],\n\nL'accès à [Ressource] a été ajouté.\n\nUn délai de propagation peut être nécessaire. Merci de vous déconnecter / reconnecter avant de tester.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Demande d'installation",
+      "category": "Applications",
+      "subject": "Application - Demande d'installation",
+      "content": "Bonjour [Prénom],\n\nVotre demande d'installation de [Application] est bien prise en compte.\n\nMerci de préciser si nécessaire :\n- la version souhaitée ;\n- le besoin métier ;\n- le nombre d'utilisateurs ;\n- l'urgence éventuelle.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Installation terminée",
+      "category": "Applications",
+      "subject": "Application - Installation terminée",
+      "content": "Bonjour [Prénom],\n\nL'installation de [Application] est terminée sur [Poste].\n\nMerci de lancer l'application et de confirmer son bon fonctionnement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Installation non autorisée",
+      "category": "Applications",
+      "subject": "Application - Installation non autorisée",
+      "content": "Bonjour [Prénom],\n\nL'application [Application] n'est pas actuellement disponible dans le catalogue autorisé.\n\nUne validation / étude complémentaire est nécessaire avant installation.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Mise à jour requise",
+      "category": "Applications",
+      "subject": "Application - Mise à jour requise",
+      "content": "Bonjour [Prénom],\n\nUne mise à jour de [Application] est nécessaire afin de corriger le problème rencontré / maintenir la compatibilité.\n\nMerci d'enregistrer votre travail avant l'intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Réinstallation proposée",
+      "category": "Applications",
+      "subject": "Application - Réinstallation proposée",
+      "content": "Bonjour [Prénom],\n\nLes premiers tests n'ayant pas corrigé le problème, je propose une réinstallation de [Application].\n\nMerci de confirmer que vos données locales liées à l'application sont sauvegardées avant intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Application - Licence manquante",
+      "category": "Applications",
+      "subject": "Application - Licence manquante",
+      "content": "Bonjour [Prénom],\n\nLe problème semble lié à l'absence ou à l'expiration d'une licence pour [Application].\n\nLa demande va être transmise à l'équipe / au gestionnaire concerné pour vérification.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Outlook - Test Web demandé",
+      "category": "Microsoft 365",
+      "subject": "Outlook - Test Web demandé",
+      "content": "Bonjour [Prénom],\n\nPour isoler le problème Outlook, merci de tester votre messagerie depuis la version Web.\n\nMerci de préciser si le problème est :\n- présent uniquement dans Outlook installé ;\n- également présent sur le Web.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Outlook - Nouveau profil proposé",
+      "category": "Microsoft 365",
+      "subject": "Outlook - Nouveau profil proposé",
+      "content": "Bonjour [Prénom],\n\nLe diagnostic Outlook nécessite la création d'un nouveau profil local.\n\nCette opération ne supprime pas votre boîte aux lettres hébergée dans Microsoft 365, mais peut nécessiter la reconfiguration de certains éléments locaux.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "OneDrive - Synchronisation",
+      "category": "Microsoft 365",
+      "subject": "OneDrive - Synchronisation",
+      "content": "Bonjour [Prénom],\n\nLe problème concerne la synchronisation OneDrive.\n\nMerci de laisser OneDrive ouvert et de ne pas déplacer / supprimer de fichiers pendant le diagnostic.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Teams - Cache / redémarrage",
+      "category": "Microsoft 365",
+      "subject": "Teams - Cache / redémarrage",
+      "content": "Bonjour [Prénom],\n\nUne action de nettoyage / redémarrage Teams va être réalisée.\n\nMerci d'enregistrer vos messages ou éléments en cours avant l'intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Office - Réparation",
+      "category": "Microsoft 365",
+      "subject": "Office - Réparation",
+      "content": "Bonjour [Prénom],\n\nUne réparation de Microsoft 365 Apps est nécessaire.\n\nMerci de fermer Word, Excel, PowerPoint, Outlook et les autres applications Office avant l'intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Boîte partagée - Accès ajouté",
+      "category": "Microsoft 365",
+      "subject": "Boîte partagée - Accès ajouté",
+      "content": "Bonjour [Prénom],\n\nL'accès à la boîte partagée [Nom de la boîte] a été ajouté / corrigé.\n\nMerci de relancer Outlook et de prévoir un délai de propagation avant de tester.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "VPN - Premier diagnostic",
+      "category": "Réseau & VPN",
+      "subject": "VPN - Premier diagnostic",
+      "content": "Bonjour [Prénom],\n\nConcernant le problème VPN, merci de préciser :\n- le réseau utilisé (domicile / partage mobile / autre) ;\n- le message d'erreur exact ;\n- si Internet fonctionne hors VPN ;\n- l'heure du dernier échec.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "VPN - Test autre réseau",
+      "category": "Réseau & VPN",
+      "subject": "VPN - Test autre réseau",
+      "content": "Bonjour [Prénom],\n\nPour isoler l'origine du problème VPN, pouvez-vous effectuer un test depuis un autre accès Internet, par exemple un partage de connexion mobile ?\n\nMerci de m'indiquer le résultat.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Wi-Fi - Informations nécessaires",
+      "category": "Réseau & VPN",
+      "subject": "Wi-Fi - Informations nécessaires",
+      "content": "Bonjour [Prénom],\n\nPour le problème Wi-Fi, merci de transmettre :\n- le nom du réseau concerné ;\n- si d'autres appareils se connectent ;\n- le message affiché ;\n- si le problème est permanent ou intermittent.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Réseau - Incident local ou général",
+      "category": "Réseau & VPN",
+      "subject": "Réseau - Incident local ou général",
+      "content": "Bonjour [Prénom],\n\nPour déterminer si l'incident réseau est local ou plus large, pouvez-vous me confirmer si d'autres utilisateurs proches rencontrent le même problème ?\n\nMerci également de préciser si la connexion Ethernet / Wi-Fi est concernée.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Proxy / accès Web",
+      "category": "Réseau & VPN",
+      "subject": "Proxy / accès Web",
+      "content": "Bonjour [Prénom],\n\nPour le problème d'accès Web, merci de transmettre l'adresse exacte du site concerné ainsi qu'une capture du message affiché.\n\nMerci également de préciser si d'autres sites fonctionnent normalement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Arrivée - Préparation compte et poste",
+      "category": "Onboarding / Offboarding",
+      "subject": "Arrivée - Préparation compte et poste",
+      "content": "PRÉPARATION ARRIVÉE\n\nCollaborateur : [Nom]\nDate d'arrivée : [Date]\nResponsable : [Responsable]\n\nÀ préparer :\n- compte utilisateur ;\n- poste de travail ;\n- licences ;\n- groupes / accès ;\n- messagerie ;\n- MFA ;\n- applications ;\n- accessoires ;\n- mobile si nécessaire.\n\nCommentaires :\n[Informations]"
+    },
+    {
+      "name": "Arrivée - Matériel prêt",
+      "category": "Onboarding / Offboarding",
+      "subject": "Arrivée - Matériel prêt",
+      "content": "Bonjour [Prénom],\n\nVotre environnement de travail est préparé pour votre arrivée.\n\nLe poste, les accès principaux et les éléments nécessaires à la première connexion sont prêts.\n\nUn accompagnement pourra être réalisé lors de la première ouverture de session.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Départ - Checklist IT",
+      "category": "Onboarding / Offboarding",
+      "subject": "Départ - Checklist IT",
+      "content": "CHECKLIST DÉPART\n\nUtilisateur : [Nom]\nDate de départ : [Date]\n\nÀ traiter :\n- désactivation du compte ;\n- révocation des sessions ;\n- MFA ;\n- délégation / transfert messagerie ;\n- OneDrive / données ;\n- groupes / accès ;\n- licences ;\n- récupération PC ;\n- chargeur / dock / écran / casque ;\n- téléphone professionnel ;\n- autres équipements.\n\nStatut :\n[À compléter]"
+    },
+    {
+      "name": "Départ - Retour matériel",
+      "category": "Onboarding / Offboarding",
+      "subject": "Départ - Retour matériel",
+      "content": "Bonjour [Prénom],\n\nDans le cadre de votre départ, merci de restituer les équipements professionnels en votre possession :\n\n- [PC]\n- [Chargeur]\n- [Dock]\n- [Écran]\n- [Casque]\n- [Téléphone]\n- [Autres]\n\nMerci de confirmer le mode de retour prévu.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Relance - Utilisateur indisponible",
+      "category": "Relances & Escalades",
+      "subject": "Relance - Utilisateur indisponible",
+      "content": "Bonjour [Prénom],\n\nJe n'ai pas pu vous joindre concernant [Sujet].\n\nMerci de me communiquer un créneau de disponibilité afin que nous puissions poursuivre le diagnostic.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Relance - Test attendu",
+      "category": "Relances & Escalades",
+      "subject": "Relance - Test attendu",
+      "content": "Bonjour [Prénom],\n\nJe reviens vers vous concernant le test demandé sur [Sujet].\n\nPouvez-vous me confirmer le résultat afin que nous puissions clôturer ou poursuivre l'analyse ?\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Escalade - Fournisseur",
+      "category": "Relances & Escalades",
+      "subject": "Escalade - Fournisseur",
+      "content": "Bonjour,\n\nNous sollicitons votre support concernant l'incident suivant :\n\nClient / utilisateur : [Référence]\nProduit / service : [Produit]\nDébut incident : [Date / heure]\nImpact : [Impact]\nErreur : [Erreur]\n\nTests déjà réalisés :\n- [Test]\n- [Test]\n\nMerci de nous indiquer les prochaines actions recommandées.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Escalade - Équipe infrastructure",
+      "category": "Relances & Escalades",
+      "subject": "Escalade - Équipe infrastructure",
+      "content": "Bonjour,\n\nMerci de prendre en charge l'analyse suivante :\n\nTicket : [N°]\nUtilisateur / poste : [Informations]\nService concerné : [Service]\nImpact : [Impact]\n\nDiagnostic déjà réalisé :\n[Diagnostic]\n\nLogs / éléments :\n[Éléments]\n\nAction attendue :\n[Demande]"
+    },
+    {
+      "name": "Escalade - Équipe sécurité",
+      "category": "Relances & Escalades",
+      "subject": "Escalade - Équipe sécurité",
+      "content": "Bonjour,\n\nMerci d'analyser l'événement de sécurité suivant :\n\nTicket : [N°]\nUtilisateur / poste : [Informations]\nType : [Type]\nDate / heure : [Date]\nIndicateurs : [URL / expéditeur / fichier / alerte]\n\nActions déjà réalisées :\n[Actions]\n\nMerci de confirmer la conduite à tenir."
+    },
+    {
+      "name": "Escalade - N3 avec chronologie",
+      "category": "Relances & Escalades",
+      "subject": "Escalade - N3 avec chronologie",
+      "content": "ESCALADE N3\n\nTicket : [N°]\nImpact : [Impact]\n\nChronologie :\n[Heure] - [Événement]\n[Heure] - [Test]\n[Heure] - [Action]\n[Heure] - [Résultat]\n\nÉtat actuel :\n[État]\n\nBesoin :\n[Action / expertise demandée]"
+    },
+    {
+      "name": "Incident majeur - Accusé utilisateur",
+      "category": "Incident majeur",
+      "subject": "Incident majeur - Accusé utilisateur",
+      "content": "Bonjour,\n\nUn incident général affecte actuellement [Service / application].\n\nLes équipes techniques sont mobilisées. Il n'est pas nécessaire de créer plusieurs tickets pour le même symptôme.\n\nNous communiquerons une mise à jour dès qu'un nouvel élément sera disponible.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Incident majeur - Mise à jour",
+      "category": "Incident majeur",
+      "subject": "Incident majeur - Mise à jour",
+      "content": "MISE À JOUR INCIDENT\n\nService : [Service]\nHeure : [Heure]\nStatut : [En cours / amélioration / surveillance]\n\nÉtat actuel :\n[Description]\n\nActions en cours :\n[Actions]\n\nProchaine mise à jour :\n[Dès nouvel élément / heure prévue]"
+    },
+    {
+      "name": "Incident majeur - Service rétabli",
+      "category": "Incident majeur",
+      "subject": "Incident majeur - Service rétabli",
+      "content": "Bonjour,\n\nLe service [Service] est de nouveau disponible.\n\nLes équipes continuent la surveillance. Si vous rencontrez encore le problème, merci de relancer l'application / la session puis de signaler le cas avec les détails nécessaires.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Incident majeur - Contournement",
+      "category": "Incident majeur",
+      "subject": "Incident majeur - Contournement",
+      "content": "Bonjour,\n\nL'incident sur [Service] est toujours en cours.\n\nContournement temporaire disponible :\n[Procédure]\n\nMerci d'utiliser cette solution uniquement jusqu'au rétablissement complet du service.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Maintenance - Information préalable",
+      "category": "Maintenance & Changement",
+      "subject": "Maintenance - Information préalable",
+      "content": "Bonjour,\n\nUne opération de maintenance est prévue sur [Service / application / équipement].\n\nPériode : [Date / plage]\nImpact possible : [Impact]\nAction utilisateur : [Action éventuelle]\n\nUne confirmation sera envoyée à la fin de l'intervention.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Maintenance - Terminée",
+      "category": "Maintenance & Changement",
+      "subject": "Maintenance - Terminée",
+      "content": "Bonjour,\n\nL'opération de maintenance sur [Service] est terminée.\n\nLes contrôles de validation sont concluants et le service est disponible.\n\nMerci de signaler toute anomalie résiduelle.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Changement - Redémarrage requis",
+      "category": "Maintenance & Changement",
+      "subject": "Changement - Redémarrage requis",
+      "content": "Bonjour [Prénom],\n\nUne modification a été appliquée sur votre poste / compte et nécessite un redémarrage pour être pleinement prise en compte.\n\nMerci d'enregistrer votre travail puis de redémarrer le poste.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Changement - Fenêtre d'intervention",
+      "category": "Maintenance & Changement",
+      "subject": "Changement - Fenêtre d'intervention",
+      "content": "Bonjour [Prénom],\n\nUne intervention est nécessaire sur [Poste / service].\n\nDurée estimée : [Durée]\nImpact : [Impact]\nPréparation demandée : [Fermer applications / enregistrer travail / autre]\n\nMerci de confirmer le créneau retenu.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "name": "Teams - Je regarde",
+      "category": "Messages rapides",
+      "subject": "Teams - Je regarde",
+      "content": "Bonjour [Prénom], je prends le sujet et je reviens vers toi dès que j'ai un premier résultat."
+    },
+    {
+      "name": "Teams - Besoin du poste",
+      "category": "Messages rapides",
+      "subject": "Teams - Besoin du poste",
+      "content": "Bonjour [Prénom], peux-tu rester disponible devant le poste quelques minutes pour que je poursuive le diagnostic ?"
+    },
+    {
+      "name": "Teams - Test demandé",
+      "category": "Messages rapides",
+      "subject": "Teams - Test demandé",
+      "content": "Peux-tu refaire le test maintenant et me dire exactement ce qui s'affiche ?"
+    },
+    {
+      "name": "Teams - Redémarrage demandé",
+      "category": "Messages rapides",
+      "subject": "Teams - Redémarrage demandé",
+      "content": "Peux-tu enregistrer ton travail puis redémarrer complètement le poste et refaire le test ?"
+    },
+    {
+      "name": "Teams - Résolu ?",
+      "category": "Messages rapides",
+      "subject": "Teams - Résolu ?",
+      "content": "La correction est appliquée. Peux-tu confirmer que tout fonctionne correctement maintenant ?"
+    },
+    {
+      "name": "Teams - Merci clôture",
+      "category": "Messages rapides",
+      "subject": "Teams - Merci clôture",
+      "content": "Merci pour ton retour. Je clôture le ticket comme résolu. N'hésite pas à ouvrir une nouvelle demande si le problème revient."
+    },
+    {
+      "category": "Salles & MTR",
+      "name": "MTR - Incident salle pris en charge",
+      "subject": "Prise en charge de l’incident en salle de réunion",
+      "content": "Bonjour [Prénom],\n\nNous avons pris en charge l’incident signalé dans la salle [Nom / étage].\n\nÉquipement concerné : [MTR / écran / caméra / micro / haut-parleur / console].\nSymptôme : [Description].\n\nLes vérifications sont en cours. Nous vous tiendrons informé de l’avancement.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Salles & MTR",
+      "name": "MTR - Salle de nouveau opérationnelle",
+      "subject": "Salle de réunion de nouveau opérationnelle",
+      "content": "Bonjour,\n\nLa salle [Nom / étage] est de nouveau opérationnelle.\n\nVérifications réalisées :\n- affichage ;\n- caméra ;\n- microphones / haut-parleurs ;\n- console Teams Rooms ;\n- connexion à une réunion de test.\n\nMerci de nous signaler toute nouvelle anomalie.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Salles & MTR",
+      "name": "MTR - Maintenance planifiée",
+      "subject": "Maintenance planifiée de la salle de réunion",
+      "content": "Bonjour,\n\nUne intervention de maintenance est planifiée dans la salle [Nom] le [Date] à [Heure].\n\nLa salle pourra être indisponible pendant environ [Durée].\n\nObjet de l’intervention : [mise à jour / remplacement équipement / diagnostic / configuration].\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Salles & MTR",
+      "name": "MTR - Test avant réunion importante",
+      "subject": "Validation technique avant réunion",
+      "content": "Bonjour [Prénom],\n\nUn contrôle technique de la salle [Nom] a été réalisé avant votre réunion.\n\nTests :\n- écran / partage ;\n- caméra ;\n- microphones et audio ;\n- console Teams Rooms ;\n- appel de test.\n\nStatut : [OK / point à corriger].\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Salles & MTR",
+      "name": "Salle - Demande d’informations incident",
+      "subject": "Informations nécessaires - salle de réunion",
+      "content": "Bonjour [Prénom],\n\nAfin de diagnostiquer le problème de la salle [Nom], merci de préciser :\n- l’équipement concerné ;\n- le message d’erreur affiché ;\n- l’heure approximative de l’incident ;\n- si le problème concerne toutes les réunions ou une seule ;\n- une photo de l’écran / console si possible.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Matériel",
+      "name": "Matériel - Préparation en cours",
+      "subject": "Préparation de votre matériel",
+      "content": "Bonjour [Prénom],\n\nLa préparation de votre matériel est en cours.\n\nÉquipement : [PC / téléphone / casque / écran / dock / chargeur].\nConfiguration prévue : [Windows / applications / sécurité / accessoires].\n\nNous vous confirmerons dès que l’équipement sera disponible.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Matériel",
+      "name": "Matériel - Configuration terminée",
+      "subject": "Configuration de votre matériel terminée",
+      "content": "Bonjour [Prénom],\n\nLa configuration de votre matériel est terminée.\n\nÉléments vérifiés :\n- système et mises à jour ;\n- applications ;\n- compte et accès ;\n- réseau ;\n- accessoires ;\n- chiffrement / sécurité si applicable.\n\nLe matériel est prêt pour [remise / expédition].\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Matériel",
+      "name": "Matériel - Colis prêt pour expédition",
+      "subject": "Votre matériel est prêt pour expédition",
+      "content": "Bonjour [Prénom],\n\nVotre matériel est prêt à être expédié.\n\nContenu du colis :\n- [PC / équipement] ;\n- [chargeur] ;\n- [casque / dock / accessoires] ;\n- [autre].\n\nMerci de confirmer l’adresse de livraison et un numéro de téléphone pour le transporteur.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Matériel",
+      "name": "Matériel - Expédition et suivi",
+      "subject": "Expédition de votre matériel",
+      "content": "Bonjour [Prénom],\n\nVotre matériel a été expédié.\n\nTransporteur : [Transporteur]\nNuméro de suivi : [Suivi]\nContenu : [Matériel / accessoires]\n\nMerci de confirmer la bonne réception du colis.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Matériel",
+      "name": "Matériel - Restitution à organiser",
+      "subject": "Organisation de la restitution du matériel",
+      "content": "Bonjour [Prénom],\n\nMerci d’organiser la restitution des équipements suivants :\n- [PC] ;\n- [chargeur] ;\n- [dock] ;\n- [casque] ;\n- [téléphone] ;\n- [autres accessoires].\n\nMode de retour : [remise en main propre / expédition].\nDate souhaitée : [Date].\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Onboarding / Offboarding",
+      "name": "Onboarding - Poste prêt",
+      "subject": "Votre environnement informatique est prêt",
+      "content": "Bonjour [Prénom],\n\nVotre environnement informatique est prêt pour votre arrivée.\n\nPréparé :\n- poste de travail ;\n- compte professionnel ;\n- accès principaux ;\n- applications ;\n- MFA / sécurité ;\n- accessoires.\n\nModalité de remise : [Lieu / date / expédition].\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Onboarding / Offboarding",
+      "name": "Offboarding - Restitution et fermeture",
+      "subject": "Départ - restitution du matériel et des accès",
+      "content": "Bonjour,\n\nDans le cadre du départ de [Prénom Nom], merci de confirmer :\n- la date de fin ;\n- les équipements à restituer ;\n- le mode de retour ;\n- les accès ou délégations à maintenir temporairement si nécessaire.\n\nLe support pourra ensuite finaliser la restitution et la fermeture des accès selon le processus interne.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Applications",
+      "name": "Logiciel - Installation planifiée",
+      "subject": "Installation de votre logiciel",
+      "content": "Bonjour [Prénom],\n\nL’installation de [Application] est planifiée le [Date / heure].\n\nMerci de laisser votre poste connecté et disponible pendant l’intervention.\n\nUn redémarrage pourra être nécessaire.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Applications",
+      "name": "Logiciel - Installation terminée",
+      "subject": "Installation terminée - [Application]",
+      "content": "Bonjour [Prénom],\n\nL’installation de [Application] est terminée.\n\nMerci de lancer l’application et de confirmer que l’accès est fonctionnel.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Maintenance & Changement",
+      "name": "Mise à jour - Intervention planifiée",
+      "subject": "Mise à jour planifiée sur votre poste",
+      "content": "Bonjour [Prénom],\n\nUne mise à jour est prévue sur votre poste le [Date / heure].\n\nMerci d’enregistrer vos travaux avant l’intervention. Un redémarrage peut être nécessaire.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Réseau & VPN",
+      "name": "Réseau - Incident pris en charge",
+      "subject": "Prise en charge de l’incident réseau",
+      "content": "Bonjour [Prénom],\n\nNous avons pris en charge votre incident réseau / Wi-Fi / VPN.\n\nPérimètre : [poste / site / Wi-Fi / VPN].\nSymptôme : [Description].\n\nLes vérifications sont en cours et nous vous tiendrons informé.\n\nCordialement,\nSupport informatique"
+    },
+    {
+      "category": "Microsoft 365",
+      "name": "Microsoft 365 - Incident pris en charge",
+      "subject": "Prise en charge de votre incident Microsoft 365",
+      "content": "Bonjour [Prénom],\n\nNous avons pris en charge votre incident concernant [Outlook / Teams / OneDrive / Office].\n\nSymptôme : [Description].\n\nLes vérifications sont en cours.\n\nCordialement,\nSupport informatique"
+    },
     {
       "category": "Tickets",
       "name": "Incident - prise en charge",
