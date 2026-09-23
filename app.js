@@ -200,11 +200,14 @@ function executionProfile(item){
 }
 function roleBlock(item){
  const p=executionProfile(item);
+ const pcText=p.kind==="link"
+   ?"Lien direct : il peut être ouvert depuis IT Pocket ou partagé au technicien. Aucune installation de Super Support n’est nécessaire."
+   :(p.standalone
+      ?"Sur le poste cible : ouvrir PowerShell / CMD / Exécuter selon l’indication puis lancer le contenu copié."
+      :"Cette fiche décrit un module interne. Ses options sont proposées séparément dans IT Pocket ; le bloc original ne doit pas être exécuté seul.");
  return '<div class="role-split">'+
  '<div class="role-box"><div class="role-title">📱 Rôle IT Pocket</div><div class="role-text">Sur mobile : comprendre l’action, copier, partager ou envoyer par Outlook. Rien n’est exécuté sur le téléphone.</div></div>'+
- '<div class="role-box '+(p.standalone?'role-pc':'role-ref')+'"><div class="role-title">🖥 Rôle PC Windows</div><div class="role-text">'+
- (p.standalone?'Sur le poste cible : ouvrir PowerShell / CMD selon l’indication puis exécuter le contenu copié.':'Cette fiche décrit un module interne. Ses options doivent être utilisées via les fiches indépendantes proposées dans IT Pocket.')+
- '</div></div></div>'+
+ '<div class="role-box '+(p.standalone?'role-pc':'role-ref')+'"><div class="role-title">🖥 Rôle PC / portail</div><div class="role-text">'+pcText+'</div></div></div>'+
  '<div class="execution-label '+p.kind+'">'+esc(p.label)+'</div>';
 }
 function launchTutorial(item){
