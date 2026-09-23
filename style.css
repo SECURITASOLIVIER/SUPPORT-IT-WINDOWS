@@ -124,3 +124,55 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
   overflow:hidden;
   align-self:start;
 }
+
+
+/* Mobile pocket-tool additions */
+.home-summary{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:13px;
+  margin-bottom:20px;
+}
+.home-kpi{min-height:190px}
+.big-number{
+  font-size:34px;
+  font-weight:800;
+  line-height:1;
+  margin:8px 0 10px;
+  color:var(--text);
+}
+.section-title{
+  margin:20px 0 10px;
+  font-size:14px;
+  font-weight:700;
+  color:var(--text);
+}
+.category-cloud{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:18px;
+}
+.category-chip span{
+  display:inline-block;
+  margin-left:5px;
+  padding:1px 6px;
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--muted);
+  font-size:11px;
+}
+.category-scroll{
+  display:flex;
+  gap:7px;
+  overflow-x:auto;
+  padding:0 0 10px;
+  margin-bottom:4px;
+  -webkit-overflow-scrolling:touch;
+}
+.category-scroll .btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:800px){
+  .home-summary{grid-template-columns:1fr 1fr}
+  .home-kpi{min-height:160px}
+  .big-number{font-size:28px}
+}
