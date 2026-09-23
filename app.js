@@ -20,7 +20,31 @@ const pocketSecurityOptions=[
  {category:"Intune • Utilisateur",webCategory:"Intune / Entra / SCCM",name:"Portail d’entreprise Web",description:"Accéder aux appareils et applications publiés via Microsoft Intune.",method:"Company Portal Web",command:"https://portal.manage.microsoft.com/",shell:"Navigateur",rights:"Compte professionnel",risk:"Lecture",pocketExpanded:true},
  {category:"Intune • Administration",webCategory:"Intune / Entra / SCCM",name:"Centre d’administration Intune",description:"Accéder à l’administration Microsoft Intune selon les droits du compte.",method:"Microsoft Intune Admin Center",command:"https://intune.microsoft.com/",shell:"Navigateur",rights:"Droits Intune requis",risk:"Administration",pocketExpanded:true}
 ];
-function pocketActions(){return D.actions.filter(a=>!isPocketCenterWrapper(a)).concat(pocketCenterOptions,pocketSecurityOptions)}
+function pocketActions(){
+ const extras=[...pocketCenterOptions,...pocketSecurityOptions];
+ const commandItems=(D.commands||[]).map(c=>({
+   ...c,
+   category:c.category||"Outils",
+   webCategory:c.webCategory||"Outils Support",
+   script:"",
+   method:"",
+   language:c.shell||"",
+   _fromCommand:true
+ }));
+ const commandNames=new Set(commandItems.map(x=>String(x.name||"").toLowerCase()));
+ const source=(D.actions||[]).filter(a=>{
+   if(isPocketCenterWrapper(a)||isContainerAction(a))return false;
+   if(commandNames.has(String(a.name||"").toLowerCase()))return false;
+   return executionProfile(a).standalone;
+ });
+ const merged=[...extras,...commandItems,...source];
+ const seen=new Set();
+ return merged.filter(x=>{
+   const key=(String(x.name||"").trim().toLowerCase()+"|"+String(x.command||x.script||"").trim());
+   if(!x.name||seen.has(key))return false;
+   seen.add(key);return true;
+ });
+}
 
 let custom=JSON.parse(localStorage.getItem("ssitTemplates")||"[]");
 function save(){localStorage.setItem("ssitState",JSON.stringify(state));localStorage.setItem("ssitTemplates",JSON.stringify(custom))}
@@ -74,7 +98,7 @@ function filterItems(items, fields){let q=$("#search").value.trim().toLowerCase(
 function renderActions(c){let arr=filterItems(D.actions.filter(a=>a.webCategory===c),["name","description","method","command","category"]);return `<div class="toolbar"><span class="badge">${arr.length} action(s)</span><span class="badge warn">Exécution Windows : copier la commande</span></div><div class="grid">${arr.map(actionCard).join("")||'<div class="empty">Aucune action trouvée.</div>'}</div>`}
 function home(){
  return '<div class="home-summary">'+
-   '<article class="card home-kpi"><h3>☷ Actions</h3><div class="big-number">'+pocketActions().length+'</div><p class="desc">Diagnostics, informations et actions.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
+   '<article class="card home-kpi"><h3>☷ Scripts & actions</h3><div class="big-number">'+pocketActions().length+'</div><p class="desc">Scripts, diagnostics et actions prêts à utiliser.</p><button class="btn primary" onclick=\'openCat("Toutes les actions")\'>Ouvrir</button></article>'+
    '<article class="card home-kpi"><h3>⌘ Commandes</h3><div class="big-number">'+D.commands.length+'</div><p class="desc">PowerShell, CMD et raccourcis.</p><button class="btn primary" onclick=\'openCat("Commandes rapides")\'>Ouvrir</button></article>'+
    '<article class="card home-kpi"><h3>✉ Communications</h3><div class="big-number">'+allTemplates().length+'</div><p class="desc">Modèles et messages corporate.</p><button class="btn primary" onclick=\'openCat("Communications")\'>Ouvrir</button></article>'+
    '<article class="card home-kpi"><h3>↗ Liens</h3><div class="big-number">'+allPortals().length+'</div><p class="desc">Portails, outils et favoris.</p><button class="btn primary" onclick=\'openCat("Portails")\'>Ouvrir</button></article>'+
@@ -166,7 +190,7 @@ function renderJournal(){
 function render(){
  document.body.classList.toggle("light",state.theme==="light");nav();
  $("#title").textContent=state.cat;
- $("#stats").textContent=pocketActions().length+" actions • "+D.commands.length+" commandes • "+allTemplates().length+" modèles";
+ $("#stats").textContent=pocketActions().length+" scripts/actions • "+allTemplates().length+" modèles";
  let c=state.cat, h=
    c==="Accueil"?home():
    c==="Toutes les actions"?renderAllActions():
@@ -243,9 +267,6 @@ function supportSteps(item){
  const isCmd=/CMD/i.test(shell)&&!/PowerShell/i.test(shell);
  let steps=[];
  if(!p.standalone){
-   const m=cleanMethod(item);
-   if(m)steps.push("Appliquer la méthode indiquée : "+m);
-   else steps.push("Consulter les informations de la fiche et appliquer l’action adaptée au contexte.");
    return steps;
  }
  if(isUrl){
@@ -261,7 +282,6 @@ function supportSteps(item){
    steps.push("Ouvrir PowerShell ou Terminal Windows"+(admin?" en administrateur":"")+".");
    steps.push("Coller le script ou la commande puis valider.");
  }
- steps.push("Contrôler le résultat affiché avant de poursuivre.");
  if(/moyen|élevé|modifie|supprim|interrompt|resynchron|redémarr|reboot/i.test(risk)){
    steps.push("Vérifier l’impact et prévenir l’utilisateur avant toute action corrective.");
  }
@@ -300,9 +320,11 @@ function buildSupportShare(item){
    if(item.rights)lines.push("Droits : "+String(item.rights));
    if(item.risk)lines.push("Impact : "+String(item.risk));
  }
- lines.push("");
- lines.push("PROCÉDURE");
- steps.forEach((x,i)=>lines.push((i+1)+". "+x));
+ if(steps.length){
+   lines.push("");
+   lines.push("PROCÉDURE");
+   steps.forEach((x,i)=>lines.push((i+1)+". "+x));
+ }
  if(p.standalone&&s){
    lines.push("");
    lines.push("SCRIPT / COMMANDE");
@@ -342,7 +364,7 @@ function detailHtml(item,id){
       (item.rights?'<span class="badge">'+esc(item.rights)+'</span>':'')+
       (item.risk?'<span class="badge warn">'+esc(item.risk)+'</span>':'')+
     '</div></div>':'')+
-   '<div class="detail-section"><div class="more-label">Procédure</div>'+launchTutorial(item)+'</div>'+
+   ((supportSteps(item).length)?'<div class="detail-section"><div class="more-label">Procédure</div>'+launchTutorial(item)+'</div>':'')+
    (p.standalone&&s?'<div class="detail-section"><div class="more-label">Script / commande • '+esc(sh)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
    (check?'<div class="detail-section"><div class="more-label">Vérification</div><div class="more-text">'+esc(check)+'</div></div>':'')+
    (item.escalation?'<div class="detail-section"><div class="more-label">Escalade</div><div class="more-text">'+esc(item.escalation)+'</div></div>':'')+
