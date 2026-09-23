@@ -92,19 +92,45 @@ function makeTextShareFile(title,text){
 async function shareText(title,text){
  const subject=String(title||"IT Pocket");
  const full=String(text||"");
- if(navigator.share){
-   const f=makeTextShareFile(subject,full);
-   if(f && full.length>10000 && navigator.canShare){
-     const withFile={title:subject,text:"Contenu complet IT Pocket en pièce jointe.",files:[f]};
-     try{
-       if(navigator.canShare(withFile)){await navigator.share(withFile);return}
-     }catch(e){if(e&&e.name==="AbortError")return}
+ let nativeError=null;
+
+ // Priorité au partage natif iPhone / Android / Safari / Chrome.
+ if(typeof navigator!=="undefined" && typeof navigator.share==="function"){
+   try{
+     // Pour un contenu normal, le texte direct est le plus fiable.
+     if(full.length<=12000){
+       await navigator.share({title:subject,text:full});
+       return;
+     }
+
+     // Pour un contenu très long, préférer un fichier texte si le navigateur le permet.
+     const f=makeTextShareFile(subject,full);
+     if(f && typeof navigator.canShare==="function"){
+       const payload={title:subject,text:"Contenu complet IT Pocket en pièce jointe.",files:[f]};
+       if(navigator.canShare(payload)){
+         await navigator.share(payload);
+         return;
+       }
+     }
+
+     // Dernier essai natif avec le texte complet.
+     await navigator.share({title:subject,text:full});
+     return;
+   }catch(e){
+     if(e && e.name==="AbortError")return;
+     nativeError=e;
    }
-   try{await navigator.share({title:subject,text:full});return}
-   catch(e){if(e&&e.name==="AbortError")return}
  }
- await copy(full);
- toast("Partage non disponible : contenu complet copié");
+
+ // Fallback garanti : copie complète + retour visible.
+ try{
+   await copy(full);
+   toast("Partage indisponible : contenu copié");
+   if(nativeError) console.warn("IT Pocket share fallback",nativeError);
+ }catch(e){
+   console.error("IT Pocket share failed",e);
+   alert("Le partage natif n’est pas disponible sur ce navigateur. Le contenu n’a pas pu être partagé.");
+ }
 }
 async function openOutlookText(title,text){
  const subject=String(title||"IT Pocket");
