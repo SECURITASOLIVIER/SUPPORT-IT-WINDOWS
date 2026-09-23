@@ -18,3 +18,20 @@ main{padding:22px 28px;min-width:0}header{display:flex;justify-content:space-bet
 @media(max-width:800px){#app{grid-template-columns:1fr}aside{position:relative;height:auto}.brand h1{font-size:17px}nav{display:flex;overflow:auto;gap:5px}.navbtn{min-width:max-content}main{padding:16px}header{align-items:flex-start}.stats{font-size:12px}.grid{grid-template-columns:1fr}.editor{grid-template-columns:1fr}.editor .full{grid-column:auto}}
 
 .webnotice{margin:0 0 15px;padding:10px 13px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--muted);font-size:13px}
+
+/* IT Pocket compact cards */
+.compact-card{display:flex;flex-direction:column;min-height:205px}
+.compact-card .desc{min-height:auto;margin:3px 0 12px;line-height:1.45}
+.card-badges{min-height:24px;margin-top:auto}
+.compact-actions{align-items:flex-start;margin-top:12px}
+.more{display:inline-block;position:relative}
+.more>summary{list-style:none;user-select:none}
+.more>summary::-webkit-details-marker{display:none}
+.more[open]>summary{border-color:var(--blue);box-shadow:0 0 0 1px var(--blue) inset}
+.morebox{margin-top:9px;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--panel2);min-width:min(560px,70vw)}
+.more-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:3px 0 7px;font-weight:700}
+.more-text{font-size:13px;line-height:1.5;color:var(--text);margin-bottom:10px}
+.morebox .code{margin:0;max-height:300px}
+.meta-inline{font-size:12px;color:var(--muted);align-self:center}
+.slimbar{align-items:center;margin-bottom:12px}
+@media(max-width:800px){.compact-card{min-height:auto}.morebox{min-width:0;width:calc(100vw - 70px)}}
