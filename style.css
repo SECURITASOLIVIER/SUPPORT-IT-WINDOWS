@@ -308,3 +308,47 @@ body:not(.light) .brand h1{
     gap:8px;
   }
 }
+
+/* Template card content - theme aware */
+.template-preview{
+  border:1px solid #1f3a57;
+  border-radius:12px;
+  padding:14px;
+  background:#071a2d;
+  color:#f4f8ff;
+  line-height:1.5;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.015);
+}
+.template-preview .tpl-line{margin:0 0 8px}
+.template-preview .tpl-title{font-weight:700;color:#fff}
+.template-preview .tpl-space{height:8px}
+.template-subject{
+  margin-top:10px;
+  padding:9px 11px;
+  border:1px solid #1f3a57;
+  border-radius:10px;
+  background:#0b2238;
+  color:#dcecff;
+  font-size:12px;
+}
+.template-subject span{
+  display:inline-block;
+  margin-right:7px;
+  font-weight:700;
+  color:#8fc5ff;
+}
+body.light .template-preview{
+  background:#f7f9fc;
+  color:#162234;
+  border-color:#d7e0ea;
+  box-shadow:none;
+}
+body.light .template-preview .tpl-title{color:#0f1d2d}
+body.light .template-subject{
+  background:#eef3f8;
+  color:#172435;
+  border-color:#d7e0ea;
+}
+body.light .template-subject span{color:#276fb7}
