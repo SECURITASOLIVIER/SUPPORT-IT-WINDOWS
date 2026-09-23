@@ -566,15 +566,60 @@ function templateHeadingEmoji(line){
  if(/^(validation|résultat|resultat|confirmation)\b/.test(s))return "✅ ";
  return "";
 }
+function templateSafeLinkify(text){
+ const s=String(text||"");
+ const re=/(https?:\/\/[^\s<>"']+)/ig;
+ let out="",last=0,m;
+ while((m=re.exec(s))){
+   out+=esc(s.slice(last,m.index));
+   const url=m[1];
+   const safe=esc(url);
+   if(/\.(?:png|jpe?g|gif|webp)(?:\?.*)?$/i.test(url)){
+     out+='<a class="tpl-image-link" href="'+safe+'" target="_blank" rel="noopener"><img class="tpl-image" src="'+safe+'" alt="Illustration du template" loading="lazy"></a>';
+   }else{
+     out+='<a class="tpl-link" href="'+safe+'" target="_blank" rel="noopener">'+safe+'</a>';
+   }
+   last=m.index+url.length;
+ }
+ out+=esc(s.slice(last));
+ return out;
+}
 function formatTemplateHtml(text){
  const clean=formalizeTemplateText(text);
  if(!clean)return '<div class="template-empty">Aucun contenu.</div>';
  return clean.split("\n").map(line=>{
-   const trimmed=String(line||"").trim();
+   const raw=String(line||"");
+   const trimmed=raw.trim();
    if(!trimmed)return '<div class="tpl-space" aria-hidden="true"></div>';
+
+   const imageOnly=/^https?:\/\/\S+\.(?:png|jpe?g|gif|webp)(?:\?\S*)?$/i.test(trimmed);
+   if(imageOnly)return '<div class="tpl-media">'+templateSafeLinkify(trimmed)+'</div>';
+
    const marker=templateHeadingEmoji(trimmed);
-   const heading=!!marker || /^(bonjour|bonsoir|objet\s*:|merci pour votre collaboration\.?$)/i.test(trimmed);
-   return '<div class="tpl-line'+(heading?' tpl-title':'')+'">'+esc(marker+trimmed)+'</div>';
+   if(marker){
+     return '<div class="tpl-callout">'+
+       '<span class="tpl-callout-icon">'+esc(marker.trim())+'</span>'+
+       '<div>'+templateSafeLinkify(trimmed.replace(/^(important|attention|alerte|à retenir|a retenir|étapes|etapes|procédure|procedure|actions? à réaliser|actions? a realiser|sécurité|securite|mfa|authentification|information|info|contexte|matériel|materiel|équipement|equipement|réseau|reseau|vpn|connexion|validation|résultat|resultat|confirmation)\s*:?\s*/i,"$&"))+'</div>'+
+     '</div>';
+   }
+
+   if(/^(bonjour|bonsoir)(\s|,|$)/i.test(trimmed)){
+     return '<div class="tpl-line tpl-greeting">'+templateSafeLinkify(trimmed)+'</div>';
+   }
+   if(/^(cordialement|bien cordialement|bonne journée|bonne journee|merci|merci d'avance|merci par avance)(\s|,|\.|$)/i.test(trimmed)){
+     return '<div class="tpl-line tpl-closing">'+templateSafeLinkify(trimmed)+'</div>';
+   }
+   if(/^\d+[\).\-]?\s+/.test(trimmed) || /^\d+[️⃣]\s*/u.test(trimmed)){
+     return '<div class="tpl-line tpl-step">'+templateSafeLinkify(trimmed)+'</div>';
+   }
+   if(/^[-•▪◦]\s*/.test(trimmed)){
+     return '<div class="tpl-line tpl-bullet">'+templateSafeLinkify(trimmed.replace(/^[-•▪◦]\s*/,""))+'</div>';
+   }
+   if(/^(objet\s*:)/i.test(trimmed)){
+     return '<div class="tpl-line tpl-object">'+templateSafeLinkify(trimmed)+'</div>';
+   }
+
+   return '<div class="tpl-line">'+templateSafeLinkify(trimmed)+'</div>';
  }).join("");
 }
 function templateShareText(t){
