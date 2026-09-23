@@ -585,21 +585,30 @@ function templateShareText(t){
 function allTemplates(){return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i})).filter(t=>!hiddenTemplates.includes(t._id)).concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i})))}
 function getTemplateByRef(ref){if(!ref)return null;let i=parseInt(ref.slice(1),10);return ref[0]==="b"?D.templates[i]:custom[i]}
 function openTemplateOutlook(ref){let t=getTemplateByRef(ref);if(!t)return;openOutlookText(formalizeTemplateText(t.subject||t.name||"Communication IT"),formalizeTemplateText(t.content||""))}
+function toggleTemplatePreview(id){
+ const box=document.getElementById(id);
+ if(!box)return;
+ const open=box.classList.toggle("open");
+ const btn=document.querySelector('[data-template-btn="'+id+'"]');
+ if(btn)btn.textContent=open?"Réduire":"Voir plus";
+}
 function templateCard(t){
  let r=JSON.stringify(t._id);
  const body=formalizeTemplateText(t.content||"");
  const subject=formalizeTemplateText(t.subject||"");
  const full=templateShareText({...t,subject,content:body});
  const emoji=templateEmoji(t);
+ const id="tpl_"+Math.random().toString(36).slice(2);
  return '<article class="card template-card">'+
  '<h3><span class="template-emoji">'+emoji+'</span> '+esc(t.name)+'</h3>'+
  '<div class="meta">'+esc(t.category)+' '+(t.builtin?'• Intégré':'• Personnel')+'</div>'+
  (subject?'<div class="template-subject"><span>Objet</span>'+esc(subject)+'</div>':'')+
- '<div class="template-preview">'+formatTemplateHtml(body)+'</div>'+
- '<div class="actions">'+
+ '<div id="'+id+'" class="template-preview template-preview-collapsed">'+formatTemplateHtml(body)+'</div>'+
+ '<div class="actions template-actions">'+
  '<button class="btn primary" onclick=\'copy('+JSON.stringify(full)+')\'>Copier</button>'+
  '<button class="btn" onclick=\'shareText('+JSON.stringify(t.name||"Communication IT")+','+JSON.stringify(full)+')\'>Partager</button>'+
  '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
+ '<button class="btn" data-template-btn="'+id+'" onclick=\'toggleTemplatePreview("'+id+'")\'>Voir plus</button>'+
  '<button class="btn" onclick=\'editTemplate('+r+')\'>Modifier</button>'+
  '<button class="btn red" onclick=\'deleteTemplate('+r+')\'>Supprimer</button>'+
  '</div></article>';
@@ -661,7 +670,7 @@ function tools(){
  return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span></div>'+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
-Object.assign(window,{actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
  const b=document.getElementById("scrollTopBtn");
