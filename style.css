@@ -1013,3 +1013,124 @@ body.light .itp-shortcut-intro{background:#f7fbff}
  }
 }
 /* === /IT Pocket home alignment v4.6 === */
+
+
+/* === IT Pocket home equal cards v4.7 === */
+/* Accueil : même géométrie pour chaque carte, quelle que soit la longueur du titre */
+.all-menu-home{
+  align-items:stretch !important;
+  grid-auto-rows:1fr;
+}
+
+.all-menu-home .itp-home-card{
+  display:grid !important;
+  grid-template-rows:72px 54px minmax(86px,1fr) 42px;
+  height:100% !important;
+  min-height:286px !important;
+  padding:16px !important;
+  align-content:stretch;
+}
+
+.all-menu-home .itp-home-heading{
+  display:grid !important;
+  grid-template-columns:40px minmax(0,1fr);
+  align-items:start !important;
+  gap:10px;
+  min-height:0 !important;
+  height:72px;
+  overflow:hidden;
+}
+
+.all-menu-home .itp-home-heading > .itp-official-icon,
+.all-menu-home .itp-home-heading > .itp-product-icon,
+.all-menu-home .itp-home-heading > .itp-brand-wrap{
+  margin-top:1px;
+}
+
+.all-menu-home .itp-home-heading h3{
+  min-height:0 !important;
+  height:auto !important;
+  margin:0 !important;
+  align-self:start;
+  line-height:1.14 !important;
+  display:-webkit-box !important;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+  overflow:hidden;
+}
+
+.all-menu-home .big-number{
+  display:flex;
+  align-items:flex-start;
+  margin:0 !important;
+  padding-top:4px;
+  min-height:0 !important;
+}
+
+.all-menu-home .itp-home-card .desc{
+  min-height:0 !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:8px 0 10px;
+  line-height:1.35;
+  overflow:hidden;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:4;
+}
+
+.all-menu-home .itp-home-card > .btn{
+  margin:0 !important;
+  align-self:end !important;
+  justify-self:start;
+  min-height:38px;
+}
+
+@media(max-width:800px){
+  .all-menu-home{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:14px !important;
+  }
+
+  .all-menu-home .itp-home-card{
+    grid-template-rows:80px 54px minmax(96px,1fr) 42px;
+    min-height:310px !important;
+    padding:14px !important;
+  }
+
+  .all-menu-home .itp-home-heading{
+    grid-template-columns:38px minmax(0,1fr);
+    height:80px;
+    gap:9px;
+  }
+
+  .all-menu-home .itp-home-heading h3{
+    font-size:15px !important;
+    line-height:1.16 !important;
+    -webkit-line-clamp:3;
+  }
+
+  .all-menu-home .big-number{
+    font-size:29px !important;
+  }
+
+  .all-menu-home .itp-home-card .desc{
+    font-size:12px !important;
+    line-height:1.35 !important;
+    -webkit-line-clamp:5;
+  }
+
+  .all-menu-home .itp-home-card > .btn{
+    min-width:74px;
+  }
+}
+
+@media(max-width:390px){
+  .all-menu-home .itp-home-card{
+    grid-template-rows:86px 52px minmax(100px,1fr) 42px;
+    min-height:320px !important;
+    padding:12px !important;
+  }
+  .all-menu-home .itp-home-heading{height:86px}
+}
+/* === /IT Pocket home equal cards v4.7 === */
