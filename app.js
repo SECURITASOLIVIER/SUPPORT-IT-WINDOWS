@@ -1868,6 +1868,19 @@ function applyUiLanguage(){
  });
 }
 
+
+function newLink(ref=null){
+ let source=ref?getLinkByRef(ref):null;
+ let p=source?{...source,_categoryKey:source.category}:{name:"",category:state.lang==="en"?"Favorites":"Favoris",url:"https://"};
+ if(source&&state.lang==="en")p=localizePortal(p);
+ $("#content").innerHTML='<div class="card"><h3>'+ui(ref?"Modifier le lien":"Ajouter un lien favori")+'</h3><div class="editor">'+
+ '<div><div class="meta">'+ui("Nom")+'</div><input id="lname" value="'+esc(p.name||"")+'"></div>'+
+ '<div><div class="meta">'+ui("Catégorie")+'</div><input id="lcat" value="'+esc(p.category||(state.lang==="en"?"Favorites":"Favoris"))+'"></div>'+
+ '<div class="full"><div class="meta">URL</div><input id="lurl" value="'+esc(p.url||"https://")+'"></div>'+
+ '<div class="full actions"><button class="btn primary" onclick=\'saveLink('+JSON.stringify(ref||"")+')\'>'+ui("Enregistrer")+'</button>'+
+ '<button class="btn" onclick="render()">'+ui("Annuler")+'</button></div></div></div>';
+}
+
 Object.assign(window,{shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
