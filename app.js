@@ -916,7 +916,6 @@ function templateCard(t){
  '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
  '<button class="btn" data-template-btn="'+id+'" onclick=\'toggleTemplatePreview("'+id+'")\'>'+ui("Voir plus")+'</button>'+
  '<button class="btn" onclick=\'editTemplate('+r+')\'>'+ui("Modifier")+'</button>'+
- '<button class="btn red" onclick=\'deleteTemplate('+r+')\'>'+ui("Supprimer")+'</button>'+
  '</div></article>';
 }
 function setTemplateFilter(v){templateFilter=v;render()}
@@ -1171,7 +1170,6 @@ function formatTemplateHtml(text){
 }
 function allTemplates(){
  return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i,_categoryKey:t.category}))
-   .filter(t=>!hiddenTemplates.includes(t._id))
    .concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i,_categoryKey:t.category})));
 }
 function templateCard(t){
@@ -1376,10 +1374,7 @@ function saveTemplateRef(ref){
  savePocket();toast("Template enregistré");render();
 }
 function deleteTemplate(ref){
- if(!ref||!confirm(ui("Supprimer ce template ?")))return;
- if(ref[0]==="c")custom.splice(parseInt(ref.slice(1),10),1);
- else if(!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);
- savePocket();render();
+ toast(state.lang==="en"?"Template deletion is disabled":"Suppression des templates désactivée");
 }
 function importTemplates(inp){
  let f=inp.files&&inp.files[0];if(!f)return;
@@ -2180,7 +2175,7 @@ function communications(){
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
  '<div class="section-title">'+ui("Modèles corporate")+'</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+'</div>';
 }
-Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
  const b=document.getElementById("scrollTopBtn");
