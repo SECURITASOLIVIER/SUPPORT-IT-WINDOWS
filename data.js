@@ -7467,7 +7467,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - DEMANDE - Premier contact",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - DEMANDE - Premier contact",
       "content": "DEMANDE - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre demande XX.\n\nAfin de pouvoir traiter votre demande, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - REQUEST - First contact",
@@ -7476,7 +7476,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - DEMANDE - Relance",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - DEMANDE - Relance",
       "content": "DEMANDE - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre le traitement de votre demande.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - REQUEST - Follow-up",
@@ -7485,7 +7485,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - DEMANDE - Dernière relance avant clôture",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - DEMANDE - Dernière relance avant clôture",
       "content": "DEMANDE - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre demande à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - REQUEST - Final follow-up before closure",
@@ -7494,7 +7494,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - DEMANDE - Clôture administrative",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - DEMANDE - Clôture administrative",
       "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre demande.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
       "name_en": "Ticket - REQUEST - Administrative closure",
@@ -7503,7 +7503,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - INCIDENT - Premier contact",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - INCIDENT - Premier contact",
       "content": "INCIDENT - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre incident XX.\n\nAfin de pouvoir poursuivre sa résolution, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - First contact",
@@ -7512,7 +7512,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - INCIDENT - Demande d'informations diagnostic",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - INCIDENT - Demande d'informations diagnostic",
       "content": "Bonjour,\n\nJe vous contacte au sujet du ticket que vous avez ouvert.\n\nAfin de poursuivre l'analyse et résoudre votre incident, pourriez-vous nous transmettre les informations suivantes :\n\n\t• Le message d'erreur exact rencontré ;\n\n\t• Une capture d'écran de l'erreur (si possible) ;\n\n\t• Les étapes qui ont conduit à l'apparition du problème.\n\nCes éléments nous permettront d'identifier plus rapidement l'origine de l'incident et de vous apporter une solution adaptée.\n\nDans l'attente de votre retour.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - Diagnostic information request",
@@ -7521,7 +7521,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - INCIDENT - Relance",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - INCIDENT - Relance",
       "content": "INCIDENT - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre sa résolution.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - Follow-up",
@@ -7530,7 +7530,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - INCIDENT - Dernière relance avant clôture",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - INCIDENT - Dernière relance avant clôture",
       "content": "INCIDENT - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre ticket à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - Final follow-up before closure",
@@ -7539,7 +7539,7 @@ window.SSIT_DATA = {
     },
     {
       "name": "Ticket - INCIDENT - Clôture administrative",
-      "category": "Matériel",
+      "category": "Tickets",
       "subject": "Ticket - INCIDENT - Clôture administrative",
       "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre ticket.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - Administrative closure",
