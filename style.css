@@ -906,3 +906,66 @@ body.light .itp-site-logo{background:#fff;border-color:#d6e0e8}
 }
 body.light .itp-remote-product{background:#fff;border-color:#d7e0ea}
 /* === /IT Pocket support expansion v4 === */
+
+
+/* === IT Pocket shortcut compact cards v4.2 === */
+.itp-shortcut-intro{
+ display:flex;
+ align-items:center;
+ gap:9px;
+ margin:0 0 12px;
+ padding:10px 12px;
+ border:1px solid var(--line);
+ border-radius:10px;
+ background:var(--panel);
+ color:var(--muted);
+ font-size:12px;
+}
+.itp-shortcut-card{
+ min-height:0!important;
+ padding:13px 14px!important;
+}
+.itp-shortcut-card h3{
+ margin:0 0 7px!important;
+ font-size:15px!important;
+}
+.itp-shortcut-desc{
+ margin:0 0 12px;
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.4;
+ min-height:0;
+}
+.itp-shortcut-combo-row{
+ display:flex;
+ align-items:center;
+ gap:8px;
+ justify-content:space-between;
+}
+.itp-shortcut-combo{
+ display:inline-flex;
+ align-items:center;
+ min-height:34px;
+ padding:7px 10px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ background:var(--panel2);
+ color:var(--text);
+ font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+ font-size:12px;
+ font-weight:700;
+}
+.itp-shortcut-copy{
+ flex:0 0 auto;
+ padding:7px 10px!important;
+}
+body.light .itp-shortcut-intro{background:#f7fbff}
+@media(max-width:800px){
+ .itp-shortcut-grid{grid-template-columns:1fr 1fr!important}
+ .itp-shortcut-card{padding:12px!important}
+ .itp-shortcut-combo-row{align-items:flex-start}
+}
+@media(max-width:520px){
+ .itp-shortcut-grid{grid-template-columns:1fr!important}
+}
+/* === /IT Pocket shortcut compact cards v4.2 === */
