@@ -3843,6 +3843,29 @@ itpShortcutProductLogo=function(key){
 };
 /* === /IT Pocket shortcuts expansion v4.6 === */
 
+/* === IT Pocket mobile nav + communications collapse v4.8 === */
+function templateCard(t){
+ const v=localizeTemplate(t),ref=JSON.stringify(t._id),p=preparedTemplate(t);
+ const id="tpl_"+Math.random().toString(36).slice(2);
+ const canDelete=!t.builtin;
+ return '<article class="card itp-template-card template-card">'+
+   '<h3 class="itp-card-title">'+itpTemplateIcon(v)+'<span>'+esc(v.name)+'</span></h3>'+
+   '<div class="meta">'+esc(templateCategoryLabel(t._categoryKey||t.category))+' '+(t.builtin?'• '+(state.lang==="en"?"Built-in":"Intégré"):'• '+(state.lang==="en"?"Personal":"Personnel"))+'</div>'+
+   (p.subject?'<div class="template-subject"><span>'+ui("Objet")+'</span>'+esc(p.subject)+'</div>':'')+
+   '<div class="itp-template-summary">'+esc(String(p.body||"").replace(/\s+/g," ").slice(0,155))+(String(p.body||"").replace(/\s+/g," ").length>155?"…":"")+'</div>'+
+   '<div id="'+id+'" class="template-preview template-preview-collapsed">'+formatTemplateHtml(p.body)+'</div>'+
+   '<div class="actions template-actions">'+
+     '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+     '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+     '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+     '<button class="btn" data-template-btn="'+id+'" onclick=\'toggleTemplatePreview("'+id+'")\'>'+ui("Voir plus")+'</button>'+
+     '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+     (canDelete?'<button class="btn red" onclick=\'deleteTemplate('+ref+')\'>'+ui("Supprimer")+'</button>':'')+
+   '</div>'+
+ '</article>';
+}
+/* === /IT Pocket mobile nav + communications collapse v4.8 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
