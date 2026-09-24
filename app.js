@@ -2156,11 +2156,16 @@ function localizeTemplate(t){
 }
 function preparedTemplate(t){
  const v=localizeTemplate(t);
- let subject=formalizeTemplateText(applyTemplateContext(v&&v.subject||""));
- let body=formalizeTemplateText(applyTemplateContext(v&&v.content||""));
+ const originalSubject=String(v&&v.subject||"");
+ const originalBody=String(v&&v.content||"");
+ let subject=formalizeTemplateText(applyTemplateContext(originalSubject));
+ let body=formalizeTemplateText(applyTemplateContext(originalBody));
  const sourceName=String(t&&t.name||"");
  const sourceCategory=String(t&&t.category||"");
- if(ticketRef && /ticket|incident/i.test(sourceName+" "+sourceCategory) && !subject.includes(ticketRef)){
+ const sourceText=[sourceName,sourceCategory,String(t&&t.subject||""),String(t&&t.content||"")].join(" ");
+ const hasTicketPlaceholder=/\[N° ticket\]|\[N°\]|\[Ticket #\]|\[Ticket number\]|\b(?:demande|incident|ticket|request)\s+XX\b/i.test(sourceText);
+ const isTicketSpecific=/\b(?:ticket|incident|request|demande)\b/i.test(sourceName);
+ if(ticketRef && (hasTicketPlaceholder||isTicketSpecific) && !subject.includes(ticketRef)){
    subject="["+ticketRef+"] "+subject;
  }
  const shareBody=decorateTemplatePlainText(body);
