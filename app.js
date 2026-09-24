@@ -2674,12 +2674,18 @@ function itpTopicKey(item,menu){
 }
 
 function itpActionsForMenu(cat){
- return pocketActions().filter(x=>itpEffectiveMenu(x)===cat).map(x=>itpFrenchItem(localizeDataItem(x)));
+ return pocketActions().filter(x=>itpEffectiveMenu(x)===cat).map(x=>{
+   const topic=itpTopicKey(x,cat);
+   const y=itpFrenchItem(localizeDataItem(x));
+   y._itpMenu=cat;
+   y._itpTopic=topic;
+   return y;
+ });
 }
 function itpGroupsForCat(cat){
  const items=itpActionsForMenu(cat),seen=new Map();
  for(const item of items){
-   const key=itpTopicKey(item,cat);
+   const key=item._itpTopic||itpTopicKey(item,cat);
    if(!seen.has(key))seen.set(key,{key,label:itpTopicLabel(key),count:0,item});
    seen.get(key).count++;
  }
@@ -2765,7 +2771,7 @@ function actionCard(a){
  const x=itpFrenchItem(localizeDataItem(a)),s=x.script||x.command||"",p=executionProfile(x),m=cleanMethod(x),r=resourceType(x),id="detail_"+Math.random().toString(36).slice(2);
  const usefulText=p.standalone&&s?s:(m||x.description||""),shareBody=buildSupportShare(x);
  return '<article class="card compact-card">'+typeBadge(x)+'<h3>'+esc(x.name)+'</h3>'+
- '<div class="meta">'+esc(itpTopicLabel(itpTopicKey(x,itpEffectiveMenu(x))))+' • '+esc(r.label)+'</div><p class="desc">'+esc(x.description||m||"")+'</p>'+
+ '<div class="meta">'+esc(itpTopicLabel(x._itpTopic||itpTopicKey(x,x._itpMenu||itpEffectiveMenu(x))))+' • '+esc(r.label)+'</div><p class="desc">'+esc(x.description||m||"")+'</p>'+
  '<div class="card-badges">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div>'+
  '<div class="actions compact-actions">'+(usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+inlineArg(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
  '<button class="btn" onclick=\'shareText('+inlineArg(x.name||"IT Support")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
@@ -2779,7 +2785,7 @@ function renderActions(c){
  const selected=itpGetTechFilter(c);
  if(selected==="__themes__")return itpThemeOverview(c);
 
- const items=all.filter(x=>itpTopicKey(x,c)===selected);
+ const items=all.filter(x=>(x._itpTopic||itpTopicKey(x,c))===selected);
  if(!items.length){
    state.techFilters[c]="__themes__";
    save();
