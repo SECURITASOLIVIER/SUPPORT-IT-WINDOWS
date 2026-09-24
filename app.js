@@ -1830,13 +1830,18 @@ function setTicketRef(v){
 function applyTemplateContext(text){
  let s=String(text||"");
  if(!ticketRef)return s;
- return s
+ s=s
   .replace(/\[N° ticket\]/gi,ticketRef)
   .replace(/\[N°\]/gi,ticketRef)
   .replace(/\[Ticket #\]/gi,ticketRef)
   .replace(/\[Ticket number\]/gi,ticketRef)
   .replace(/\[RÉFÉRENCE\]/gi,ticketRef)
   .replace(/\[REFERENCE\]/gi,ticketRef);
+
+ // Legacy templates: replace only XX used as the ticket/request/incident reference.
+ // Date placeholders such as "on XX" or "XX and XX" are intentionally preserved.
+ s=s.replace(/\b(demande|incident|ticket|request)\s+XX\b/gi,(m,label)=>label+" "+ticketRef);
+ return s;
 }
 function looksFrenchTemplateText(v){
  const s=String(v||"");
