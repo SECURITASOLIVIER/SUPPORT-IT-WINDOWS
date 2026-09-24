@@ -3866,6 +3866,34 @@ function templateCard(t){
 }
 /* === /IT Pocket mobile nav + communications collapse v4.8 === */
 
+/* === IT Pocket communication compact v4.8 === */
+function itpToggleTemplateContent(id,btn){
+ const box=document.getElementById(id);
+ if(!box)return;
+ const open=box.classList.toggle("open");
+ if(btn)btn.textContent=open?(state.lang==="en"?"Collapse":"Réduire"):(state.lang==="en"?"Show more":"Voir plus");
+}
+function templateCard(t){
+ const v=localizeTemplate(t),ref=JSON.stringify(t._id);
+ const id="tplfull_"+Math.random().toString(36).slice(2);
+ const content=String(v.content||"");
+ return '<article class="card itp-template-card">'+
+  '<h3 class="itp-card-title">'+itpTemplateIcon(v)+'<span>'+esc(v.name)+'</span></h3>'+
+  '<div class="meta">'+esc(v.category)+' '+(t.builtin?'• '+(state.lang==="en"?"Built-in":"Intégré"):'• '+(state.lang==="en"?"Personal":"Personnel"))+'</div>'+
+  (v.subject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+  '<div class="actions template-actions">'+
+    '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+    '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+    '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+    '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+    '<button class="btn" onclick=\'itpToggleTemplateContent("'+id+'",this)\'>'+(state.lang==="en"?"Show more":"Voir plus")+'</button>'+
+  '</div>'+
+  '<div id="'+id+'" class="itp-template-full"><div class="template-preview">'+formatTemplatePreview(content)+'</div></div>'+
+ '</article>';
+}
+Object.assign(window,{itpToggleTemplateContent});
+/* === /IT Pocket communication compact v4.8 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
