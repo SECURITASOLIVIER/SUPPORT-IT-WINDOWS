@@ -700,3 +700,36 @@ body.light .itp-portal-card:hover{border-color:#8eb5d8}
   #title{font-size:24px}
 }
 /* === /IT Pocket iconography v1 === */
+
+
+/* === IT Pocket cross-platform SVG icon fix 2026-09-24 === */
+.itp-svg-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  color:#2f8cff;
+  vertical-align:middle;
+}
+.itp-svg-icon svg{display:block;width:100%;height:100%;overflow:visible}
+.itp-svg-icon.itp-icon-home{width:38px;height:38px;flex-basis:38px}
+.itp-svg-icon.itp-icon-header{width:34px;height:34px;flex-basis:34px}
+.itp-svg-icon.itp-icon-card{width:26px;height:26px;flex-basis:26px}
+.itp-brand-fallback{
+  font-family:"Segoe UI",Arial,sans-serif !important;
+  font-size:11px !important;
+  font-weight:800;
+  letter-spacing:-.03em;
+  color:#245f96;
+  line-height:1;
+}
+body.light .itp-svg-icon{color:#1f6fb2}
+.navbtn .itp-svg-icon{color:#7dbdff}
+.navbtn.active .itp-svg-icon{color:#fff}
+@media(max-width:800px){
+  .itp-svg-icon.itp-icon-home{width:34px;height:34px;flex-basis:34px}
+  .itp-svg-icon.itp-icon-header{width:32px;height:32px;flex-basis:32px}
+}
+/* === /IT Pocket cross-platform SVG icon fix 2026-09-24 === */
