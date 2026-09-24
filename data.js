@@ -8930,7 +8930,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nEscalade technique.\nContexte : [CONTEXTE]\nSymptôme : [SYMPTÔME]\nActions déjà réalisées : [ACTIONS]\nRésultat : [RÉSULTAT]\nÉléments collectés : [LOGS / CAPTURES / COMMANDES]\n\nMerci pour votre analyse.",
       "name_en": "L2/L3 escalation",
       "subject_en": "Technical escalation",
-      "content_en": "Hello,\n\nEscalation of ticket [REFERENCE].\n\nContext: [CONTEXT]\nSymptom: [SYMPTOM]\nActions already performed: [ACTIONS]\nResult: [RESULT]\nCollected evidence: [LOGS / SCREENSHOTS / COMMANDS]\n\nThank you for your analysis."
+      "content_en": "Hello,\n\nTechnical escalation.\n\nContext: [CONTEXT]\nSymptom: [SYMPTOM]\nActions already performed: [ACTIONS]\nResult: [RESULT]\nCollected evidence: [LOGS / SCREENSHOTS / COMMANDS]\n\nThank you for your analysis."
     },
     {
       "category": "Rapports",
