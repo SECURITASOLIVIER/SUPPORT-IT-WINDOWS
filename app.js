@@ -15,7 +15,7 @@ function readLocalArray(key){
  const v=readLocalJson(key,[]);
  return Array.isArray(v)?v:[];
 }
-const cats=["Accueil","Communications","Portails","Système","Réseau & Accès distant","Microsoft 365","Navigateurs","Applications","Périphériques & Pilotes","Sécurité Windows","Intune / Entra / SCCM","Windows Update","Outils Support"];
+const cats=["Accueil","Communications","Portails","Système","Réseau & Accès distant","Microsoft 365","Navigateurs","Applications","Périphériques & Pilotes","Sécurité Windows","Intune / Entra / SCCM","Windows Update","Raccourcis clavier","Outils Support"];
 const UI_EN={
  "Accueil":"Home",
  "Communications":"Communications",
@@ -3117,6 +3117,422 @@ function portals(){
  '<div class="grid">'+(ps.map(portalCard).join("")||'<div class="empty">'+ui("Aucun lien trouvé.")+'</div>')+'</div>';
 }
 /* === /IT Pocket official icons v2 === */
+
+/* === IT Pocket support expansion v4 === */
+Object.assign(UI_EN,{
+ "Raccourcis clavier":"Keyboard Shortcuts",
+ "Raccourci clavier":"Keyboard shortcut",
+ "Copier le raccourci clavier":"Copy keyboard shortcut"
+});
+Object.assign(ITP_FLUENT_ASSETS,{
+ keyboard:["Desktop Keyboard","ic_fluent_desktop_keyboard_24_regular.svg"],
+ conference:["Device Meeting Room","ic_fluent_device_meeting_room_24_regular.svg"]
+});
+
+function itpRemoteProductIcon(url,label,extra){
+ return '<span class="itp-product-icon itp-remote-product '+(extra||"")+'" title="'+esc(label||"")+'" aria-hidden="true">'+
+ '<img src="'+esc(url)+'" alt="" loading="lazy" referrerpolicy="no-referrer" '+
+ 'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">'+
+ '<span class="itp-remote-fallback">'+itpOfficialFluent("apps",label,extra)+'</span></span>';
+}
+function itpMicrosoftAdminLogo(kind,extra){
+ const map={
+   intune:["https://intune.microsoft.com/favicon.ico","Microsoft Intune"],
+   entra:["https://entra.microsoft.com/favicon.ico","Microsoft Entra"],
+   azure:["https://portal.azure.com/favicon.ico","Microsoft Azure"],
+   portal:["https://portal.manage.microsoft.com/favicon.ico","Portail d’entreprise"],
+   m365:["https://www.microsoft365.com/favicon.ico","Microsoft 365"]
+ };
+ const x=map[kind];
+ return x?itpRemoteProductIcon(x[0],x[1],extra):itpOfficialFluent("apps",kind,extra);
+}
+
+function itpCategoryIcon(c,size){
+ const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
+ const m={
+  "Accueil":["home","Accueil"],"Communications":["mail","Communications"],"Portails":["globe","Portails"],
+  "Système":["desktop","Système"],"Réseau & Accès distant":["connected","Réseau & Accès distant"],
+  "Microsoft 365":["apps","Microsoft 365"],"Navigateurs":["globe","Navigateurs"],"Applications":["apps","Applications"],
+  "Périphériques & Pilotes":["laptop","Périphériques & Pilotes"],"Sécurité Windows":["shield","Sécurité Windows"],
+  "Windows Update":["sync","Windows Update"],"Raccourcis clavier":["keyboard","Raccourcis clavier"],
+  "Outils Support":["toolbox","Outils Support"],"Journal & Statistiques":["document","Journal & Statistiques"]
+ };
+ if(c==="Intune / Entra / SCCM")return itpMicrosoftAdminLogo("intune",cls);
+ const x=m[c]||["apps",c];
+ return itpOfficialFluent(x[0],x[1],cls);
+}
+function icon(c){return itpCategoryIcon(c,"nav")}
+
+function itpPortalCategoryIcon(c){
+ const s=itpNorm(c||"");
+ if(/^azure$/.test(s))return itpMicrosoftAdminLogo("azure","itp-icon-mini");
+ if(/^intune$/.test(s))return itpMicrosoftAdminLogo("intune","itp-icon-mini");
+ if(/entra|identite/.test(s))return itpMicrosoftAdminLogo("entra","itp-icon-mini");
+ if(/microsoft 365/.test(s))return itpMicrosoftAdminLogo("m365","itp-icon-mini");
+ if(/cyber|securite|security/.test(s))return itpOfficialFluent("shield",c,"itp-icon-mini");
+ if(/doc|communaute|documentation/.test(s))return itpOfficialFluent("document",c,"itp-icon-mini");
+ if(/test|reseau|network/.test(s))return itpOfficialFluent("connected",c,"itp-icon-mini");
+ if(/ia|ai/.test(s))return itpOfficialFluent("cloud",c,"itp-icon-mini");
+ return itpOfficialFluent("globe",c,"itp-icon-mini");
+}
+function itpTemplateIcon(t){
+ const s=itpNorm([t&&t.category,t&&t.name,t&&t.subject].filter(Boolean).join(" "));
+ if(/salles|mtr|reunion|meeting room/.test(s))return itpOfficialFluent("conference","Salle de réunion / MTR","itp-icon-card");
+ if(/mail|outlook/.test(s))return itpOfficialFluent("mail","Mail","itp-icon-card");
+ if(/message|teams|communication/.test(s))return itpOfficialFluent("chat","Message","itp-icon-card");
+ if(/ticket|rapport|escalade|incident/.test(s))return itpOfficialFluent("document","Ticket / rapport","itp-icon-card");
+ if(/materiel|pc|chargeur|casque|ecran/.test(s))return itpOfficialFluent("laptop","Matériel","itp-icon-card");
+ if(/securite|mfa|acces/.test(s))return itpOfficialFluent("shield","Sécurité / accès","itp-icon-card");
+ if(/reseau|vpn/.test(s))return itpOfficialFluent("connected","Réseau / VPN","itp-icon-card");
+ if(/onboarding|offboarding|arrivee|depart/.test(s))return itpOfficialFluent("person","Utilisateur","itp-icon-card");
+ return itpOfficialFluent("mail","Communication","itp-icon-card");
+}
+
+function itpExtraAction(webCategory,category,name,description,command,shell="PowerShell",rights="Utilisateur",risk="Lecture",topic=""){
+ return {webCategory,category,name,description,command,shell,rights,risk,topic,_itpExtra:true};
+}
+function itpShortcut(topic,category,name,combo,description){
+ return itpExtraAction("Raccourcis clavier",category,name,description,combo,"Raccourci clavier","Utilisateur","Lecture",topic);
+}
+
+const ITP_EXTRA_ACTIONS=[
+ // SYSTEME
+ itpExtraAction("Système","Système • Informations","Get-ComputerInfo — résumé","Affiche les principales informations Windows, BIOS, mémoire et matériel.","Get-ComputerInfo | Select-Object WindowsProductName,WindowsVersion,OsBuildNumber,CsManufacturer,CsModel,CsSystemType,CsTotalPhysicalMemory,BiosBIOSVersion,BiosReleaseDate"),
+ itpExtraAction("Système","Système • Démarrage","Programmes de démarrage","Liste les programmes déclarés au démarrage de Windows.","Get-CimInstance Win32_StartupCommand | Select-Object Name,Command,Location,User | Sort-Object Name"),
+ itpExtraAction("Système","Système • Tâches planifiées","Tâches planifiées actives","Liste les tâches planifiées non désactivées.","Get-ScheduledTask | Where-Object State -ne 'Disabled' | Select-Object TaskPath,TaskName,State | Sort-Object TaskPath,TaskName"),
+ itpExtraAction("Système","Système • Comptes","WhoAmI complet","Affiche identité, SID, groupes et privilèges du compte courant.","whoami /all","CMD"),
+ itpExtraAction("Système","Système • Stratégies","GPResult résumé","Affiche le résultat des stratégies utilisateur et ordinateur.","gpresult /r","CMD"),
+ itpExtraAction("Système","Système • Stratégies","GPResult HTML","Génère un rapport HTML complet des stratégies sur le Bureau.","gpresult /h \"%USERPROFILE%\\Desktop\\gpresult.html\" /f","CMD","Administrateur recommandé","Faible"),
+ itpExtraAction("Système","Système • Énergie","États de veille disponibles","Affiche les modes de veille supportés par la machine.","powercfg /a","CMD"),
+ itpExtraAction("Système","Système • Énergie","Blocages de mise en veille","Affiche les processus/pilotes qui empêchent la mise en veille.","powercfg /requests","CMD","Administrateur recommandé"),
+ itpExtraAction("Système","Système • Événements","Derniers événements critiques système","Affiche les 50 derniers événements Critique/Erreur du journal System.","Get-WinEvent -FilterHashtable @{LogName='System';Level=1,2} -MaxEvents 50 | Select-Object TimeCreated,Id,ProviderName,LevelDisplayName,Message"),
+ itpExtraAction("Système","Système • Événements","Derniers événements critiques applications","Affiche les 50 derniers événements Critique/Erreur du journal Application.","Get-WinEvent -FilterHashtable @{LogName='Application';Level=1,2} -MaxEvents 50 | Select-Object TimeCreated,Id,ProviderName,LevelDisplayName,Message"),
+
+ // RESEAU
+ itpExtraAction("Réseau & Accès distant","Réseau • Diagnostic","Configuration IP PowerShell","Affiche les interfaces avec IPv4, passerelle et DNS.","Get-NetIPConfiguration | Select-Object InterfaceAlias,InterfaceDescription,IPv4Address,IPv4DefaultGateway,DNSServer"),
+ itpExtraAction("Réseau & Accès distant","Réseau • Diagnostic","Interfaces réseau détaillées","Affiche état, vitesse, MAC et pilote des cartes réseau.","Get-NetAdapter | Select-Object Name,InterfaceDescription,Status,LinkSpeed,MacAddress,DriverInformation"),
+ itpExtraAction("Réseau & Accès distant","Réseau • Diagnostic","Connexions TCP établies","Liste les connexions TCP établies avec PID.","Get-NetTCPConnection -State Established | Select-Object LocalAddress,LocalPort,RemoteAddress,RemotePort,OwningProcess | Sort-Object RemoteAddress"),
+ itpExtraAction("Réseau & Accès distant","Réseau • DNS","Cache DNS PowerShell","Affiche le cache DNS local.","Get-DnsClientCache | Select-Object Entry,RecordName,RecordType,Data,TimeToLive"),
+ itpExtraAction("Réseau & Accès distant","Réseau • DNS","Vider le cache DNS PowerShell","Vide le cache DNS local.","Clear-DnsClientCache","PowerShell","Administrateur recommandé","Faible"),
+ itpExtraAction("Réseau & Accès distant","Réseau • Routage","Routes PowerShell","Affiche la table de routage active.","Get-NetRoute | Sort-Object InterfaceIndex,DestinationPrefix | Select-Object InterfaceIndex,DestinationPrefix,NextHop,RouteMetric,State"),
+ itpExtraAction("Réseau & Accès distant","Réseau • ARP","Voisins réseau","Affiche les voisins IPv4/IPv6 connus et leurs adresses MAC.","Get-NetNeighbor | Select-Object InterfaceAlias,IPAddress,LinkLayerAddress,State"),
+
+ // SECURITE WINDOWS
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — état complet","Affiche l’état des protections Microsoft Defender et la date des signatures.","Get-MpComputerStatus | Select-Object AMServiceEnabled,AntivirusEnabled,AntispywareEnabled,BehaviorMonitorEnabled,IoavProtectionEnabled,NISEnabled,RealTimeProtectionEnabled,AntivirusSignatureVersion,AntivirusSignatureLastUpdated"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — préférences importantes","Affiche les principaux réglages Defender, PUA et exclusions.","Get-MpPreference | Select-Object DisableRealtimeMonitoring,PUAProtection,MAPSReporting,SubmitSamplesConsent,ExclusionPath,ExclusionProcess,ExclusionExtension"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — détections récentes","Affiche les détections Defender les plus récentes.","Get-MpThreatDetection | Sort-Object InitialDetectionTime -Descending | Select-Object -First 30 InitialDetectionTime,ThreatID,ThreatStatusID,ActionSuccess,Resources"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — menaces connues sur le poste","Affiche les menaces actives ou historiques connues par Defender.","Get-MpThreat | Select-Object ThreatID,ThreatName,SeverityID,CategoryID,DidThreatExecute"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — mettre à jour les signatures","Demande immédiatement une mise à jour des signatures antimalware.","Update-MpSignature","PowerShell","Administrateur recommandé","Faible"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — analyse rapide","Lance une analyse antivirus rapide.","Start-MpScan -ScanType QuickScan","PowerShell","Administrateur recommandé","Faible"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — analyse complète","Lance une analyse antivirus complète, potentiellement longue.","Start-MpScan -ScanType FullScan","PowerShell","Administrateur recommandé","Moyen"),
+ itpExtraAction("Sécurité Windows","Sécurité • Defender","Defender — journal opérationnel","Affiche les 80 derniers événements du journal opérationnel Defender.","Get-WinEvent -LogName 'Microsoft-Windows-Windows Defender/Operational' -MaxEvents 80 | Select-Object TimeCreated,Id,LevelDisplayName,Message"),
+ itpExtraAction("Sécurité Windows","Sécurité • Pare-feu","Pare-feu — profils","Affiche l’état des profils Domaine, Privé et Public.","Get-NetFirewallProfile | Select-Object Name,Enabled,DefaultInboundAction,DefaultOutboundAction,AllowInboundRules,AllowLocalFirewallRules"),
+ itpExtraAction("Sécurité Windows","Sécurité • Pare-feu","Pare-feu — règles actives","Liste les règles de pare-feu activées.","Get-NetFirewallRule -Enabled True | Select-Object DisplayName,Direction,Action,Profile,PolicyStoreSourceType | Sort-Object DisplayName"),
+ itpExtraAction("Sécurité Windows","Sécurité • BitLocker","BitLocker — état détaillé","Affiche chiffrement, protection et protecteurs des volumes.","Get-BitLockerVolume | Format-List MountPoint,VolumeType,VolumeStatus,ProtectionStatus,EncryptionMethod,EncryptionPercentage,KeyProtector"),
+ itpExtraAction("Sécurité Windows","Sécurité • BitLocker","BitLocker — état manage-bde","Affiche l’état BitLocker avec l’outil natif Windows.","manage-bde -status","CMD","Administrateur recommandé"),
+ itpExtraAction("Sécurité Windows","Sécurité • BitLocker","BitLocker — protecteurs C:","Liste les protecteurs de clé du volume système.","manage-bde -protectors -get C:","CMD","Administrateur recommandé"),
+ itpExtraAction("Sécurité Windows","Sécurité • TPM","TPM — état complet","Affiche présence, disponibilité, activation et état de propriété du TPM.","Get-Tpm | Format-List *"),
+ itpExtraAction("Sécurité Windows","Sécurité • TPM","Secure Boot — état","Vérifie si Secure Boot est activé sur un système UEFI compatible.","Confirm-SecureBootUEFI"),
+ itpExtraAction("Sécurité Windows","Sécurité • Device Guard","VBS / Device Guard — état","Affiche les services de sécurité basés sur la virtualisation configurés et actifs.","Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard | Format-List *"),
+ itpExtraAction("Sécurité Windows","Sécurité • Comptes","Administrateurs locaux","Liste les membres du groupe Administrateurs local.","Get-LocalGroupMember -Group 'Administrators' | Select-Object Name,ObjectClass,PrincipalSource"),
+ itpExtraAction("Sécurité Windows","Sécurité • Services","Services sécurité Windows","Affiche l’état des services Defender, Centre de sécurité, pare-feu et BFE.","Get-Service WinDefend,wscsvc,mpssvc,BFE -ErrorAction SilentlyContinue | Select-Object Name,DisplayName,Status,StartType"),
+
+ // PERIPHERIQUES / PILOTES
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Inventaire","Périphériques présents","Liste tous les périphériques PnP présents.","Get-PnpDevice -PresentOnly | Sort-Object Class,FriendlyName | Select-Object Status,Class,FriendlyName,InstanceId"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Erreurs","Périphériques en erreur","Liste les périphériques dont l’état PnP n’est pas OK.","Get-PnpDevice | Where-Object Status -ne 'OK' | Select-Object Status,Class,FriendlyName,InstanceId,Problem"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Erreurs","PnPUtil — périphériques en problème","Utilise l’outil Windows PnPUtil pour lister les périphériques en erreur.","pnputil /enum-devices /problem","CMD","Administrateur recommandé"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Pilotes","PnPUtil — pilotes tiers","Liste les packages de pilotes tiers du Driver Store.","pnputil /enum-drivers","CMD","Administrateur recommandé"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Arborescence","PnPUtil — arborescence appareils","Affiche l’arborescence des périphériques Windows.","pnputil /enum-devicetree","CMD","Administrateur recommandé"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Action","PnPUtil — rescanner le matériel","Demande à Windows de rechercher les changements matériels.","pnputil /scan-devices","CMD","Administrateur","Faible"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Action","PnPUtil — redémarrer un périphérique","Redémarre le périphérique correspondant à l’Instance ID fourni.","pnputil /restart-device \"<INSTANCE_ID>\"","CMD","Administrateur","Moyen"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Action","Activer un périphérique","Active un périphérique PnP à partir de son Instance ID.","Enable-PnpDevice -InstanceId '<INSTANCE_ID>' -Confirm:$false","PowerShell","Administrateur","Moyen"),
+ itpExtraAction("Périphériques & Pilotes","Périphériques • Action","Désactiver un périphérique","Désactive un périphérique PnP à partir de son Instance ID.","Disable-PnpDevice -InstanceId '<INSTANCE_ID>' -Confirm:$false","PowerShell","Administrateur","Élevé"),
+ itpExtraAction("Périphériques & Pilotes","Pilotes • Inventaire","Pilotes signés détaillés","Liste les pilotes PnP avec version, date et fournisseur.","Get-CimInstance Win32_PnPSignedDriver | Where-Object DeviceName | Select-Object DeviceName,Manufacturer,DriverProviderName,DriverVersion,DriverDate,InfName | Sort-Object DeviceName"),
+ itpExtraAction("Périphériques & Pilotes","Pilotes • Sauvegarde","Exporter les pilotes tiers","Exporte les pilotes tiers présents vers C:\\DriverBackup.","New-Item C:\\DriverBackup -ItemType Directory -Force | Out-Null; pnputil /export-driver * C:\\DriverBackup","PowerShell","Administrateur","Faible"),
+ itpExtraAction("Périphériques & Pilotes","Matériel • BIOS","BIOS / série","Affiche fabricant BIOS, version et numéro de série.","Get-CimInstance Win32_BIOS | Select-Object Manufacturer,SMBIOSBIOSVersion,ReleaseDate,SerialNumber"),
+ itpExtraAction("Périphériques & Pilotes","Matériel • Batterie","Batterie — état","Affiche les informations batterie exposées par WMI.","Get-CimInstance Win32_Battery -ErrorAction SilentlyContinue | Select-Object Name,Status,EstimatedChargeRemaining,EstimatedRunTime,BatteryStatus"),
+ itpExtraAction("Périphériques & Pilotes","Matériel • Batterie","Batterie — rapport HTML","Génère le rapport batterie Windows sur le Bureau.","powercfg /batteryreport /output \"%USERPROFILE%\\Desktop\\battery-report.html\"","CMD","Utilisateur","Faible"),
+ itpExtraAction("Périphériques & Pilotes","Matériel • Affichage","Carte graphique","Affiche GPU, pilote et résolution signalée par Windows.","Get-CimInstance Win32_VideoController | Select-Object Name,AdapterRAM,DriverVersion,DriverDate,VideoModeDescription"),
+ itpExtraAction("Périphériques & Pilotes","Audio • Vidéo","Périphériques audio","Liste les endpoints audio présents.","Get-PnpDevice -Class AudioEndpoint -PresentOnly | Select-Object Status,FriendlyName,InstanceId"),
+ itpExtraAction("Périphériques & Pilotes","Audio • Vidéo","Caméras","Liste les caméras détectées par Windows.","Get-PnpDevice -Class Camera -PresentOnly -ErrorAction SilentlyContinue | Select-Object Status,FriendlyName,InstanceId"),
+ itpExtraAction("Périphériques & Pilotes","Bluetooth","Bluetooth — périphériques","Liste les périphériques de classe Bluetooth.","Get-PnpDevice -Class Bluetooth -PresentOnly -ErrorAction SilentlyContinue | Select-Object Status,FriendlyName,InstanceId"),
+ itpExtraAction("Périphériques & Pilotes","USB","USB — périphériques","Liste les périphériques dont l’Instance ID commence par USB.","Get-PnpDevice -PresentOnly | Where-Object InstanceId -like 'USB*' | Select-Object Status,Class,FriendlyName,InstanceId"),
+ itpExtraAction("Périphériques & Pilotes","Impression","Imprimantes installées","Liste les imprimantes, pilotes et ports configurés.","Get-Printer | Select-Object Name,DriverName,PortName,PrinterStatus,Type,Shared"),
+ itpExtraAction("Périphériques & Pilotes","Impression","Pilotes imprimantes","Liste les pilotes d’impression installés.","Get-PrinterDriver | Select-Object Name,Manufacturer,MajorVersion,PrinterEnvironment"),
+ itpExtraAction("Périphériques & Pilotes","Impression","Ports imprimantes","Liste les ports d’impression configurés.","Get-PrinterPort | Select-Object Name,Description,PrinterHostAddress,PortNumber"),
+ itpExtraAction("Périphériques & Pilotes","Impression","Jobs d’impression","Liste les travaux d’impression en file.","Get-Printer | ForEach-Object { Get-PrintJob -PrinterName $_.Name -ErrorAction SilentlyContinue } | Select-Object PrinterName,ID,DocumentName,JobStatus,SubmittedTime"),
+ itpExtraAction("Périphériques & Pilotes","Impression","Redémarrer le Spooler","Redémarre le service Spooler d’impression.","Restart-Service Spooler -Force","PowerShell","Administrateur","Moyen"),
+
+ // INTUNE / MDM / ENTRA / PORTAIL
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — état Entra/MDM complet","Affiche l’état d’enregistrement, de jointure et de SSO du poste.","dsregcmd /status","CMD","Utilisateur","Lecture","mgmt.entra"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — ouvrir Accès professionnel ou scolaire","Ouvre directement la page Windows utilisée pour consulter l’enrôlement et déclencher une synchronisation.","ms-settings:workplace","Windows","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — tâches EnterpriseMgmt","Liste les tâches planifiées créées par l’enrôlement MDM.","Get-ScheduledTask | Where-Object TaskPath -like '\\Microsoft\\Windows\\EnterpriseMgmt\\*' | Select-Object TaskPath,TaskName,State | Sort-Object TaskPath,TaskName","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — forcer tâches de synchronisation","Déclenche les tâches EnterpriseMgmt de type PushLaunch/Schedule #3 lorsqu’elles existent.","Get-ScheduledTask | Where-Object { $_.TaskPath -like '\\Microsoft\\Windows\\EnterpriseMgmt\\*' -and $_.TaskName -match 'PushLaunch|Schedule #3 created by enrollment client' } | Start-ScheduledTask","PowerShell","Administrateur","Moyen","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — certificats d’enrôlement","Affiche les certificats locaux liés à Intune/MDM et à l’organisation.","Get-ChildItem Cert:\\LocalMachine\\My | Where-Object { $_.Subject -match 'Intune|MS-Organization|Microsoft Intune MDM Device CA' -or $_.Issuer -match 'Intune|MS-Organization' } | Select-Object Subject,Issuer,Thumbprint,NotBefore,NotAfter,HasPrivateKey","PowerShell","Administrateur recommandé","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — clés d’enrôlement registre","Liste les principaux GUID d’enrôlement MDM présents dans le registre.","Get-ChildItem 'HKLM:\\SOFTWARE\\Microsoft\\Enrollments' -ErrorAction SilentlyContinue | Select-Object PSChildName,Name","PowerShell","Administrateur recommandé","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — journal DeviceManagement","Affiche les derniers événements du journal MDM Windows.","Get-WinEvent -LogName 'Microsoft-Windows-DeviceManagement-Enterprise-Diagnostics-Provider/Admin' -MaxEvents 100 | Select-Object TimeCreated,Id,LevelDisplayName,Message","PowerShell","Administrateur recommandé","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","MDM — exporter diagnostic complet","Crée un ZIP officiel MDMDiagnostics avec DeviceEnrollment, DeviceProvisioning et Autopilot.","mdmdiagnosticstool.exe -area \"DeviceEnrollment;DeviceProvisioning;Autopilot\" -zip \"C:\\Users\\Public\\Documents\\MDMDiagReport.zip\"","CMD","Administrateur recommandé","Faible","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — état du service","Affiche l’état et le démarrage du service Intune Management Extension.","Get-Service IntuneManagementExtension -ErrorAction SilentlyContinue | Select-Object Name,DisplayName,Status,StartType","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — redémarrer le service","Redémarre le service Intune Management Extension pour relancer le traitement local.","Restart-Service IntuneManagementExtension -Force","PowerShell","Administrateur","Moyen","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — version agent","Affiche la version du binaire Intune Management Extension.","Get-Item 'C:\\Program Files (x86)\\Microsoft Intune Management Extension\\Microsoft.Management.Services.IntuneWindowsAgent.exe' -ErrorAction SilentlyContinue | Select-Object FullName,@{N='Version';E={$_.VersionInfo.FileVersion}},LastWriteTime","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — ouvrir dossier des logs","Ouvre le dossier officiel des journaux Intune Management Extension.","Start-Process explorer.exe 'C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs'","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — fin du log principal","Affiche les 120 dernières lignes d’IntuneManagementExtension.log.","Get-Content 'C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\IntuneManagementExtension.log' -Tail 120 -ErrorAction SilentlyContinue","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — scripts PowerShell","Affiche les 120 dernières lignes d’AgentExecutor.log.","Get-Content 'C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\AgentExecutor.log' -Tail 120 -ErrorAction SilentlyContinue","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — applications Win32","Affiche les 120 dernières lignes d’AppWorkload.log.","Get-Content 'C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\AppWorkload.log' -Tail 120 -ErrorAction SilentlyContinue","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Intune / MDM","IME — santé client","Affiche les 120 dernières lignes de ClientHealth.log.","Get-Content 'C:\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\ClientHealth.log' -Tail 120 -ErrorAction SilentlyContinue","PowerShell","Utilisateur","Lecture","mgmt.intune"),
+ itpExtraAction("Intune / Entra / SCCM","Portail d’entreprise","Portail d’entreprise — ouvrir","Ouvre l’application Portail d’entreprise via son URI Windows.","companyportal:","Windows","Utilisateur","Lecture","mgmt.portal"),
+ itpExtraAction("Intune / Entra / SCCM","Portail d’entreprise","Portail d’entreprise — package installé","Affiche version et emplacement du package Microsoft Company Portal.","Get-AppxPackage Microsoft.CompanyPortal -AllUsers -ErrorAction SilentlyContinue | Select-Object Name,Version,PackageFullName,InstallLocation,Status","PowerShell","Administrateur recommandé","Lecture","mgmt.portal"),
+ itpExtraAction("Intune / Entra / SCCM","Portail d’entreprise","Portail d’entreprise — reset package","Réinitialise les données locales du package Portail d’entreprise si Reset-AppxPackage est disponible.","Get-AppxPackage Microsoft.CompanyPortal -ErrorAction SilentlyContinue | Reset-AppxPackage","PowerShell","Utilisateur","Moyen","mgmt.portal"),
+ itpExtraAction("Intune / Entra / SCCM","Entra ID","Entra — journal AAD opérationnel","Affiche les derniers événements Microsoft-Windows-AAD/Operational.","Get-WinEvent -LogName 'Microsoft-Windows-AAD/Operational' -MaxEvents 80 -ErrorAction SilentlyContinue | Select-Object TimeCreated,Id,LevelDisplayName,Message","PowerShell","Utilisateur","Lecture","mgmt.entra"),
+ itpExtraAction("Intune / Entra / SCCM","Entra ID","Entra — état SSO résumé","Extrait les champs de jointure et SSO les plus utiles de dsregcmd.","dsregcmd /status | findstr /i \"AzureAdJoined DomainJoined WorkplaceJoined DeviceId TenantId AzureAdPrt WamDefaultSet\"","CMD","Utilisateur","Lecture","mgmt.entra"),
+
+ // RACCOURCIS WINDOWS
+ itpShortcut("short.windows","Windows","Explorateur de fichiers","Win + E","Ouvre l’Explorateur de fichiers."),
+ itpShortcut("short.windows","Windows","Paramètres Windows","Win + I","Ouvre les Paramètres Windows."),
+ itpShortcut("short.windows","Windows","Exécuter","Win + R","Ouvre la boîte Exécuter."),
+ itpShortcut("short.windows","Windows","Menu outils avancés","Win + X","Ouvre le menu administrateur / outils avancés."),
+ itpShortcut("short.windows","Windows","Gestionnaire des tâches","Ctrl + Maj + Échap","Ouvre directement le Gestionnaire des tâches."),
+ itpShortcut("short.windows","Windows","Capture d’écran","Win + Maj + S","Ouvre l’outil Capture d’écran."),
+ itpShortcut("short.windows","Windows","Historique Presse-papiers","Win + V","Ouvre l’historique du Presse-papiers."),
+ itpShortcut("short.windows","Windows","Verrouiller la session","Win + L","Verrouille immédiatement la session."),
+ itpShortcut("short.windows","Windows","Projection écran","Win + P","Ouvre les modes de projection."),
+ itpShortcut("short.windows","Windows","Connexion sans fil","Win + K","Ouvre le panneau de connexion/cast."),
+ itpShortcut("short.windows","Windows","Nouveau bureau virtuel","Win + Ctrl + D","Crée un nouveau bureau virtuel."),
+ itpShortcut("short.windows","Windows","Changer de bureau virtuel","Win + Ctrl + ← / →","Passe au bureau virtuel précédent ou suivant."),
+
+ // WORD
+ itpShortcut("short.word","Word","Nouveau document","Ctrl + N","Crée un nouveau document."),
+ itpShortcut("short.word","Word","Ouvrir","Ctrl + O","Ouvre un document."),
+ itpShortcut("short.word","Word","Enregistrer","Ctrl + S","Enregistre le document."),
+ itpShortcut("short.word","Word","Rechercher","Ctrl + F","Recherche dans le document."),
+ itpShortcut("short.word","Word","Remplacer","Ctrl + H","Ouvre Rechercher et remplacer."),
+ itpShortcut("short.word","Word","Coller texte uniquement","Ctrl + Maj + V","Colle du texte sans sa mise en forme lorsque la fonction est disponible."),
+ itpShortcut("short.word","Word","Gras","Ctrl + B","Active ou désactive le gras."),
+ itpShortcut("short.word","Word","Lien hypertexte","Ctrl + K","Insère un lien hypertexte."),
+ itpShortcut("short.word","Word","Vérification orthographique","F7","Lance la vérification orthographique et grammaticale."),
+ itpShortcut("short.word","Word","Sélectionner tout","Ctrl + A","Sélectionne tout le document."),
+
+ // EXCEL
+ itpShortcut("short.excel","Excel","Format de cellule","Ctrl + 1","Ouvre la boîte Format de cellule."),
+ itpShortcut("short.excel","Excel","Modifier la cellule","F2","Place le curseur dans la cellule active."),
+ itpShortcut("short.excel","Excel","Activer les filtres","Ctrl + Maj + L","Active ou désactive les filtres sur la plage."),
+ itpShortcut("short.excel","Excel","Somme automatique","Alt + =","Insère une formule SOMME automatique."),
+ itpShortcut("short.excel","Excel","Insérer la date","Ctrl + ;","Insère la date actuelle."),
+ itpShortcut("short.excel","Excel","Sélectionner la colonne","Ctrl + Espace","Sélectionne toute la colonne active."),
+ itpShortcut("short.excel","Excel","Sélectionner la ligne","Maj + Espace","Sélectionne toute la ligne active."),
+ itpShortcut("short.excel","Excel","Créer un tableau","Ctrl + T","Convertit la plage en tableau Excel."),
+ itpShortcut("short.excel","Excel","Aller au bord de la zone","Ctrl + Flèche","Se déplace jusqu’au bord de la zone de données."),
+ itpShortcut("short.excel","Excel","Étendre la sélection","Ctrl + Maj + Flèche","Étend la sélection jusqu’au bord de la zone de données."),
+ itpShortcut("short.excel","Excel","Répéter / références absolues","F4","Répète la dernière action ou change les références dans une formule."),
+
+ // POWERPOINT
+ itpShortcut("short.powerpoint","PowerPoint","Nouvelle diapositive","Ctrl + M","Insère une nouvelle diapositive."),
+ itpShortcut("short.powerpoint","PowerPoint","Dupliquer","Ctrl + D","Duplique l’objet ou la diapositive sélectionnée."),
+ itpShortcut("short.powerpoint","PowerPoint","Diaporama depuis le début","F5","Démarre le diaporama depuis la première diapositive."),
+ itpShortcut("short.powerpoint","PowerPoint","Diaporama depuis la diapositive actuelle","Maj + F5","Démarre le diaporama depuis la diapositive active."),
+ itpShortcut("short.powerpoint","PowerPoint","Grouper","Ctrl + G","Groupe les objets sélectionnés."),
+ itpShortcut("short.powerpoint","PowerPoint","Dissocier","Ctrl + Maj + G","Dissocie les objets sélectionnés."),
+ itpShortcut("short.powerpoint","PowerPoint","Copier la mise en forme","Ctrl + Maj + C","Copie la mise en forme de l’objet ou du texte."),
+ itpShortcut("short.powerpoint","PowerPoint","Coller la mise en forme","Ctrl + Maj + V","Colle la mise en forme copiée."),
+ itpShortcut("short.powerpoint","PowerPoint","Insérer un lien","Ctrl + K","Insère un lien hypertexte."),
+
+ // OUTLOOK
+ itpShortcut("short.outlook","Outlook","Nouveau message / élément","Ctrl + N","Crée un nouveau message ou élément selon la vue."),
+ itpShortcut("short.outlook","Outlook","Répondre","Ctrl + R","Répond au message sélectionné."),
+ itpShortcut("short.outlook","Outlook","Répondre à tous","Ctrl + Maj + R","Répond à tous les destinataires."),
+ itpShortcut("short.outlook","Outlook","Transférer","Ctrl + F","Transfère le message sélectionné."),
+ itpShortcut("short.outlook","Outlook","Envoyer","Ctrl + Entrée","Envoie le message dans le nouvel Outlook et Outlook Web."),
+ itpShortcut("short.outlook","Outlook","Calendrier","Ctrl + 2","Passe à l’affichage Calendrier."),
+ itpShortcut("short.outlook","Outlook","Marquer comme lu","Ctrl + Q","Marque le message comme lu."),
+ itpShortcut("short.outlook","Outlook","Marquer comme non lu","Ctrl + U","Marque le message comme non lu."),
+ itpShortcut("short.outlook","Outlook","Rechercher","Ctrl + E","Recherche dans Outlook classique."),
+
+ // TEAMS
+ itpShortcut("short.teams","Teams","Afficher les raccourcis","Ctrl + .","Affiche la liste des raccourcis clavier Teams."),
+ itpShortcut("short.teams","Teams","Recherche","Ctrl + E","Place le focus dans la recherche de l’application de bureau."),
+ itpShortcut("short.teams","Teams","Nouvelle conversation","Ctrl + N","Démarre une nouvelle conversation dans l’application de bureau."),
+ itpShortcut("short.teams","Teams","Paramètres","Ctrl + ,","Ouvre les paramètres dans l’application de bureau."),
+ itpShortcut("short.teams","Teams","Couper / réactiver le micro","Ctrl + Maj + M","Bascule l’état du micro pendant un appel ou une réunion."),
+ itpShortcut("short.teams","Teams","Caméra","Ctrl + Maj + O","Bascule la caméra pendant un appel ou une réunion."),
+
+ // EDGE
+ itpShortcut("short.edge","Microsoft Edge","Nouvel onglet","Ctrl + T","Ouvre un nouvel onglet."),
+ itpShortcut("short.edge","Microsoft Edge","Fermer l’onglet","Ctrl + W","Ferme l’onglet actif."),
+ itpShortcut("short.edge","Microsoft Edge","Rouvrir l’onglet fermé","Ctrl + Maj + T","Rouvre le dernier onglet fermé."),
+ itpShortcut("short.edge","Microsoft Edge","Barre d’adresse","Ctrl + L","Place le focus dans la barre d’adresse."),
+ itpShortcut("short.edge","Microsoft Edge","Historique","Ctrl + H","Ouvre l’historique."),
+ itpShortcut("short.edge","Microsoft Edge","Téléchargements","Ctrl + J","Ouvre les téléchargements."),
+ itpShortcut("short.edge","Microsoft Edge","Favoris","Ctrl + Maj + O","Ouvre les favoris."),
+ itpShortcut("short.edge","Microsoft Edge","Effacer les données","Ctrl + Maj + Suppr","Ouvre la suppression des données de navigation."),
+ itpShortcut("short.edge","Microsoft Edge","Fenêtre InPrivate","Ctrl + Maj + N","Ouvre une fenêtre InPrivate."),
+ itpShortcut("short.edge","Microsoft Edge","Outils de développement","F12","Ouvre les outils de développement."),
+
+ // CHROME
+ itpShortcut("short.chrome","Google Chrome","Nouvel onglet","Ctrl + T","Ouvre un nouvel onglet."),
+ itpShortcut("short.chrome","Google Chrome","Fermer l’onglet","Ctrl + W","Ferme l’onglet actif."),
+ itpShortcut("short.chrome","Google Chrome","Rouvrir l’onglet fermé","Ctrl + Maj + T","Rouvre le dernier onglet fermé."),
+ itpShortcut("short.chrome","Google Chrome","Barre d’adresse","Ctrl + L","Place le focus dans la barre d’adresse."),
+ itpShortcut("short.chrome","Google Chrome","Historique","Ctrl + H","Ouvre l’historique."),
+ itpShortcut("short.chrome","Google Chrome","Téléchargements","Ctrl + J","Ouvre les téléchargements."),
+ itpShortcut("short.chrome","Google Chrome","Effacer les données","Ctrl + Maj + Suppr","Ouvre la suppression des données de navigation."),
+ itpShortcut("short.chrome","Google Chrome","Fenêtre navigation privée","Ctrl + Maj + N","Ouvre une fenêtre de navigation privée."),
+ itpShortcut("short.chrome","Google Chrome","Outils de développement","F12","Ouvre les outils de développement.")
+];
+
+function pocketActions(){
+ const commandItems=(D.commands||[]).map(c=>({
+   ...c,category:c.category||"Outils",webCategory:commandWebCategory(c),
+   script:"",method:"",language:c.shell||"",_fromCommand:true
+ }));
+ const directLinks=(pocketSecurityOptions||[]).filter(x=>String(x.command||"").trim());
+ const merged=[...commandItems,...directLinks,...ITP_EXTRA_ACTIONS];
+ const seen=new Set();
+ return merged.filter(x=>{
+   const payload=String(x.command||x.script||"").trim();
+   if(!x.name||!payload)return false;
+   if(!executionProfile(x).standalone)return false;
+   const key=String(x.name).trim().toLowerCase()+"|"+payload;
+   if(seen.has(key))return false;
+   seen.add(key);
+   return true;
+ });
+}
+
+function resourceType(item){
+ const s=String(item.script||item.command||"").trim();
+ const shell=String(item.shell||item.language||"").toLowerCase();
+ if(/raccourci clavier|keyboard shortcut/.test(shell))return {kind:"keyboard",label:ui("Raccourci clavier"),detail:ui("Raccourci clavier"),copy:ui("Copier le raccourci clavier")};
+ if(/^https?:\/\//i.test(s))return {kind:"link",label:ui("Lien"),detail:ui("Lien • Navigateur"),copy:ui("Copier le lien")};
+ if(/^(?:ms-settings:|ms-quick-assist:|companyportal:|edge:\/\/|chrome:\/\/)/i.test(s))return {kind:"uri",label:ui("Action"),detail:ui("Raccourci Windows"),copy:ui("Copier le raccourci")};
+ if(/cmd|invite de commandes/i.test(shell)||/^(?:ipconfig|ping|tracert|nslookup|netsh|route|arp|hostname|whoami|query\s+user|cmdkey|gpupdate|gpresult|powercfg|systeminfo|sfc|dism|chkdsk|pnputil|manage-bde|mdmdiagnosticstool|dsregcmd|mstsc\.exe)\b/i.test(s))
+  return {kind:"cmd",label:ui("Commande"),detail:ui("Commande • CMD"),copy:ui("Copier la commande")};
+ return {kind:"powershell",label:ui("Script"),detail:ui("Script • PowerShell"),copy:ui("Copier le script")};
+}
+function actionKind(item){
+ const r=resourceType(item);
+ if(r.kind==="link"||r.kind==="keyboard")return "Information";
+ if(r.kind==="uri")return "Action";
+ const text=[item.name,item.description,item.method,item.risk,item.actionType].filter(Boolean).join(" ").toLowerCase();
+ if(/diagnostic|diagnosti|test|tester|contr[oô]l|v[ée]rifi|inventaire|liste|affiche|lecture|[ée]tat|version|historique|logs?|rapport|analyse|scan/.test(text))return "Diagnostic";
+ return "Action";
+}
+function typeBadge(item){
+ const k=actionKind(item),key=k==="Diagnostic"?"search":k==="Information"?"document":"wrench";
+ return '<span class="badge type-'+k.toLowerCase()+' itp-type-badge">'+itpOfficialFluent(key,k,"itp-icon-tiny")+'<span>'+esc(state.lang==="en"?(k==="Diagnostic"?"Diagnostic":k==="Information"?"Information":"Action"):k)+'</span></span>';
+}
+function supportSteps(item){
+ const p=executionProfile(item),r=resourceType(item),rights=String(item.rights||""),admin=/admin|administrator/i.test(rights),steps=[];
+ if(!p.standalone)return steps;
+ if(r.kind==="keyboard"){
+   steps.push(state.lang==="en"?"Use the shortcut in the indicated application or Windows context.":"Utiliser le raccourci dans l’application ou le contexte Windows indiqué.");
+ }else if(r.kind==="link"){
+   steps.push(state.lang==="en"?"Open the link in a browser.":"Ouvrir le lien dans un navigateur.");
+ }else if(r.kind==="uri"){
+   steps.push(state.lang==="en"?"Press Windows + R, paste the shortcut and press Enter.":"Appuyer sur Windows + R, coller le raccourci puis valider.");
+ }else if(r.kind==="cmd"){
+   steps.push((state.lang==="en"?"Open Command Prompt":"Ouvrir Invite de commandes")+(admin?(state.lang==="en"?" as administrator.":" en administrateur."):"."));steps.push(state.lang==="en"?"Paste the command and press Enter.":"Coller la commande puis valider.");
+ }else{
+   steps.push((state.lang==="en"?"Open PowerShell or Windows Terminal":"Ouvrir PowerShell ou Terminal Windows")+(admin?(state.lang==="en"?" as administrator.":" en administrateur."):"."));steps.push(state.lang==="en"?"Paste the script and run it.":"Coller le script puis l’exécuter.");
+ }
+ if(/moyen|élevé|medium|high|modifie|supprim|interrompt|resynchron|redémarr|reboot/i.test(String(item.risk||"")))steps.push(state.lang==="en"?"Check the stated impact before running the action.":"Vérifier l’impact indiqué avant l’action.");
+ return steps;
+}
+
+const oldItpEffectiveMenu=itpEffectiveMenu;
+itpEffectiveMenu=function(item){
+ if(String(item&&item.webCategory)==="Raccourcis clavier")return "Raccourcis clavier";
+ return oldItpEffectiveMenu(item);
+};
+
+Object.assign(ITP_TOPIC_LABELS,{
+ "short.windows":{fr:"Windows",en:"Windows"},
+ "short.word":{fr:"Word",en:"Word"},
+ "short.excel":{fr:"Excel",en:"Excel"},
+ "short.powerpoint":{fr:"PowerPoint",en:"PowerPoint"},
+ "short.outlook":{fr:"Outlook",en:"Outlook"},
+ "short.teams":{fr:"Teams",en:"Teams"},
+ "short.edge":{fr:"Microsoft Edge",en:"Microsoft Edge"},
+ "short.chrome":{fr:"Google Chrome",en:"Google Chrome"}
+});
+const oldItpTopicKey=itpTopicKey;
+itpTopicKey=function(item,menu){
+ if(item&&item.topic)return item.topic;
+ if(menu==="Raccourcis clavier"){
+   const s=itpClassText(item);
+   if(/windows/.test(s))return "short.windows";
+   if(/\bword\b/.test(s))return "short.word";
+   if(/\bexcel\b/.test(s))return "short.excel";
+   if(/powerpoint/.test(s))return "short.powerpoint";
+   if(/outlook/.test(s))return "short.outlook";
+   if(/\bteams\b/.test(s))return "short.teams";
+   if(/edge/.test(s))return "short.edge";
+   if(/chrome/.test(s))return "short.chrome";
+ }
+ return oldItpTopicKey(item,menu);
+};
+function itpGroupsForCat(cat){
+ const items=itpActionsForMenu(cat),seen=new Map();
+ for(const item of items){
+   const key=item._itpTopic||itpTopicKey(item,cat);
+   if(!seen.has(key))seen.set(key,{key,label:itpTopicLabel(key),count:0,item});
+   seen.get(key).count++;
+ }
+ const order={
+   "Système":["sys.info","sys.performance","sys.process","sys.storage","sys.integrity","sys.logs","sys.accounts"],
+   "Réseau & Accès distant":["net.ip","net.dns","net.proxy"],
+   "Microsoft 365":["m365.outlook","m365.word","m365.excel","m365.powerpoint","m365.teams","m365.onedrive","m365.office"],
+   "Navigateurs":["browser.general","browser.edge","browser.chrome","browser.firefox"],
+   "Applications":["app.general","app.inventory","app.winget","app.errors"],
+   "Périphériques & Pilotes":["dev.hardware","dev.drivers","dev.print","dev.bluetooth","dev.audio"],
+   "Sécurité Windows":["sec.overview","sec.defender","sec.bitlocker","sec.tpm","sec.firewall","sec.accounts"],
+   "Intune / Entra / SCCM":["mgmt.intune","mgmt.entra","mgmt.sccm","mgmt.portal"],
+   "Windows Update":["wu.status","wu.kb","wu.services","wu.reboot"],
+   "Raccourcis clavier":["short.windows","short.word","short.excel","short.powerpoint","short.outlook","short.teams","short.edge","short.chrome"],
+   "Outils Support":["support.remote","support.session","support.tools"]
+ };
+ const pos=order[cat]||[];
+ return [...seen.values()].sort((a,b)=>{
+   const ia=pos.indexOf(a.key),ib=pos.indexOf(b.key);
+   return (ia<0?999:ia)-(ib<0?999:ib)||a.label.localeCompare(b.label,state.lang==="en"?"en":"fr");
+ });
+}
+function itpThemeMark(key,item){
+ const products={
+  "m365.outlook":["outlook","Outlook"],"m365.word":["word","Word"],"m365.excel":["excel","Excel"],
+  "m365.powerpoint":["powerpoint","PowerPoint"],"m365.teams":["teams","Teams"],"m365.onedrive":["onedrive","OneDrive"],
+  "short.outlook":["outlook","Outlook"],"short.word":["word","Word"],"short.excel":["excel","Excel"],
+  "short.powerpoint":["powerpoint","PowerPoint"],"short.teams":["teams","Teams"]
+ };
+ if(products[key])return itpM365Product(products[key][0],products[key][1],"itp-icon-card");
+ if(key==="mgmt.intune")return itpMicrosoftAdminLogo("intune","itp-icon-card");
+ if(key==="mgmt.entra")return itpMicrosoftAdminLogo("entra","itp-icon-card");
+ if(key==="mgmt.portal")return itpMicrosoftAdminLogo("portal","itp-icon-card");
+ if(key==="mgmt.sccm")return itpOfficialFluent("desktop","SCCM / Configuration Manager","itp-icon-card");
+ if(key==="short.edge"||key==="short.chrome")return itpOfficialFluent("globe",itpTopicLabel(key),"itp-icon-card");
+ if(key==="short.windows")return itpOfficialFluent("keyboard","Windows","itp-icon-card");
+ const m={
+  "m365.office":["apps","Office / Microsoft 365"],
+  "browser.general":["globe","Navigateurs"],"browser.edge":["globe","Microsoft Edge"],"browser.chrome":["globe","Google Chrome"],"browser.firefox":["globe","Mozilla Firefox"],
+  "sys.info":["desktop","Informations du poste"],"sys.performance":["desktop","Performances"],"sys.process":["settings","Processus & services"],
+  "sys.storage":["storage","Stockage"],"sys.integrity":["shield","Intégrité Windows"],"sys.logs":["document","Journaux & fiabilité"],"sys.accounts":["people","Profils & comptes locaux"],
+  "net.ip":["connected","IP & connectivité"],"net.dns":["globe","DNS & DHCP"],"net.proxy":["connected","Proxy & routage"],
+  "app.general":["apps","Applications"],"app.inventory":["document","Inventaire"],"app.winget":["toolbox","Winget"],"app.errors":["document","Erreurs applicatives"],
+  "dev.hardware":["laptop","Matériel"],"dev.drivers":["wrench","Pilotes"],"dev.print":["print","Imprimantes"],"dev.bluetooth":["connected","Bluetooth"],"dev.audio":["speaker","Audio & vidéo"],
+  "sec.overview":["shield","Vue sécurité"],"sec.defender":["shield","Microsoft Defender"],"sec.bitlocker":["shield","BitLocker"],"sec.tpm":["settings","TPM & Secure Boot"],
+  "sec.firewall":["shield","Pare-feu"],"sec.accounts":["person","Comptes, MFA & connexions"],
+  "wu.status":["sync","État & recherche"],"wu.kb":["document","Correctifs & historique"],"wu.services":["settings","Services Windows Update"],"wu.reboot":["sync","Redémarrage requis"],
+  "support.remote":["connected","Assistance distante"],"support.session":["person","Session & identification"],"support.tools":["toolbox","Utilitaires support"]
+ };
+ const x=m[key]||["apps",itpTopicLabel(key)];
+ return itpOfficialFluent(x[0],x[1],"itp-icon-card");
+}
+
+const oldHome=home;
+home=function(){
+ const h=oldHome();
+ return h.replace('Outils Support":"Assistance distante et utilitaires technicien."','Outils Support":"Assistance distante et utilitaires technicien.","Raccourcis clavier":"Windows, Office, navigateurs, Teams et Outlook."');
+};
+/* === /IT Pocket support expansion v4 === */
 
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
