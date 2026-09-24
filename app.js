@@ -2197,14 +2197,56 @@ const ITP_TECH_LABELS={
  "Support":{fr:"Outils support",en:"Support tools"}
 };
 function itpTechLabel(k){const x=ITP_TECH_LABELS[k];return x?(state.lang==="en"?x.en:x.fr):k}
-function itpFluent(glyph,label,extra){
- return '<span class="itp-glyph '+(extra||'')+'" aria-hidden="true" title="'+esc(label||"")+'">'+glyph+'</span>';
+function itpSvgIcon(label,extra){
+ const s=String(label||"").toLowerCase();
+ let body="";
+ if(/accueil|home/.test(s))body='<path d="M3 10.8 12 3l9 7.8"/><path d="M5.5 9.5V21h13V9.5"/><path d="M9 21v-7h6v7"/>';
+ else if(/communication|mail|message/.test(s))body='<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>';
+ else if(/portail|portal|web/.test(s))body='<path d="M14 4h6v6"/><path d="m10 14 10-10"/><path d="M20 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/>';
+ else if(/système|system|windows tool/.test(s))body='<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/>';
+ else if(/réseau|network|browser|navigateurs/.test(s))body='<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.7 3.8 5.7 3.8 9S14.5 18.3 12 21c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z"/>';
+ else if(/application/.test(s))body='<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>';
+ else if(/périph|devices|driver|audio|video/.test(s))body='<rect x="4" y="5" width="16" height="11" rx="2"/><path d="M9 20h6"/><path d="M12 16v4"/><path d="M7 9h10"/>';
+ else if(/security|sécurité|defender|firewall/.test(s))body='<path d="M12 3 5 6v5c0 4.6 2.8 8 7 10 4.2-2 7-5.4 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-5"/>';
+ else if(/bitlocker|lock|tpm|hello/.test(s))body='<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>';
+ else if(/update/.test(s))body='<path d="M20 6v5h-5"/><path d="M4 18v-5h5"/><path d="M19 11a7 7 0 0 0-12-4L4 10"/><path d="M5 13a7 7 0 0 0 12 4l3-3"/>';
+ else if(/support|tools|outil/.test(s))body='<path d="M14.7 6.3a4 4 0 0 0-5-5l2.1 2.1-3.5 3.5-2.1-2.1a4 4 0 0 0 5 5L19 17.6a2 2 0 1 1-2.8 2.8L8.4 12.6"/>';
+ else if(/journal|chart|stat/.test(s))body='<path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/>';
+ else if(/remote|rdp|vpn/.test(s))body='<rect x="3" y="4" width="14" height="11" rx="2"/><path d="M8 19h4"/><path d="M10 15v4"/><path d="m16 17 5-5"/><path d="M17 12h4v4"/>';
+ else if(/printer|impression/.test(s))body='<path d="M7 8V3h10v5"/><rect x="5" y="14" width="14" height="7" rx="1"/><path d="M5 17H3v-7h18v7h-2"/>';
+ else if(/storage|disque|stockage/.test(s))body='<ellipse cx="12" cy="5" rx="7" ry="3"/><path d="M5 5v6c0 1.7 3.1 3 7 3s7-1.3 7-3V5"/><path d="M5 11v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>';
+ else if(/process|service/.test(s))body='<circle cx="12" cy="12" r="3"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="m4.9 4.9 2.1 2.1"/><path d="m17 17 2.1 2.1"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="m4.9 19.1 2.1-2.1"/><path d="m17 7 2.1-2.1"/>';
+ else if(/terminal|powershell/.test(s))body='<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3"/><path d="M12 15h5"/>';
+ else body='<circle cx="12" cy="12" r="8"/><path d="M12 8v8"/><path d="M8 12h8"/>';
+ return '<span class="itp-svg-icon '+(extra||'')+'" aria-hidden="true" title="'+esc(label||"")+'"><svg viewBox="0 0 24 24" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+body+'</g></svg></span>';
+}
+function itpFluent(glyph,label,extra){return itpSvgIcon(label,extra)}
+function itpBrandFallbackText(label){
+ const s=String(label||"").toLowerCase();
+ if(/outlook/.test(s))return "O";
+ if(/\bword\b/.test(s))return "W";
+ if(/excel/.test(s))return "X";
+ if(/powerpoint/.test(s))return "P";
+ if(/teams/.test(s))return "T";
+ if(/onedrive/.test(s))return "1D";
+ if(/edge/.test(s))return "E";
+ if(/chrome/.test(s))return "C";
+ if(/firefox/.test(s))return "F";
+ if(/entra/.test(s))return "ID";
+ if(/intune/.test(s))return "I";
+ if(/sccm|configuration manager/.test(s))return "CM";
+ if(/azure/.test(s))return "AZ";
+ if(/powershell/.test(s))return "PS";
+ if(/windows/.test(s))return "⊞";
+ if(/microsoft/.test(s))return "MS";
+ return String(label||"IT").replace(/[^A-Za-z0-9]/g,"").slice(0,2).toUpperCase()||"IT";
 }
 function itpBrand(slug,color,label,fallback){
  const src='https://cdn.simpleicons.org/'+slug+'/'+color;
+ const fb=itpBrandFallbackText(label);
  return '<span class="itp-brand-wrap" title="'+esc(label||"")+'">'+
   '<img class="itp-brand-logo" src="'+src+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">'+
-  '<span class="itp-brand-fallback" aria-hidden="true">'+(fallback||'\uE713')+'</span></span>';
+  '<span class="itp-brand-fallback" aria-hidden="true">'+esc(fb)+'</span></span>';
 }
 function itpCategoryIcon(c,size){
  const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
