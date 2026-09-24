@@ -3653,6 +3653,28 @@ renderActions=function(c){
 Object.assign(window,{itpShareShortcutTheme});
 /* === /IT Pocket shortcuts share-all v4.4 === */
 
+/* === IT Pocket shortcut product logos v4.5 === */
+function itpShortcutProductLogo(key){
+ const products={
+  "short.word":["word","Word"],
+  "short.excel":["excel","Excel"],
+  "short.powerpoint":["powerpoint","PowerPoint"],
+  "short.outlook":["outlook","Outlook"],
+  "short.teams":["teams","Teams"]
+ };
+ if(products[key])return itpM365Product(products[key][0],products[key][1],"itp-icon-card");
+ if(key==="short.edge")return itpBrowserProduct("edge","itp-icon-card");
+ if(key==="short.chrome")return itpBrowserProduct("chrome","itp-icon-card");
+ if(key==="short.windows")return itpOfficialFluent("keyboard","Windows","itp-icon-card");
+ return itpOfficialFluent("keyboard","Raccourcis clavier","itp-icon-card");
+}
+const oldThemeMarkV45=itpThemeMark;
+itpThemeMark=function(key,item){
+ if(/^short\./.test(key))return itpShortcutProductLogo(key);
+ return oldThemeMarkV45(key,item);
+};
+/* === /IT Pocket shortcut product logos v4.5 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
