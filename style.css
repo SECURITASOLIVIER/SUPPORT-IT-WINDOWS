@@ -482,3 +482,29 @@ body.light .tpl-image{
     padding-left:31px;
   }
 }
+
+/* Ticket reference */
+.ticket-ref-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border:1px solid var(--line);
+  background:var(--panel2);
+  border-radius:8px;
+  color:var(--text);
+  font-size:12px;
+  font-weight:700;
+}
+.ticket-ref-input{
+  width:145px;
+  min-width:110px;
+  padding:6px 8px;
+  margin:0;
+  border-radius:6px;
+  font-size:13px;
+}
+@media(max-width:800px){
+  .ticket-ref-label{width:100%;justify-content:space-between}
+  .ticket-ref-input{width:min(55vw,190px)}
+}
