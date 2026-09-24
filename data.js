@@ -8509,599 +8509,929 @@ window.SSIT_DATA = {
     {
       "name": "Microsoft 365 Admin",
       "category": "Microsoft 365",
-      "url": "https://admin.microsoft.com"
+      "url": "https://admin.microsoft.com",
+      "category_en": "Microsoft 365",
+      "name_en": "Microsoft 365 Admin",
+      "description_en": ""
     },
     {
       "name": "Microsoft 365 - État des services",
       "category": "Microsoft 365",
-      "url": "https://admin.microsoft.com/Adminportal/Home#/servicehealth"
+      "url": "https://admin.microsoft.com/Adminportal/Home#/servicehealth",
+      "category_en": "Microsoft 365",
+      "name_en": "Microsoft 365 - Service health",
+      "description_en": ""
     },
     {
       "name": "Exchange Admin Center",
       "category": "Microsoft 365",
-      "url": "https://admin.cloud.microsoft/exchange#/homepage"
+      "url": "https://admin.cloud.microsoft/exchange#/homepage",
+      "category_en": "Microsoft 365",
+      "name_en": "Exchange Admin Center",
+      "description_en": ""
     },
     {
       "name": "Teams Admin Center",
       "category": "Microsoft 365",
-      "url": "https://admin.teams.microsoft.com"
+      "url": "https://admin.teams.microsoft.com",
+      "category_en": "Microsoft 365",
+      "name_en": "Teams Admin Center",
+      "description_en": ""
     },
     {
       "name": "Microsoft 365 Apps Admin",
       "category": "Microsoft 365",
-      "url": "https://config.office.com"
+      "url": "https://config.office.com",
+      "category_en": "Microsoft 365",
+      "name_en": "Microsoft 365 Apps Admin",
+      "description_en": ""
     },
     {
       "name": "Outlook Web",
       "category": "Microsoft 365",
-      "url": "https://outlook.office.com/mail/"
+      "url": "https://outlook.office.com/mail/",
+      "category_en": "Microsoft 365",
+      "name_en": "Outlook Web",
+      "description_en": ""
     },
     {
       "name": "Microsoft 365 Web",
       "category": "Microsoft 365",
-      "url": "https://www.microsoft365.com/"
+      "url": "https://www.microsoft365.com/",
+      "category_en": "Microsoft 365",
+      "name_en": "Microsoft 365 Web",
+      "description_en": ""
     },
     {
       "name": "Power Platform Admin",
       "category": "Microsoft 365",
-      "url": "https://admin.powerplatform.microsoft.com/"
+      "url": "https://admin.powerplatform.microsoft.com/",
+      "category_en": "Microsoft 365",
+      "name_en": "Power Platform Admin",
+      "description_en": ""
     },
     {
       "name": "Power BI",
       "category": "Microsoft 365",
-      "url": "https://app.powerbi.com/"
+      "url": "https://app.powerbi.com/",
+      "category_en": "Microsoft 365",
+      "name_en": "Power BI",
+      "description_en": ""
     },
     {
       "name": "Microsoft Entra Admin",
       "category": "Entra / Identité",
-      "url": "https://entra.microsoft.com"
+      "url": "https://entra.microsoft.com",
+      "category_en": "Entra / Identity",
+      "name_en": "Microsoft Entra Admin",
+      "description_en": ""
     },
     {
       "name": "Entra - Utilisateurs",
       "category": "Entra / Identité",
-      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_UsersAndTenants/UserManagementMenuBlade/~/AllUsers"
+      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_UsersAndTenants/UserManagementMenuBlade/~/AllUsers",
+      "category_en": "Entra / Identity",
+      "name_en": "Entra - Users",
+      "description_en": ""
     },
     {
       "name": "Entra - Groupes",
       "category": "Entra / Identité",
-      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups"
+      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_IAM/GroupsManagementMenuBlade/~/AllGroups",
+      "category_en": "Entra / Identity",
+      "name_en": "Entra - Groups",
+      "description_en": ""
     },
     {
       "name": "Entra - Appareils",
       "category": "Entra / Identité",
-      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_Devices/DevicesMenuBlade/~/Devices"
+      "url": "https://entra.microsoft.com/#view/Microsoft_AAD_Devices/DevicesMenuBlade/~/Devices",
+      "category_en": "Entra / Identity",
+      "name_en": "Entra - Devices",
+      "description_en": ""
     },
     {
       "name": "Entra - PIM / Mes rôles",
       "category": "Entra / Identité",
-      "url": "https://entra.microsoft.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles"
+      "url": "https://entra.microsoft.com/#view/Microsoft_Azure_PIMCommon/ActivationMenuBlade/~/aadmigratedroles",
+      "category_en": "Entra / Identity",
+      "name_en": "Entra - PIM / My roles",
+      "description_en": ""
     },
     {
       "name": "Mon compte Microsoft",
       "category": "Entra / Identité",
-      "url": "https://myaccount.microsoft.com/"
+      "url": "https://myaccount.microsoft.com/",
+      "category_en": "Entra / Identity",
+      "name_en": "My Microsoft account",
+      "description_en": ""
     },
     {
       "name": "Intune Admin Center",
       "category": "Intune",
-      "url": "https://intune.microsoft.com"
+      "url": "https://intune.microsoft.com",
+      "category_en": "Intune",
+      "name_en": "Intune Admin Center",
+      "description_en": ""
     },
     {
       "name": "Intune - Tous les appareils",
       "category": "Intune",
-      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesMenu/~/allDevices"
+      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesMenu/~/allDevices",
+      "category_en": "Intune",
+      "name_en": "Intune - All devices",
+      "description_en": ""
     },
     {
       "name": "Intune - Appareils Windows",
       "category": "Intune",
-      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesWindowsMenu/~/windowsDevices"
+      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/DevicesWindowsMenu/~/windowsDevices",
+      "category_en": "Intune",
+      "name_en": "Intune - Windows devices",
+      "description_en": ""
     },
     {
       "name": "Intune - Applications",
       "category": "Intune",
-      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/AppsMenu/~/allApps"
+      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_DeviceSettings/AppsMenu/~/allApps",
+      "category_en": "Intune",
+      "name_en": "Intune - Applications",
+      "description_en": ""
     },
     {
       "name": "Intune - Windows Autopilot",
       "category": "Intune",
-      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_Enrollment/AutopilotDevices.ReactView/filterOnManualRemediationRequired~/false"
+      "url": "https://intune.microsoft.com/#view/Microsoft_Intune_Enrollment/AutopilotDevices.ReactView/filterOnManualRemediationRequired~/false",
+      "category_en": "Intune",
+      "name_en": "Intune - Windows Autopilot",
+      "description_en": ""
     },
     {
       "name": "Company Portal Web",
       "category": "Intune",
-      "url": "https://portal.manage.microsoft.com/"
+      "url": "https://portal.manage.microsoft.com/",
+      "category_en": "Intune",
+      "name_en": "Company Portal Web",
+      "description_en": ""
     },
     {
       "name": "Azure Portal",
       "category": "Azure",
-      "url": "https://portal.azure.com/"
+      "url": "https://portal.azure.com/",
+      "category_en": "Azure",
+      "name_en": "Azure Portal",
+      "description_en": ""
     },
     {
       "name": "Azure Status",
       "category": "Azure",
-      "url": "https://azure.status.microsoft/"
+      "url": "https://azure.status.microsoft/",
+      "category_en": "Azure",
+      "name_en": "Azure Status",
+      "description_en": ""
     },
     {
       "name": "Microsoft Defender",
       "category": "Sécurité",
-      "url": "https://security.microsoft.com/"
+      "url": "https://security.microsoft.com/",
+      "category_en": "Security",
+      "name_en": "Microsoft Defender",
+      "description_en": ""
     },
     {
       "name": "Microsoft Defender - Incidents",
       "category": "Sécurité",
-      "url": "https://security.microsoft.com/incidents"
+      "url": "https://security.microsoft.com/incidents",
+      "category_en": "Security",
+      "name_en": "Microsoft Defender - Incidents",
+      "description_en": ""
     },
     {
       "name": "Microsoft Purview",
       "category": "Sécurité",
-      "url": "https://purview.microsoft.com/"
+      "url": "https://purview.microsoft.com/",
+      "category_en": "Security",
+      "name_en": "Microsoft Purview",
+      "description_en": ""
     },
     {
       "name": "Microsoft Security Response Center",
       "category": "Sécurité",
-      "url": "https://msrc.microsoft.com/"
+      "url": "https://msrc.microsoft.com/",
+      "category_en": "Security",
+      "name_en": "Microsoft Security Response Center",
+      "description_en": ""
     },
     {
       "name": "Microsoft Graph Explorer",
       "category": "Microsoft Graph",
-      "url": "https://developer.microsoft.com/graph/graph-explorer"
+      "url": "https://developer.microsoft.com/graph/graph-explorer",
+      "category_en": "Microsoft Graph",
+      "name_en": "Microsoft Graph Explorer",
+      "description_en": ""
     },
     {
       "name": "Microsoft Graph API",
       "category": "Microsoft Graph",
-      "url": "https://graph.microsoft.com/v1.0/"
+      "url": "https://graph.microsoft.com/v1.0/",
+      "category_en": "Microsoft Graph",
+      "name_en": "Microsoft Graph API",
+      "description_en": ""
     },
     {
       "name": "Microsoft Learn",
       "category": "Documentation Microsoft",
-      "url": "https://learn.microsoft.com/"
+      "url": "https://learn.microsoft.com/",
+      "category_en": "Microsoft Documentation",
+      "name_en": "Microsoft Learn",
+      "description_en": ""
     },
     {
       "name": "Microsoft Troubleshooting",
       "category": "Documentation Microsoft",
-      "url": "https://learn.microsoft.com/troubleshoot/"
+      "url": "https://learn.microsoft.com/troubleshoot/",
+      "category_en": "Microsoft Documentation",
+      "name_en": "Microsoft Troubleshooting",
+      "description_en": ""
     },
     {
       "name": "Windows Release Health",
       "category": "Windows",
-      "url": "https://learn.microsoft.com/windows/release-health/"
+      "url": "https://learn.microsoft.com/windows/release-health/",
+      "category_en": "Windows",
+      "name_en": "Windows Release Health",
+      "description_en": ""
     },
     {
       "name": "Microsoft Update Catalog",
       "category": "Windows",
-      "url": "https://www.catalog.update.microsoft.com/"
+      "url": "https://www.catalog.update.microsoft.com/",
+      "category_en": "Windows",
+      "name_en": "Microsoft Update Catalog",
+      "description_en": ""
     },
     {
       "name": "Microsoft Support",
       "category": "Support",
-      "url": "https://support.microsoft.com/"
+      "url": "https://support.microsoft.com/",
+      "category_en": "Support",
+      "name_en": "Microsoft Support",
+      "description_en": ""
     },
     {
       "name": "Sysinternals",
       "category": "Outils IT",
-      "url": "https://learn.microsoft.com/sysinternals/"
+      "url": "https://learn.microsoft.com/sysinternals/",
+      "category_en": "IT Tools",
+      "name_en": "Sysinternals",
+      "description_en": ""
     },
     {
       "name": "Sysinternals Live",
       "category": "Outils IT",
-      "url": "https://live.sysinternals.com/"
+      "url": "https://live.sysinternals.com/",
+      "category_en": "IT Tools",
+      "name_en": "Sysinternals Live",
+      "description_en": ""
     },
     {
       "name": "HP Support",
       "category": "Constructeurs",
-      "url": "https://support.hp.com/fr-fr"
+      "url": "https://support.hp.com/fr-fr",
+      "category_en": "Vendors",
+      "name_en": "HP Support",
+      "description_en": ""
     },
     {
       "name": "HP Pilotes",
       "category": "Constructeurs",
-      "url": "https://support.hp.com/fr-fr/drivers"
+      "url": "https://support.hp.com/fr-fr/drivers",
+      "category_en": "Vendors",
+      "name_en": "HP Drivers",
+      "description_en": ""
     },
     {
       "name": "Dell Support",
       "category": "Constructeurs",
-      "url": "https://www.dell.com/support/home/fr-fr"
+      "url": "https://www.dell.com/support/home/fr-fr",
+      "category_en": "Vendors",
+      "name_en": "Dell Support",
+      "description_en": ""
     },
     {
       "name": "Lenovo Support",
       "category": "Constructeurs",
-      "url": "https://pcsupport.lenovo.com/fr/fr/"
+      "url": "https://pcsupport.lenovo.com/fr/fr/",
+      "category_en": "Vendors",
+      "name_en": "Lenovo Support",
+      "description_en": ""
     },
     {
       "name": "Intel Driver & Support",
       "category": "Constructeurs",
-      "url": "https://www.intel.com/content/www/us/en/support/detect.html"
+      "url": "https://www.intel.com/content/www/us/en/support/detect.html",
+      "category_en": "Vendors",
+      "name_en": "Intel Driver & Support",
+      "description_en": ""
     },
     {
       "name": "Citrix Documentation",
       "category": "Accès distant / VPN",
-      "url": "https://docs.citrix.com/"
+      "url": "https://docs.citrix.com/",
+      "category_en": "Remote Access / VPN",
+      "name_en": "Citrix Documentation",
+      "description_en": ""
     },
     {
       "name": "Fortinet Support",
       "category": "Accès distant / VPN",
-      "url": "https://support.fortinet.com/"
+      "url": "https://support.fortinet.com/",
+      "category_en": "Remote Access / VPN",
+      "name_en": "Fortinet Support",
+      "description_en": ""
     },
     {
       "name": "Zscaler Trust",
       "category": "Sécurité / Réseau",
-      "url": "https://trust.zscaler.com/"
+      "url": "https://trust.zscaler.com/",
+      "category_en": "Security / Network",
+      "name_en": "Zscaler Trust",
+      "description_en": ""
     },
     {
       "name": "CrowdStrike Status",
       "category": "Sécurité / Réseau",
-      "url": "https://status.crowdstrike.com/"
+      "url": "https://status.crowdstrike.com/",
+      "category_en": "Security / Network",
+      "name_en": "CrowdStrike Status",
+      "description_en": ""
     },
     {
       "name": "MXToolbox",
       "category": "Outils IT",
-      "url": "https://mxtoolbox.com/"
+      "url": "https://mxtoolbox.com/",
+      "category_en": "IT Tools",
+      "name_en": "MXToolbox",
+      "description_en": ""
     },
     {
       "name": "DNS Checker",
       "category": "Outils IT",
-      "url": "https://dnschecker.org/"
+      "url": "https://dnschecker.org/",
+      "category_en": "IT Tools",
+      "name_en": "DNS Checker",
+      "description_en": ""
     },
     {
       "name": "SSL Labs",
       "category": "Outils IT",
-      "url": "https://www.ssllabs.com/ssltest/"
+      "url": "https://www.ssllabs.com/ssltest/",
+      "category_en": "IT Tools",
+      "name_en": "SSL Labs",
+      "description_en": ""
     },
     {
       "name": "VirusTotal",
       "category": "Outils IT",
-      "url": "https://www.virustotal.com/gui/home/upload"
+      "url": "https://www.virustotal.com/gui/home/upload",
+      "category_en": "IT Tools",
+      "name_en": "VirusTotal",
+      "description_en": ""
     },
     {
       "name": "GitHub Status",
       "category": "Statuts services",
-      "url": "https://www.githubstatus.com/"
+      "url": "https://www.githubstatus.com/",
+      "category_en": "Service Status",
+      "name_en": "GitHub Status",
+      "description_en": ""
     },
     {
       "name": "Cloudflare Status",
       "category": "Statuts services",
-      "url": "https://www.cloudflarestatus.com/"
+      "url": "https://www.cloudflarestatus.com/",
+      "category_en": "Service Status",
+      "name_en": "Cloudflare Status",
+      "description_en": ""
     },
     {
       "name": "Google Workspace Status",
       "category": "Statuts services",
-      "url": "https://www.google.com/appsstatus/dashboard/"
+      "url": "https://www.google.com/appsstatus/dashboard/",
+      "category_en": "Service Status",
+      "name_en": "Google Workspace Status",
+      "description_en": ""
     },
     {
       "name": "ANSSI - Cyber.gouv.fr",
       "category": "Cybersécurité France",
       "url": "https://cyber.gouv.fr/",
-      "description": "Actualités, publications et recommandations officielles de l'ANSSI."
+      "description": "Actualités, publications et recommandations officielles de l'ANSSI.",
+      "category_en": "French Cybersecurity",
+      "name_en": "ANSSI - Cyber.gouv.fr",
+      "description_en": "Official ANSSI news, publications and recommendations."
     },
     {
       "name": "MesServicesCyber - ANSSI",
       "category": "Cybersécurité France",
       "url": "https://messervices.cyber.gouv.fr/",
-      "description": "Guides, outils, diagnostics et services cyber proposés par l'ANSSI."
+      "description": "Guides, outils, diagnostics et services cyber proposés par l'ANSSI.",
+      "category_en": "French Cybersecurity",
+      "name_en": "MesServicesCyber - ANSSI",
+      "description_en": "Cybersecurity guides, tools, diagnostics and services provided by ANSSI."
     },
     {
       "name": "CERT-FR - Alertes de sécurité",
       "category": "Cybersécurité France",
       "url": "https://cert.ssi.gouv.fr/alerte/",
-      "description": "Alertes françaises sur les vulnérabilités et menaces nécessitant une attention immédiate."
+      "description": "Alertes françaises sur les vulnérabilités et menaces nécessitant une attention immédiate.",
+      "category_en": "French Cybersecurity",
+      "name_en": "CERT-FR - Security alerts",
+      "description_en": "French alerts on vulnerabilities and threats requiring immediate attention."
     },
     {
       "name": "CERT-FR - Avis de sécurité",
       "category": "Cybersécurité France",
       "url": "https://cert.ssi.gouv.fr/avis/",
-      "description": "Avis techniques officiels sur les vulnérabilités et leurs correctifs."
+      "description": "Avis techniques officiels sur les vulnérabilités et leurs correctifs.",
+      "category_en": "French Cybersecurity",
+      "name_en": "CERT-FR - Security advisories",
+      "description_en": "Official technical advisories on vulnerabilities and their fixes."
     },
     {
       "name": "CERT-FR - Bulletins d'actualité",
       "category": "Veille & Actualité IT",
       "url": "https://cert.ssi.gouv.fr/actualite/",
-      "description": "Veille cyber régulière du CERT-FR."
+      "description": "Veille cyber régulière du CERT-FR.",
+      "category_en": "IT Watch & News",
+      "name_en": "CERT-FR - News bulletins",
+      "description_en": "Regular cybersecurity watch from CERT-FR."
     },
     {
       "name": "17Cyber - Diagnostic",
       "category": "Cybersécurité France",
       "url": "https://www.cybermalveillance.gouv.fr/diagnostic/accueil",
-      "description": "Diagnostic public pour identifier un incident cyber et obtenir des recommandations adaptées."
+      "description": "Diagnostic public pour identifier un incident cyber et obtenir des recommandations adaptées.",
+      "category_en": "French Cybersecurity",
+      "name_en": "17Cyber - Diagnostic",
+      "description_en": "Public diagnostic service to identify a cyber incident and receive appropriate recommendations."
     },
     {
       "name": "Cybermalveillance.gouv.fr",
       "category": "Cybersécurité France",
       "url": "https://www.cybermalveillance.gouv.fr/",
-      "description": "Prévention, assistance et ressources françaises contre les cybermenaces."
+      "description": "Prévention, assistance et ressources françaises contre les cybermenaces.",
+      "category_en": "French Cybersecurity",
+      "name_en": "Cybermalveillance.gouv.fr",
+      "description_en": "French prevention, assistance and resources against cyber threats."
     },
     {
       "name": "CNIL",
       "category": "Cybersécurité France",
       "url": "https://www.cnil.fr/",
-      "description": "Référence française pour la protection des données et les bonnes pratiques RGPD."
+      "description": "Référence française pour la protection des données et les bonnes pratiques RGPD.",
+      "category_en": "French Cybersecurity",
+      "name_en": "CNIL",
+      "description_en": "French reference for data protection and GDPR best practices."
     },
     {
       "name": "Microsoft Security Update Guide",
       "category": "Veille & Actualité IT",
       "url": "https://msrc.microsoft.com/update-guide",
-      "description": "Recherche des CVE, correctifs et publications de sécurité Microsoft."
+      "description": "Recherche des CVE, correctifs et publications de sécurité Microsoft.",
+      "category_en": "IT Watch & News",
+      "name_en": "Microsoft Security Update Guide",
+      "description_en": "Search Microsoft CVEs, fixes and security publications."
     },
     {
       "name": "Microsoft Security Blog",
       "category": "Veille & Actualité IT",
       "url": "https://www.microsoft.com/en-us/security/blog/",
-      "description": "Analyses et actualités officielles Microsoft Security."
+      "description": "Analyses et actualités officielles Microsoft Security.",
+      "category_en": "IT Watch & News",
+      "name_en": "Microsoft Security Blog",
+      "description_en": "Official Microsoft Security analysis and news."
     },
     {
       "name": "Microsoft 365 Roadmap",
       "category": "Veille & Actualité IT",
       "url": "https://www.microsoft.com/microsoft-365/roadmap",
-      "description": "Fonctionnalités Microsoft 365 en développement, déploiement ou disponibles."
+      "description": "Fonctionnalités Microsoft 365 en développement, déploiement ou disponibles.",
+      "category_en": "IT Watch & News",
+      "name_en": "Microsoft 365 Roadmap",
+      "description_en": "Microsoft 365 features in development, rolling out or generally available."
     },
     {
       "name": "Windows IT Pro Blog",
       "category": "Veille & Actualité IT",
       "url": "https://techcommunity.microsoft.com/category/windows/blog/windows-itpro-blog",
-      "description": "Actualités et évolutions Windows pour les professionnels IT."
+      "description": "Actualités et évolutions Windows pour les professionnels IT.",
+      "category_en": "IT Watch & News",
+      "name_en": "Windows IT Pro Blog",
+      "description_en": "Windows news and changes for IT professionals."
     },
     {
       "name": "Microsoft Intune Blog",
       "category": "Veille & Actualité IT",
       "url": "https://techcommunity.microsoft.com/category/microsoft-intune/blog/microsoftintuneblog",
-      "description": "Nouveautés, conseils et évolutions officielles Microsoft Intune."
+      "description": "Nouveautés, conseils et évolutions officielles Microsoft Intune.",
+      "category_en": "IT Watch & News",
+      "name_en": "Microsoft Intune Blog",
+      "description_en": "Official Microsoft Intune news, guidance and updates."
     },
     {
       "name": "GitHub Changelog",
       "category": "Veille & Actualité IT",
       "url": "https://github.blog/changelog/",
-      "description": "Nouveautés et changements des services GitHub."
+      "description": "Nouveautés et changements des services GitHub.",
+      "category_en": "IT Watch & News",
+      "name_en": "GitHub Changelog",
+      "description_en": "GitHub service updates and changes."
     },
     {
       "name": "Cloudflare Blog",
       "category": "Veille & Actualité IT",
       "url": "https://blog.cloudflare.com/",
-      "description": "Actualités réseau, sécurité, DNS et Internet."
+      "description": "Actualités réseau, sécurité, DNS et Internet.",
+      "category_en": "IT Watch & News",
+      "name_en": "Cloudflare Blog",
+      "description_en": "Network, security, DNS and Internet news."
     },
     {
       "name": "Intune - Monitor & Troubleshoot",
       "category": "Documentation & Diagnostic",
       "url": "https://learn.microsoft.com/intune/monitor-troubleshoot",
-      "description": "Documentation officielle pour surveiller et dépanner les appareils Intune."
+      "description": "Documentation officielle pour surveiller et dépanner les appareils Intune.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "Intune - Monitor & Troubleshoot",
+      "description_en": "Official documentation for monitoring and troubleshooting Intune devices."
     },
     {
       "name": "Windows Client Management",
       "category": "Documentation & Diagnostic",
       "url": "https://learn.microsoft.com/windows/client-management/",
-      "description": "Documentation Windows pour la gestion, l'enrôlement et le dépannage des postes."
+      "description": "Documentation Windows pour la gestion, l'enrôlement et le dépannage des postes.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "Windows Client Management",
+      "description_en": "Windows documentation for device management, enrollment and troubleshooting."
     },
     {
       "name": "Windows Package Manager - WinGet",
       "category": "Documentation & Diagnostic",
       "url": "https://learn.microsoft.com/windows/package-manager/winget/",
-      "description": "Documentation officielle WinGet pour installer, rechercher et mettre à jour des applications."
+      "description": "Documentation officielle WinGet pour installer, rechercher et mettre à jour des applications.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "Windows Package Manager - WinGet",
+      "description_en": "Official WinGet documentation for installing, searching and updating applications."
     },
     {
       "name": "PowerShell Documentation",
       "category": "Documentation & Diagnostic",
       "url": "https://learn.microsoft.com/powershell/",
-      "description": "Documentation officielle PowerShell."
+      "description": "Documentation officielle PowerShell.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "PowerShell Documentation",
+      "description_en": "Official PowerShell documentation."
     },
     {
       "name": "PowerShell Gallery",
       "category": "Documentation & Diagnostic",
       "url": "https://www.powershellgallery.com/",
-      "description": "Modules et scripts PowerShell publiés dans la galerie officielle."
+      "description": "Modules et scripts PowerShell publiés dans la galerie officielle.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "PowerShell Gallery",
+      "description_en": "PowerShell modules and scripts published in the official gallery."
     },
     {
       "name": "Microsoft Graph Documentation",
       "category": "Documentation & Diagnostic",
       "url": "https://learn.microsoft.com/graph/",
-      "description": "Référence officielle Microsoft Graph, permissions et API."
+      "description": "Référence officielle Microsoft Graph, permissions et API.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "Microsoft Graph Documentation",
+      "description_en": "Official Microsoft Graph API and permissions reference."
     },
     {
       "name": "CVE.org",
       "category": "Documentation & Diagnostic",
       "url": "https://www.cve.org/",
-      "description": "Référence internationale des identifiants CVE."
+      "description": "Référence internationale des identifiants CVE.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "CVE.org",
+      "description_en": "International reference for CVE identifiers."
     },
     {
       "name": "NVD - NIST",
       "category": "Documentation & Diagnostic",
       "url": "https://nvd.nist.gov/vuln/search",
-      "description": "Base publique de vulnérabilités du NIST avec scores et références."
+      "description": "Base publique de vulnérabilités du NIST avec scores et références.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "NVD - NIST",
+      "description_en": "NIST public vulnerability database with scores and references."
     },
     {
       "name": "CISA - Known Exploited Vulnerabilities",
       "category": "Documentation & Diagnostic",
       "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
-      "description": "Catalogue officiel des vulnérabilités connues comme activement exploitées."
+      "description": "Catalogue officiel des vulnérabilités connues comme activement exploitées.",
+      "category_en": "Documentation & Diagnostics",
+      "name_en": "CISA - Known Exploited Vulnerabilities",
+      "description_en": "Official catalog of vulnerabilities known to be actively exploited."
     },
     {
       "name": "Cloudflare Radar",
       "category": "Tests Web & Réseau",
       "url": "https://radar.cloudflare.com/",
-      "description": "État et tendances d'Internet, trafic, routage et incidents."
+      "description": "État et tendances d'Internet, trafic, routage et incidents.",
+      "category_en": "Web & Network Tests",
+      "name_en": "Cloudflare Radar",
+      "description_en": "Internet status and trends, traffic, routing and incidents."
     },
     {
       "name": "Cloudflare - Test DNS 1.1.1.1",
       "category": "Tests Web & Réseau",
       "url": "https://1.1.1.1/help",
-      "description": "Vérifier le résolveur DNS, DNS over HTTPS/TLS et la connectivité Cloudflare."
+      "description": "Vérifier le résolveur DNS, DNS over HTTPS/TLS et la connectivité Cloudflare.",
+      "category_en": "Web & Network Tests",
+      "name_en": "Cloudflare - Test DNS 1.1.1.1",
+      "description_en": "Check DNS resolver, DNS over HTTPS/TLS and Cloudflare connectivity."
     },
     {
       "name": "Speedtest",
       "category": "Tests Web & Réseau",
       "url": "https://www.speedtest.net/",
-      "description": "Mesurer rapidement débit, latence et qualité de connexion."
+      "description": "Mesurer rapidement débit, latence et qualité de connexion.",
+      "category_en": "Web & Network Tests",
+      "name_en": "Speedtest",
+      "description_en": "Quickly measure bandwidth, latency and connection quality."
     },
     {
       "name": "Test IPv6",
       "category": "Tests Web & Réseau",
       "url": "https://test-ipv6.com/",
-      "description": "Tester la disponibilité et le fonctionnement IPv6 du poste ou du réseau."
+      "description": "Tester la disponibilité et le fonctionnement IPv6 du poste ou du réseau.",
+      "category_en": "Web & Network Tests",
+      "name_en": "Test IPv6",
+      "description_en": "Test IPv6 availability and operation on the device or network."
     },
     {
       "name": "DownDetector France",
       "category": "Tests Web & Réseau",
       "url": "https://downdetector.fr/",
-      "description": "Repérer rapidement des signalements d'incident sur des services grand public."
+      "description": "Repérer rapidement des signalements d'incident sur des services grand public.",
+      "category_en": "Web & Network Tests",
+      "name_en": "DownDetector France",
+      "description_en": "Quickly identify reported outages affecting consumer services."
     },
     {
       "name": "Have I Been Pwned",
       "category": "Tests Web & Réseau",
       "url": "https://haveibeenpwned.com/",
-      "description": "Vérifier si une adresse e-mail apparaît dans des fuites de données connues."
+      "description": "Vérifier si une adresse e-mail apparaît dans des fuites de données connues.",
+      "category_en": "Web & Network Tests",
+      "name_en": "Have I Been Pwned",
+      "description_en": "Check whether an email address appears in known data breaches."
     },
     {
       "name": "ChatGPT",
       "category": "IA",
       "url": "https://chatgpt.com/",
-      "description": "Assistant IA généraliste pour diagnostic, rédaction, scripts et explications techniques."
+      "description": "Assistant IA généraliste pour diagnostic, rédaction, scripts et explications techniques.",
+      "category_en": "AI",
+      "name_en": "ChatGPT",
+      "description_en": "General-purpose AI assistant for diagnostics, writing, scripts and technical explanations."
     },
     {
       "name": "Microsoft Copilot",
       "category": "IA",
       "url": "https://copilot.microsoft.com/",
-      "description": "Assistant IA Microsoft pour recherche, rédaction et environnement Microsoft."
+      "description": "Assistant IA Microsoft pour recherche, rédaction et environnement Microsoft.",
+      "category_en": "AI",
+      "name_en": "Microsoft Copilot",
+      "description_en": "Microsoft AI assistant for research, writing and Microsoft environments."
     },
     {
       "name": "Mistral Le Chat",
       "category": "IA",
       "url": "https://chat.mistral.ai/",
-      "description": "Assistant IA de Mistral AI, acteur français."
+      "description": "Assistant IA de Mistral AI, acteur français.",
+      "category_en": "AI",
+      "name_en": "Mistral Le Chat",
+      "description_en": "AI assistant from French company Mistral AI."
     },
     {
       "name": "Google Gemini",
       "category": "IA",
       "url": "https://gemini.google.com/",
-      "description": "Assistant IA Google pour recherche, synthèse et aide technique."
+      "description": "Assistant IA Google pour recherche, synthèse et aide technique.",
+      "category_en": "AI",
+      "name_en": "Google Gemini",
+      "description_en": "Google AI assistant for research, summarization and technical help."
     },
     {
       "name": "Claude",
       "category": "IA",
       "url": "https://claude.ai/",
-      "description": "Assistant IA Anthropic adapté à l'analyse de textes et de code."
+      "description": "Assistant IA Anthropic adapté à l'analyse de textes et de code.",
+      "category_en": "AI",
+      "name_en": "Claude",
+      "description_en": "Anthropic AI assistant suited to text and code analysis."
     },
     {
       "name": "GitHub Copilot Documentation",
       "category": "IA",
       "url": "https://docs.github.com/copilot",
-      "description": "Documentation officielle GitHub Copilot pour le développement assisté par IA."
+      "description": "Documentation officielle GitHub Copilot pour le développement assisté par IA.",
+      "category_en": "AI",
+      "name_en": "GitHub Copilot Documentation",
+      "description_en": "Official GitHub Copilot documentation for AI-assisted development."
     },
     {
       "name": "CNIL - Guide sécurité des données",
       "category": "Cybersécurité France",
-      "url": "https://www.cnil.fr/fr/guide-de-la-securite-des-donnees-personnelles"
+      "url": "https://www.cnil.fr/fr/guide-de-la-securite-des-donnees-personnelles",
+      "category_en": "French Cybersecurity",
+      "name_en": "CNIL - Data security guide",
+      "description_en": ""
     },
     {
       "name": "CNIL - Recommandations MFA",
       "category": "Cybersécurité France",
-      "url": "https://www.cnil.fr/fr/recommandation-mfa"
+      "url": "https://www.cnil.fr/fr/recommandation-mfa",
+      "category_en": "French Cybersecurity",
+      "name_en": "CNIL - MFA recommendations",
+      "description_en": ""
     },
     {
       "name": "DINUM - Intelligence artificielle",
       "category": "IA & Numérique France",
-      "url": "https://www.numerique.gouv.fr/intelligence-artificielle/"
+      "url": "https://www.numerique.gouv.fr/intelligence-artificielle/",
+      "category_en": "AI & French Digital Services",
+      "name_en": "DINUM - Artificial intelligence",
+      "description_en": ""
     },
     {
       "name": "NVD - National Vulnerability Database",
       "category": "Veille IT & Cyber",
-      "url": "https://nvd.nist.gov/"
+      "url": "https://nvd.nist.gov/",
+      "category_en": "IT & Cyber Watch",
+      "name_en": "NVD - National Vulnerability Database",
+      "description_en": ""
     },
     {
       "name": "OpenAI Status",
       "category": "IA",
-      "url": "https://status.openai.com/"
+      "url": "https://status.openai.com/",
+      "category_en": "AI",
+      "name_en": "OpenAI Status",
+      "description_en": ""
     },
     {
       "name": "GitHub Docs",
       "category": "Documentation & Communauté",
-      "url": "https://docs.github.com/"
+      "url": "https://docs.github.com/",
+      "category_en": "Documentation & Community",
+      "name_en": "GitHub Docs",
+      "description_en": ""
     },
     {
       "name": "Stack Overflow",
       "category": "Documentation & Communauté",
-      "url": "https://stackoverflow.com/"
+      "url": "https://stackoverflow.com/",
+      "category_en": "Documentation & Community",
+      "name_en": "Stack Overflow",
+      "description_en": ""
     },
     {
       "name": "Mozilla Support",
       "category": "Documentation & Communauté",
-      "url": "https://support.mozilla.org/"
+      "url": "https://support.mozilla.org/",
+      "category_en": "Documentation & Community",
+      "name_en": "Mozilla Support",
+      "description_en": ""
     },
     {
       "name": "Google Workspace Admin Help",
       "category": "Documentation & Communauté",
-      "url": "https://support.google.com/a/"
+      "url": "https://support.google.com/a/",
+      "category_en": "Documentation & Community",
+      "name_en": "Google Workspace Admin Help",
+      "description_en": ""
     },
     {
       "name": "Apple Support France",
       "category": "Constructeurs",
-      "url": "https://support.apple.com/fr-fr"
+      "url": "https://support.apple.com/fr-fr",
+      "category_en": "Vendors",
+      "name_en": "Apple Support France",
+      "description_en": ""
     },
     {
       "name": "Cisco Security Advisories",
       "category": "Veille IT & Cyber",
-      "url": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x"
+      "url": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x",
+      "category_en": "IT & Cyber Watch",
+      "name_en": "Cisco Security Advisories",
+      "description_en": ""
     },
     {
       "name": "OpenAI Documentation",
       "category": "IA",
       "url": "https://platform.openai.com/docs/",
-      "description": "Documentation officielle OpenAI pour API et modèles."
+      "description": "Documentation officielle OpenAI pour API et modèles.",
+      "category_en": "AI",
+      "name_en": "OpenAI Documentation",
+      "description_en": "Official OpenAI documentation for APIs and models."
     },
     {
       "name": "Microsoft Copilot - Documentation IT",
       "category": "IA",
       "url": "https://learn.microsoft.com/fr-fr/microsoft-365/copilot/",
-      "description": "Documentation Microsoft Copilot destinée aux professionnels IT."
+      "description": "Documentation Microsoft Copilot destinée aux professionnels IT.",
+      "category_en": "AI",
+      "name_en": "Microsoft Copilot - IT documentation",
+      "description_en": "Microsoft Copilot documentation for IT professionals."
     },
     {
       "name": "Microsoft Copilot - Formation",
       "category": "IA",
       "url": "https://learn.microsoft.com/fr-fr/training/paths/copilot-foundations/",
-      "description": "Parcours Microsoft Learn pour comprendre et utiliser Copilot."
+      "description": "Parcours Microsoft Learn pour comprendre et utiliser Copilot.",
+      "category_en": "AI",
+      "name_en": "Microsoft Copilot - Training",
+      "description_en": "Microsoft Learn training path for understanding and using Copilot."
     },
     {
       "name": "Google AI for Developers",
       "category": "IA",
       "url": "https://ai.google.dev/",
-      "description": "Documentation officielle Google sur Gemini et les outils IA."
+      "description": "Documentation officielle Google sur Gemini et les outils IA.",
+      "category_en": "AI",
+      "name_en": "Google AI for Developers",
+      "description_en": "Official Google documentation for Gemini and AI tools."
     },
     {
       "name": "Anthropic Documentation",
       "category": "IA",
       "url": "https://docs.anthropic.com/",
-      "description": "Documentation officielle Claude et API Anthropic."
+      "description": "Documentation officielle Claude et API Anthropic.",
+      "category_en": "AI",
+      "name_en": "Anthropic Documentation",
+      "description_en": "Official Claude and Anthropic API documentation."
     },
     {
       "name": "Microsoft 365 Blog",
       "category": "Actualité IT",
       "url": "https://www.microsoft.com/en-us/microsoft-365/blog/",
-      "description": "Nouveautés et annonces officielles Microsoft 365."
+      "description": "Nouveautés et annonces officielles Microsoft 365.",
+      "category_en": "IT News",
+      "name_en": "Microsoft 365 Blog",
+      "description_en": "Official Microsoft 365 news and announcements."
     },
     {
       "name": "Apple System Status",
       "category": "Statuts services",
       "url": "https://www.apple.com/support/systemstatus/",
-      "description": "État officiel des services Apple."
+      "description": "État officiel des services Apple.",
+      "category_en": "Service Status",
+      "name_en": "Apple System Status",
+      "description_en": "Official Apple service status."
     },
     {
       "name": "Google Cloud Status",
       "category": "Statuts services",
       "url": "https://status.cloud.google.com/",
-      "description": "État officiel des services Google Cloud."
+      "description": "État officiel des services Google Cloud.",
+      "category_en": "Service Status",
+      "name_en": "Google Cloud Status",
+      "description_en": "Official Google Cloud service status."
     },
     {
       "name": "Atlassian Status",
       "category": "Statuts services",
       "url": "https://status.atlassian.com/",
-      "description": "État officiel des services Atlassian."
+      "description": "État officiel des services Atlassian.",
+      "category_en": "Service Status",
+      "name_en": "Atlassian Status",
+      "description_en": "Official Atlassian service status."
     },
     {
       "name": "Mozilla Support",
       "category": "Support",
       "url": "https://support.mozilla.org/fr/",
-      "description": "Documentation et dépannage officiels Firefox."
+      "description": "Documentation et dépannage officiels Firefox.",
+      "category_en": "Support",
+      "name_en": "Mozilla Support",
+      "description_en": "Official Firefox documentation and troubleshooting."
     },
     {
       "name": "Chrome Enterprise",
       "category": "Navigateurs",
       "url": "https://chromeenterprise.google/",
-      "description": "Ressources officielles Chrome pour les environnements professionnels."
+      "description": "Ressources officielles Chrome pour les environnements professionnels.",
+      "category_en": "Browsers",
+      "name_en": "Chrome Enterprise",
+      "description_en": "Official Chrome resources for enterprise environments."
     }
   ]
 };
