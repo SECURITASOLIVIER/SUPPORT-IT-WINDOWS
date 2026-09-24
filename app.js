@@ -59,8 +59,6 @@ const UI_EN={
  "Aucun template trouvé.":"No template found.",
  "Aucun contenu.":"No content.",
  "Thème":"Theme",
- "N° ticket":"Ticket #",
- "Numéro de ticket":"Ticket number"
 };
 const PORTAL_CAT_EN={
  "Cybersécurité France":"French Cybersecurity",
@@ -82,7 +80,11 @@ const PORTAL_CAT_EN={
  "Accès distant / VPN":"Remote Access / VPN",
  "Navigateurs":"Browsers",
  "IA":"AI",
- "Favoris":"Favorites"
+ "Favoris":"Favorites",
+ "Vulnérabilités":"Vulnerabilities",
+ "Microsoft Sécurité":"Microsoft Security",
+ "IA":"AI",
+ "Actualité IT":"IT News"
 };
 
 Object.assign(UI_EN,{
@@ -219,7 +221,7 @@ function applyUiLanguage(){
  document.documentElement.lang=state.lang==="en"?"en":"fr";
  const search=$("#search"); if(search)search.placeholder=state.lang==="en"?"Search everywhere...":"Rechercher partout...";
  const theme=$("#theme"); if(theme)theme.textContent="☀/☾ "+(state.lang==="en"?"Theme":"Thème");
- const lang=$("#lang"); if(lang)lang.textContent=state.lang==="en"?"EN / FR":"FR / EN";
+ const lang=$("#lang"); if(lang)lang.textContent=state.lang==="en"?"English • FR":"Français • EN";
  document.querySelectorAll("button,.btn,label.btn,.section-title,.template-subject span").forEach(el=>{
    const raw=(el.textContent||"").trim();
    if(state.lang==="en" && UI_EN[raw]) el.textContent=UI_EN[raw];
@@ -231,31 +233,10 @@ if(!Array.isArray(state.tabs))state.tabs=["Accueil"];
 if(!["light","dark"].includes(state.theme))state.theme="dark";
 if(!["fr","en"].includes(state.lang))state.lang="fr";
 if(!cats.includes(state.cat))state.cat="Accueil";
-let ticketNumber=String(localStorage.getItem("itpTicketNumber")||"").trim();
-function setTicketNumber(value){
- ticketNumber=String(value||"").trim();
- try{localStorage.setItem("itpTicketNumber",ticketNumber)}catch(_){}
- render();
-}
-function applyTicketNumberToText(t,text){
- let out=String(text||"");
- const n=String(ticketNumber||"").trim();
- if(!n)return out;
- out=out
-   .replace(/\[N[°ºo]\s*(?:de\s+)?ticket\]/gi,n)
-   .replace(/\[(?:référence ticket|reference ticket|ticket)\]/gi,n);
- const ctx=[t&&t.name,t&&t.subject,t&&t.category].filter(Boolean).join(" ");
- if(/ticket|incident|demande|escalade|support/i.test(ctx)){
-   out=out
-     .replace(/\[(?:RÉFÉRENCE|REFERENCE)\]/g,n)
-     .replace(/\[(?:N°|NO)\]/gi,n)
-     .replace(/\b(ticket|demande|incident)\s+XX\b/gi,(m,k)=>k+" "+n);
- }
- return out;
-}
+
 function preparedTemplate(t){
- const subject=applyTicketNumberToText(t,formalizeTemplateText(t&&t.subject||""));
- const body=applyTicketNumberToText(t,formalizeTemplateText(t&&t.content||""));
+ const subject=formalizeTemplateText(t&&t.subject||"");
+ const body=formalizeTemplateText(t&&t.content||"");
  const shareBody=decorateTemplatePlainText(body);
  return {subject,body,full:(subject?"Objet : "+subject+"\n\n":"")+shareBody};
 }
@@ -937,7 +918,7 @@ function communications(){
  let cs=[...new Set(all.map(x=>x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications"),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+'<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
  '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
@@ -1133,27 +1114,10 @@ async function copy(t){
    document.execCommand("copy");a.remove();toast("Copié");
  }
 }
-function applyTicketNumberToText(t,text){
- let out=String(text||"");
- const n=String(ticketNumber||"").trim();
- if(!n)return out;
- out=out
-   .replace(/\[N[°ºo]\s*(?:de\s+)?ticket\]/gi,n)
-   .replace(/\[Ticket\s*#\]/gi,n)
-   .replace(/\[(?:référence ticket|reference ticket|ticket)\]/gi,n);
- const ctx=[t&&t.name,t&&t.name_en,t&&t.subject,t&&t.subject_en,t&&t.category].filter(Boolean).join(" ");
- if(/ticket|incident|demande|request|escalade|escalation|support/i.test(ctx)){
-   out=out
-     .replace(/\[(?:RÉFÉRENCE|REFERENCE)\]/g,n)
-     .replace(/\[(?:N°|NO)\]/gi,n)
-     .replace(/\b(ticket|demande|incident|request)\s+XX\b/gi,(m,k)=>k+" "+n);
- }
- return out;
-}
 function preparedTemplate(t){
  const v=localizeTemplate(t);
- const subject=applyTicketNumberToText(t,formalizeTemplateText(v&&v.subject||""));
- const body=applyTicketNumberToText(t,formalizeTemplateText(v&&v.content||""));
+ const subject=formalizeTemplateText(v&&v.subject||"");
+ const body=formalizeTemplateText(v&&v.content||"");
  const shareBody=decorateTemplatePlainText(body);
  const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
  return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
@@ -1229,7 +1193,7 @@ function communications(){
  const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+'<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
  '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
  cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
@@ -1465,8 +1429,8 @@ function injectTicketReference(t,subject,body){
 }
 function preparedTemplate(t){
  const v=localizeTemplate(t);
- let subject=applyTicketNumberToText(t,formalizeTemplateText(v&&v.subject||""));
- let body=applyTicketNumberToText(t,formalizeTemplateText(v&&v.content||""));
+ let subject=formalizeTemplateText(v&&v.subject||"");
+ let body=formalizeTemplateText(v&&v.content||"");
  ({subject,body}=injectTicketReference(t,subject,body));
  const shareBody=decorateTemplatePlainText(body);
  const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
@@ -1860,7 +1824,7 @@ function applyUiLanguage(){
  document.documentElement.lang=state.lang==="en"?"en":"fr";
  const search=$("#search");if(search)search.placeholder=state.lang==="en"?"Search everywhere...":"Rechercher partout...";
  const theme=$("#theme");if(theme)theme.textContent="☀/☾ "+(state.lang==="en"?"Theme":"Thème");
- const lang=$("#lang");if(lang)lang.textContent=state.lang==="en"?"EN / FR":"FR / EN";
+ const lang=$("#lang");if(lang)lang.textContent=state.lang==="en"?"English • FR":"Français • EN";
  const top=$("#scrollTopBtn");if(top&&top.setAttribute)top.setAttribute("aria-label",state.lang==="en"?"Back to top":"Remonter en haut");
  document.querySelectorAll("button,.btn,label.btn,.section-title,.template-subject span").forEach(el=>{
    const raw=(el.textContent||"").trim();
