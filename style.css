@@ -885,3 +885,24 @@ body.light .itp-site-logo{background:#fff;border-color:#d6e0e8}
  .itp-site-logo>img{width:24px;height:24px}
 }
 /* === /IT Pocket official icons v2 === */
+
+
+/* === IT Pocket support expansion v4 === */
+.itp-remote-product{background:#fff;border:1px solid #d9e3ec;border-radius:7px;padding:3px}
+.itp-remote-product img{width:23px;height:23px;object-fit:contain;display:block}
+.itp-remote-fallback{display:none;align-items:center;justify-content:center}
+.itp-type-badge{display:inline-flex;align-items:center;gap:5px}
+.itp-type-badge .itp-official-icon.itp-icon-tiny{width:14px;height:14px;flex-basis:14px}
+@media(max-width:800px){
+ nav .navbtn{
+   min-width:180px!important;
+   min-height:56px!important;
+   display:flex!important;
+   align-items:center!important;
+ }
+ nav .itp-tech-title{width:100%!important}
+ .home-kpi{min-height:190px!important}
+ .all-menu-home .home-kpi{min-height:190px!important}
+}
+body.light .itp-remote-product{background:#fff;border-color:#d7e0ea}
+/* === /IT Pocket support expansion v4 === */
