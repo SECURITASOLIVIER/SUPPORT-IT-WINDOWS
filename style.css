@@ -1285,3 +1285,71 @@ body.light .itp-shortcut-intro{background:#f7fbff}
   }
 }
 /* === /IT Pocket layout polish v4.8 === */
+
+
+/* === IT Pocket mobile nav equal buttons v5.0 === */
+@media(max-width:800px){
+  nav{
+    display:grid !important;
+    grid-auto-flow:column;
+    grid-auto-columns:178px;
+    gap:8px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    align-items:stretch;
+    padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  nav .navbtn{
+    width:178px !important;
+    min-width:178px !important;
+    max-width:178px !important;
+    height:58px !important;
+    min-height:58px !important;
+    margin:0 !important;
+    padding:10px 12px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    border-radius:10px !important;
+    overflow:hidden;
+  }
+
+  nav .navbtn .itp-tech-title{
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:28px minmax(0,1fr);
+    align-items:center;
+    gap:9px;
+  }
+
+  nav .navbtn .itp-tech-title > span:last-child{
+    min-width:0;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    font-size:13px;
+    font-weight:600;
+  }
+
+  nav .navbtn .itp-official-icon,
+  nav .navbtn .itp-product-icon,
+  nav .navbtn .itp-brand-wrap{
+    width:26px !important;
+    height:26px !important;
+    flex-basis:26px !important;
+  }
+}
+
+@media(max-width:390px){
+  nav{
+    grid-auto-columns:164px;
+  }
+  nav .navbtn{
+    width:164px !important;
+    min-width:164px !important;
+    max-width:164px !important;
+  }
+}
+/* === /IT Pocket mobile nav equal buttons v5.0 === */
