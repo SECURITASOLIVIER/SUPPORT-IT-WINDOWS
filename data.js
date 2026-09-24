@@ -173,7 +173,7 @@ window.SSIT_DATA = {
       "name_en": "Close a application",
       "description_en": "Allows of choisir a processes graphique then tente a closure clean.",
       "category_en": "Applications",
-      "risk_en": "Faible: l’application may demander d'enregistrer.",
+      "risk_en": "Low: the application may ask you to save your work.",
       "method_en": "Process.CloseMainWindow()",
       "webCategory_en": "Applications",
       "rights_en": ""
@@ -550,7 +550,7 @@ window.SSIT_DATA = {
       "name_en": "Outlook - Reset browsing Pane",
       "description_en": "Resets the volet of browsing Outlook.",
       "category_en": "Microsoft 365",
-      "risk_en": "Faible: Resets the personnalisation the volet.",
+      "risk_en": "Low: resets navigation pane customization.",
       "method_en": "outlook.exe /resetnavpane",
       "webCategory_en": "Microsoft 365",
       "rights_en": ""
@@ -2152,7 +2152,7 @@ window.SSIT_DATA = {
       "description_en": "Tente of Repair l'image Windows.",
       "category_en": "System",
       "rights_en": "Administrator",
-      "risk_en": "Medium: Repair système, may use Windows Update.",
+      "risk_en": "Medium: system repair may use Windows Update.",
       "method_en": "DISM /Online /Cleanup-Image /RestoreHealth",
       "webCategory_en": "System"
     },
