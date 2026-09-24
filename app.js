@@ -1808,7 +1808,6 @@ function applyUiLanguage(){
  const search=$("#search");if(search)search.placeholder=state.lang==="en"?"Search everywhere...":"Rechercher partout...";
  const theme=$("#theme");if(theme)theme.textContent="☀/☾ "+(state.lang==="en"?"Theme":"Thème");
  const lang=$("#lang");if(lang)lang.textContent=state.lang==="en"?"English • FR":"Français • EN";
- const ticket=$("#ticketRefInput");if(ticket)ticket.placeholder=ui("N° ticket (optionnel)");
  const top=$("#scrollTopBtn");if(top&&top.setAttribute)top.setAttribute("aria-label",state.lang==="en"?"Back to top":"Remonter en haut");
  document.querySelectorAll("button,.btn,label.btn,.section-title,.template-subject span").forEach(el=>{
    const raw=(el.textContent||"").trim();
