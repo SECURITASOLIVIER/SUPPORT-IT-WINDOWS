@@ -2828,7 +2828,7 @@ function home(){
   "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive et Office.","Navigateurs":"Edge, Chrome et Firefox.",
   "Applications":"Applications installées, inventaire, Winget et erreurs.","Périphériques & Pilotes":"Matériel, pilotes, imprimantes, Bluetooth et audio/vidéo.",
   "Sécurité Windows":"Defender, BitLocker, TPM, pare-feu, comptes et MFA.","Intune / Entra / SCCM":"Intune/MDM, Entra ID, SCCM et Portail d’entreprise.",
-  "Windows Update":"État, correctifs, historique, services et redémarrage.","Outils Support":"Assistance distante et utilitaires technicien."
+  "Windows Update":"État, correctifs, historique, services et redémarrage.","Outils Support":"Assistance distante et utilitaires technicien.","Raccourcis clavier":"Windows, Word, Excel, PowerPoint, Outlook, Teams, Edge et Chrome."
  };
  const descEn={
   "Communications":"Corporate messages and communication templates.","Portails":"Sites, portals and useful resources.",
@@ -2836,7 +2836,7 @@ function home(){
   "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive and Office.","Navigateurs":"Edge, Chrome and Firefox.",
   "Applications":"Installed apps, inventory, Winget and errors.","Périphériques & Pilotes":"Hardware, drivers, printers, Bluetooth and audio/video.",
   "Sécurité Windows":"Defender, BitLocker, TPM, firewall, accounts and MFA.","Intune / Entra / SCCM":"Intune/MDM, Entra ID, SCCM and Company Portal.",
-  "Windows Update":"Status, updates, history, services and restart.","Outils Support":"Remote assistance and technician utilities."
+  "Windows Update":"Status, updates, history, services and restart.","Outils Support":"Remote assistance and technician utilities.","Raccourcis clavier":"Windows, Word, Excel, PowerPoint, Outlook, Teams, Edge and Chrome."
  };
  const sections=cats.filter(c=>c!=="Accueil").map(c=>({
   cat:c,
@@ -3533,6 +3533,42 @@ home=function(){
  return h.replace('Outils Support":"Assistance distante et utilitaires technicien."','Outils Support":"Assistance distante et utilitaires technicien.","Raccourcis clavier":"Windows, Office, navigateurs, Teams et Outlook."');
 };
 /* === /IT Pocket support expansion v4 === */
+
+/* === IT Pocket product identity fix v4.1 === */
+function itpBrowserProduct(kind,extra){
+ const map={
+  edge:["https://www.microsoft.com/favicon.ico","Microsoft Edge"],
+  chrome:["https://www.google.com/chrome/static/images/favicons/favicon-32x32.png","Google Chrome"],
+  firefox:["https://www.mozilla.org/media/img/favicons/mozilla/favicon.d25d81d39065.ico","Mozilla Firefox"]
+ };
+ const x=map[kind];
+ return x?itpRemoteProductIcon(x[0],x[1],extra):itpOfficialFluent("globe",kind,extra);
+}
+function contentSectionTitle(item){
+ const r=resourceType(item);
+ if(r.kind==="keyboard")return state.lang==="en"?"KEYBOARD SHORTCUT":"RACCOURCI CLAVIER";
+ return r.kind==="link"?(state.lang==="en"?"LINK":"LIEN"):r.kind==="uri"?(state.lang==="en"?"WINDOWS SHORTCUT":"RACCOURCI WINDOWS"):r.kind==="cmd"?(state.lang==="en"?"COMMAND":"COMMANDE"):(state.lang==="en"?"POWERSHELL SCRIPT":"SCRIPT POWERSHELL");
+}
+const oldThemeMarkV41=itpThemeMark;
+itpThemeMark=function(key,item){
+ if(key==="browser.edge"||key==="short.edge")return itpBrowserProduct("edge","itp-icon-card");
+ if(key==="browser.chrome"||key==="short.chrome")return itpBrowserProduct("chrome","itp-icon-card");
+ if(key==="browser.firefox")return itpBrowserProduct("firefox","itp-icon-card");
+ return oldThemeMarkV41(key,item);
+};
+const oldBrandFromTextV41=itpBrandFromText;
+itpBrandFromText=function(text){
+ const s=itpNorm(text||"");
+ if(/\bedge\b/.test(s))return itpBrowserProduct("edge","itp-icon-card");
+ if(/\bchrome\b/.test(s))return itpBrowserProduct("chrome","itp-icon-card");
+ if(/\bfirefox\b/.test(s))return itpBrowserProduct("firefox","itp-icon-card");
+ if(/\bintune\b/.test(s))return itpMicrosoftAdminLogo("intune","itp-icon-card");
+ if(/\bentra\b/.test(s))return itpMicrosoftAdminLogo("entra","itp-icon-card");
+ if(/company portal|portail d.?entreprise/.test(s))return itpMicrosoftAdminLogo("portal","itp-icon-card");
+ if(/\bazure\b/.test(s))return itpMicrosoftAdminLogo("azure","itp-icon-card");
+ return oldBrandFromTextV41(text);
+};
+/* === /IT Pocket product identity fix v4.1 === */
 
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
