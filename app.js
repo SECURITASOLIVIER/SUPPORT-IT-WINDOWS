@@ -3607,6 +3607,52 @@ renderActions=function(c){
 };
 /* === /IT Pocket shortcut compact cards v4.2 === */
 
+/* === IT Pocket shortcuts share-all v4.4 === */
+function itpShareShortcutTheme(cat,key){
+ const items=itpActionsForMenu(cat).filter(x=>(x._itpTopic||itpTopicKey(x,cat))===key);
+ if(!items.length)return;
+ const title=itpTopicLabel(key)+" — "+(state.lang==="en"?"Keyboard shortcuts":"Raccourcis clavier");
+ const lines=[title,""];
+ items.forEach(x=>{
+   lines.push(String(x.name||""));
+   if(x.description)lines.push(String(x.description));
+   lines.push(String(x.command||""));
+   lines.push("");
+ });
+ shareText(title,lines.join("\n").trim());
+}
+
+const oldRenderActionsV44=renderActions;
+renderActions=function(c){
+ if(c!=="Raccourcis clavier")return oldRenderActionsV44(c);
+
+ const all=filterItems(itpActionsForMenu(c),["name","description","command","category","webCategory"]);
+ if(!all.length)return '<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
+
+ const selected=itpGetTechFilter(c);
+ if(selected==="__themes__")return itpThemeOverview(c);
+
+ const items=all.filter(x=>(x._itpTopic||itpTopicKey(x,c))===selected);
+ if(!items.length){
+   state.techFilters[c]="__themes__";
+   save();
+   return itpThemeOverview(c);
+ }
+
+ return '<div class="itp-theme-toolbar">'+
+   '<button class="btn itp-back-themes" onclick=\'itpSelectTheme('+JSON.stringify(c)+',"__themes__")\'>← '+(state.lang==="en"?"Themes":"Thèmes")+'</button>'+
+   '<span class="itp-theme-current">'+itpThemeMark(selected,items[0])+'<strong>'+esc(itpTopicLabel(selected))+'</strong><small>'+items.length+'</small></span>'+
+   '<button class="btn primary itp-share-all-shortcuts" onclick=\'itpShareShortcutTheme('+JSON.stringify(c)+','+JSON.stringify(selected)+')\'>'+
+     itpOfficialFluent("chat","Partager","itp-icon-mini")+
+     '<span>'+(state.lang==="en"?"Share all":"Partager tout")+'</span>'+
+   '</button>'+
+ '</div>'+
+ '<div class="grid itp-shortcut-grid">'+items.map(itpShortcutCard).join("")+'</div>';
+};
+
+Object.assign(window,{itpShareShortcutTheme});
+/* === /IT Pocket shortcuts share-all v4.4 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
