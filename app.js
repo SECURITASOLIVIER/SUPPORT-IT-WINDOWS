@@ -1844,6 +1844,50 @@ function looksFrenchTemplateText(v){
 }
 function englishTemplateNameFromFrench(name){
  let s=String(name||"");
+ const exact={
+  "Teams - Message automatique support":"Teams - Automatic support message",
+  "[Application / portail] - RESET MOT DE PASSE":"[Application / portal] - PASSWORD RESET",
+  "Applications - [Application] hors périmètre service informatique":"Applications - [Application] outside IT Support scope",
+  "Matériel - Compatibilité dock USB-C / adresse agence":"Hardware - USB-C dock compatibility / office address",
+  "Modern environnement professionnel - Demande installation application":"Modern workplace - Application installation request",
+  "Modern environnement professionnel - Installation application terminée":"Modern workplace - Application installation completed",
+  "Modern environnement professionnel - Demande désinstallation application":"Modern workplace - Application uninstall request",
+  "Modern environnement professionnel - Désinstallation terminée":"Modern workplace - Uninstallation completed",
+  "Mail - Premier contact support":"Email - Initial support contact",
+  "Mail - Confirmation de prise en compte":"Email - Request acknowledgement",
+  "Mail - Intervention terminée":"Email - Intervention completed",
+  "Mail - Information utilisateur":"Email - User information",
+  "Mail - Demande de test utilisateur":"Email - User test request",
+  "Mail - Relance simple":"Email - Follow-up",
+  "Mail - Dernière relance":"Email - Final follow-up",
+  "Rapport - Escalade N2/N3":"Report - N2/N3 escalation",
+  "Phishing - Accusé de réception":"Phishing - Acknowledgement",
+  "Phishing - Utilisateur a cliqué":"Phishing - User clicked",
+  "Compte - Suspicion de compromission":"Account - Suspected compromise",
+  "Blocage fichier / URL":"File / URL blocked",
+  "Alerte antivirus":"Antivirus alert",
+  "Demande d'exception sécurité":"Security exception request",
+  "Mot de passe - Réinitialisé":"Password - Reset completed",
+  "Accès - Demande de justification":"Access - Justification request",
+  "Accès - Accord requis":"Access - Approval required",
+  "Accès - Ajout effectué":"Access - Added",
+  "Application - Demande d'installation":"Application - Installation request",
+  "Application - Réinstallation proposée":"Application - Reinstallation proposed",
+  "Arrivée - Préparation compte et poste":"Onboarding - Account and device preparation",
+  "Escalade - Fournisseur":"Escalation - Vendor",
+  "Escalade - Équipe infrastructure":"Escalation - Infrastructure team",
+  "Escalade - Équipe sécurité":"Escalation - Security team",
+  "Escalade - N3 avec chronologie":"Escalation - N3 with timeline",
+  "Incident majeur - Accusé utilisateur":"Major incident - User notification",
+  "Incident majeur - Mise à jour":"Major incident - Update",
+  "Incident majeur - Service rétabli":"Major incident - Service restored",
+  "Incident majeur - Contournement":"Major incident - Workaround",
+  "Utilisateur injoignable":"User unavailable",
+  "Escalade N2/N3":"N2/N3 escalation",
+  "Mise à disposition matériel":"Equipment availability",
+  "Alerte sécurité utilisateur":"User security alert"
+ };
+ if(exact[s])return exact[s];
  const rules=[
   [/Dernière relance avant clôture/gi,"Final follow-up before closure"],
   [/Clôture administrative/gi,"Administrative closure"],
@@ -2027,6 +2071,7 @@ function fallbackEnglishTemplate(t){
  if(/doublon|duplicate/.test(n))return {subject,content:hello+"This ticket duplicates an existing request.\n\nTo avoid parallel processing, follow-up will continue on ticket [Ticket #]."+close};
  if(/hors périmètre|out of scope/.test(n))return {subject,content:hello+"After review, this request is outside the scope of this IT Support team.\n\nPlease contact [Team / provider / service] for further assistance."+close};
 
+ if(/message automatique support|automatic support message/.test(n))return {subject,content:"Hello,\n\nThank you for your message.\n\nThis is an automatic response. I am currently unavailable to process support requests through Teams.\n\nFor any support request or incident, please open a ticket through the support portal:\n\n[Support portal]\n\nFor urgent matters only, contact the support hotline at [Support hotline] during IT Support hours.\n\nThank you for your understanding."};
  if(/phishing/.test(n))return {subject,content:hello+"Thank you for reporting this suspicious message.\n\n• Do not click any link or open any additional attachment.\n• In Outlook, use Report Message > Phishing when available.\n• If you entered a password or approved an MFA request, contact IT Support immediately."+close};
  if(/suspicion de compromission|security.*compromise|compromission/.test(n))return {subject,content:hello+"A security verification is required for your account.\n\nAs a precaution, active sessions or authentication methods may be reset. Please remain available to verify your identity and sign in again."+close};
  if(/blocage fichier|file.*url|url.*block/.test(n))return {subject,content:hello+"Access to [File / URL / application] is being blocked by a security control.\n\nPlease provide:\n• the exact file name or URL;\n• a screenshot of the block message;\n• the related business need.\n\nThe request can then be reviewed."+close};
