@@ -485,8 +485,6 @@ function communications(){
  let cats=[...new Set(allTemplates().map(x=>x.category))].sort();
  return `<div class="toolbar">
    <button class="btn primary" onclick="newTemplate()">+ Créer un template</button>
-   <button class="btn" onclick="exportTemplates()">Exporter mes templates</button>
-   <label class="btn">Importer <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label>
    <span class="badge">${ts.length} modèle(s)</span>
    <span class="badge">${custom.length} personnel(s)</span>
  </div>
@@ -939,10 +937,7 @@ function communications(){
  let cs=[...new Set(all.map(x=>x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications"),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
- '<button class="btn" onclick="exportTemplates()">'+ui("Exporter")+'</button>'+
- '<label class="btn">'+ui("Importer")+' <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label>'+
- '<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+'<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
  '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(c)+'</button>').join("")+'</div>'+
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
@@ -1234,10 +1229,7 @@ function communications(){
  const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
- '<button class="btn" onclick="exportTemplates()">'+ui("Exporter")+'</button>'+
- '<label class="btn">'+ui("Importer")+' <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label>'+
- '<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+'<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
  '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
  cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
