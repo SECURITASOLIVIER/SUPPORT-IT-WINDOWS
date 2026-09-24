@@ -16,10 +16,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Résumé machine",
-      "description_en": "Vue rapide des Information utiles au support.",
+      "description_en": "Quick view the Information useful to the support.",
       "category_en": "Home",
       "method_en": "CIM + Environment + Network",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Accueil",
@@ -35,11 +37,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-PriorityApps | Select-Object DisplayName,DisplayVersion,Publisher\n    Show-Grid \"Applications prioritaires\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Top Applications détectées",
-      "description_en": "Affiche les Applications prioritaires de support détectées sur le poste.",
+      "name_en": "Top applications detected",
+      "description_en": "Displays or checks technical information for Top applications detected.",
       "category_en": "Home",
-      "method_en": "Registre Uninstall HKLM/HKCU",
-      "webCategory_en": "Outils Support"
+      "method_en": "registry Uninstall HKLM/HKCU",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -55,11 +59,13 @@ window.SSIT_DATA = {
       "script": "Show-AppSupportCenter",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Centre Applications support",
-      "description_en": "Vue technicien des principales Applications : installation, Version, Status, PID, Startup et Latest exécution observée.",
+      "name_en": "Centre applications support",
+      "description_en": "Displays or checks technical information for Centre applications support.",
       "category_en": "Applications",
-      "method_en": "Registre App Paths + Processes + Prefetch Windows",
-      "webCategory_en": "Applications"
+      "method_en": "registry App Paths + processes + Prefetch Windows",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -75,11 +81,13 @@ window.SSIT_DATA = {
       "script": "$x = Get-InstalledApps | Select-Object DisplayName,DisplayVersion,Publisher,InstallLocation\n    Show-Grid \"Applications installées\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Inventory Applications",
-      "description_en": "List les logiciels installés hors Applications Store.",
+      "name_en": "Inventory applications",
+      "description_en": "Lists the installed software hors applications Store.",
       "category_en": "Applications",
-      "method_en": "Registre Windows Uninstall",
-      "webCategory_en": "Applications"
+      "method_en": "registry Windows Uninstall",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -95,11 +103,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-Process -ErrorAction SilentlyContinue | Sort-Object WorkingSet64 -Descending | Select-Object -First 30 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},@{N=\"CPU_s\";E={[math]::Round($_.CPU,1)}}\n    Show-Grid \"Top processus\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Processes Applications métier",
-      "description_en": "Affiche les Processes non système les plus consommateurs.",
+      "name_en": "processes applications business",
+      "description_en": "Displays or checks technical information for processes applications business.",
       "category_en": "Applications",
       "method_en": "Get-Process tri RAM/CPU",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -116,11 +126,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Apps installées",
-      "description_en": "Ouvre la page Windows Installed Applications.",
+      "description_en": "Opens the page Windows Installed applications.",
       "category_en": "Applications",
       "method_en": "ms-settings:appsfeatures",
       "actionType_en": "Direct",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -137,10 +149,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Repair / Modifier / Reset",
-      "description_en": "Sélectionne une Application et lance sa maintenance, une Repair MSI ou les options de reset quand elles existent.",
+      "description_en": "Selects a application and Runs sa maintenance, a Repair MSI or the options of reset when elles existent.",
       "category_en": "Applications",
       "method_en": "ModifyPath + Windows Installer + options spécifiques connues",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -156,12 +170,13 @@ window.SSIT_DATA = {
       "script": "$names=Get-Process | Where-Object {$_.MainWindowTitle} | Sort-Object ProcessName | Select-Object -ExpandProperty ProcessName -Unique\n    $f=New-Object Windows.Forms.Form;$f.Text=\"Fermer une application\";$f.Size=New-Object Drawing.Size(500,430);$f.StartPosition=\"CenterScreen\";Enable-Escape $f\n    $list=New-Object Windows.Forms.ListBox;$list.Location=New-Object Drawing.Point(20,20);$list.Size=New-Object Drawing.Size(440,300);$list.Items.AddRange([object[]]$names);$f.Controls.Add($list)\n    $b=New-Object Windows.Forms.Button;$b.Text=\"Fermer proprement\";$b.Location=New-Object Drawing.Point(300,335);$b.Size=New-Object Drawing.Size(160,38)\n    $b.Add_Click({if($list.SelectedItem){Get-Process -Name $list.SelectedItem -ErrorAction SilentlyContinue | ForEach-Object {$_.CloseMainWindow()|Out-Null};$f.Close()}});$f.Controls.Add($b)\n    $f.ShowDialog()|Out-Null",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Close une Application",
-      "description_en": "Permet de choisir un Processes graphique puis tente une Closesture propre.",
+      "name_en": "Close a application",
+      "description_en": "Allows of choisir a processes graphique then tente a closure clean.",
       "category_en": "Applications",
-      "risk_en": "Faible : l’Application peut demander d'enregistrer.",
+      "risk_en": "Faible: l’application may demander d'enregistrer.",
       "method_en": "Process.CloseMainWindow()",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": ""
     },
     {
       "category": "Applications",
@@ -177,11 +192,11 @@ window.SSIT_DATA = {
       "script": "$names=Get-Process | Sort-Object ProcessName | Select-Object -ExpandProperty ProcessName -Unique\n    $f=New-Object Windows.Forms.Form;$f.Text=\"FORCER fermeture\";$f.Size=New-Object Drawing.Size(500,430);$f.StartPosition=\"CenterScreen\";Enable-Escape $f\n    $list=New-Object Windows.Forms.ListBox;$list.Location=New-Object Drawing.Point(20,20);$list.Size=New-Object Drawing.Size(440,300);$list.Items.AddRange([object[]]$names);$f.Controls.Add($list)\n    $b=New-Object Windows.Forms.Button;$b.Text=\"Forcer l'arrêt\";$b.Location=New-Object Drawing.Point(300,335);$b.Size=New-Object Drawing.Size(160,38)\n    $b.Add_Click({\n        if($list.SelectedItem -and (Confirm-Action \"Forcer fermeture\" \"Terminer $($list.SelectedItem) ? Les données non enregistrées seront perdues.\")){\n            Stop-Process -Name $list.SelectedItem -Force -ErrorAction SilentlyContinue;$f.Close()\n        }\n    });$f.Controls.Add($b);$f.ShowDialog()|Out-Null",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Force close d'une Application",
-      "description_en": "Termine le Processes sélectionné comme Fin de tâche.",
+      "name_en": "Force close d'a application",
+      "description_en": "Stops the processes sélectionné comme Fin of task.",
       "category_en": "Applications",
       "rights_en": "Administrator depending on the process",
-      "risk_en": "Medium : Data unsaved perdues.",
+      "risk_en": "Medium: data unsaved perdues.",
       "method_en": "Stop-Process -Force",
       "webCategory_en": "Applications"
     },
@@ -199,12 +214,13 @@ window.SSIT_DATA = {
       "script": "Show-OfficeAddinManager",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Gérer les compléments Office",
-      "description_en": "Permet de lire, désactiver ou réactiver les COM Add-ins Word, Excel, Outlook et PowerPoint.",
+      "name_en": "Manage the add-ins Office",
+      "description_en": "Technical support action for Manage the add-ins Office.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : may change Office behavior.",
-      "method_en": "LoadBehavior registre Office : 0=désactivé, 3=chargement normal",
-      "webCategory_en": "Microsoft 365"
+      "risk_en": "Medium: may change Office behavior.",
+      "method_en": "LoadBehavior registry Office: 0=désactivé, 3=chargement normal",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -220,11 +236,13 @@ window.SSIT_DATA = {
       "script": "Show-OneDriveDiagnostic",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "OneDrive - Diagnostic technicien",
-      "description_en": "Collecte Version, Processes, Accounts, Folders, Startup, Connectivity Microsoft et logs OneDrive.",
+      "name_en": "OneDrive - Diagnostic technician",
+      "description_en": "Collecte Version, processes, Accounts, folders, Startup, Connectivity Microsoft and logs OneDrive.",
       "category_en": "Microsoft 365",
-      "method_en": "Registre OneDrive + Processes + DNS/TCP 443 + logs locaux",
-      "webCategory_en": "System"
+      "method_en": "registry OneDrive + processes + DNS/TCP 443 + logs local",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -241,10 +259,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - rapport d'escalade",
-      "description_en": "Exporte un rapport technique OneDrive en TXT + JSON sans questionnaire générique.",
+      "description_en": "Exporte a rapport technique OneDrive en TXT + JSON without questionnaire générique.",
       "category_en": "Microsoft 365",
-      "method_en": "Diagnostic OneDrive structuré pour ticket/escalade",
-      "webCategory_en": "System"
+      "method_en": "Diagnostic OneDrive structuré for ticket/escalade",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -261,11 +281,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - Open logs",
-      "description_en": "Ouvre le Folder de logs OneDrive local pour analyse avancée.",
+      "description_en": "Opens or starts OneDrive - Open logs.",
       "category_en": "Microsoft 365",
       "method_en": "%localAPPDATA%\\Microsoft\\OneDrive\\logs",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -282,11 +304,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - Open Folder synchronisé",
-      "description_en": "Ouvre le Folder OneDrive professionnel détecté.",
+      "description_en": "Opens the Folder OneDrive professionnel détecté.",
       "category_en": "Microsoft 365",
       "method_en": "OneDriveCommercial / OneDrive",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -303,10 +327,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - tester Services Microsoft",
-      "description_en": "Teste DNS et TCP 443 vers les principaux endpoints Microsoft utiles au client OneDrive.",
+      "description_en": "Tests DNS and TCP 443 vers the main endpoints Microsoft useful to the client OneDrive.",
       "category_en": "Microsoft 365",
       "method_en": "Resolve-DnsName + Test-NetConnection login.microsoftonline.com / onedrive.live.com / graph.microsoft.com",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -323,11 +349,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - reStartup complet",
-      "description_en": "Closes OneDrive proprement, attend quelques secondes puis relance le client.",
+      "description_en": "Closes OneDrive cleanly, attend quelques secondes then relance the client.",
       "category_en": "Microsoft 365",
-      "risk_en": "Low to medium : Synchronization interrompue temporairement.",
-      "method_en": "OneDrive.exe /shutdown puis OneDrive.exe",
-      "webCategory_en": "Microsoft 365"
+      "risk_en": "Low to medium: synchronization interrupted temporairement.",
+      "method_en": "OneDrive.exe /shutdown then OneDrive.exe",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -343,12 +370,13 @@ window.SSIT_DATA = {
       "script": "Invoke-CleanupReport -Name \"Office Document Cache\" -Paths @(\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\") -Processes @(\"WINWORD\",\"EXCEL\",\"POWERPNT\",\"OUTLOOK\")",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Clean Cache Office documents",
-      "description_en": "Nettoie le Cache documentaire Microsoft Office avec rapport avant/après.",
+      "name_en": "Office - Microsoft 365 support action",
+      "description_en": "Cleans the Cache documentaire Microsoft Office with rapport before/after.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : Files Office pourront être resynchronisés.",
+      "risk_en": "Medium: files Office pourront être resynchronisés.",
       "method_en": "%localAPPDATA%\\Microsoft\\Office\\16.0\\OfficeFileCache",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -365,11 +393,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clean Cache Web Add-ins Office",
-      "description_en": "Nettoie le Cache WEF utilisé par les compléments Web Office avec rapport avant/après.",
+      "description_en": "Cleans the Cache WEF utilisé par the add-ins Web Office with rapport before/after.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : les compléments Web Reloadsront leurs ressources.",
+      "risk_en": "Medium: the add-ins Web will reload leurs resources.",
       "method_en": "%localAPPDATA%\\Microsoft\\Office\\16.0\\Wef",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -386,11 +415,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clean Outlook RoamCache",
-      "description_en": "Nettoie le RoamCache Outlook après Closesture du client et génère un rapport avant/après.",
+      "description_en": "Cleans the RoamCache Outlook after closure the client and Generates a rapport before/after.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : certaines Data local seront recréées.",
+      "risk_en": "Medium: certaines data local will be recréées.",
       "method_en": "%localAPPDATA%\\Microsoft\\Outlook\\RoamCache",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -407,10 +437,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Status Office / Click-to-Run",
-      "description_en": "Affiche Version, Channel et configuration Microsoft 365 Apps.",
+      "description_en": "Shows Version, Channel and configuration Microsoft 365 Apps.",
       "category_en": "Microsoft 365",
-      "method_en": "Registre ClickToRun Configuration",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "registry ClickToRun Configuration",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -426,11 +458,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-OfficeAddins | Select-Object App,Addin,FriendlyName,Description,LoadBehavior,Hive\n    Show-Grid \"Compléments Office\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Compléments Word / Excel / Outlook / PowerPoint",
-      "description_en": "Inventorie les COM Add-ins Office et leur LoadBehavior.",
+      "name_en": "add-ins Word / Excel / Outlook / PowerPoint",
+      "description_en": "Inventories the COM Add-ins Office and leur LoadBehavior.",
       "category_en": "Microsoft 365",
-      "method_en": "Registre Office 16.0 <App>\\Addins",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "registry Office 16.0 <App>\\Addins",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -447,11 +481,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Options macros Word / Excel / PowerPoint",
-      "description_en": "Lit les Settings User de Security VBA sans les modifier.",
+      "description_en": "Reads the Settings User of Security VBA without the modifier.",
       "category_en": "Microsoft 365",
       "risk_en": "Read-only",
-      "method_en": "Registre Office Security : VBAWarnings / AccessVBOM",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "registry Office Security: VBAWarnings / AccessVBOM",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -467,11 +502,13 @@ window.SSIT_DATA = {
       "script": "$p=Get-Process OUTLOOK -ErrorAction SilentlyContinue\n    $x=if($p){$p|Select-Object Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},StartTime|Format-Table -AutoSize|Out-String}else{\"Outlook n’est pas lancé.\"}\n    Show-Text \"Outlook\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Outlook - Status Processes",
-      "description_en": "Affiche PID, RAM et CPU Outlook.",
+      "name_en": "Outlook - Status processes",
+      "description_en": "Shows PID, RAM and CPU Outlook.",
       "category_en": "Microsoft 365",
       "method_en": "Get-Process OUTLOOK",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -488,11 +525,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Outlook - Safe Mode",
-      "description_en": "Lance Outlook avec les Extensions limitées pour isoler certains incidents.",
+      "description_en": "Opens or starts Outlook - Safe Mode.",
       "category_en": "Microsoft 365",
       "method_en": "outlook.exe /safe",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -508,12 +547,13 @@ window.SSIT_DATA = {
       "script": "if(Confirm-Action \"Outlook /resetnavpane\" \"Réinitialiser le volet de navigation Outlook ?\"){Start-Process outlook.exe -ArgumentList \"/resetnavpane\"}",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Outlook - Reset Navigation Pane",
-      "description_en": "Resets le volet de navigation Outlook.",
+      "name_en": "Outlook - Reset browsing Pane",
+      "description_en": "Resets the volet of browsing Outlook.",
       "category_en": "Microsoft 365",
-      "risk_en": "Faible : Resets la personnalisation du volet.",
+      "risk_en": "Faible: Resets the personnalisation the volet.",
       "method_en": "outlook.exe /resetnavpane",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -529,11 +569,13 @@ window.SSIT_DATA = {
       "script": "$paths=@(\"$env:LOCALAPPDATA\\Microsoft\\Outlook\",\"$env:USERPROFILE\\Documents\\Outlook Files\")\n    $r=@()\n    foreach($p in $paths){if(Test-Path $p){$r+=Get-ChildItem $p -File -ErrorAction SilentlyContinue|Where-Object{$_.Extension -in \".ost\",\".pst\"}|Select-Object FullName,@{N=\"GB\";E={[math]::Round($_.Length/1GB,2)}},LastWriteTime}}\n    Show-Text \"OST / PST\" ($r|Format-Table -Wrap -AutoSize|Out-String) -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Outlook - Files OST/PST",
-      "description_en": "Inventorie les Files de Data Outlook et leur taille.",
+      "name_en": "Outlook - files OST/PST",
+      "description_en": "Inventories the files of data Outlook and leur size.",
       "category_en": "Microsoft 365",
-      "method_en": "Get-ChildItem AppData Outlook + documents\\Outlook Files",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "Support procedure.",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -549,12 +591,14 @@ window.SSIT_DATA = {
       "script": "Open-LmsOutlookMailProfilesSafe",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Open Panneau Mail / Profilees Outlook",
-      "description_en": "Ouvre le panneau Mail Outlook classique pour gérer les Profilees.",
+      "name_en": "Open Panneau Mail / profiles Outlook",
+      "description_en": "Opens the panneau Mail Outlook classique for Manage the profiles.",
       "category_en": "Microsoft 365",
-      "method_en": "Recherche MLCFG32.CPL Office puis ouverture via control.exe.",
+      "method_en": "Recherche MLCFG32.CPL Office then ouverture via control.exe.",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -570,12 +614,14 @@ window.SSIT_DATA = {
       "script": "Open-LmsOutlookOstFolderSafe",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Open Folder OST Outlook - AppData",
-      "description_en": "Ouvre le Folder Outlook local de l'User, emplacement habituel des OST.",
+      "name_en": "Open Folder OST Outlook - Appdata",
+      "description_en": "Opens the Folder Outlook local of l'User, emplacement habituel the OST.",
       "category_en": "Microsoft 365",
       "method_en": "%localAPPDATA%\\Microsoft\\Outlook",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -591,12 +637,14 @@ window.SSIT_DATA = {
       "script": "Open-LmsOutlookPstFolderSafe",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Open Folder PST Outlook - documents",
-      "description_en": "Ouvre le Folder Outlook Files, emplacement courant des PST.",
+      "name_en": "Outlook - Microsoft 365 support action",
+      "description_en": "Opens the Folder Outlook files, emplacement courant the PST.",
       "category_en": "Microsoft 365",
-      "method_en": "%USERProfileE%\\documents\\Outlook Files",
+      "method_en": "Support procedure.",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -613,10 +661,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - Status",
-      "description_en": "Affiche Processes et Folder OneDrive.",
+      "description_en": "Shows processes and Folder OneDrive.",
       "category_en": "Microsoft 365",
       "method_en": "Get-Process OneDrive + variables environnement",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -632,11 +682,13 @@ window.SSIT_DATA = {
       "script": "$exe=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\OneDrive.exe\"; if(Test-Path $exe){Start-Process $exe -ArgumentList \"/shutdown\"}else{Show-Text \"OneDrive\" \"OneDrive.exe introuvable.\"}",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "OneDrive - Close proprement",
-      "description_en": "Demande à OneDrive de se Close.",
+      "name_en": "OneDrive - Close cleanly",
+      "description_en": "Demande à OneDrive of se Close.",
       "category_en": "Microsoft 365",
       "method_en": "OneDrive.exe /shutdown",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -653,11 +705,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - Force close",
-      "description_en": "Force la fin du Processes OneDrive comme le Manager des tâches.",
+      "description_en": "Force the fin the processes OneDrive comme the manager the tasks.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : Synchronization interrompue immédiatement.",
+      "risk_en": "Medium: synchronization interrupted immédiatement.",
       "method_en": "Stop-Process OneDrive -Force",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -674,11 +727,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - reLaunch",
-      "description_en": "Relance le client OneDrive.",
+      "description_en": "Relance the client OneDrive.",
       "category_en": "Microsoft 365",
       "method_en": "Start OneDrive.exe",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -695,11 +750,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "OneDrive - Reset",
-      "description_en": "Resets le client OneDrive puis permet de le reLaunch.",
+      "description_en": "Resets the client OneDrive then Allows of the reLaunch.",
       "category_en": "Microsoft 365",
-      "risk_en": "Medium : reSynchronization possible, pas de suppression des Files cloud.",
+      "risk_en": "Medium: resynchronization possible, pas of Removal the files cloud.",
       "method_en": "OneDrive.exe /reset",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -715,11 +771,13 @@ window.SSIT_DATA = {
       "script": "Show-Text \"Teams\" ((Get-Process *teams* -ErrorAction SilentlyContinue|Select-Object Name,Id,CPU,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}|Format-Table -AutoSize|Out-String)) -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Teams - Status / Processes",
-      "description_en": "Affiche les Processes Teams et leur consommation.",
+      "name_en": "Teams - Status / processes",
+      "description_en": "Shows the processes Teams and leur consommation.",
       "category_en": "Microsoft 365",
       "method_en": "Get-Process *teams*",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -736,11 +794,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Repair Office Windows",
-      "description_en": "Ouvre les Installed Applications pour accéder à Modifier/Repair Microsoft 365.",
+      "description_en": "Opens the Installed applications for accéder à Modifier/Repair Microsoft 365.",
       "category_en": "Microsoft 365",
       "method_en": "ms-settings:appsfeatures",
       "actionType_en": "Direct",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -756,12 +816,13 @@ window.SSIT_DATA = {
       "script": "$paths=@()\n    $base=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\"\n    if(Test-Path $base){\n        Get-ChildItem $base -Directory -ErrorAction SilentlyContinue |\n            Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"} |\n            ForEach-Object {\n                $paths += (Join-Path $_.FullName \"Cache\")\n                $paths += (Join-Path $_.FullName \"Code Cache\")\n                $paths += (Join-Path $_.FullName \"GPUCache\")\n            }\n    }\n    Invoke-CleanupReport -Name \"Edge - tous profils\" -Paths $paths -Processes @(\"msedge\")",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Clean Caches Edge - tous Profilees",
-      "description_en": "Nettoie Cache, Code Cache et GPUCache de tous les Profilees Edge avec rapport avant/après.",
+      "name_en": "Clean caches Edge - all profiles",
+      "description_en": "Cleans Cache, Code Cache and GPUCache of all profiles Edge with rapport before/after.",
       "category_en": "Browsers",
-      "risk_en": "Medium : pages and resources will be reloaded.",
-      "method_en": "Profilees Edge Default / Profilee *",
-      "webCategory_en": "Browsers"
+      "risk_en": "Medium: pages and resources will be reloaded.",
+      "method_en": "profiles Edge Default / Profilee *",
+      "webCategory_en": "Browsers",
+      "rights_en": ""
     },
     {
       "category": "Navigateurs",
@@ -777,12 +838,13 @@ window.SSIT_DATA = {
       "script": "$paths=@()\n    $base=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\"\n    if(Test-Path $base){\n        Get-ChildItem $base -Directory -ErrorAction SilentlyContinue |\n            Where-Object {$_.Name -eq \"Default\" -or $_.Name -like \"Profile *\"} |\n            ForEach-Object {\n                $paths += (Join-Path $_.FullName \"Cache\")\n                $paths += (Join-Path $_.FullName \"Code Cache\")\n                $paths += (Join-Path $_.FullName \"GPUCache\")\n            }\n    }\n    Invoke-CleanupReport -Name \"Chrome - tous profils\" -Paths $paths -Processes @(\"chrome\")",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Clean Caches Chrome - tous Profilees",
-      "description_en": "Nettoie Cache, Code Cache et GPUCache de tous les Profilees Chrome avec rapport avant/après.",
+      "name_en": "Clean caches Chrome - all profiles",
+      "description_en": "Cleans Cache, Code Cache and GPUCache of all profiles Chrome with rapport before/after.",
       "category_en": "Browsers",
-      "risk_en": "Medium : pages and resources will be reloaded.",
-      "method_en": "Profilees Chrome Default / Profilee *",
-      "webCategory_en": "Browsers"
+      "risk_en": "Medium: pages and resources will be reloaded.",
+      "method_en": "profiles Chrome Default / Profilee *",
+      "webCategory_en": "Browsers",
+      "rights_en": ""
     },
     {
       "category": "Navigateurs",
@@ -799,10 +861,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Status Chrome / Edge / Firefox",
-      "description_en": "Affiche les Processes et Versions détectées.",
+      "description_en": "Shows the processes and versions detected.",
       "category_en": "Browsers",
-      "method_en": "Processes + Inventory registre",
-      "webCategory_en": "Browsers"
+      "method_en": "processes + Inventory registry",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -818,11 +882,13 @@ window.SSIT_DATA = {
       "script": "Show-Text \"Caches navigateurs\" ((Get-BrowserCacheSize|Format-Table -Wrap -AutoSize|Out-String)) -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Taille des Caches",
-      "description_en": "Mesure les Caches principaux Chrome et Edge.",
+      "name_en": "size the caches",
+      "description_en": "Measures the caches main Chrome and Edge.",
       "category_en": "Browsers",
-      "method_en": "Analyse Folders Cache / Code Cache",
-      "webCategory_en": "Browsers"
+      "method_en": "Analyse folders Cache / Code Cache",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -839,11 +905,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Cleanup Cache Chrome",
-      "description_en": "Closes Chrome puis Deletes Cache et Code Cache du Profile Default.",
+      "description_en": "Closes Chrome then Deletes Cache and Code Cache the Profile Default.",
       "category_en": "Browsers",
-      "risk_en": "Medium : sessions web/Caches peuvent être reloaded. Les Passwords ne sont pas supprimés.",
-      "method_en": "Suppression ciblée des Folders Cache",
-      "webCategory_en": "Browsers"
+      "risk_en": "Medium: sessions web/caches peuvent être reloaded. the passwords ne are pas deleted.",
+      "method_en": "Removal targeted the folders Cache",
+      "webCategory_en": "Browsers",
+      "rights_en": ""
     },
     {
       "category": "Navigateurs",
@@ -860,11 +927,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Cleanup Cache Edge",
-      "description_en": "Closes Edge puis Deletes Cache et Code Cache du Profile Default.",
+      "description_en": "Closes Edge then Deletes Cache and Code Cache the Profile Default.",
       "category_en": "Browsers",
-      "risk_en": "Medium : Caches web reloaded. Bookmarks et Passwords non supprimés.",
-      "method_en": "Suppression ciblée des Folders Cache",
-      "webCategory_en": "Browsers"
+      "risk_en": "Medium: caches web reloaded. Bookmarks and passwords non deleted.",
+      "method_en": "Removal targeted the folders Cache",
+      "webCategory_en": "Browsers",
+      "rights_en": ""
     },
     {
       "category": "Navigateurs",
@@ -881,10 +949,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Back up Bookmarks Chrome / Edge",
-      "description_en": "Copie les Files Bookmarks des Profilees dans un Folder de sauvegarde sur le Bureau.",
+      "description_en": "Copies the files Bookmarks the profiles in a Folder of Backs up on the Bureau.",
       "category_en": "Browsers",
-      "method_en": "Copie des Files JSON Bookmarks",
-      "webCategory_en": "Browsers"
+      "method_en": "Copies the files JSON Bookmarks",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -900,12 +970,14 @@ window.SSIT_DATA = {
       "script": "Start-Process msedge.exe -ArgumentList \"edge://wallet/passwords\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Manager Passwords Edge",
-      "description_en": "Ouvre le Manager officiel des Passwords Edge. IT Pocket ne lit ni ne déchiffre les Passwords.",
+      "name_en": "manager passwords Edge",
+      "description_en": "Opens or starts manager passwords Edge.",
       "category_en": "Browsers",
       "method_en": "edge://wallet/passwords",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -921,12 +993,14 @@ window.SSIT_DATA = {
       "script": "Start-Process chrome.exe -ArgumentList \"chrome://password-manager/passwords\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Manager Passwords Chrome",
-      "description_en": "Ouvre le Manager officiel Chrome. L'export éventuel reste soumis à l'Authentication Windows.",
+      "name_en": "manager passwords Chrome",
+      "description_en": "Opens the manager official Chrome. L'export éventuel reste soumis à l'Authentication Windows.",
       "category_en": "Browsers",
       "method_en": "chrome://password-manager/passwords",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -942,12 +1016,14 @@ window.SSIT_DATA = {
       "script": "Start-Process msedge.exe -ArgumentList \"edge://extensions\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Extensions Edge",
-      "description_en": "Ouvre la page des Extensions Edge.",
+      "name_en": "extensions Edge",
+      "description_en": "Opens the page the extensions Edge.",
       "category_en": "Browsers",
-      "method_en": "edge://Extensions",
+      "method_en": "edge://extensions",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -963,12 +1039,14 @@ window.SSIT_DATA = {
       "script": "Start-Process chrome.exe -ArgumentList \"chrome://extensions\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Extensions Chrome",
-      "description_en": "Ouvre la page des Extensions Chrome.",
+      "name_en": "extensions Chrome",
+      "description_en": "Opens the page the extensions Chrome.",
       "category_en": "Browsers",
-      "method_en": "chrome://Extensions",
+      "method_en": "chrome://extensions",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -984,12 +1062,14 @@ window.SSIT_DATA = {
       "script": "Start-Process msedge.exe -ArgumentList \"edge://settings/clearBrowserData\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Effacer Data navigateur Edge",
-      "description_en": "Ouvre directement l'écran officiel de suppression des Data.",
+      "name_en": "Effacer data browser Edge",
+      "description_en": "Opens directement l'écran official of Removal the data.",
       "category_en": "Browsers",
-      "method_en": "edge://settings/clearBrowserData",
+      "method_en": "edge://settings/clearBrowserdata",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Navigateurs",
@@ -1005,12 +1085,14 @@ window.SSIT_DATA = {
       "script": "Start-Process chrome.exe -ArgumentList \"chrome://settings/clearBrowserData\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Effacer Data navigateur Chrome",
-      "description_en": "Ouvre directement l'écran officiel de suppression des Data.",
+      "name_en": "Effacer data browser Chrome",
+      "description_en": "Opens directement l'écran official of Removal the data.",
       "category_en": "Browsers",
-      "method_en": "chrome://settings/clearBrowserData",
+      "method_en": "chrome://settings/clearBrowserdata",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1027,10 +1109,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Résumé Network SIMPLE",
-      "description_en": "Affiche en priorité interface active, IPv4, MAC, Gateway et DNS.",
+      "description_en": "Shows en priorité interface active, IPv4, MAC, Gateway and DNS.",
       "category_en": "Network",
       "method_en": "Get-NetIPConfiguration / Get-NetAdapter",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1047,10 +1131,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Tester Internet",
-      "description_en": "Teste la Connectivity IP sans dépendre du DNS.",
+      "description_en": "Displays or checks technical information for Tester Internet.",
       "category_en": "Network",
       "method_en": "ping 1.1.1.1",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1067,10 +1153,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Tester DNS",
-      "description_en": "Teste une résolution DNS publique.",
+      "description_en": "Tests a resolution DNS publique.",
       "category_en": "Network",
       "method_en": "Resolve-DnsName microsoft.com",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1087,11 +1175,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Gateway / box",
-      "description_en": "Détecte la Gateway IPv4 et ouvre son interface HTTP.",
+      "description_en": "Detects the Gateway IPv4 and Opens son interface HTTP.",
       "category_en": "Network",
-      "method_en": "Get-NetRoute / navigateur",
+      "method_en": "Get-NetRoute / browser",
       "actionType_en": "Direct",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1108,10 +1198,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "IPCONFIG /ALL",
-      "description_en": "Affiche la configuration Network complète Windows.",
+      "description_en": "Shows the configuration Network complète Windows.",
       "category_en": "Network",
       "method_en": "ipconfig /all",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1128,10 +1220,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "ARP / Devices vus",
-      "description_en": "Affiche les adresses IP/MAC présentes dans le Cache ARP local.",
+      "description_en": "Shows the adresses IP/MAC present in the Cache ARP local.",
       "category_en": "Network",
       "method_en": "arp -a",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1148,10 +1242,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Routes",
-      "description_en": "Affiche la table de routage Windows.",
+      "description_en": "Shows the table of routage Windows.",
       "category_en": "Network",
       "method_en": "route print",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -1168,11 +1264,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Flush DNS",
-      "description_en": "Vide uniquement le Cache DNS local.",
+      "description_en": "Vide only the Cache DNS local.",
       "category_en": "Network",
       "risk_en": "Low",
       "method_en": "ipconfig /flushdns",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": ""
     },
     {
       "category": "Réseau",
@@ -1189,10 +1286,10 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Renew DHCP",
-      "description_en": "Renouvelle les baux DHCP.",
+      "description_en": "Renews the baux DHCP.",
       "category_en": "Network",
       "rights_en": "May require administrator rights",
-      "risk_en": "Medium : coupure Network temporary.",
+      "risk_en": "Medium: coupure Network temporary.",
       "method_en": "ipconfig /renew",
       "webCategory_en": "Network & Remote Access"
     },
@@ -1211,10 +1308,10 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Reset Winsock",
-      "description_en": "Resets le catalogue Winsock.",
+      "description_en": "Resets the catalogue Winsock.",
       "category_en": "Network",
       "rights_en": "Administrator",
-      "risk_en": "Medium : reStartup souvent nécessaire.",
+      "risk_en": "Medium: reStartup souvent nécessaire.",
       "method_en": "netsh winsock reset",
       "webCategory_en": "Network & Remote Access"
     },
@@ -1232,11 +1329,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-Printer -ErrorAction SilentlyContinue | Select-Object Name,DriverName,PortName,PrinterStatus,Default\n    Show-Grid \"Imprimantes\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "List Printers / ports",
-      "description_en": "Affiche Printers, drivers, ports et statut.",
+      "name_en": "Lists Printers / ports",
+      "description_en": "Shows Printers, drivers, ports and Status.",
       "category_en": "Printers",
       "method_en": "Get-Printer",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Imprimantes",
@@ -1253,11 +1352,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Printers Windows",
-      "description_en": "Ouvre les Settings Printers.",
+      "description_en": "Opens the Settings Printers.",
       "category_en": "Printers",
       "method_en": "ms-settings:printers",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Imprimantes",
@@ -1274,10 +1375,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Status Spooler",
-      "description_en": "Affiche l'Status du Service d'impression.",
+      "description_en": "Shows l'Status the Service d'impression.",
       "category_en": "Printers",
       "method_en": "Get-Service Spooler",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Imprimantes",
@@ -1294,10 +1397,10 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Restart Spooler",
-      "description_en": "Redémarre le Service d'impression.",
+      "description_en": "Redémarre the Service d'impression.",
       "category_en": "Printers",
       "rights_en": "Administrator",
-      "risk_en": "Medium : impressions temporarily interrompues.",
+      "risk_en": "Medium: printing temporarily interrompues.",
       "method_en": "Restart-Service Spooler",
       "webCategory_en": "Devices & Drivers"
     },
@@ -1316,11 +1419,11 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clear file Spooler",
-      "description_en": "Shutdowne le Service, Deletes les jobs du spool puis redémarre.",
+      "description_en": "Shutdowne the Service, Deletes the jobs the spool then redémarre.",
       "category_en": "Printers",
       "rights_en": "Administrator",
       "risk_en": "High: deletes all pending print jobs.",
-      "method_en": "Stop-Service Spooler; suppression PRINTERS; Start-Service",
+      "method_en": "Stop-Service Spooler; Removal PRINTERS; Start-Service",
       "webCategory_en": "Devices & Drivers"
     },
     {
@@ -1337,11 +1440,13 @@ window.SSIT_DATA = {
       "script": "$ports=Get-PrinterPort -ErrorAction SilentlyContinue|Where-Object{$_.PrinterHostAddress}\n    $txt=$ports|Select-Object Name,PrinterHostAddress,PortNumber|Format-Table -AutoSize|Out-String\n    Show-Text \"Ports imprimantes\" ($txt+\"`r`nCopiez une IP dans le navigateur pour ouvrir l'interface Web.\") -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Interfaces Web Printers",
-      "description_en": "Détecte les ports TCP/IP d'Printers et propose leurs adresses.",
+      "name_en": "interfaces Web Printers",
+      "description_en": "Detects the ports TCP/IP d'Printers and propose leurs adresses.",
       "category_en": "Printers",
       "method_en": "Get-PrinterPort",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -1357,11 +1462,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-PnpDevice -ErrorAction SilentlyContinue | Where-Object Status -ne \"OK\" | Select-Object Class,FriendlyName,Status,InstanceId\n    Show-Grid \"Périphériques en erreur\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Devices en erreur",
-      "description_en": "Affiche les Devices PnP non OK.",
+      "name_en": "Devices en error",
+      "description_en": "Shows the Devices PnP non OK.",
       "category_en": "Devices",
       "method_en": "Get-PnpDevice",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -1378,10 +1485,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Bluetooth détecté",
-      "description_en": "List les Devices de classe Bluetooth.",
+      "description_en": "Lists the Devices of classe Bluetooth.",
       "category_en": "Devices",
       "method_en": "Get-PnpDevice -Class Bluetooth",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -1398,11 +1507,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Bluetooth",
-      "description_en": "Ouvre la page Windows Bluetooth pour ajout/suppression.",
+      "description_en": "Opens the page Windows Bluetooth for ajout/Removal.",
       "category_en": "Devices",
       "method_en": "ms-settings:bluetooth",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -1418,12 +1529,14 @@ window.SSIT_DATA = {
       "script": "Start-Process devmgmt.msc",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Manager de Devices",
-      "description_en": "Ouvre Device Manager.",
+      "name_en": "manager of Devices",
+      "description_en": "Opens Device manager.",
       "category_en": "Devices",
       "method_en": "devmgmt.msc",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -1439,12 +1552,13 @@ window.SSIT_DATA = {
       "script": "Show-Result \"Rescan matériel\" (Invoke-SafeProcess pnputil.exe \"/scan-devices\" 45)",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Rescan matériel",
-      "description_en": "Demande à Windows de rescanner les Devices.",
+      "name_en": "Devices support action",
+      "description_en": "Demande à Windows of rescanner the Devices.",
       "category_en": "Devices",
       "rights_en": "Administrator recommended",
       "method_en": "pnputil /scan-devices",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "risk_en": ""
     },
     {
       "category": "Windows Update",
@@ -1461,10 +1575,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Windows Update",
-      "description_en": "Ouvre Windows Update.",
+      "description_en": "Opens Windows Update.",
       "category_en": "Windows Update",
       "method_en": "ms-settings:windowsupdate",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Windows Update",
@@ -1481,10 +1597,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "ReStartup requis ?",
-      "description_en": "Contrôle plusieurs indicateurs de reboot pending.",
+      "description_en": "Checks multiple indicateurs of reboot pending.",
       "category_en": "Windows Update",
-      "method_en": "Registre CBS / Windows Update",
-      "webCategory_en": "Windows Update"
+      "method_en": "registry CBS / Windows Update",
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Windows Update",
@@ -1501,10 +1619,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Services Windows Update",
-      "description_en": "Affiche les Services WU, BITS et CryptSvc.",
+      "description_en": "Shows the Services WU, BITS and CryptSvc.",
       "category_en": "Windows Update",
       "method_en": "Get-Service wuauserv,bits,cryptsvc",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1521,10 +1641,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Centre SCCM / Intune",
-      "description_en": "Information poste + Synchronization complète SCCM + Synchronization locale Intune/MDM + accès Company Portal.",
+      "description_en": "Technical support action for Centre SCCM / Intune.",
       "category_en": "Intune / Entra",
       "method_en": "SMS_Client TriggerSchedule + EnterpriseMgmt + dsregcmd",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1541,11 +1663,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "SCCM - Tout Sync",
-      "description_en": "Déclenche les cycles principaux Configuration Manager et génère un rapport.",
+      "description_en": "Triggers the cycles main Configuration manager and Generates a rapport.",
       "category_en": "Intune / Entra",
       "rights_en": "Administrator recommended",
-      "method_en": "Machine/User Policy, Hardware/Software Inventory, Updates Scan/Evaluation, Application Evaluation",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "method_en": "Machine/User Policy, Hardware/Software Inventory, Updates Scan/Evaluation, application Evaluation",
+      "webCategory_en": "Intune / Entra / SCCM",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1562,11 +1685,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Intune / MDM - Sync",
-      "description_en": "Déclenche les tâches local EnterpriseMgmt disponibles et compare avant/après.",
+      "description_en": "Triggers the tasks local EnterpriseMgmt available and compare before/after.",
       "category_en": "Intune / Entra",
       "rights_en": "Administrator recommended",
       "method_en": "Scheduled Tasks EnterpriseMgmt / PushLaunch / Schedule*",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1583,10 +1707,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "DSREGCMD - résumé",
-      "description_en": "Affiche uniquement les Information Entra/MDM utiles au support.",
+      "description_en": "Shows only the Information Entra/MDM useful to the support.",
       "category_en": "Intune / Entra",
-      "method_en": "dsregcmd /status puis extraction des champs utiles",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "method_en": "dsregcmd /status then extraction the champs useful",
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1603,10 +1729,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "DSREGCMD - sortie complète",
-      "description_en": "Affiche la sortie brute complète pour Diagnostic avancé.",
+      "description_en": "Shows the sortie brute complète for Diagnostic avancé.",
       "category_en": "Intune / Entra",
       "method_en": "dsregcmd /status",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1623,11 +1751,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Accounts professionnels",
-      "description_en": "Ouvre Accès professionnel ou scolaire.",
+      "description_en": "Opens or starts Accounts professionnels.",
       "category_en": "Intune / Entra",
       "method_en": "ms-settings:workplace",
       "actionType_en": "Direct",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1644,10 +1774,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "SCCM - Status client",
-      "description_en": "Vérifie Service CcmExec et namespace client.",
+      "description_en": "Checks Service CcmExec and namespace client.",
       "category_en": "Intune / Entra",
       "method_en": "Get-Service CcmExec / WMI CCM",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -1664,11 +1796,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "SCCM - panneau client",
-      "description_en": "Ouvre le panneau Configuration Manager si présent.",
+      "description_en": "Opens the panneau Configuration manager si present.",
       "category_en": "Intune / Entra",
       "method_en": "control.exe smscfgrc",
       "actionType_en": "Direct",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "VPN / Citrix",
@@ -1685,10 +1819,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Détecter VPN / Citrix",
-      "description_en": "Recherche les principaux clients VPN et Citrix installés.",
+      "description_en": "Technical support action for Détecter VPN / Citrix.",
       "category_en": "VPN / Citrix",
-      "method_en": "Inventory Applications + Processes",
-      "webCategory_en": "Network & Remote Access"
+      "method_en": "Inventory applications + processes",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "VPN / Citrix",
@@ -1704,11 +1840,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-Process -ErrorAction SilentlyContinue|Where-Object{$_.Name -match \"citrix|receiver|wfica|forti|pulse|ivanti|vpn|pangp|cisco\"}|Select-Object Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}}\n    Show-Text \"Processus VPN/Citrix\" ($x|Format-Table -AutoSize|Out-String) -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Processes VPN / Citrix",
-      "description_en": "Affiche les Processes correspondant aux principaux clients.",
+      "name_en": "processes VPN / Citrix",
+      "description_en": "Shows the processes correspondant to the main clients.",
       "category_en": "VPN / Citrix",
       "method_en": "Get-Process filtré",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "VPN / Citrix",
@@ -1725,11 +1863,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Citrix Workspace - Reset",
-      "description_en": "Lance l’outil de reset Citrix s'il existe.",
+      "description_en": "Runs l’outil of reset Citrix s'il existe.",
       "category_en": "VPN / Citrix",
-      "risk_en": "Medium : Citrix sessions/local configuration affected.",
-      "method_en": "SelfServicePlugin.exe -clean / Receiver reset selon installation",
-      "webCategory_en": "Network & Remote Access"
+      "risk_en": "Medium: Citrix sessions/local configuration affected.",
+      "method_en": "Support procedure.",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": ""
     },
     {
       "category": "Nettoyage",
@@ -1745,11 +1884,13 @@ window.SSIT_DATA = {
       "script": "$rows=@(\n        [pscustomobject]@{Zone=\"TEMP utilisateur\";Path=$env:TEMP;MB=(Measure-FolderMB $env:TEMP)}\n        [pscustomobject]@{Zone=\"Windows TEMP\";Path=\"$env:windir\\Temp\";MB=(Measure-FolderMB \"$env:windir\\Temp\")}\n        [pscustomobject]@{Zone=\"CrashDumps\";Path=\"$env:LOCALAPPDATA\\CrashDumps\";MB=(Measure-FolderMB \"$env:LOCALAPPDATA\\CrashDumps\")}\n        [pscustomobject]@{Zone=\"WER\";Path=\"$env:LOCALAPPDATA\\Microsoft\\Windows\\WER\";MB=(Measure-FolderMB \"$env:LOCALAPPDATA\\Microsoft\\Windows\\WER\")}\n    )\n    Show-Text \"Analyse nettoyage\" (($rows|Format-Table -AutoSize|Out-String)+\"`r`n\"+(Get-BrowserCacheSize|Format-Table -Wrap -AutoSize|Out-String)) -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Analyser tous les Cleanups",
-      "description_en": "Mesure plusieurs zones sans Deletesr.",
+      "name_en": "Analyser all Cleanups",
+      "description_en": "Measures multiple zones without Deletesr.",
       "category_en": "Cleanup",
-      "method_en": "Analyse TEMP, Windows TEMP, dumps, Caches navigateurs.",
-      "webCategory_en": "System"
+      "method_en": "Analyse TEMP, Windows TEMP, dumps, caches navigateurs.",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Nettoyage",
@@ -1766,11 +1907,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clean TEMP User",
-      "description_en": "Deletes le contenu temporaire accessible du Profile courant.",
+      "description_en": "Deletes the contenu temporaire accessible the Profile courant.",
       "category_en": "Cleanup",
-      "risk_en": "Low to medium : Files verrouillés ignorés.",
+      "risk_en": "Low to medium: files verrouillés ignorés.",
       "method_en": "Remove-Item $env:TEMP\\*",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": ""
     },
     {
       "category": "Nettoyage",
@@ -1787,7 +1929,7 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clean Windows TEMP",
-      "description_en": "Deletes les Temporary files Windows accessibles.",
+      "description_en": "Deletes the Temporary files Windows accessibles.",
       "category_en": "Cleanup",
       "rights_en": "Administrator recommended",
       "risk_en": "Medium",
@@ -1809,11 +1951,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Clear Corbeille",
-      "description_en": "Vide la corbeille de l'User.",
+      "description_en": "Vide the corbeille of l'User.",
       "category_en": "Cleanup",
       "risk_en": "High: permanently empties the Recycle Bin.",
       "method_en": "Clear-RecycleBin -Force",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": ""
     },
     {
       "category": "Nettoyage",
@@ -1830,11 +1973,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Crash Dumps",
-      "description_en": "Deletes les dumps applicatifs du Profile courant.",
+      "description_en": "Deletes the dumps applicatifs the Profile courant.",
       "category_en": "Cleanup",
-      "risk_en": "Medium : perdez des items useful for future diagnostics.",
-      "method_en": "Suppression %localAPPDATA%\\CrashDumps",
-      "webCategory_en": "System"
+      "risk_en": "Medium: perdez the items useful for future diagnostics.",
+      "method_en": "Removal %localAPPDATA%\\CrashDumps",
+      "webCategory_en": "System",
+      "rights_en": ""
     },
     {
       "category": "Système",
@@ -1850,11 +1994,13 @@ window.SSIT_DATA = {
       "script": "$x=Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 25 Name,Id,@{N=\"RAM_MB\";E={[math]::Round($_.WorkingSet64/1MB,1)}},@{N=\"CPU_s\";E={[math]::Round($_.CPU,1)}}\n    Show-Grid \"Performance - processus\" $x -AddToReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "CPU / RAM / Processes",
-      "description_en": "Affiche les Processes les plus consommateurs.",
+      "name_en": "CPU / RAM / processes",
+      "description_en": "Shows the processes the plus consommateurs.",
       "category_en": "System",
       "method_en": "Get-Process",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1871,10 +2017,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Disks / Free space",
-      "description_en": "Affiche capacité et Free space.",
+      "description_en": "Shows capacité and Free space.",
       "category_en": "System",
       "method_en": "Win32_LogicalDisk",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1891,10 +2039,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Événements critiques / erreurs 24h",
-      "description_en": "Récupère System et Application Level 1/2 sur 24h.",
+      "description_en": "Récupère System and application Level 1/2 on 24h.",
       "category_en": "System",
       "method_en": "Get-WinEvent FilterHashtable",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1911,11 +2061,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "SFC /verifyonly",
-      "description_en": "Vérifie l'intégrité des Files système sans Repair.",
+      "description_en": "Performs a repair or reset for SFC /verifyonly.",
       "category_en": "System",
       "rights_en": "Administrator",
       "method_en": "sfc /verifyonly",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1932,10 +2083,10 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "SFC /scannow",
-      "description_en": "Analyse et répare les Files système Windows.",
+      "description_en": "Displays or checks technical information for SFC /scannow.",
       "category_en": "System",
       "rights_en": "Administrator",
-      "risk_en": "Medium : system components are modified.",
+      "risk_en": "Medium: system components are modified.",
       "method_en": "sfc /scannow",
       "webCategory_en": "System"
     },
@@ -1954,11 +2105,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "DISM CheckHealth",
-      "description_en": "Vérifie si l'image Windows est marquée comme corrompue.",
+      "description_en": "Checks si l'image Windows is marquée comme corrompue.",
       "category_en": "System",
       "rights_en": "Administrator",
       "method_en": "DISM /Online /Cleanup-Image /CheckHealth",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1975,11 +2127,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "DISM ScanHealth",
-      "description_en": "Analyse l'image Windows pour détecter une corruption.",
+      "description_en": "Analyse l'image Windows for détecter a corruption.",
       "category_en": "System",
       "rights_en": "Administrator",
       "method_en": "DISM /Online /Cleanup-Image /ScanHealth",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -1996,10 +2149,10 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "DISM RestoreHealth",
-      "description_en": "Tente de Repair l'image Windows.",
+      "description_en": "Tente of Repair l'image Windows.",
       "category_en": "System",
       "rights_en": "Administrator",
-      "risk_en": "Medium : Repair système, may use Windows Update.",
+      "risk_en": "Medium: Repair système, may use Windows Update.",
       "method_en": "DISM /Online /Cleanup-Image /RestoreHealth",
       "webCategory_en": "System"
     },
@@ -2018,11 +2171,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "CHKDSK scan C:",
-      "description_en": "Analyse en ligne le volume C: sans planifier de Repair au reboot.",
+      "description_en": "Analyse en ligne the volume C: without planifier of Repair to the reboot.",
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "method_en": "chkdsk C: /scan",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "risk_en": ""
     },
     {
       "category": "Winget",
@@ -2039,10 +2193,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Winget list",
-      "description_en": "List les Applications connues de Winget.",
+      "description_en": "Lists the applications connues of Winget.",
       "category_en": "Winget",
       "method_en": "winget list",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Winget",
@@ -2058,11 +2214,13 @@ window.SSIT_DATA = {
       "script": "Show-Result \"Winget upgrade\" (Invoke-SafeProcess winget.exe \"upgrade --accept-source-agreements\" 180)",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Updates disponibles",
-      "description_en": "Affiche les packages pouvant être mis à jour.",
+      "name_en": "Updates available",
+      "description_en": "Shows the packages pouvant être mis à jour.",
       "category_en": "Winget",
       "method_en": "winget upgrade",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Winget",
@@ -2079,11 +2237,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Mettre tout à jour",
-      "description_en": "Lance la Update de tous les packages Winget compatibles.",
+      "description_en": "Runs the Update of all packages Winget compatibles.",
       "category_en": "Winget",
-      "risk_en": "Medium : multiple applications are modified.",
+      "risk_en": "Medium: multiple applications are modified.",
       "method_en": "winget upgrade --all",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": ""
     },
     {
       "category": "Winget",
@@ -2100,10 +2259,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Winget source list",
-      "description_en": "Affiche les sources Winget configurées.",
+      "description_en": "Shows the sources Winget configurées.",
       "category_en": "Winget",
       "method_en": "winget source list",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Outils Tech",
@@ -2118,12 +2279,14 @@ window.SSIT_DATA = {
       "webCategory": "Outils Support",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Ouvre l’outil Windows $n.",
+      "name_en": "Opens l’outil Windows $n.",
       "description_en": "$exe $args",
       "category_en": "Tech Tools",
       "method_en": "Direct",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Outils Tech",
@@ -2140,12 +2303,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "PowerShell Admin",
-      "description_en": "Ouvre PowerShell avec élévation UAC.",
+      "description_en": "Opens PowerShell with élévation UAC.",
       "category_en": "Tech Tools",
       "rights_en": "Administrator",
       "method_en": "powershell.exe (RunAs)",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "risk_en": ""
     },
     {
       "category": "Outils Tech",
@@ -2162,12 +2326,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "CMD Admin",
-      "description_en": "Ouvre CMD avec élévation UAC.",
+      "description_en": "Opens CMD with élévation UAC.",
       "category_en": "Tech Tools",
       "rights_en": "Administrator",
       "method_en": "cmd.exe (RunAs)",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "risk_en": ""
     },
     {
       "category": "Liens Microsoft",
@@ -2182,12 +2347,14 @@ window.SSIT_DATA = {
       "webCategory": "Outils Support",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Ouvre $name dans le navigateur.",
+      "name_en": "Opens $name in the browser.",
       "description_en": "Direct",
       "category_en": "Microsoft Links",
       "method_en": "Open-Uri '$url'",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Liens Microsoft",
@@ -2204,10 +2371,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Configurer liens entreprise",
-      "description_en": "Crée/ouvre un File texte où noter ServiceNow, KPI, KB, Remote Support et autres portails internes.",
+      "description_en": "Creates/Opens a File texte où noter ServiceNow, KPI, KB, Remote Support and autres portails internes.",
       "category_en": "Microsoft Links",
       "method_en": "File SuperSupportIT\\custom-links.txt",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Liens Microsoft",
@@ -2222,12 +2391,14 @@ window.SSIT_DATA = {
       "webCategory": "Outils Support",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Ouvre $name dans le navigateur.",
+      "name_en": "Opens $name in the browser.",
       "description_en": "Direct",
       "category_en": "Microsoft Links",
       "method_en": "Open-Uri '$url'",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2244,11 +2415,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open Edge",
-      "description_en": "Lance Microsoft Edge directement depuis IT Pocket.",
+      "description_en": "Runs Microsoft Edge directement depuis IT Pocket.",
       "category_en": "Edge",
       "method_en": "msedge.exe",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2265,10 +2438,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Mes Bookmarks Edge",
-      "description_en": "Affiche tous les Bookmarks Edge locaux, tous Profilees, avec recherche, ouverture et copie de lien.",
+      "description_en": "Shows all Bookmarks Edge local, all profiles, with recherche, ouverture and Copies of lien.",
       "category_en": "Edge",
-      "method_en": "Read-only locale des Files Bookmarks Edge",
-      "webCategory_en": "Browsers"
+      "method_en": "Read-only local the files Bookmarks Edge",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2284,12 +2459,14 @@ window.SSIT_DATA = {
       "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://extensions\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Extensions Edge",
-      "description_en": "Ouvre la gestion des Extensions Edge.",
+      "name_en": "extensions Edge",
+      "description_en": "Opens the management the extensions Edge.",
       "category_en": "Edge",
-      "method_en": "edge://Extensions",
+      "method_en": "edge://extensions",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2305,12 +2482,14 @@ window.SSIT_DATA = {
       "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://wallet/passwords\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Passwords Edge",
-      "description_en": "Ouvre le Manager officiel des Passwords Edge.",
+      "name_en": "passwords Edge",
+      "description_en": "Opens the manager official the passwords Edge.",
       "category_en": "Edge",
       "method_en": "edge://wallet/passwords",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2326,12 +2505,14 @@ window.SSIT_DATA = {
       "script": "Start-SupportTarget -FilePath \"msedge.exe\" -Arguments \"edge://settings/clearBrowserData\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Effacer Data Edge",
-      "description_en": "Ouvre la page officielle de suppression des Data de navigation.",
+      "name_en": "Effacer data Edge",
+      "description_en": "Opens the page official of Removal the data of browsing.",
       "category_en": "Edge",
-      "method_en": "edge://settings/clearBrowserData",
+      "method_en": "edge://settings/clearBrowserdata",
       "actionType_en": "Direct",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -2348,10 +2529,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Diagnostic Edge",
-      "description_en": "Collecte Version, Processes, Profilees, Bookmarks et Settings proxy pour ticket.",
+      "description_en": "Collecte Version, processes, profiles, Bookmarks and Settings proxy for ticket.",
       "category_en": "Edge",
-      "method_en": "Registre + Processes + Profilees Edge + Internet Settings",
-      "webCategory_en": "System"
+      "method_en": "registry + processes + profiles Edge + Internet Settings",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Mes Apps",
@@ -2367,11 +2550,13 @@ window.SSIT_DATA = {
       "script": "Show-VisualApps",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Toutes les Applications visuelles",
-      "description_en": "Affiche toutes les Applications détectées avec leur icône, Status, ouverture, Diagnostic et maintenance.",
+      "name_en": "all applications visuelles",
+      "description_en": "Shows all applications detected with leur icône, Status, ouverture, Diagnostic and maintenance.",
       "category_en": "My Apps",
-      "method_en": "Icône executable + Processes + Version + Prefetch",
-      "webCategory_en": "Applications"
+      "method_en": "Icône executable + processes + Version + Prefetch",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Mes Apps",
@@ -2387,11 +2572,13 @@ window.SSIT_DATA = {
       "script": "Show-AppLauncher",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Lanceur Applications",
-      "description_en": "Lance vos Applications principales depuis IT Pocket sans passer par le menu Démarrer.",
+      "name_en": "Lanceur applications",
+      "description_en": "Runs vos applications main depuis IT Pocket without passer par the menu Démarrer.",
       "category_en": "My Apps",
       "method_en": "Inventory local + App Paths + InstallLocation",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Mes Apps",
@@ -2407,11 +2594,13 @@ window.SSIT_DATA = {
       "script": "Show-AppSupportCenter",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Centre Applications support",
-      "description_en": "Status, Version, PID, Latest exécution observée, Closesture et actions support.",
+      "name_en": "Centre applications support",
+      "description_en": "Status, Version, PID, Latest execution observed, closure and actions support.",
       "category_en": "My Apps",
-      "method_en": "Processes + App Paths + Prefetch",
-      "webCategory_en": "Applications"
+      "method_en": "processes + App Paths + Prefetch",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Mes Apps",
@@ -2428,10 +2617,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Repair / Modifier / Reset",
-      "description_en": "Ouvre la console de maintenance applicative.",
+      "description_en": "Opens the console of maintenance applicative.",
       "category_en": "My Apps",
       "method_en": "ModifyPath + MSI + options spécifiques",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -2448,10 +2639,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Collecte complète ticket",
-      "description_en": "Collecte poste, applicatif, Network, système/infra et Web dans un TXT + JSON prêts pour escalade.",
+      "description_en": "Technical support action for Collecte complète ticket.",
       "category_en": "Diagnostics & Escalation",
-      "method_en": "CIM + Event Logs + Network + dsregcmd + Applications + navigateurs",
-      "webCategory_en": "System"
+      "method_en": "CIM + Event Logs + Network + dsregcmd + applications + navigateurs",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -2468,10 +2661,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Collecte Applicatif",
-      "description_en": "Prépare les Data utiles pour une équipe applicative : Versions, Processes, erreurs et contexte poste.",
+      "description_en": "Displays or checks technical information for Collecte Applicatif.",
       "category_en": "Diagnostics & Escalation",
-      "method_en": "Applications + Processes + Event Log Application",
-      "webCategory_en": "System"
+      "method_en": "applications + processes + Event Log application",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -2488,10 +2683,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Collecte Network",
-      "description_en": "Prépare IP/MAC/DNS/Gateway, tests, VPN, proxy et routes pour l'équipe Network.",
+      "description_en": "Prepares IP/MAC/DNS/Gateway, tests, VPN, proxy and routes for l'équipe Network.",
       "category_en": "Diagnostics & Escalation",
       "method_en": "Get-NetIPConfiguration + Test-NetConnection + route + proxy",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -2507,11 +2704,13 @@ window.SSIT_DATA = {
       "script": "Export-EscalationTicket -Scope \"Système\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Collecte Système / Infra",
-      "description_en": "Prépare Services, événements système, Devices et Status du poste pour infra/sysadmin.",
+      "name_en": "Diagnostics & Escalation support action",
+      "description_en": "Displays or checks technical information for Diagnostics & Escalation support action.",
       "category_en": "Diagnostics & Escalation",
       "method_en": "Services + Event Log System + PnP + CIM",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -2528,10 +2727,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Collecte Web",
-      "description_en": "Prépare Versions navigateurs, proxy, PAC et Information Edge pour équipe Web.",
+      "description_en": "Prepares versions navigateurs, proxy, PAC and Information Edge for équipe Web.",
       "category_en": "Diagnostics & Escalation",
       "method_en": "Navigateurs + Internet Settings + Bookmarks Edge",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2547,11 +2748,13 @@ window.SSIT_DATA = {
       "script": "Export-LocalInventory",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Inventory matériel local",
-      "description_en": "Collecte constructeur, modèle, serial, BIOS, Windows, CPU, RAM, Disk et Network puis exporte CSV + JSON.",
+      "name_en": "Scripts & Inventories support action",
+      "description_en": "Collecte constructeur, model, serial, BIOS, Windows, CPU, RAM, Disk and Network then exporte CSV + JSON.",
       "category_en": "Scripts & Inventories",
       "method_en": "CIM / WMI + Get-NetIPConfiguration",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2567,11 +2770,13 @@ window.SSIT_DATA = {
       "script": "Export-InstalledApplicationsInventory",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Inventory Applications",
-      "description_en": "Exporte les logiciels installés, Versions, éditeurs et chemins.",
+      "name_en": "Inventory applications",
+      "description_en": "Exporte the installed software, versions, éditeurs and chemins.",
       "category_en": "Scripts & Inventories",
-      "method_en": "Registre Uninstall HKLM/HKCU",
-      "webCategory_en": "Outils Support"
+      "method_en": "registry Uninstall HKLM/HKCU",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2588,10 +2793,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Inventory drivers",
-      "description_en": "Exporte les Drivers installés avec Version, fournisseur, date et INF.",
+      "description_en": "Displays or checks technical information for Inventory drivers.",
       "category_en": "Scripts & Inventories",
       "method_en": "Win32_PnPSignedDriver",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2608,10 +2815,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Inventory Network",
-      "description_en": "Exporte cartes Network, MAC, IPv4, Gateway, DNS et vitesse.",
+      "description_en": "Exporte cartes Network, MAC, IPv4, Gateway, DNS and vitesse.",
       "category_en": "Scripts & Inventories",
       "method_en": "Get-NetAdapter + Get-NetIPConfiguration",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2628,10 +2837,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Inventory Printers",
-      "description_en": "Exporte Printers, Drivers, ports et statut.",
+      "description_en": "Exporte Printers, Drivers, ports and Status.",
       "category_en": "Scripts & Inventories",
       "method_en": "Get-Printer",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2647,11 +2858,13 @@ window.SSIT_DATA = {
       "script": "Export-OfficeAddinsInventory",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Inventory compléments Office",
-      "description_en": "Exporte les add-ins Office détectés et leur LoadBehavior.",
+      "name_en": "Inventory add-ins Office",
+      "description_en": "Exporte the add-ins Office detected and leur LoadBehavior.",
       "category_en": "Scripts & Inventories",
-      "method_en": "Registre Office Addins",
-      "webCategory_en": "Outils Support"
+      "method_en": "registry Office Addins",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2668,10 +2881,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Inventory SCCM local",
-      "description_en": "Collecte client SCCM, CcmExec, Version, site et Cache.",
+      "description_en": "Collecte client SCCM, CcmExec, Version, site and Cache.",
       "category_en": "Scripts & Inventories",
-      "method_en": "root\\ccm + registre CCM",
-      "webCategory_en": "Outils Support"
+      "method_en": "root\\ccm + registry CCM",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2688,10 +2903,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Inventory Intune / Graph",
-      "description_en": "Lance directement l Inventory Windows Intune et exporte C:\\Export\\Inventory_Intune.csv.",
+      "description_en": "Runs directement l Inventory Windows Intune and exporte C:\\Export\\Inventory_Intune.csv.",
       "category_en": "Scripts & Inventories",
       "method_en": "Microsoft Graph Device Management",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2708,10 +2925,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Script SCCM Inventory",
-      "description_en": "Affiche une Version réutilisable du script d'Inventory SCCM local.",
+      "description_en": "Shows a Version réutilisable the script d'Inventory SCCM local.",
       "category_en": "Scripts & Inventories",
       "method_en": "PowerShell / CIM root\\ccm",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2728,10 +2947,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Winget - Inventory",
-      "description_en": "Exporte la List Winget pour joindre à un ticket ou comparer un poste.",
+      "description_en": "Displays or checks technical information for Winget - Inventory.",
       "category_en": "Scripts & Inventories",
       "method_en": "winget list",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2747,11 +2968,13 @@ window.SSIT_DATA = {
       "script": "Export-WindowsEventsForTicket",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Logs Windows pour ticket",
-      "description_en": "Exporte les erreurs System et Application des Latest 24 h en CSV.",
+      "name_en": "Logs Windows for ticket",
+      "description_en": "Exporte the erreurs System and application the Latest 24 h en CSV.",
       "category_en": "Scripts & Inventories",
       "method_en": "Get-WinEvent",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2767,11 +2990,13 @@ window.SSIT_DATA = {
       "script": "Export-DsregcmdReport",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "DSREGCMD pour ticket",
-      "description_en": "Exporte dsregcmd /status dans un File texte.",
+      "name_en": "DSREGCMD for ticket",
+      "description_en": "Exporte dsregcmd /status in a File texte.",
       "category_en": "Scripts & Inventories",
       "method_en": "dsregcmd /status",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2787,11 +3012,13 @@ window.SSIT_DATA = {
       "script": "Show-ServiceNowBrowserAutomationTemplate",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "ServiceNow - modèle navigateur",
-      "description_en": "Retrouve le modèle d'automatisation navigateur quand API/rapport ne sont pas disponibles.",
+      "name_en": "ServiceNow - model browser",
+      "description_en": "Retrouve the model d'automatisation browser when API/rapport ne are pas available.",
       "category_en": "Scripts & Inventories",
-      "method_en": "Edge + WScript.Shell / navigation clavier",
-      "webCategory_en": "Outils Support"
+      "method_en": "Edge + WScript.Shell / browsing clavier",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2808,10 +3035,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Dell - BIOS / Drivers",
-      "description_en": "Inventory Dell et détection de Dell Command Update s'il est déjà présent.",
+      "description_en": "Inventory Dell and detection of Dell Command Update s'il is déjà present.",
       "category_en": "Scripts & Inventories",
-      "method_en": "CIM + dcu-cli si présent",
-      "webCategory_en": "Outils Support"
+      "method_en": "CIM + dcu-cli si present",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2828,10 +3057,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "HP - BIOS / Drivers",
-      "description_en": "Inventory HP et détection des commandes HP CMSL si présentes.",
+      "description_en": "Inventory HP and detection the commandes HP CMSL si present.",
       "category_en": "Scripts & Inventories",
-      "method_en": "CIM + HP CMSL si présent",
-      "webCategory_en": "Outils Support"
+      "method_en": "CIM + HP CMSL si present",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2847,11 +3078,13 @@ window.SSIT_DATA = {
       "script": "Start-LmsAzureToolsHub",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Entra PIM - activation rôles",
-      "description_en": "Lance directement Azure Tools Hub sur la partie PIM.",
+      "name_en": "Entra PIM - activation rôthe",
+      "description_en": "Runs directement Azure Tools Hub on the partie PIM.",
       "category_en": "Scripts & Inventories",
       "method_en": "Azure Tools Hub / Microsoft Graph",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Scripts & Inventaires",
@@ -2868,11 +3101,13 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Entra Admin Center",
-      "description_en": "Ouvre Entra pour gestion des identités et PIM.",
+      "description_en": "Opens Entra for management the identitys and PIM.",
       "category_en": "Scripts & Inventories",
       "method_en": "https://entra.microsoft.com",
       "actionType_en": "Direct",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Rapport",
@@ -2889,10 +3124,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Voir rapport session",
-      "description_en": "Affiche toutes les actions/Diagnostics ajoutés pendant cette session.",
+      "description_en": "Shows all actions/Diagnostics ajoutés pendant cette session.",
       "category_en": "Report",
-      "method_en": "List interne de session",
-      "webCategory_en": "System"
+      "method_en": "Lists interne of session",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Rapport",
@@ -2909,10 +3146,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Exporter rapport TXT",
-      "description_en": "Ouvre Enregistrer sous : vous choisissez le nom et l'emplacement.",
+      "description_en": "Opens Enregistrer sous: vous choisissez the nom and l'emplacement.",
       "category_en": "Report",
       "method_en": "UTF-8 TXT - aucun enregistrement automatique",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Rapport",
@@ -2929,9 +3168,11 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Open journal IT Pocket",
-      "description_en": "Ouvre le journal technique de l’Application.",
+      "description_en": "Opens the journal technique of l’application.",
       "category_en": "Report",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques",
@@ -2947,12 +3188,13 @@ window.SSIT_DATA = {
       "script": "Show-LmsDeviceManager",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Centre de gestion Devices",
-      "description_en": "Activer, désactiver, désinstaller, consulter le Driver, copier les Information et gérer la Sleep des cartes Network.",
+      "name_en": "Centre of management Devices",
+      "description_en": "Technical support action for Centre of management Devices.",
       "category_en": "Devices",
       "rights_en": "Administrator recommended",
       "method_en": "Get-PnpDevice / Enable-PnpDevice / Disable-PnpDevice / pnputil / Get-NetAdapterPowerManagement",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -2968,12 +3210,13 @@ window.SSIT_DATA = {
       "script": "Show-LmsSoftwareManager",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Maintenance / Désinstallation logiciels",
-      "description_en": "Repair, modifier, désinstaller ou copier les Information des logiciels installés.",
+      "name_en": "Maintenance / uninstallation software",
+      "description_en": "Repair, modifier, désinstaller or copier the Information the installed software.",
       "category_en": "Applications",
       "rights_en": "Administrator recommended",
-      "method_en": "Registre Uninstall + MSIExec / UninstallString",
-      "webCategory_en": "Applications"
+      "method_en": "registry Uninstall + MSIExec / UninstallString",
+      "webCategory_en": "Applications",
+      "risk_en": ""
     },
     {
       "category": "Commandes & Scripts",
@@ -2990,10 +3233,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Bibliothèque complète",
-      "description_en": "Commandes et scripts prêts à copier-coller pour l'assistance distante.",
+      "description_en": "Commandes and scripts prêts à copier-coller for l'assistance distante.",
       "category_en": "Commands & Scripts",
-      "method_en": "Network / Système / Office / Applications / Intune / SCCM / Security / Impression",
-      "webCategory_en": "Outils Support"
+      "method_en": "Support procedure.",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Commandes & Scripts",
@@ -3010,10 +3255,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Commandes Network",
-      "description_en": "IP, DNS, DHCP, Winsock, routes, proxy et tests TCP.",
+      "description_en": "IP, DNS, DHCP, Winsock, routes, proxy and tests TCP.",
       "category_en": "Commands & Scripts",
       "method_en": "PowerShell + CMD",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Commandes & Scripts",
@@ -3029,11 +3276,13 @@ window.SSIT_DATA = {
       "script": "Show-LmsCommandLibrary -InitialCategory \"Système\"",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Commandes Système",
-      "description_en": "SFC, DISM, CHKDSK, événements et Services.",
+      "name_en": "Commands & Scripts support action",
+      "description_en": "SFC, DISM, CHKDSK, événements and Services.",
       "category_en": "Commands & Scripts",
       "method_en": "PowerShell + outils Windows",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Commandes & Scripts",
@@ -3050,10 +3299,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Commandes Office / M365",
-      "description_en": "Outlook, OneDrive et Diagnostics Office.",
+      "description_en": "Outlook, OneDrive and Diagnostics Office.",
       "category_en": "Commands & Scripts",
       "method_en": "PowerShell + switches Office",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Commandes & Scripts",
@@ -3070,10 +3321,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Commandes SCCM / Intune",
-      "description_en": "DSREGCMD, EnterpriseMgmt et cycles Configuration Manager.",
+      "description_en": "DSREGCMD, EnterpriseMgmt and cycles Configuration manager.",
       "category_en": "Commands & Scripts",
       "method_en": "PowerShell / CIM / dsregcmd",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Outils Tech",
@@ -3089,11 +3342,13 @@ window.SSIT_DATA = {
       "script": "Test-SsitMenuRouting }\n\n\n# ========================= V1.17.2 - ANALYSE DISQUE AVANCEE =========================\n\nfunction Convert-SsitSize {\n    param([double]$Bytes)\n    if($Bytes -ge 1TB){ return ('{0:N2} To' -f ($Bytes/1TB)) }\n    if($Bytes -ge 1GB){ return ('{0:N2} Go' -f ($Bytes/1GB)) }\n    if($Bytes -ge 1MB){ return ('{0:N2} Mo' -f ($Bytes/1MB)) }\n    if($Bytes -ge 1KB){ return ('{0:N2} Ko' -f ($Bytes/1KB)) }\n    return ('{0:N0} o' -f $Bytes)\n}\n\nfunction Get-SsitKnownCacheRows {\n    $targets=@(\n        @{Nom='Microsoft Edge - Cache';Path=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Cache\"},\n        @{Nom='Microsoft Edge - Code Cache';Path=\"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\Code Cache\"},\n        @{Nom='Google Chrome - Cache';Path=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Cache\"},\n        @{Nom='Google Chrome - Code Cache';Path=\"$env:LOCALAPPDATA\\Google\\Chrome\\User Data\\Default\\Code Cache\"},\n        @{Nom='Mozilla Firefox - Profils';Path=\"$env:LOCALAPPDATA\\Mozilla\\Firefox\\Profiles\"},\n        @{Nom='Microsoft Teams - Cache';Path=\"$env:LOCALAPPDATA\\Packages\\MSTeams_8wekyb3d8bbwe\\LocalCache\"},\n        @{Nom='Teams classique - Cache';Path=\"$env:APPDATA\\Microsoft\\Teams\\Cache\"},\n        @{Nom='Office - OfficeFileCache';Path=\"$env:LOCALAPPDATA\\Microsoft\\Office\\16.0\\OfficeFileCache\"},\n        @{Nom='OneDrive - Logs';Path=\"$env:LOCALAPPDATA\\Microsoft\\OneDrive\\logs\"}\n    )\n\n    foreach($t in $targets){\n        $bytes=[int64]0\n        if(Test-Path -LiteralPath $t.Path){\n            try{\n                $sum=(Get-ChildItem -LiteralPath $t.Path -File -Recurse -Force -ErrorAction SilentlyContinue |\n                    Measure-Object Length -Sum).Sum\n                if($sum){$bytes=[int64]$sum}\n            }catch{}\n        }\n        [pscustomobject]@{\n            Nom=$t.Nom\n            Taille=Convert-SsitSize $bytes\n            Octets=$bytes\n            Chemin=$t.Path\n        }\n    }\n}\n\nfunction Get-SsitInstalledAppSizeRows {\n    $paths=@(\n        'HKLM:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*',\n        'HKLM:\\Software\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*',\n        'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*'\n    )\n    $rows=New-Object Collections.Generic.List[object]\n    foreach($a in @(Get-ItemProperty $paths -ErrorAction SilentlyContinue | Where-Object DisplayName)){\n        $bytes=[int64]0\n        try{\n            if($a.EstimatedSize){$bytes=[int64]$a.EstimatedSize * 1KB}\n        }catch{}\n        [void]$rows.Add([pscustomobject]@{\n            Application=[string]$a.DisplayName\n            Version=[string]$a.DisplayVersion\n            Editeur=[string]$a.Publisher\n            TailleEstimee=Convert-SsitSize $bytes\n            Octets=$bytes\n            Chemin=[string]$a.InstallLocation\n        })\n    }\n    return @($rows | Sort-Object -Property @{Expression='Octets';Descending=$true}, @{Expression='Application';Descending=$false} -Unique)\n}\n\n\nfunction Invoke-SsitDiskTreeScan {\n    param(\n        [Parameter(Mandatory)][string]$Root,\n        [int]$TopFiles=300,\n        [System.Windows.Forms.Label]$StatusLabel\n    )\n\n    if([string]::IsNullOrWhiteSpace($Root)){throw 'Aucun chemin a analyser.'}\n    if(-not (Test-Path -LiteralPath $Root)){throw ('Chemin introuvable : '+$Root)}\n\n    $rootItem=Get-Item -LiteralPath $Root -Force -ErrorAction Stop\n    $rootPath=[string]$rootItem.FullName\n    if($rootPath.Length -gt 3){$rootPath=$rootPath.TrimEnd('\\')}\n    if([string]::IsNullOrWhiteSpace($rootPath)){throw 'Le chemin d analyse est vide.'}\n\n    $folderBytes=@{}\n    $folderFiles=@{}\n    $largest=New-Object Collections.Generic.List[object]\n    $stack=New-Object 'System.Collections.Generic.Stack[string]'\n    $stack.Push($rootPath)\n\n    [int64]$totalBytes=0\n    [int64]$fileCount=0\n    [int64]$dirCount=0\n    [int64]$skipped=0\n    $sw=[Diagnostics.Stopwatch]::StartNew()\n\n    while($stack.Count -gt 0 -and -not $script:SsitCancelDiskScan){\n        $dir=$stack.Pop()\n        $dirCount++\n\n        if($StatusLabel -and (($dirCount % 10) -eq 0)){\n            $StatusLabel.Text=(\"Analyse : {0} fichiers / {1} dossiers • {2}\" -f $fileCount,$dirCount,$sw.Elapsed.ToString('mm\\:ss'))\n            [Windows.Forms.Application]::DoEvents()\n        }\n\n        $children=@()\n        try{\n            $children=@(Get-ChildItem -LiteralPath $dir -Force -ErrorAction Stop)\n        }catch{\n            $skipped++\n            continue\n        }\n\n        foreach($entry in $children){\n            if($script:SsitCancelDiskScan){break}\n\n            if($entry.PSIsContainer){\n                try{\n                    if(($entry.Attributes -band [IO.FileAttributes]::ReparsePoint) -eq 0){\n                        $stack.Push($entry.FullName)\n                    }else{\n                        $skipped++\n                    }\n                }catch{$skipped++}\n                continue\n            }\n\n            try{\n                [int64]$len=$entry.Length\n                $totalBytes+=$len\n                $fileCount++\n\n                # Cumule la taille dans tous les dossiers parents jusqu'a la racine.\n                $parent=[string]$entry.DirectoryName\n                while(-not [string]::IsNullOrWhiteSpace($parent)){\n                    if(-not $parent.StartsWith($rootPath,[StringComparison]::OrdinalIgnoreCase)){break}\n\n                    if(-not $folderBytes.ContainsKey($parent)){\n                        $folderBytes[$parent]=[int64]0\n                        $folderFiles[$parent]=[int64]0\n                    }\n                    $folderBytes[$parent]+=$len\n                    $folderFiles[$parent]++\n\n                    if($parent.Equals($rootPath,[StringComparison]::OrdinalIgnoreCase)){break}\n                    try{\n                        $pi=[IO.Directory]::GetParent($parent)\n                        if($null -eq $pi){break}\n                        $parent=$pi.FullName\n                    }catch{break}\n                }\n\n                $obj=[pscustomobject]@{\n                    Nom=$entry.Name\n                    Taille=Convert-SsitSize $len\n                    Octets=$len\n                    Modifie=$entry.LastWriteTime\n                    Chemin=$entry.FullName\n                }\n\n                if($largest.Count -lt $TopFiles){\n                    [void]$largest.Add($obj)\n                }else{\n                    $minIndex=0\n                    $minBytes=[int64]$largest[0].Octets\n                    for($i=1;$i -lt $largest.Count;$i++){\n                        if([int64]$largest[$i].Octets -lt $minBytes){\n                            $minBytes=[int64]$largest[$i].Octets\n                            $minIndex=$i\n                        }\n                    }\n                    if($len -gt $minBytes){$largest[$minIndex]=$obj}\n                }\n\n                if(($fileCount % 100) -eq 0){\n                    if($StatusLabel){\n                        $StatusLabel.Text=(\"Analyse : {0} fichiers / {1} dossiers • {2}\" -f $fileCount,$dirCount,$sw.Elapsed.ToString('mm\\:ss'))\n                    }\n                    [Windows.Forms.Application]::DoEvents()\n                }\n            }catch{$skipped++}\n        }\n    }\n\n    $sw.Stop()\n    $folders=New-Object Collections.Generic.List[object]\n    foreach($path in $folderBytes.Keys){\n        if([string]::IsNullOrWhiteSpace([string]$path)){continue}\n        $level=0\n        try{\n            if(-not $path.Equals($rootPath,[StringComparison]::OrdinalIgnoreCase)){\n                $relative=$path.Substring($rootPath.Length).TrimStart('\\')\n                if(-not [string]::IsNullOrWhiteSpace($relative)){$level=@($relative -split '\\\\').Count}\n            }\n        }catch{}\n\n        $leaf=''\n        try{$leaf=Split-Path -Path $path -Leaf}catch{}\n        if([string]::IsNullOrWhiteSpace($leaf)){$leaf=$path}\n\n        [void]$folders.Add([pscustomobject]@{\n            Dossier=$leaf\n            Niveau=$level\n            Taille=Convert-SsitSize ([int64]$folderBytes[$path])\n            Octets=[int64]$folderBytes[$path]\n            Fichiers=[int64]$folderFiles[$path]\n            Chemin=$path\n        })\n    }\n\n    [pscustomobject]@{\n        Root=$rootPath\n        TotalBytes=$totalBytes\n        FileCount=$fileCount\n        DirectoryCount=$dirCount\n        Skipped=$skipped\n        ElapsedSeconds=[math]::Round($sw.Elapsed.TotalSeconds,1)\n        Cancelled=[bool]$script:SsitCancelDiskScan\n        FolderBytes=$folderBytes\n        FolderFiles=$folderFiles\n        Folders=@($folders | Sort-Object Octets -Descending)\n        Files=@($largest | Sort-Object Octets -Descending)\n    }\n}\n\nfunction Get-SsitDiskControl {\n    param([System.Windows.Forms.Form]$Form,[string]$Name)\n    if($null -eq $Form -or [string]::IsNullOrWhiteSpace($Name)){return $null}\n    $found=@($Form.Controls.Find($Name,$true))\n    if($found.Count -gt 0){return $found[0]}\n    return $null\n}\n\nfunction Get-SsitDiskActiveGrid {\n    param([System.Windows.Forms.Form]$Form)\n    $tabs=Get-SsitDiskControl $Form 'DiskTabs'\n    if($null -eq $tabs -or $null -eq $tabs.SelectedTab){return $null}\n    switch([string]$tabs.SelectedTab.Name){\n        'DiskFoldersTab'  {return (Get-SsitDiskControl $Form 'DiskFoldersGrid')}\n        'DiskFilesTab'    {return (Get-SsitDiskControl $Form 'DiskFilesGrid')}\n        'DiskExplorerTab' {return (Get-SsitDiskControl $Form 'DiskExplorerGrid')}\n        'DiskAppsTab'     {return (Get-SsitDiskControl $Form 'DiskAppsGrid')}\n        'DiskCachesTab'   {return (Get-SsitDiskControl $Form 'DiskCachesGrid')}\n    }\n    return $null\n}\n\nfunction Update-SsitDiskStaticData {\n    param([System.Windows.Forms.Form]$Form)\n    $apps=Get-SsitDiskControl $Form 'DiskAppsGrid'\n    $caches=Get-SsitDiskControl $Form 'DiskCachesGrid'\n    $status=Get-SsitDiskControl $Form 'DiskStatus'\n\n    if($apps){\n        try{\n            $apps.Rows.Clear()\n            foreach($a in @(Get-SsitInstalledAppSizeRows)){\n                [void]$apps.Rows.Add($a.Application,$a.Version,$a.Editeur,$a.TailleEstimee,$a.Chemin)\n            }\n        }catch{if($status){$status.Text='Applications : erreur interceptee.'}}\n    }\n\n    if($caches){\n        try{\n            $caches.Rows.Clear()\n            foreach($c in @(Get-SsitKnownCacheRows | Sort-Object Octets -Descending)){\n                [void]$caches.Rows.Add($c.Nom,$c.Taille,$c.Chemin)\n            }\n        }catch{if($status){$status.Text='Caches : erreur interceptee.'}}\n    }\n}\n\nfunction Open-SsitDiskFolderContent {\n    param(\n        [System.Windows.Forms.Form]$Form,\n        [string]$Path,\n        [switch]$SelectTab\n    )\n    if($null -eq $Form){return}\n    $grid=Get-SsitDiskControl $Form 'DiskExplorerGrid'\n    $pathLabel=Get-SsitDiskControl $Form 'DiskExplorerPath'\n    $tabs=Get-SsitDiskControl $Form 'DiskTabs'\n    $explorerTab=Get-SsitDiskControl $Form 'DiskExplorerTab'\n    $status=Get-SsitDiskControl $Form 'DiskStatus'\n\n    if([string]::IsNullOrWhiteSpace($Path) -or -not (Test-Path -LiteralPath $Path -PathType Container)){\n        if($status){$status.Text='Dossier introuvable.'}\n        return\n    }\n\n    if($pathLabel){$pathLabel.Text=$Path}\n    if($grid){$grid.Rows.Clear()}\n\n    $folderBytes=@{}\n    try{\n        if($Form.Tag -and $Form.Tag.LastScan -and $Form.Tag.LastScan.FolderBytes){\n            $folderBytes=$Form.Tag.LastScan.FolderBytes\n        }\n    }catch{}\n\n    try{\n        $items=@(Get-ChildItem -LiteralPath $Path -Force -ErrorAction Stop | Sort-Object @{Expression={$_.PSIsContainer};Descending=$true},Name)\n        foreach($item in $items){\n            $type=if($item.PSIsContainer){'Dossier'}else{'Fichier'}\n            [int64]$bytes=0\n            if($item.PSIsContainer){\n                try{\n                    if($folderBytes.ContainsKey($item.FullName)){$bytes=[int64]$folderBytes[$item.FullName]}\n                }catch{}\n            }else{\n                try{$bytes=[int64]$item.Length}catch{}\n            }\n            $taille=if($bytes -gt 0){Convert-SsitSize $bytes}else{''}\n            [void]$grid.Rows.Add($type,$item.Name,$taille,$item.LastWriteTime,$item.FullName)\n        }\n        if($Form.Tag){$Form.Tag.ExplorerPath=$Path}\n        if($status){$status.Text=(\"Contenu affiche : {0} element(s) • {1}\" -f $items.Count,$Path)}\n        if($SelectTab -and $tabs -and $explorerTab){$tabs.SelectedTab=$explorerTab}\n    }catch{\n        if($status){$status.Text='Impossible de lire ce dossier.'}\n        Show-Text 'Analyse disque - Dossier' $_.Exception.Message\n    }\n}\n\nfunction Invoke-SsitDiskAnalyzerRun {\n    param([System.Windows.Forms.Form]$Form)\n    if($null -eq $Form){return}\n\n    $pathBox=Get-SsitDiskControl $Form 'DiskPathBox'\n    $status=Get-SsitDiskControl $Form 'DiskStatus'\n    $folders=Get-SsitDiskControl $Form 'DiskFoldersGrid'\n    $files=Get-SsitDiskControl $Form 'DiskFilesGrid'\n    $summary=Get-SsitDiskControl $Form 'DiskSummary'\n    $scan=Get-SsitDiskControl $Form 'DiskScanButton'\n    $progress=Get-SsitDiskControl $Form 'DiskProgress'\n\n    $rootPath=''\n    if($pathBox){$rootPath=[string]$pathBox.Text}\n    if([string]::IsNullOrWhiteSpace($rootPath)){\n        Show-Text 'Analyse disque' 'Choisissez un chemin a analyser.'\n        return\n    }\n    if(-not (Test-Path -LiteralPath $rootPath -PathType Container)){\n        Show-Text 'Analyse disque' ('Dossier introuvable : '+$rootPath)\n        return\n    }\n\n    try{\n        if($scan){$scan.Enabled=$false}\n        $script:SsitCancelDiskScan=$false\n        if($folders){$folders.Rows.Clear()}\n        if($files){$files.Rows.Clear()}\n        if($summary){$summary.Clear()}\n        if($progress){\n            $progress.Style='Marquee'\n            $progress.MarqueeAnimationSpeed=25\n        }\n        if($status){$status.Text='Analyse en cours...'}\n        [Windows.Forms.Application]::DoEvents()\n\n        $r=Invoke-SsitDiskTreeScan -Root $rootPath -TopFiles 300 -StatusLabel $status\n\n        if($null -eq $Form.Tag -or $Form.Tag -isnot [hashtable]){$Form.Tag=@{}}\n        $Form.Tag.LastScan=$r\n        $Form.Tag.ExplorerPath=$r.Root\n\n        if($folders){\n            foreach($x in @($r.Folders)){\n                [void]$folders.Rows.Add($x.Dossier,$x.Niveau,$x.Taille,$x.Fichiers,$x.Chemin)\n            }\n        }\n        if($files){\n            foreach($x in @($r.Files)){\n                [void]$files.Rows.Add($x.Nom,$x.Taille,$x.Modifie,$x.Chemin)\n            }\n        }\n\n        Open-SsitDiskFolderContent -Form $Form -Path $r.Root\n\n        $drive=$null\n        try{\n            $driveLetter=[IO.Path]::GetPathRoot($r.Root).TrimEnd('\\')\n            if($driveLetter){\n                $drive=Get-CimInstance Win32_LogicalDisk -Filter (\"DeviceID='\"+$driveLetter.Replace(\"'\",\"''\")+\"'\") -ErrorAction SilentlyContinue\n            }\n        }catch{}\n\n        $diskText=''\n        if($drive){\n            $diskText=\"DISQUE $($drive.DeviceID)`r`nTotal : $(Convert-SsitSize $drive.Size)`r`nUtilise : $(Convert-SsitSize ($drive.Size-$drive.FreeSpace))`r`nLibre : $(Convert-SsitSize $drive.FreeSpace)`r`n`r`n\"\n        }\n\n        $topFolders=@($r.Folders | Select-Object -First 40 | ForEach-Object {\"$($_.Taille)  $($_.Chemin)\"}) -join \"`r`n\"\n        $topFiles=@($r.Files | Select-Object -First 80 | ForEach-Object {\"$($_.Taille)  $($_.Chemin)\"}) -join \"`r`n\"\n        $cacheText=@(Get-SsitKnownCacheRows | Sort-Object Octets -Descending | ForEach-Object {\"$($_.Taille)  $($_.Nom)  $($_.Chemin)\"}) -join \"`r`n\"\n\n        if($summary){\n            $summary.Text=@\"\nSUPER SUPPORT IT - RAPPORT DISQUE\n\nAnalyse : $($r.Root)\nDate : $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')\nDuree : $($r.ElapsedSeconds) s\nFichiers analyses : $($r.FileCount)\nDossiers analyses : $($r.DirectoryCount)\nNon accessibles / ignores : $($r.Skipped)\nVolume accessible analyse : $(Convert-SsitSize $r.TotalBytes)\nAnnule : $($r.Cancelled)\n\n$diskText\nDOSSIERS LES PLUS LOURDS\n------------------------\n$topFolders\n\nFICHIERS LES PLUS GROS\n----------------------\n$topFiles\n\nCACHES\n------\n$cacheText\n\"@\n        }\n\n        if($status){\n            if($r.Cancelled){\n                $status.Text=\"Analyse annulee apres $($r.ElapsedSeconds) s.\"\n            }else{\n                $status.Text=\"Termine : $($r.FileCount) fichiers / $($r.DirectoryCount) dossiers en $($r.ElapsedSeconds) s.\"\n            }\n        }\n        try{Write-SsitActivity -Action 'Analyse disque avancee' -Module 'Poste Windows' -Status 'REUSSIE' -Detail $r.Root}catch{}\n    }catch{\n        if($status){$status.Text='Erreur pendant l analyse.'}\n        try{Write-SsitActivity -Action 'Analyse disque avancee' -Module 'Poste Windows' -Status 'ERREUR' -Detail $_.Exception.Message}catch{}\n        Show-Text 'Analyse disque - Erreur' $_.Exception.ToString()\n    }finally{\n        if($progress){$progress.Style='Blocks';$progress.Value=0}\n        if($scan){$scan.Enabled=$true}\n    }\n}\n\nfunction Show-SsitDiskAnalyzer {\n    $f=New-Object Windows.Forms.Form\n    $f.Name='DiskAnalyzerForm'\n    $f.Text='SUPER SUPPORT IT - Analyse disque avancee'\n    $f.Size=New-Object Drawing.Size(1480,900)\n    $f.MinimumSize=New-Object Drawing.Size(1100,700)\n    $f.StartPosition='CenterScreen'\n    $f.BackColor=[Drawing.Color]::White\n    $f.Tag=@{}\n    Enable-Escape $f\n\n    $root=New-Object Windows.Forms.TableLayoutPanel\n    $root.Dock='Fill';$root.RowCount=3;$root.ColumnCount=1\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,105)))\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Percent,100)))\n    [void]$root.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,78)))\n    $f.Controls.Add($root)\n\n    $head=New-Object Windows.Forms.Panel\n    $head.Dock='Fill';$head.BackColor=[Drawing.Color]::FromArgb(8,31,55)\n    $root.Controls.Add($head,0,0)\n\n    $ttl=New-Object Windows.Forms.Label\n    $ttl.Text='ANALYSE DISQUE • EXPLORATEUR • DOSSIERS • FICHIERS'\n    $ttl.ForeColor=[Drawing.Color]::White\n    $ttl.Font=New-Object Drawing.Font('Segoe UI',17,[Drawing.FontStyle]::Bold)\n    $ttl.AutoSize=$true;$ttl.Location=New-Object Drawing.Point(20,10)\n    $head.Controls.Add($ttl)\n\n    $pathBox=New-Object Windows.Forms.ComboBox\n    $pathBox.Name='DiskPathBox';$pathBox.DropDownStyle='DropDown'\n    $pathBox.Font=New-Object Drawing.Font('Segoe UI',10)\n    $pathBox.Location=New-Object Drawing.Point(20,48);$pathBox.Size=New-Object Drawing.Size(500,31)\n    $roots=New-Object Collections.Generic.List[string]\n    foreach($candidate in @($env:USERPROFILE,'C:\\',$env:ProgramFiles,$env:ProgramData,$env:WINDIR)){\n        $p=[string]$candidate\n        if([string]::IsNullOrWhiteSpace($p)){continue}\n        try{if((Test-Path -LiteralPath $p) -and -not $roots.Contains($p)){[void]$roots.Add($p)}}catch{}\n    }\n    if($roots.Count -gt 0){[void]$pathBox.Items.AddRange([object[]]$roots.ToArray());$pathBox.SelectedIndex=0}else{$pathBox.Text='C:\\'}\n    $head.Controls.Add($pathBox)\n\n    $browse=New-Object Windows.Forms.Button\n    $browse.Text='Parcourir...';$browse.Location=New-Object Drawing.Point(530,48);$browse.Size=New-Object Drawing.Size(105,31)\n    $browse.BackColor=[Drawing.Color]::FromArgb(55,75,96);$browse.ForeColor=[Drawing.Color]::White;$browse.FlatStyle='Flat'\n    $head.Controls.Add($browse)\n\n    $scan=New-Object Windows.Forms.Button\n    $scan.Name='DiskScanButton';$scan.Text='Analyser'\n    $scan.Location=New-Object Drawing.Point(645,48);$scan.Size=New-Object Drawing.Size(115,31)\n    $scan.BackColor=$script:UiBlue;$scan.ForeColor=[Drawing.Color]::White;$scan.FlatStyle='Flat'\n    $head.Controls.Add($scan)\n\n    $cancel=New-Object Windows.Forms.Button\n    $cancel.Name='DiskCancelButton';$cancel.Text='Annuler'\n    $cancel.Location=New-Object Drawing.Point(770,48);$cancel.Size=New-Object Drawing.Size(100,31)\n    $cancel.BackColor=$script:UiRed;$cancel.ForeColor=[Drawing.Color]::White;$cancel.FlatStyle='Flat'\n    $head.Controls.Add($cancel)\n\n    $status=New-Object Windows.Forms.Label\n    $status.Name='DiskStatus';$status.Text='Pret - choisissez un dossier puis cliquez sur Analyser.'\n    $status.ForeColor=[Drawing.Color]::FromArgb(205,220,235)\n    $status.Location=New-Object Drawing.Point(885,47);$status.Size=New-Object Drawing.Size(555,24)\n    $head.Controls.Add($status)\n\n    $progress=New-Object Windows.Forms.ProgressBar\n    $progress.Name='DiskProgress';$progress.Location=New-Object Drawing.Point(885,74);$progress.Size=New-Object Drawing.Size(540,16)\n    $progress.Style='Blocks';$head.Controls.Add($progress)\n\n    $tabs=New-Object Windows.Forms.TabControl\n    $tabs.Name='DiskTabs';$tabs.Dock='Fill'\n    $root.Controls.Add($tabs,0,1)\n\n    function New-SsitPathGrid {\n        param([array]$Columns)\n        $g=New-Object Windows.Forms.DataGridView\n        Set-SsitReadableGrid $g\n        $g.Dock='Fill';$g.ReadOnly=$true;$g.AllowUserToAddRows=$false;$g.AllowUserToDeleteRows=$false\n        $g.RowHeadersVisible=$false;$g.SelectionMode='FullRowSelect';$g.MultiSelect=$true\n        $g.AutoGenerateColumns=$false\n        foreach($spec in $Columns){\n            $c=New-Object Windows.Forms.DataGridViewTextBoxColumn\n            $c.Name=$spec[0];$c.HeaderText=$spec[1];$c.Width=$spec[2]\n            if($spec[0] -eq 'Chemin'){$c.AutoSizeMode='Fill'}\n            [void]$g.Columns.Add($c)\n        }\n        return $g\n    }\n\n    $tabSummary=New-Object Windows.Forms.TabPage;$tabSummary.Name='DiskSummaryTab';$tabSummary.Text='Resume'\n    $summary=New-Object Windows.Forms.RichTextBox;$summary.Name='DiskSummary';$summary.Dock='Fill';$summary.ReadOnly=$true\n    $summary.Font=New-Object Drawing.Font('Consolas',10.5);$summary.BackColor=[Drawing.Color]::White;$summary.ForeColor=[Drawing.Color]::Black\n    $tabSummary.Controls.Add($summary);[void]$tabs.TabPages.Add($tabSummary)\n\n    $tabFolders=New-Object Windows.Forms.TabPage;$tabFolders.Name='DiskFoldersTab';$tabFolders.Text='Dossiers'\n    $folders=New-SsitPathGrid @(@('Dossier','Dossier',220),@('Niveau','Niveau',65),@('Taille','Taille recursive',115),@('Fichiers','Fichiers',85),@('Chemin','Chemin',650))\n    $folders.Name='DiskFoldersGrid';$tabFolders.Controls.Add($folders);[void]$tabs.TabPages.Add($tabFolders)\n\n    $tabFiles=New-Object Windows.Forms.TabPage;$tabFiles.Name='DiskFilesTab';$tabFiles.Text='Fichiers les plus gros'\n    $files=New-SsitPathGrid @(@('Nom','Fichier',260),@('Taille','Taille',110),@('Modifie','Modifie',150),@('Chemin','Chemin',650))\n    $files.Name='DiskFilesGrid';$tabFiles.Controls.Add($files);[void]$tabs.TabPages.Add($tabFiles)\n\n    $tabExplorer=New-Object Windows.Forms.TabPage;$tabExplorer.Name='DiskExplorerTab';$tabExplorer.Text='Explorateur dossier'\n    $explorerLayout=New-Object Windows.Forms.TableLayoutPanel;$explorerLayout.Dock='Fill';$explorerLayout.RowCount=2;$explorerLayout.ColumnCount=1\n    [void]$explorerLayout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Absolute,42)))\n    [void]$explorerLayout.RowStyles.Add((New-Object Windows.Forms.RowStyle([Windows.Forms.SizeType]::Percent,100)))\n    $explorerHead=New-Object Windows.Forms.FlowLayoutPanel;$explorerHead.Dock='Fill';$explorerHead.Padding=New-Object Windows.Forms.Padding(6,5,5,3)\n    $up=New-Object Windows.Forms.Button;$up.Text='Monter';$up.Width=85;$up.Height=29\n    $analyseHere=New-Object Windows.Forms.Button;$analyseHere.Text='Analyser ce dossier';$analyseHere.Width=145;$analyseHere.Height=29\n    $explorerPath=New-Object Windows.Forms.TextBox;$explorerPath.Name='DiskExplorerPath';$explorerPath.ReadOnly=$true;$explorerPath.Width=850;$explorerPath.Height=27\n    [void]$explorerHead.Controls.Add($up);[void]$explorerHead.Controls.Add($analyseHere);[void]$explorerHead.Controls.Add($explorerPath)\n    $explorer=New-SsitPathGrid @(@('Type','Type',80),@('Nom','Nom',280),@('Taille','Taille',110),@('Modifie','Modifie',150),@('Chemin','Chemin',650))\n    $explorer.Name='DiskExplorerGrid'\n    $explorerLayout.Controls.Add($explorerHead,0,0);$explorerLayout.Controls.Add($explorer,0,1)\n    $tabExplorer.Controls.Add($explorerLayout);[void]$tabs.TabPages.Add($tabExplorer)\n\n    $tabApps=New-Object Windows.Forms.TabPage;$tabApps.Name='DiskAppsTab';$tabApps.Text='Applications'\n    $apps=New-SsitPathGrid @(@('Application','Application',280),@('Version','Version',110),@('Editeur','Editeur',190),@('TailleEstimee','Taille estimee',110),@('Chemin','Chemin',520))\n    $apps.Name='DiskAppsGrid';$tabApps.Controls.Add($apps);[void]$tabs.TabPages.Add($tabApps)\n\n    $tabCaches=New-Object Windows.Forms.TabPage;$tabCaches.Name='DiskCachesTab';$tabCaches.Text='Caches'\n    $caches=New-SsitPathGrid @(@('Nom','Cache',260),@('Taille','Taille',110),@('Chemin','Chemin',680))\n    $caches.Name='DiskCachesGrid';$tabCaches.Controls.Add($caches);[void]$tabs.TabPages.Add($tabCaches)\n\n    $bar=New-Object Windows.Forms.FlowLayoutPanel\n    $bar.Dock='Fill';$bar.Padding=New-Object Windows.Forms.Padding(12,10,5,5)\n    $root.Controls.Add($bar,0,2)\n\n    foreach($spec in @(\n        @('Voir contenu dossier',170),\n        @('Copier chemin',125),\n        @('Copier chemins selectionnes',195),\n        @('Ouvrir emplacement',150),\n        @('Nettoyer cache selectionne',190),\n        @('Actualiser',105),\n        @('Copier rapport',125),\n        @('Fermer',100)\n    )){\n        $b=New-Object Windows.Forms.Button\n        $b.Text=$spec[0];$b.Width=$spec[1];$b.Height=38;$b.Margin=New-Object Windows.Forms.Padding(4)\n        $b.Font=New-Object Drawing.Font('Segoe UI',9,[Drawing.FontStyle]::Bold)\n        [void]$bar.Controls.Add($b)\n\n        switch($spec[0]){\n            'Voir contenu dossier' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $form=$sender.FindForm()\n                    $g=Get-SsitDiskActiveGrid $form\n                    if($g -and $g.CurrentRow -and $g.Columns.Contains('Chemin')){\n                        $p=[string]$g.CurrentRow.Cells['Chemin'].Value\n                        if(Test-Path -LiteralPath $p -PathType Leaf){$p=Split-Path -Path $p -Parent}\n                        if(Test-Path -LiteralPath $p -PathType Container){Open-SsitDiskFolderContent -Form $form -Path $p -SelectTab}\n                    }\n                })\n            }\n            'Copier chemin' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $g=Get-SsitDiskActiveGrid ($sender.FindForm())\n                    if($g -and $g.CurrentRow -and $g.Columns.Contains('Chemin')){\n                        $v=[string]$g.CurrentRow.Cells['Chemin'].Value\n                        if($v){Copy-SupportText -Text $v -Label 'Chemin'}\n                    }\n                })\n            }\n            'Copier chemins selectionnes' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $g=Get-SsitDiskActiveGrid ($sender.FindForm())\n                    if($g -and $g.Columns.Contains('Chemin')){\n                        $paths=@($g.SelectedRows|ForEach-Object{[string]$_.Cells['Chemin'].Value}|Where-Object{$_}|Select-Object -Unique)\n                        if($paths.Count){Copy-SupportText -Text ($paths -join \"`r`n\") -Label 'Chemins'}\n                    }\n                })\n            }\n            'Ouvrir emplacement' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $g=Get-SsitDiskActiveGrid ($sender.FindForm())\n                    if($g -and $g.CurrentRow -and $g.Columns.Contains('Chemin')){\n                        $v=[string]$g.CurrentRow.Cells['Chemin'].Value\n                        try{\n                            if(Test-Path -LiteralPath $v -PathType Leaf){Start-Process explorer.exe -ArgumentList \"/select,`\"$v`\"\"}\n                            elseif(Test-Path -LiteralPath $v -PathType Container){Start-Process explorer.exe -ArgumentList \"`\"$v`\"\"}\n                        }catch{Show-Text 'Emplacement' $_.Exception.Message}\n                    }\n                })\n            }\n            'Nettoyer cache selectionne' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $form=$sender.FindForm()\n                    $tabs=Get-SsitDiskControl $form 'DiskTabs'\n                    $g=Get-SsitDiskControl $form 'DiskCachesGrid'\n                    if($null -eq $tabs -or $tabs.SelectedTab.Name -ne 'DiskCachesTab'){\n                        Show-Text 'Nettoyage cache' 'Ouvrez l onglet Caches puis selectionnez une ligne.'\n                        return\n                    }\n                    if($null -eq $g -or $null -eq $g.CurrentRow){return}\n                    $p=[string]$g.CurrentRow.Cells['Chemin'].Value\n                    $n=[string]$g.CurrentRow.Cells['Nom'].Value\n                    if($p -and (Test-Path -LiteralPath $p)){\n                        if(Confirm-Action 'Nettoyage cache' (\"Nettoyer uniquement le contenu du cache ?`r`n`r`n\"+$n+\"`r`n\"+$p)){\n                            try{\n                                Get-ChildItem -LiteralPath $p -Force -ErrorAction SilentlyContinue|Remove-Item -Recurse -Force -ErrorAction SilentlyContinue\n                                Update-SsitDiskStaticData $form\n                                Show-Text 'Nettoyage cache' ('Nettoyage termine : '+$n)\n                            }catch{Show-Text 'Nettoyage cache' $_.Exception.Message}\n                        }\n                    }\n                })\n            }\n            'Actualiser' {$b.Add_Click({param($sender,$e) Update-SsitDiskStaticData ($sender.FindForm())})}\n            'Copier rapport' {\n                $b.Add_Click({\n                    param($sender,$e)\n                    $s=Get-SsitDiskControl ($sender.FindForm()) 'DiskSummary'\n                    if($s -and $s.Text){Copy-SupportText -Text $s.Text -Label 'Rapport disque'}\n                })\n            }\n            'Fermer' {$b.Add_Click({param($sender,$e) try{$sender.FindForm().Close()}catch{}})}\n        }\n    }\n\n    $browse.Add_Click({\n        param($sender,$e)\n        $form=$sender.FindForm()\n        $dlg=New-Object Windows.Forms.FolderBrowserDialog\n        $dlg.Description='Choisissez le dossier a analyser'\n        $p=Get-SsitDiskControl $form 'DiskPathBox'\n        try{if($p -and (Test-Path -LiteralPath $p.Text)){$dlg.SelectedPath=$p.Text}}catch{}\n        if($dlg.ShowDialog() -eq [Windows.Forms.DialogResult]::OK -and $p){$p.Text=$dlg.SelectedPath}\n    })\n\n    $cancel.Add_Click({\n        param($sender,$e)\n        $script:SsitCancelDiskScan=$true\n        $s=Get-SsitDiskControl ($sender.FindForm()) 'DiskStatus'\n        if($s){$s.Text='Annulation demandee...'}\n    })\n\n    $scan.Add_Click({param($sender,$e) Invoke-SsitDiskAnalyzerRun -Form ($sender.FindForm())})\n\n    $folders.Add_CellDoubleClick({\n        param($sender,$e)\n        if($e.RowIndex -lt 0){return}\n        $p=[string]$sender.Rows[$e.RowIndex].Cells['Chemin'].Value\n        if($p){Open-SsitDiskFolderContent -Form ($sender.FindForm()) -Path $p -SelectTab}\n    })\n\n    $files.Add_CellDoubleClick({\n        param($sender,$e)\n        if($e.RowIndex -lt 0){return}\n        $p=[string]$sender.Rows[$e.RowIndex].Cells['Chemin'].Value\n        if($p -and (Test-Path -LiteralPath $p -PathType Leaf)){\n            try{Start-Process explorer.exe -ArgumentList \"/select,`\"$p`\"\"}catch{}\n        }\n    })\n\n    $explorer.Add_CellDoubleClick({\n        param($sender,$e)\n        if($e.RowIndex -lt 0){return}\n        $type=[string]$sender.Rows[$e.RowIndex].Cells['Type'].Value\n        $p=[string]$sender.Rows[$e.RowIndex].Cells['Chemin'].Value\n        if($type -eq 'Dossier' -and (Test-Path -LiteralPath $p -PathType Container)){\n            Open-SsitDiskFolderContent -Form ($sender.FindForm()) -Path $p\n        }elseif($type -eq 'Fichier' -and (Test-Path -LiteralPath $p -PathType Leaf)){\n            try{Start-Process explorer.exe -ArgumentList \"/select,`\"$p`\"\"}catch{}\n        }\n    })\n\n    $up.Add_Click({\n        param($sender,$e)\n        $form=$sender.FindForm()\n        $p=Get-SsitDiskControl $form 'DiskExplorerPath'\n        if($p -and $p.Text){\n            try{\n                $parent=Split-Path -Path $p.Text -Parent\n                if($parent -and (Test-Path -LiteralPath $parent -PathType Container)){Open-SsitDiskFolderContent -Form $form -Path $parent}\n            }catch{}\n        }\n    })\n\n    $analyseHere.Add_Click({\n        param($sender,$e)\n        $form=$sender.FindForm()\n        $p=Get-SsitDiskControl $form 'DiskExplorerPath'\n        $box=Get-SsitDiskControl $form 'DiskPathBox'\n        if($p -and $box -and $p.Text){\n            $box.Text=$p.Text\n            Invoke-SsitDiskAnalyzerRun -Form $form\n        }\n    })\n\n    Update-SsitDiskStaticData $f\n    try{\n        $initial=[string]$pathBox.Text\n        if($initial -and (Test-Path -LiteralPath $initial -PathType Container)){Open-SsitDiskFolderContent -Form $f -Path $initial}\n    }catch{}\n\n    try{Apply-SsitLightThemeTree $f}catch{}\n    try{Register-SsitReliableCloseButtons $f}catch{}\n    $f.Show()\n    $f.Activate()",
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
-      "name_en": "Contrôler le classement des menus",
-      "description_en": "Vérifie Winget, Windows Update, Navigateurs et Microsoft 365 avant distribution.",
+      "name_en": "Contrôler the classement the menus",
+      "description_en": "Checks Winget, Windows Update, Navigateurs and Microsoft 365 before distribution.",
       "category_en": "Tech Tools",
-      "method_en": "Contrôle interne de routage",
-      "webCategory_en": "Outils Support"
+      "method_en": "Checks interne of routage",
+      "webCategory_en": "Outils Support",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Poste Windows",
@@ -3110,10 +3365,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Analyse Disk avancee",
-      "description_en": "Analyse recursive type TreeSize avec navigation dans les Folders, affichage des Files, tailles, Applications et Caches.",
+      "description_en": "Analyse recursive type TreeSize with browsing in the folders, affichage the files, tailles, applications and caches.",
       "category_en": "Windows Device",
-      "method_en": "Analyse locale en Read-only avec explorateur integre",
-      "webCategory_en": "System"
+      "method_en": "Analyse local en Read-only with explorateur integre",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Journal & Statistiques",
@@ -3128,11 +3385,13 @@ window.SSIT_DATA = {
       "webCategory": "Journal & Statistiques",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Journal de l'Application",
-      "description_en": "History local des actions et erreurs IT Pocket.",
+      "name_en": "Journal of l'application",
+      "description_en": "History local the actions and erreurs IT Pocket.",
       "category_en": "Logs & Statistics",
       "method_en": "CSV local",
-      "webCategory_en": "Logs & Statistics"
+      "webCategory_en": "Logs & Statistics",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau",
@@ -3149,10 +3408,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Centre tests Network personnalisés",
-      "description_en": "Crée, modifie et lance des tests personnalisés pour sites, serveurs, VM, routeurs, switchs, modems 4G/5G et Services.",
+      "description_en": "Creates, modifie and Runs the tests personnalisés for sites, serveurs, VM, routeurs, switchs, modems 4G/5G and Services.",
       "category_en": "Network",
-      "method_en": "PING, DNS, TCP, HTTP/HTTPS et traceroute avec groupes, chrono, annulation et History.",
-      "webCategory_en": "Network & Remote Access"
+      "method_en": "PING, DNS, TCP, HTTP/HTTPS and traceroute with groupes, chrono, annulation and History.",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Diagnostic & Escalade",
@@ -3169,10 +3430,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "scriptSource": "SuperSupportIT_MASTER.ps1",
       "name_en": "Centre d'incident",
-      "description_en": "Playbooks guidés pour les incidents support les plus fréquents avec détection d’anomalies, actions proposées et validation.",
+      "description_en": "Playbooks guidés for the incidents support the plus fréquents with detection d’anomalies, actions proposées and validation.",
       "category_en": "Diagnostics & Escalation",
-      "method_en": "Diagnostic local structuré : PC lent, Internet, Outlook, OneDrive, impression, VPN et Windows Update.",
-      "webCategory_en": "System"
+      "method_en": "Diagnostic local structuré: PC lent, Internet, Outlook, OneDrive, impression, VPN and Windows Update.",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -3187,11 +3450,13 @@ window.SSIT_DATA = {
       "webCategory": "Système",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Diagnostic Applications actives",
-      "description_en": "Analyse rapidement les Applications réellement en cours : RAM, CPU, Version, éditeur, chemin et erreurs Application récentes.",
+      "name_en": "Diagnostic applications actives",
+      "description_en": "Analyse rapidement the applications réellement en cours: RAM, CPU, Version, éditeur, chemin and erreurs application recent.",
       "category_en": "Applications",
       "method_en": "Get-Process + FileVersionInfo + Event Log • Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3207,10 +3472,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Diagnostic M365 rapide",
-      "description_en": "Contrôle Office, Outlook, Word, Excel, PowerPoint, OneDrive, OST, compléments et erreurs récentes sans Launch de Repair.",
+      "description_en": "Checks Office, Outlook, Word, Excel, PowerPoint, OneDrive, OST, add-ins and erreurs recent without Launch of Repair.",
       "category_en": "Microsoft 365",
-      "method_en": "Click-to-Run + Processes + OST + Add-ins + Event Log • Read-only",
-      "webCategory_en": "System"
+      "method_en": "Click-to-Run + processes + OST + Add-ins + Event Log • Read-only",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -3225,11 +3492,13 @@ window.SSIT_DATA = {
       "webCategory": "Système",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Diagnostic système rapide",
-      "description_en": "Contrôle en quelques secondes Memory, Disk, uptime, Devices, Services et erreurs système récentes.",
+      "name_en": "System support action",
+      "description_en": "Displays or checks technical information for System support action.",
       "category_en": "System",
       "method_en": "CIM + PnP + Services + Event Log • Cache session",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Système",
@@ -3244,12 +3513,13 @@ window.SSIT_DATA = {
       "webCategory": "Système",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Diagnostic système approfondi",
-      "description_en": "Lance des contrôles plus poussés à la demande : DISM CheckHealth, CHKDSK scan, Defender, TPM et BitLocker.",
+      "name_en": "System support action",
+      "description_en": "Runs the contrôthe plus poussés à the demande: DISM CheckHealth, CHKDSK scan, Defender, TPM and BitLocker.",
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "method_en": "DISM + CHKDSK + Defender + TPM + BitLocker",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3265,10 +3535,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Diagnostic Edge complet",
-      "description_en": "Version, Processes, RAM, Profilees, Caches, Extensions, strategies entreprise, proxy et erreurs recentes.",
+      "description_en": "Version, processes, RAM, profiles, caches, extensions, strategies entreprise, proxy and erreurs recentes.",
       "category_en": "Edge",
-      "method_en": "Read-only locale Edge + registre + Event Log",
-      "webCategory_en": "System"
+      "method_en": "Read-only local Edge + registry + Event Log",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3283,11 +3555,13 @@ window.SSIT_DATA = {
       "webCategory": "Navigateurs",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Profilees Edge",
-      "description_en": "List les Profilees, Bookmarks observes, taille de Cache et chemin local.",
+      "name_en": "profiles Edge",
+      "description_en": "Lists the profiles, Bookmarks observes, size of Cache and chemin local.",
       "category_en": "Edge",
-      "method_en": "local State + User Data",
-      "webCategory_en": "Browsers"
+      "method_en": "local State + User data",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3302,11 +3576,13 @@ window.SSIT_DATA = {
       "webCategory": "Navigateurs",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Extensions Edge détaillées",
-      "description_en": "Affiche les Extensions réellement installees par Profile avec ID, Version et chemin.",
+      "name_en": "extensions Edge détaillées",
+      "description_en": "Shows the extensions réellement installees par Profile with ID, Version and chemin.",
       "category_en": "Edge",
-      "method_en": "Manifestes locaux des Extensions Edge",
-      "webCategory_en": "Browsers"
+      "method_en": "Manifestes local the extensions Edge",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3322,10 +3598,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Stratégies Edge entreprise",
-      "description_en": "Affiche les strategies Edge imposees localement au niveau machine et User.",
+      "description_en": "Shows the strategies Edge imposees localement to the niveau machine and User.",
       "category_en": "Edge",
       "method_en": "HKLM/HKCU Software Policies Microsoft Edge",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3340,11 +3618,13 @@ window.SSIT_DATA = {
       "webCategory": "Navigateurs",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Processes Edge",
-      "description_en": "Affiche PID, RAM, CPU, heure de demarrage et executable.",
+      "name_en": "processes Edge",
+      "description_en": "Shows PID, RAM, CPU, heure of demarrage and executable.",
       "category_en": "Edge",
       "method_en": "Get-Process msedge",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3360,10 +3640,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Analyser Cache Edge",
-      "description_en": "Mesure les Caches de tous les Profilees sans suppression.",
+      "description_en": "Measures the caches of all profiles without Removal.",
       "category_en": "Edge",
       "method_en": "Cache + Code Cache + GPUCache + Service Worker",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3379,11 +3661,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Clean Cache Edge ciblé",
-      "description_en": "Closes Edge puis nettoie uniquement les Caches techniques avec comparaison avant/apres.",
+      "description_en": "Closes Edge then Cleans only the caches techniques with comparaison before/apres.",
       "category_en": "Edge",
-      "risk_en": "Medium : les pages Reloadsront leurs ressources.",
+      "risk_en": "Medium: the pages will reload leurs resources.",
       "method_en": "Cache + Code Cache + GPUCache",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": ""
     },
     {
       "category": "Edge",
@@ -3398,11 +3681,13 @@ window.SSIT_DATA = {
       "webCategory": "Navigateurs",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Erreurs et crashs Edge",
-      "description_en": "Affiche les erreurs Edge et WebView2 recentes depuis les journaux Windows.",
+      "name_en": "Erreurs and crashs Edge",
+      "description_en": "Shows the erreurs Edge and WebView2 recentes depuis the logs Windows.",
       "category_en": "Edge",
-      "method_en": "Application Error + Windows Error Reporting",
-      "webCategory_en": "Browsers"
+      "method_en": "application Error + Windows Error Reporting",
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3418,10 +3703,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Network / proxy Edge",
-      "description_en": "Teste DNS, TCP 443 et affiche les proxys User et WinHTTP.",
+      "description_en": "Tests DNS, TCP 443 and Shows the proxys User and WinHTTP.",
       "category_en": "Edge",
       "method_en": "Resolve-DnsName + Test-NetConnection + proxy",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Edge",
@@ -3437,10 +3724,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "WebView2",
-      "description_en": "Affiche le runtime WebView2 installe et les Processes actifs.",
+      "description_en": "Shows the runtime WebView2 installe and the processes actifs.",
       "category_en": "Edge",
       "method_en": "EdgeUpdate + msedgewebview2",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -3456,10 +3745,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Azure Tools Hub",
-      "description_en": "Lance directement Azure Tools Hub.",
+      "description_en": "Runs directement Azure Tools Hub.",
       "category_en": "Intune / Entra",
       "method_en": "PIM Entra / Microsoft Graph / Azure Arc",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra / SCCM",
@@ -3475,10 +3766,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le centre Intune Azure MS.",
       "shell": "PowerShell",
       "name_en": "Centre Intune Azure MS",
-      "description_en": "Accès centralisé à Intune, Entra, Azure, Devices, groupes, Applications et identité.",
+      "description_en": "Technical support action for Centre Intune Azure MS.",
       "category_en": "Intune / Entra / SCCM",
       "method_en": "Centre Microsoft.",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -3493,11 +3786,13 @@ window.SSIT_DATA = {
       "webCategory": "Applications",
       "script": "Ouvre le Centre Applications Super Support IT.",
       "shell": "PowerShell",
-      "name_en": "Centre Applications",
-      "description_en": "Un seul centre pour voir, rechercher, Launch, diagnostiquer, forcer la Closesture, redemarrer, reparer, modifier ou reset une Application.",
+      "name_en": "Centre applications",
+      "description_en": "a seul centre for voir, rechercher, Launch, diagnostiquer, forcer the closure, redemarrer, reparer, modifier or reset a application.",
       "category_en": "Applications",
-      "method_en": "Fusion de Toutes les Applications visuelles + Centre Applications support + Lanceur + Reparer/Modifier/Reset.",
-      "webCategory_en": "Applications"
+      "method_en": "Fusion of all applications visuelles + Centre applications support + Lanceur + Reparer/Modifier/Reset.",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Poste Windows",
@@ -3513,10 +3808,12 @@ window.SSIT_DATA = {
       "script": "Win32_OperatingSystem; Microsoft.Update.Session; Get-HotFix",
       "shell": "PowerShell",
       "name_en": "Etat Windows & mises a jour",
-      "description_en": "Regroupe dernier demarrage, uptime, arret propre/inattendu, reboot pending, derniere KB connue et History reel Windows Update.",
+      "description_en": "Regroupe dernier demarrage, uptime, arret clean/inattendu, reboot pending, derniere KB connue and History reel Windows Update.",
       "category_en": "Windows Device",
       "method_en": "CIM + System Event Log + Microsoft.Update.Session + Get-HotFix.",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -3532,10 +3829,12 @@ window.SSIT_DATA = {
       "script": "Win32_ComputerSystem; Win32_BIOS; ouvre le support officiel HP/Dell/Lenovo",
       "shell": "PowerShell",
       "name_en": "Drivers / BIOS constructeur",
-      "description_en": "Detecte HP, Dell ou Lenovo, affiche modele/serial/BIOS et ouvre directement les pages officielles de support et telechargement Drivers/BIOS.",
+      "description_en": "Displays or checks technical information for Drivers / BIOS constructeur.",
       "category_en": "Devices & Drivers",
-      "method_en": "Aucune installation automatique d outil constructeur.",
-      "webCategory_en": "Devices & Drivers"
+      "method_en": "Support procedure.",
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3551,10 +3850,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Word - Full Diagnostic",
-      "description_en": "Controle installation, Version, Processes, complements COM, securite macros, Cache et derniere execution.",
+      "description_en": "Displays or checks technical information for Word - Full Diagnostic.",
       "category_en": "Microsoft 365",
-      "method_en": "Diagnostic local sans modification.",
-      "webCategory_en": "System"
+      "method_en": "Support procedure.",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3570,10 +3871,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "Excel - Full Diagnostic",
-      "description_en": "Controle installation, Version, Processes, complements COM, securite macros, Cache et derniere execution.",
+      "description_en": "Displays or checks technical information for Excel - Full Diagnostic.",
       "category_en": "Microsoft 365",
-      "method_en": "Diagnostic local sans modification.",
-      "webCategory_en": "System"
+      "method_en": "Support procedure.",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3589,10 +3892,12 @@ window.SSIT_DATA = {
       "script": "",
       "shell": "PowerShell",
       "name_en": "PowerPoint - Full Diagnostic",
-      "description_en": "Controle installation, Version, Processes, complements COM, securite macros, Cache et derniere execution.",
+      "description_en": "Displays or checks technical information for PowerPoint - Full Diagnostic.",
       "category_en": "Microsoft 365",
-      "method_en": "Diagnostic local sans modification.",
-      "webCategory_en": "System"
+      "method_en": "Support procedure.",
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3607,11 +3912,13 @@ window.SSIT_DATA = {
       "webCategory": "Microsoft 365",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Word - Clean le Cache",
-      "description_en": "Closes Word puis nettoie uniquement les Caches locaux cibles.",
+      "name_en": "Word - Clean the Cache",
+      "description_en": "Closes Word then Cleans only the caches local cibles.",
       "category_en": "Microsoft 365",
       "method_en": "OfficeFileCache + Content.Word.",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3626,11 +3933,13 @@ window.SSIT_DATA = {
       "webCategory": "Microsoft 365",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Excel - Clean le Cache",
-      "description_en": "Closes Excel puis nettoie uniquement les Caches locaux cibles.",
+      "name_en": "Excel - Clean the Cache",
+      "description_en": "Closes Excel then Cleans only the caches local cibles.",
       "category_en": "Microsoft 365",
       "method_en": "OfficeFileCache + Content.MSO.",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3645,11 +3954,13 @@ window.SSIT_DATA = {
       "webCategory": "Microsoft 365",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "PowerPoint - Clean le Cache",
-      "description_en": "Closes PowerPoint puis nettoie uniquement les Caches locaux cibles.",
+      "name_en": "PowerPoint - Clean the Cache",
+      "description_en": "Closes PowerPoint then Cleans only the caches local cibles.",
       "category_en": "Microsoft 365",
       "method_en": "OfficeFileCache + Content.MSO.",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3664,11 +3975,13 @@ window.SSIT_DATA = {
       "webCategory": "Microsoft 365",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "Teams - Clean le Cache",
-      "description_en": "Closes Teams puis nettoie les Caches locaux du nouveau et de l ancien client.",
+      "name_en": "Teams - Clean the Cache",
+      "description_en": "Closes Teams then Cleans the caches local the new and of l legacy client.",
       "category_en": "Microsoft 365",
       "method_en": "localCache / Cache / Code Cache / GPUCache.",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Microsoft 365",
@@ -3683,11 +3996,13 @@ window.SSIT_DATA = {
       "webCategory": "Microsoft 365",
       "script": "",
       "shell": "PowerShell",
-      "name_en": "OneDrive - Clean Cache et logs temporaires",
-      "description_en": "Closes OneDrive et nettoie les journaux temporaires locaux sans Deletesr les Files synchronises.",
+      "name_en": "OneDrive - Clean Cache and logs temporaires",
+      "description_en": "Closes OneDrive and Cleans the logs temporaires local without Deletesr the files synchronises.",
       "category_en": "Microsoft 365",
-      "method_en": "Logs OneDrive uniquement; aucun Folder User synchronise.",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "Logs OneDrive only; aucun Folder User synchronise.",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Poste Windows",
@@ -3702,11 +4017,13 @@ window.SSIT_DATA = {
       "webCategory": "Système",
       "script": "(Get-LmsSystemSnapshotCommand)",
       "shell": "PowerShell",
-      "name_en": "Diagnostic express du poste",
-      "description_en": "Information systeme et hardware directement utiles au support : uptime, dernier boot/arret, CPU, RAM, Disk, BIOS, derniere KB et reboot pending.",
+      "name_en": "Windows Device support action",
+      "description_en": "Information systeme and hardware directement useful to the support: uptime, dernier boot/arret, CPU, RAM, Disk, BIOS, derniere KB and reboot pending.",
       "category_en": "Windows Device",
       "method_en": "PowerShell + CIM + Event Log + Get-HotFix + Registry.",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Poste Windows",
@@ -3722,10 +4039,12 @@ window.SSIT_DATA = {
       "script": "Get-WinEvent -FilterHashtable @{LogName='System';Id=41,1074,6005,6006,6008} -MaxEvents 50",
       "shell": "PowerShell",
       "name_en": "History demarrage / arret",
-      "description_en": "Affiche les Latest boots, arrets propres, arrets inattendus et redemarrages demandes.",
+      "description_en": "Shows the Latest boots, arrets propres, arrets inattendus and redemarrages demandes.",
       "category_en": "Windows Device",
       "method_en": "Get-WinEvent System IDs 41,1074,6005,6006,6008.",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Poste Windows",
@@ -3741,10 +4060,12 @@ window.SSIT_DATA = {
       "script": "Get-CimInstance Win32_OperatingSystem; Get-CimInstance Win32_Processor; Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 10",
       "shell": "PowerShell",
       "name_en": "Performance instantanee",
-      "description_en": "Vue rapide CPU, RAM et top Processes memoire pour un poste lent.",
+      "description_en": "Technical support action for Performance instantanee.",
       "category_en": "Windows Device",
       "method_en": "CIM Win32_OperatingSystem/Processor + Get-Process.",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Sécurité Windows",
@@ -3760,10 +4081,12 @@ window.SSIT_DATA = {
       "script": "Get-BitLockerVolume; Get-Tpm; Confirm-SecureBootUEFI; Get-MpComputerStatus; Get-NetFirewallProfile",
       "shell": "PowerShell",
       "name_en": "Etat securite Windows",
-      "description_en": "Synthese BitLocker, TPM, Secure Boot, Defender et Firewall.",
+      "description_en": "Synthese BitLocker, TPM, Secure Boot, Defender and Firewall.",
       "category_en": "Windows Security",
       "method_en": "Get-BitLockerVolume + Get-Tpm + Confirm-SecureBootUEFI + Get-MpComputerStatus + Get-NetFirewallProfilee.",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Sécurité Windows",
@@ -3779,10 +4102,12 @@ window.SSIT_DATA = {
       "script": "Get-BitLockerVolume ; manage-bde -status",
       "shell": "PowerShell",
       "name_en": "BitLocker - etat local",
-      "description_en": "Diagnostic robuste BitLocker avec fallback manage-bde et indication claire si une elevation est necessaire.",
+      "description_en": "Diagnostic robuste BitLocker with fallback manage-bde and indication claire si a elevation is necessaire.",
       "category_en": "Windows Security",
-      "method_en": "Get-BitLockerVolume + manage-bde -status. Aucune cle de recuperation n est lue.",
-      "webCategory_en": "Windows Security"
+      "method_en": "Get-BitLockerVolume + manage-bde -status. Aucune cle of recuperation n is lue.",
+      "webCategory_en": "Windows Security",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Sécurité Windows",
@@ -3797,11 +4122,13 @@ window.SSIT_DATA = {
       "webCategory": "Sécurité Windows",
       "script": "Get-MpComputerStatus; Get-MpPreference; Get-Service WinDefend",
       "shell": "PowerShell",
-      "name_en": "Defender - etat et signatures",
-      "description_en": "Diagnostic Defender lisible : Service, protection temps reel, signatures, scans et PUA.",
+      "name_en": "Defender - etat and signatures",
+      "description_en": "Diagnostic Defender lisible: Service, protection temps reel, signatures, scans and PUA.",
       "category_en": "Windows Security",
       "method_en": "Get-MpComputerStatus + Get-MpPreference + WinDefend.",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Sécurité Windows",
@@ -3817,10 +4144,12 @@ window.SSIT_DATA = {
       "script": "Get-Tpm; Confirm-SecureBootUEFI",
       "shell": "PowerShell",
       "name_en": "TPM / Secure Boot - Diagnostic",
-      "description_en": "Affiche TPM present/pret/active, ownership, redemarrage requis et Secure Boot.",
+      "description_en": "Shows TPM present/pret/active, ownership, redemarrage requis and Secure Boot.",
       "category_en": "Windows Security",
       "method_en": "Get-Tpm + Confirm-SecureBootUEFI.",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Windows Update",
@@ -3836,10 +4165,12 @@ window.SSIT_DATA = {
       "script": "Get-HotFix | Where-Object InstalledOn | Sort-Object InstalledOn -Descending | Select-Object -First 30 HotFixID,Description,InstalledOn,InstalledBy",
       "shell": "PowerShell",
       "name_en": "Dernieres KB - synthese",
-      "description_en": "List les Latest correctifs installes avec date et Account.",
+      "description_en": "Lists the Latest correctifs installes with date and Account.",
       "category_en": "Windows Update",
       "method_en": "Get-HotFix trie par InstalledOn.",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Windows Update",
@@ -3855,10 +4186,12 @@ window.SSIT_DATA = {
       "script": "Get-WinEvent -LogName 'Microsoft-Windows-WindowsUpdateClient/Operational' -MaxEvents 40",
       "shell": "PowerShell",
       "name_en": "Logs Windows Update recents",
-      "description_en": "Affiche les Latest evenements du journal WindowsUpdateClient/Operational.",
+      "description_en": "Shows the Latest evenements the journal WindowsUpdateClient/Operational.",
       "category_en": "Windows Update",
       "method_en": "Get-WinEvent Microsoft-Windows-WindowsUpdateClient/Operational.",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -3873,11 +4206,13 @@ window.SSIT_DATA = {
       "webCategory": "Périphériques & Pilotes",
       "script": "Get-CimInstance Win32_PnPSignedDriver | Where-Object DeviceName | Select-Object DeviceName,Manufacturer,DriverVersion,DriverDate,InfName",
       "shell": "PowerShell",
-      "name_en": "Inventory complet des Drivers",
-      "description_en": "List device, fabricant, Version, date et File INF.",
+      "name_en": "Inventory complet the Drivers",
+      "description_en": "Lists device, manufacturer, Version, date and File INF.",
       "category_en": "Devices & Drivers",
       "method_en": "Win32_PnPSignedDriver via CIM.",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -3893,10 +4228,12 @@ window.SSIT_DATA = {
       "script": "Get-PnpDevice | Where-Object {$_.Status -ne 'OK'} | Select-Object Status,Class,FriendlyName,InstanceId",
       "shell": "PowerShell",
       "name_en": "Drivers / peripheriques en anomalie",
-      "description_en": "Affiche uniquement les peripheriques PnP dont le statut n est pas OK.",
+      "description_en": "Shows only the peripheriques PnP dont the Status n is pas OK.",
       "category_en": "Devices & Drivers",
-      "method_en": "Get-PnpDevice filtre Status.",
-      "webCategory_en": "Devices & Drivers"
+      "method_en": "Get-PnpDevice Filters Status.",
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -3912,10 +4249,12 @@ window.SSIT_DATA = {
       "script": "Get-CimInstance Win32_BIOS; Get-CimInstance Win32_ComputerSystem; Get-CimInstance Win32_BaseBoard",
       "shell": "PowerShell",
       "name_en": "BIOS / Hardware",
-      "description_en": "Fabricant, modele, serial, BIOS, date BIOS et carte mere.",
+      "description_en": "manufacturer, modele, serial, BIOS, date BIOS and carte mere.",
       "category_en": "Devices & Drivers",
       "method_en": "CIM Win32_BIOS / Win32_ComputerSystem / Win32_BaseBoard.",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -3931,11 +4270,11 @@ window.SSIT_DATA = {
       "script": "pnputil /scan-devices",
       "shell": "CMD / PowerShell",
       "name_en": "Rescan materiel PnP",
-      "description_en": "Relance la detection des changements materiels. Si necessaire IT Pocket propose une elevation UAC.",
+      "description_en": "Relance the detection the changements materiels. Si necessaire IT Pocket propose a elevation UAC.",
       "category_en": "Devices & Drivers",
       "rights_en": "Administrator",
-      "risk_en": "Low to medium : rescane les peripheriques.",
-      "method_en": "pnputil /scan-devices avec gestion de l elevation.",
+      "risk_en": "Low to medium: rescane the peripheriques.",
+      "method_en": "pnputil /scan-devices with management of l elevation.",
       "webCategory_en": "Devices & Drivers"
     },
     {
@@ -3952,10 +4291,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le centre de commandes Microsoft 365.",
       "shell": "PowerShell",
       "name_en": "Centre commandes Office / M365",
-      "description_en": "Toutes les commandes support utiles pour Outlook, Word, Excel, PowerPoint, Teams, OneDrive et Office Click-to-Run.",
+      "description_en": "all commandes support useful for Outlook, Word, Excel, PowerPoint, Teams, OneDrive and Office Click-to-Run.",
       "category_en": "Microsoft 365",
-      "method_en": "Bibliotheque de commandes copiables et executables, classees par Application.",
-      "webCategory_en": "Microsoft 365"
+      "method_en": "Bibliotheque of commandes copiables and executables, classees par application.",
+      "webCategory_en": "Microsoft 365",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Intune / Entra / SCCM",
@@ -3971,10 +4312,12 @@ window.SSIT_DATA = {
       "script": "dsregcmd /status; Get-WinEvent Microsoft-Windows-AAD/Operational",
       "shell": "CMD / PowerShell",
       "name_en": "Derniere Authentication / SSO",
-      "description_en": "Affiche les Information AzureAdPrt / SSO de DSREGCMD et les journaux AAD / WebAuth disponibles.",
+      "description_en": "Shows the Information AzureAdPrt / SSO of DSREGCMD and the logs AAD / WebAuth available.",
       "category_en": "Intune / Entra / SCCM",
-      "method_en": "DSREGCMD + journaux AAD, User Device Registration et WebAuth.",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "method_en": "DSREGCMD + logs AAD, User Device Registration and WebAuth.",
+      "webCategory_en": "Intune / Entra / SCCM",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Applications",
@@ -3990,10 +4333,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le centre navigateurs Super Support IT.",
       "shell": "PowerShell",
       "name_en": "Assistance navigateurs Edge / Chrome",
-      "description_en": "Centre de Diagnostic et d actions pour Edge et Chrome : Processes, Version, sans Extensions, Closesture forcee, redemarrage, Extensions et policies.",
+      "description_en": "Centre of Diagnostic and d actions for Edge and Chrome: processes, Version, without extensions, closure forcee, redemarrage, extensions and policies.",
       "category_en": "Applications",
-      "method_en": "PowerShell + Processes + switches navigateurs.",
-      "webCategory_en": "Applications"
+      "method_en": "PowerShell + processes + switches navigateurs.",
+      "webCategory_en": "Applications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau & Accès distant",
@@ -4009,10 +4354,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le scanner réseau.",
       "shell": "PowerShell",
       "name_en": "Scanner reseau",
-      "description_en": "Recherche les Devices d une plage IPv4 et affiche IP, nom, MAC, latence, type probable et Services détectés.",
+      "description_en": "Recherche the Devices d a plage IPv4 and Shows IP, nom, MAC, latence, type probable and Services detected.",
       "category_en": "Network & Remote Access",
-      "method_en": "Scan rapide ou complet.",
-      "webCategory_en": "Network & Remote Access"
+      "method_en": "Scan rapide or complet.",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau & Accès distant",
@@ -4027,11 +4374,13 @@ window.SSIT_DATA = {
       "webCategory": "Réseau & Accès distant",
       "script": "Get-NetIPConfiguration; Get-NetNeighbor -AddressFamily IPv4",
       "shell": "PowerShell",
-      "name_en": "Carte du reseau local",
-      "description_en": "Vue du poste, de la Gateway et des Devices détectés sur le Network local, avec accès au scanner Network.",
+      "name_en": "Carte the reseau local",
+      "description_en": "Displays or checks technical information for Carte the reseau local.",
       "category_en": "Network & Remote Access",
-      "method_en": "Analyse locale du Network.",
-      "webCategory_en": "Network & Remote Access"
+      "method_en": "Analyse local the Network.",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Réseau & Accès distant",
@@ -4047,10 +4396,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le centre VPN / acces distant.",
       "shell": "PowerShell",
       "name_en": "Centre Citrix / FortiClient / Ivanti",
-      "description_en": "Diagnostic separe par client : Processes, Services, interfaces, routes et logs.",
+      "description_en": "Diagnostic separe par client: processes, Services, interfaces, routes and logs.",
       "category_en": "Network & Remote Access",
-      "method_en": "Aucune remediation d un client n est appliquee a un autre.",
-      "webCategory_en": "Network & Remote Access"
+      "method_en": "Aucune remediation d a client n is appliquee a a autre.",
+      "webCategory_en": "Network & Remote Access",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -4066,11 +4417,13 @@ window.SSIT_DATA = {
       "script": "Start-Process \"ms-settings:sound\"",
       "shell": "PowerShell",
       "name_en": "Parametres audio Windows",
-      "description_en": "Ouvre directement les parametres Son pour sortie, entree et peripheriques audio.",
+      "description_en": "Opens directement the parametres Son for sortie, entree and peripheriques audio.",
       "category_en": "Devices & Drivers",
       "method_en": "URI Windows ms-settings:sound.",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -4086,11 +4439,13 @@ window.SSIT_DATA = {
       "script": "Start-Process \"ms-settings:bluetooth\"",
       "shell": "PowerShell",
       "name_en": "Parametres Bluetooth Windows",
-      "description_en": "Ouvre directement Bluetooth et Devices.",
+      "description_en": "Opens directement Bluetooth and Devices.",
       "category_en": "Devices & Drivers",
       "method_en": "URI Windows ms-settings:bluetooth.",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -4106,11 +4461,13 @@ window.SSIT_DATA = {
       "script": "Start-Process \"ms-settings:printers\"",
       "shell": "PowerShell",
       "name_en": "Parametres Printers Windows",
-      "description_en": "Ouvre directement Printers et scanners.",
+      "description_en": "Opens directement Printers and scanners.",
       "category_en": "Devices & Drivers",
       "method_en": "URI Windows ms-settings:printers.",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -4126,11 +4483,13 @@ window.SSIT_DATA = {
       "script": "Start-Process \"ms-settings:display\"",
       "shell": "PowerShell",
       "name_en": "Parametres affichage Windows",
-      "description_en": "Ouvre directement les parametres d affichage et ecrans.",
+      "description_en": "Opens directement the parametres d affichage and ecrans.",
       "category_en": "Devices & Drivers",
       "method_en": "URI Windows ms-settings:display.",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Périphériques & Pilotes",
@@ -4145,12 +4504,14 @@ window.SSIT_DATA = {
       "webCategory": "Périphériques & Pilotes",
       "script": "Start-Process devmgmt.msc",
       "shell": "PowerShell",
-      "name_en": "Manager de peripheriques Windows",
-      "description_en": "Ouvre Device Manager pour le Diagnostic avance du materiel.",
+      "name_en": "manager of peripheriques Windows",
+      "description_en": "Opens Device manager for the Diagnostic avance the materiel.",
       "category_en": "Devices & Drivers",
       "method_en": "devmgmt.msc.",
       "actionType_en": "Direct",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Communications",
@@ -4166,10 +4527,12 @@ window.SSIT_DATA = {
       "script": "Ouvre le Centre Communications.",
       "shell": "PowerShell",
       "name_en": "Centre Communications",
-      "description_en": "Centralise les modèles et messages de support : rechercher, copier, pRepair dans Outlook, créer, modifier, dupliquer ou Deletesr.",
+      "description_en": "Centralise the modèthe and messages of support: rechercher, copier, pRepair in Outlook, créer, modifier, dupliquer or Deletesr.",
       "category_en": "Communications",
       "method_en": "Centre Communications IT Pocket.",
-      "webCategory_en": "Communications"
+      "webCategory_en": "Communications",
+      "rights_en": "",
+      "risk_en": ""
     },
     {
       "category": "Communications",
@@ -4184,12 +4547,14 @@ window.SSIT_DATA = {
       "webCategory": "Communications",
       "script": "Ouvre l éditeur de modèle.",
       "shell": "PowerShell",
-      "name_en": "Nouveau modele",
-      "description_en": "Crée un nouveau modèle de communication réutilisable.",
+      "name_en": "new modele",
+      "description_en": "Creates a new model of communication réutilisable.",
       "category_en": "Communications",
       "method_en": "Éditeur intégré.",
       "actionType_en": "Direct",
-      "webCategory_en": "Communications"
+      "webCategory_en": "Communications",
+      "rights_en": "",
+      "risk_en": ""
     }
   ],
   "commands": [
@@ -4203,7 +4568,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Word - Full Diagnostic",
-      "description_en": "Version, Processes, compléments COM, Security macros et taille du Cache Office.",
+      "description_en": "Version, processes, add-ins COM, Security macros and size the Cache Office.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4219,7 +4584,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Faible",
       "name_en": "Word - Safe mode",
-      "description_en": "Démarre Word sans compléments pour isoler un problème.",
+      "description_en": "Starts Word without add-ins for isoler a problème.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4235,7 +4600,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Faible",
       "name_en": "Word - mode /a",
-      "description_en": "Démarre Word sans Normal.dotm ni compléments.",
+      "description_en": "Starts Word without Normal.dotm ni add-ins.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4251,10 +4616,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : documents non enregistrés",
       "name_en": "Word - Force close",
-      "description_en": "Termine Word lorsqu’il est bloqué.",
+      "description_en": "Stops Word lorsqu’il is bloqué.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
-      "risk_en": "Medium : documents unsaved",
+      "risk_en": "Medium: documents unsaved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4267,10 +4632,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : documents non enregistrés",
       "name_en": "Word - Restart",
-      "description_en": "Closes Word puis le relance.",
+      "description_en": "Closes Word then the relance.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
-      "risk_en": "Medium : documents unsaved",
+      "risk_en": "Medium: documents unsaved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4283,10 +4648,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : ferme Word",
       "name_en": "Word - Clean Cache",
-      "description_en": "Closes Word puis vide les Caches locaux Office ciblés sans Deletesr les documents.",
+      "description_en": "Performs a targeted cleanup for Word - Clean Cache.",
       "category_en": "Microsoft 365 • Word",
       "rights_en": "User",
-      "risk_en": "Medium : Closes Word",
+      "risk_en": "Medium: Closes Word",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4299,7 +4664,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Excel - Full Diagnostic",
-      "description_en": "Version, Processes, compléments COM, Security macros et taille du Cache Office.",
+      "description_en": "Version, processes, add-ins COM, Security macros and size the Cache Office.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4315,7 +4680,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Faible",
       "name_en": "Excel - Safe mode",
-      "description_en": "Démarre Excel sans compléments.",
+      "description_en": "Starts Excel without add-ins.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4330,8 +4695,8 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Excel - nouvelle instance",
-      "description_en": "Démarre Excel dans une nouvelle instance pour isoler certains blocages.",
+      "name_en": "Excel - new instance",
+      "description_en": "Starts Excel in a new instance for isoler certains blocages.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4347,10 +4712,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : classeurs non enregistrés",
       "name_en": "Excel - Force close",
-      "description_en": "Termine Excel lorsqu’il est bloqué.",
+      "description_en": "Stops Excel lorsqu’il is bloqué.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
-      "risk_en": "Medium : workbooks unsaved",
+      "risk_en": "Medium: workbooks unsaved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4363,10 +4728,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : classeurs non enregistrés",
       "name_en": "Excel - Restart",
-      "description_en": "Closes Excel puis le relance.",
+      "description_en": "Closes Excel then the relance.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
-      "risk_en": "Medium : workbooks unsaved",
+      "risk_en": "Medium: workbooks unsaved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4379,10 +4744,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : ferme Excel",
       "name_en": "Excel - Clean Cache",
-      "description_en": "Closes Excel puis vide les Caches locaux Office ciblés.",
+      "description_en": "Closes Excel then vide the caches local Office targeted.",
       "category_en": "Microsoft 365 • Excel",
       "rights_en": "User",
-      "risk_en": "Medium : Closes Excel",
+      "risk_en": "Medium: Closes Excel",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4395,7 +4760,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "PowerPoint - Full Diagnostic",
-      "description_en": "Version, Processes, compléments COM, Security macros et taille du Cache Office.",
+      "description_en": "Version, processes, add-ins COM, Security macros and size the Cache Office.",
       "category_en": "Microsoft 365 • PowerPoint",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4411,7 +4776,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Faible",
       "name_en": "PowerPoint - Safe mode",
-      "description_en": "Démarre PowerPoint sans compléments.",
+      "description_en": "Starts PowerPoint without add-ins.",
       "category_en": "Microsoft 365 • PowerPoint",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4427,10 +4792,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : présentation non enregistrée",
       "name_en": "PowerPoint - Force close",
-      "description_en": "Termine PowerPoint lorsqu’il est bloqué.",
+      "description_en": "Stops PowerPoint lorsqu’il is bloqué.",
       "category_en": "Microsoft 365 • PowerPoint",
       "rights_en": "User",
-      "risk_en": "Medium : presentation non enregistrée",
+      "risk_en": "Medium: presentation non saved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4443,10 +4808,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : présentation non enregistrée",
       "name_en": "PowerPoint - Restart",
-      "description_en": "Closes PowerPoint puis le relance.",
+      "description_en": "Closes PowerPoint then the relance.",
       "category_en": "Microsoft 365 • PowerPoint",
       "rights_en": "User",
-      "risk_en": "Medium : presentation non enregistrée",
+      "risk_en": "Medium: presentation non saved",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4459,10 +4824,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : ferme PowerPoint",
       "name_en": "PowerPoint - Clean Cache",
-      "description_en": "Closes PowerPoint puis vide les Caches locaux Office ciblés.",
+      "description_en": "Closes PowerPoint then vide the caches local Office targeted.",
       "category_en": "Microsoft 365 • PowerPoint",
       "rights_en": "User",
-      "risk_en": "Medium : Closes PowerPoint",
+      "risk_en": "Medium: Closes PowerPoint",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4475,7 +4840,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Teams - Full Diagnostic",
-      "description_en": "Status des Processes Teams, package New Teams, Version, emplacement et consommation Memory.",
+      "description_en": "Status the processes Teams, package New Teams, Version, emplacement and consommation Memory.",
       "category_en": "Microsoft 365 • Teams",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4491,10 +4856,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : appel ou brouillon interrompu",
       "name_en": "Teams - Force close",
-      "description_en": "Termine les Processes Teams classique ou nouveau Teams.",
+      "description_en": "Stops the processes Teams classique or new Teams.",
       "category_en": "Microsoft 365 • Teams",
       "rights_en": "User",
-      "risk_en": "Medium : call ou draft interrompu",
+      "risk_en": "Medium: call or draft interrupted",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4507,10 +4872,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : appel interrompu",
       "name_en": "Teams - Restart",
-      "description_en": "Closes Teams puis relance le nouveau client.",
+      "description_en": "Closes Teams then relance the new client.",
       "category_en": "Microsoft 365 • Teams",
       "rights_en": "User",
-      "risk_en": "Medium : call interrompu",
+      "risk_en": "Medium: call interrupted",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4539,10 +4904,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Moyen : ferme Teams",
       "name_en": "Teams - Clean Cache",
-      "description_en": "Closes Teams puis vide uniquement les Caches locaux du nouveau et de l’ancien client.",
+      "description_en": "Closes Teams then vide only the caches local the new and of l’legacy client.",
       "category_en": "Microsoft 365 • Teams",
       "rights_en": "User",
-      "risk_en": "Medium : Closes Teams",
+      "risk_en": "Medium: Closes Teams",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4571,10 +4936,10 @@ window.SSIT_DATA = {
       "rights": "Utilisateur / Admin selon politique",
       "risk": "Moyen : mise à jour Office",
       "name_en": "Office - demander Update",
-      "description_en": "Lance la Update Click-to-Run Microsoft 365 Apps.",
+      "description_en": "Runs the Update Click-to-Run Microsoft 365 Apps.",
       "category_en": "Microsoft 365 • Office",
       "rights_en": "User / Admin depending on policy",
-      "risk_en": "Medium : Update Office",
+      "risk_en": "Medium: Update Office",
       "webCategory_en": "Microsoft 365"
     },
     {
@@ -4587,7 +4952,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Faible",
       "name_en": "Office - Open Repair Windows",
-      "description_en": "Ouvre Installed Applications pour accéder à Modifier/Repair Microsoft 365.",
+      "description_en": "Opens Installed applications for accéder à Modifier/Repair Microsoft 365.",
       "category_en": "Microsoft 365 • Office",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4603,7 +4968,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Navigateurs - Full Diagnostic",
-      "description_en": "Versions, Processes, Memory et Profilees détectés pour Edge, Chrome et Firefox.",
+      "description_en": "versions, processes, Memory and profiles detected for Edge, Chrome and Firefox.",
       "category_en": "Browsers • General",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4618,8 +4983,8 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Navigateurs - taille des Caches",
-      "description_en": "Mesure les principaux Caches Edge et Chrome.",
+      "name_en": "Navigateurs - size the caches",
+      "description_en": "Measures the main caches Edge and Chrome.",
       "category_en": "Browsers • General",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4635,7 +5000,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture / copie locale",
       "name_en": "Navigateurs - Back up Bookmarks",
-      "description_en": "Sauvegarde les Files Bookmarks Chrome et Edge de tous les Profilees sur le Bureau.",
+      "description_en": "Backs up the files Bookmarks Chrome and Edge of all profiles on the Bureau.",
       "category_en": "Browsers • General",
       "rights_en": "User",
       "risk_en": "Read-only / local copy",
@@ -4650,11 +5015,11 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Moyen : ferme Edge",
-      "name_en": "Edge - Clean Caches tous Profilees",
-      "description_en": "Closes Edge puis vide Cache, Code Cache et GPUCache sur tous les Profilees locaux.",
+      "name_en": "Edge - Clean caches all profiles",
+      "description_en": "Closes Edge then vide Cache, Code Cache and GPUCache on all profiles local.",
       "category_en": "Browsers • Edge",
       "rights_en": "User",
-      "risk_en": "Medium : Closes Edge",
+      "risk_en": "Medium: Closes Edge",
       "webCategory_en": "Browsers"
     },
     {
@@ -4666,8 +5031,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Edge - Extensions",
-      "description_en": "Ouvre la page des Extensions Edge.",
+      "name_en": "Edge - extensions",
+      "description_en": "Opens the page the extensions Edge.",
       "category_en": "Browsers • Edge",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4682,8 +5047,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Edge - Manager Passwords",
-      "description_en": "Ouvre le Manager officiel de Passwords Edge sans lire les Passwords.",
+      "name_en": "Edge - manager passwords",
+      "description_en": "Opens the manager official of passwords Edge without lire the passwords.",
       "category_en": "Browsers • Edge",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4698,8 +5063,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Edge - effacer Data navigateur",
-      "description_en": "Ouvre l’écran officiel de suppression des Data de navigation Edge.",
+      "name_en": "Edge - effacer data browser",
+      "description_en": "Opens l’écran official of Removal the data of browsing Edge.",
       "category_en": "Browsers • Edge",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4714,11 +5079,11 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Moyen : ferme Chrome",
-      "name_en": "Chrome - Clean Caches tous Profilees",
-      "description_en": "Closes Chrome puis vide Cache, Code Cache et GPUCache sur tous les Profilees locaux.",
+      "name_en": "Chrome - Clean caches all profiles",
+      "description_en": "Closes Chrome then vide Cache, Code Cache and GPUCache on all profiles local.",
       "category_en": "Browsers • Chrome",
       "rights_en": "User",
-      "risk_en": "Medium : Closes Chrome",
+      "risk_en": "Medium: Closes Chrome",
       "webCategory_en": "Browsers"
     },
     {
@@ -4730,8 +5095,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Chrome - Extensions",
-      "description_en": "Ouvre la page des Extensions Chrome.",
+      "name_en": "Chrome - extensions",
+      "description_en": "Opens the page the extensions Chrome.",
       "category_en": "Browsers • Chrome",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4746,8 +5111,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Chrome - Manager Passwords",
-      "description_en": "Ouvre le Manager officiel de Passwords Chrome.",
+      "name_en": "Chrome - manager passwords",
+      "description_en": "Opens the manager official of passwords Chrome.",
       "category_en": "Browsers • Chrome",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4762,8 +5127,8 @@ window.SSIT_DATA = {
       "shell": "URI Navigateur",
       "rights": "Utilisateur",
       "risk": "Faible",
-      "name_en": "Chrome - effacer Data navigateur",
-      "description_en": "Ouvre l’écran officiel de suppression des Data de navigation Chrome.",
+      "name_en": "Chrome - effacer data browser",
+      "description_en": "Opens l’écran official of Removal the data of browsing Chrome.",
       "category_en": "Browsers • Chrome",
       "rights_en": "User",
       "risk_en": "Low",
@@ -4779,7 +5144,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Firefox - Diagnostic",
-      "description_en": "Version, Processes, Memory et Profilees Firefox.",
+      "description_en": "Version, processes, Memory and profiles Firefox.",
       "category_en": "Browsers • Firefox",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4794,8 +5159,8 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "OneDrive - Diagnostic technicien",
-      "description_en": "Collecte Version, Processes, Accounts, Folders, Startup, Connectivity Microsoft et logs OneDrive.",
+      "name_en": "OneDrive - Diagnostic technician",
+      "description_en": "Collecte Version, processes, Accounts, folders, Startup, Connectivity Microsoft and logs OneDrive.",
       "category_en": "Microsoft 365 • OneDrive",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4811,7 +5176,7 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Device summary",
-      "description_en": "Displays essential device information: Windows, manufacturer, model, serial number, BIOS, CPU, RAM, disk, user and network.",
+      "description_en": "Displays essential device Information: Windows, manufacturer, model, serial number, BIOS, CPU, RAM, disk, user and network.",
       "category_en": "Windows Device",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4842,8 +5207,8 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Inventory Applications",
-      "description_en": "List les logiciels installés depuis les clés Uninstall HKLM, WOW6432Node et HKCU.",
+      "name_en": "Inventory applications",
+      "description_en": "Lists the installed software depuis the clés Uninstall HKLM, WOW6432Node and HKCU.",
       "category_en": "Applications",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -4862,7 +5227,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4877,7 +5243,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4892,7 +5259,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4903,11 +5271,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "DNS configurés",
+      "name_en": "DNS configured",
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4922,7 +5291,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4937,7 +5307,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4948,11 +5319,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Résolution DNS Microsoft",
+      "name_en": "resolution DNS Microsoft",
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4967,7 +5339,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4982,7 +5355,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -4997,7 +5371,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5012,7 +5387,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5027,7 +5403,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5042,7 +5419,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5057,7 +5435,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5072,7 +5451,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5087,7 +5467,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5102,7 +5483,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5117,7 +5499,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5132,7 +5515,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -5147,7 +5531,8 @@ window.SSIT_DATA = {
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Network & Remote Access"
+      "webCategory_en": "Network & Remote Access",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5162,7 +5547,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5177,7 +5563,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5192,7 +5579,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5207,7 +5595,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5222,7 +5611,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5237,7 +5627,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5252,7 +5643,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5267,7 +5659,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5282,7 +5675,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5297,7 +5691,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5308,11 +5703,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Erreurs système 24h",
+      "name_en": "System support action",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5323,11 +5719,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Erreurs Applications 24h",
+      "name_en": "Erreurs applications 24h",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5338,11 +5735,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Fiabilité récente",
+      "name_en": "Fiabilité recent",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Système",
@@ -5357,7 +5755,8 @@ window.SSIT_DATA = {
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5369,10 +5768,11 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Top RAM",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5384,10 +5784,11 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Top CPU",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5399,10 +5800,11 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "All processes",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5414,10 +5816,11 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Stopped automatic services",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5429,10 +5832,11 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture",
       "name_en": "Services with errors",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Processus & Services",
@@ -5444,10 +5848,11 @@ window.SSIT_DATA = {
       "rights": "Administrateur recommandé",
       "risk": "Action",
       "name_en": "Restart Spooler",
-      "category_en": "Processes & Services",
+      "category_en": "processes & Services",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Disque & Stockage",
@@ -5462,7 +5867,8 @@ window.SSIT_DATA = {
       "category_en": "Disk & Storage",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Disque & Stockage",
@@ -5477,7 +5883,8 @@ window.SSIT_DATA = {
       "category_en": "Disk & Storage",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Disque & Stockage",
@@ -5492,7 +5899,8 @@ window.SSIT_DATA = {
       "category_en": "Disk & Storage",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Disque & Stockage",
@@ -5507,7 +5915,8 @@ window.SSIT_DATA = {
       "category_en": "Disk & Storage",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Disque & Stockage",
@@ -5518,11 +5927,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Taille TEMP User",
+      "name_en": "size TEMP User",
       "category_en": "Disk & Storage",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5537,7 +5947,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5552,7 +5963,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5567,7 +5979,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5582,7 +5995,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5597,7 +6011,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5612,7 +6027,8 @@ window.SSIT_DATA = {
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Applications & Winget",
@@ -5623,11 +6039,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Crash Applications 48h",
+      "name_en": "Crash applications 48h",
       "category_en": "Applications & Winget",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Applications"
+      "webCategory_en": "Applications",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5642,7 +6059,8 @@ window.SSIT_DATA = {
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5653,11 +6071,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Processes Office",
+      "name_en": "processes Office",
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5672,7 +6091,8 @@ window.SSIT_DATA = {
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5687,7 +6107,8 @@ window.SSIT_DATA = {
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5702,7 +6123,8 @@ window.SSIT_DATA = {
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5713,11 +6135,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Compléments Outlook",
+      "name_en": "add-ins Outlook",
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5728,11 +6151,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Profilees Outlook",
+      "name_en": "profiles Outlook",
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Office / M365",
@@ -5743,11 +6167,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Teams Processes",
+      "name_en": "Teams processes",
       "category_en": "Office / M365",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "OneDrive",
@@ -5758,11 +6183,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Processes OneDrive",
+      "name_en": "processes OneDrive",
       "category_en": "OneDrive",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "OneDrive",
@@ -5777,7 +6203,8 @@ window.SSIT_DATA = {
       "category_en": "OneDrive",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "OneDrive",
@@ -5792,7 +6219,8 @@ window.SSIT_DATA = {
       "category_en": "OneDrive",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "OneDrive",
@@ -5807,7 +6235,8 @@ window.SSIT_DATA = {
       "category_en": "OneDrive",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "OneDrive",
@@ -5822,7 +6251,8 @@ window.SSIT_DATA = {
       "category_en": "OneDrive",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Microsoft 365"
+      "webCategory_en": "Microsoft 365",
+      "description_en": ""
     },
     {
       "category": "Navigateurs",
@@ -5837,7 +6267,8 @@ window.SSIT_DATA = {
       "category_en": "Browsers",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "description_en": ""
     },
     {
       "category": "Navigateurs",
@@ -5852,7 +6283,8 @@ window.SSIT_DATA = {
       "category_en": "Browsers",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "description_en": ""
     },
     {
       "category": "Navigateurs",
@@ -5863,11 +6295,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Processes navigateurs",
+      "name_en": "processes navigateurs",
       "category_en": "Browsers",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "description_en": ""
     },
     {
       "category": "Navigateurs",
@@ -5878,11 +6311,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Edge Profilees",
+      "name_en": "Edge profiles",
       "category_en": "Browsers",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "description_en": ""
     },
     {
       "category": "Navigateurs",
@@ -5893,11 +6327,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Chrome Profilees",
+      "name_en": "Chrome profiles",
       "category_en": "Browsers",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Browsers"
+      "webCategory_en": "Browsers",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5912,7 +6347,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5927,7 +6363,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5942,7 +6379,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5957,7 +6395,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Action",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5972,7 +6411,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -5987,7 +6427,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Intune / Entra",
@@ -6002,7 +6443,8 @@ window.SSIT_DATA = {
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6017,7 +6459,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6032,7 +6475,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6047,7 +6491,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6062,7 +6507,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6077,7 +6523,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6092,7 +6539,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6107,7 +6555,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6122,7 +6571,8 @@ window.SSIT_DATA = {
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "SCCM",
@@ -6133,11 +6583,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Application Eval",
+      "name_en": "application Eval",
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Intune / Entra / SCCM"
+      "webCategory_en": "Intune / Entra / SCCM",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6148,11 +6599,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Administrateur recommandé",
       "risk": "Lecture",
-      "name_en": "Defender statut",
+      "name_en": "Defender Status",
       "category_en": "Security",
       "rights_en": "Administrator recommended",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6167,7 +6619,8 @@ window.SSIT_DATA = {
       "category_en": "Security",
       "rights_en": "Administrator recommended",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6178,11 +6631,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Firewall Profilees",
+      "name_en": "Firewall profiles",
       "category_en": "Security",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6197,7 +6651,8 @@ window.SSIT_DATA = {
       "category_en": "Security",
       "rights_en": "Administrator recommended",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6212,7 +6667,8 @@ window.SSIT_DATA = {
       "category_en": "Security",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6227,7 +6683,8 @@ window.SSIT_DATA = {
       "category_en": "Security",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6238,11 +6695,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Administrateurs locaux",
+      "name_en": "Administrateurs local",
       "category_en": "Security",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Sécurité",
@@ -6257,7 +6715,8 @@ window.SSIT_DATA = {
       "category_en": "Security",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Security"
+      "webCategory_en": "Windows Security",
+      "description_en": ""
     },
     {
       "category": "Impression",
@@ -6272,7 +6731,8 @@ window.SSIT_DATA = {
       "category_en": "Printing",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Impression",
@@ -6287,7 +6747,8 @@ window.SSIT_DATA = {
       "category_en": "Printing",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Impression",
@@ -6298,11 +6759,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Files d'attente",
+      "name_en": "files d'attente",
       "category_en": "Printing",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Impression",
@@ -6317,7 +6779,8 @@ window.SSIT_DATA = {
       "category_en": "Printing",
       "rights_en": "Administrator recommended",
       "risk_en": "Action",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Windows Update",
@@ -6328,11 +6791,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Correctifs installés",
+      "name_en": "Windows Update support action",
       "category_en": "Windows Update",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "description_en": ""
     },
     {
       "category": "Windows Update",
@@ -6347,7 +6811,8 @@ window.SSIT_DATA = {
       "category_en": "Windows Update",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "description_en": ""
     },
     {
       "category": "Windows Update",
@@ -6362,7 +6827,8 @@ window.SSIT_DATA = {
       "category_en": "Windows Update",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "description_en": ""
     },
     {
       "category": "Windows Update",
@@ -6377,7 +6843,8 @@ window.SSIT_DATA = {
       "category_en": "Windows Update",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Windows Update"
+      "webCategory_en": "Windows Update",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6392,7 +6859,8 @@ window.SSIT_DATA = {
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6407,7 +6875,8 @@ window.SSIT_DATA = {
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6422,7 +6891,8 @@ window.SSIT_DATA = {
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6437,7 +6907,8 @@ window.SSIT_DATA = {
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6452,7 +6923,8 @@ window.SSIT_DATA = {
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Matériel",
@@ -6463,11 +6935,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Drivers signés",
+      "name_en": "Drivers signed",
       "category_en": "Hardware",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Devices & Drivers"
+      "webCategory_en": "Devices & Drivers",
+      "description_en": ""
     },
     {
       "category": "Profil & Comptes",
@@ -6478,11 +6951,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Profilees locaux",
+      "name_en": "profiles local",
       "category_en": "Profiles & Accounts",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Profil & Comptes",
@@ -6493,11 +6967,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Users locaux",
+      "name_en": "Users local",
       "category_en": "Profiles & Accounts",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Profil & Comptes",
@@ -6508,11 +6983,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Groupes locaux",
+      "name_en": "Groupes local",
       "category_en": "Profiles & Accounts",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Profil & Comptes",
@@ -6523,11 +6999,12 @@ window.SSIT_DATA = {
       "shell": "PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Lecteurs mappés",
+      "name_en": "Lecteurs mapped",
       "category_en": "Profiles & Accounts",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Profil & Comptes",
@@ -6538,11 +7015,12 @@ window.SSIT_DATA = {
       "shell": "CMD / PowerShell",
       "rights": "Utilisateur",
       "risk": "Lecture",
-      "name_en": "Identifiants enregistrés",
+      "name_en": "Identifiants saved",
       "category_en": "Profiles & Accounts",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "System"
+      "webCategory_en": "System",
+      "description_en": ""
     },
     {
       "category": "Assistance distante",
@@ -6557,7 +7035,8 @@ window.SSIT_DATA = {
       "category_en": "Remote Assistance",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "description_en": ""
     },
     {
       "category": "Assistance distante",
@@ -6572,7 +7051,8 @@ window.SSIT_DATA = {
       "category_en": "Remote Assistance",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "description_en": ""
     },
     {
       "category": "Assistance distante",
@@ -6587,7 +7067,8 @@ window.SSIT_DATA = {
       "category_en": "Remote Assistance",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "description_en": ""
     },
     {
       "category": "Assistance distante",
@@ -6602,7 +7083,8 @@ window.SSIT_DATA = {
       "category_en": "Remote Assistance",
       "rights_en": "User",
       "risk_en": "Read-only",
-      "webCategory_en": "Outils Support"
+      "webCategory_en": "Outils Support",
+      "description_en": ""
     },
     {
       "category": "Réseau",
@@ -6614,7 +7096,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Réseau & Accès distant",
       "name_en": "Cartes actives + MAC",
-      "description_en": "Interface active, MAC, vitesse et Status.",
+      "description_en": "Interface active, MAC, vitesse and Status.",
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6630,7 +7112,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Réseau & Accès distant",
       "name_en": "IPv4 + Gateway + DNS",
-      "description_en": "Résumé des interfaces possédant une IPv4.",
+      "description_en": "Résumé the interfaces with a IPv4.",
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6646,7 +7128,7 @@ window.SSIT_DATA = {
       "risk": "Coupure réseau momentanée possible",
       "webCategory": "Réseau & Accès distant",
       "name_en": "Renouveler DHCP",
-      "description_en": "Renouvelle le bail DHCP sans release préalable.",
+      "description_en": "Renews the DHCP lease without release prior.",
       "category_en": "Network",
       "rights_en": "Depending on device policy",
       "risk_en": "Temporary network interruption possible",
@@ -6662,7 +7144,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Réseau & Accès distant",
       "name_en": "Test DNS Microsoft",
-      "description_en": "Teste la résolution DNS de Microsoft 365.",
+      "description_en": "Tests the resolution DNS of Microsoft 365.",
       "category_en": "Network",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6710,7 +7192,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Système",
       "name_en": "Version + uptime Windows",
-      "description_en": "Windows, Version, build et dernier Startup.",
+      "description_en": "Windows, Version, build and dernier Startup.",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6742,7 +7224,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Système",
       "name_en": "Critical errors - 24 h",
-      "description_en": "Displays critical and error-level System and Application logs from the last 24 hours.",
+      "description_en": "Displays critical and error-level System and application logs from the last 24 hours.",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6774,7 +7256,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Système",
       "name_en": "ReStartup requis ?",
-      "description_en": "Contrôle CBS, Windows Update et PendingFileRename.",
+      "description_en": "Checks CBS, Windows Update and PendingFileRename.",
       "category_en": "System",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6806,7 +7288,7 @@ window.SSIT_DATA = {
       "risk": "Faible",
       "webCategory": "Microsoft 365",
       "name_en": "Outlook Safe Mode",
-      "description_en": "Lance Outlook classique en Safe mode.",
+      "description_en": "Runs Outlook classique en Safe mode.",
       "category_en": "Microsoft 365",
       "rights_en": "User",
       "risk_en": "Low",
@@ -6821,8 +7303,8 @@ window.SSIT_DATA = {
       "rights": "Utilisateur",
       "risk": "Lecture seule",
       "webCategory": "Microsoft 365",
-      "name_en": "Outlook Files OST/PST",
-      "description_en": "List les Files Outlook locaux et leur taille.",
+      "name_en": "Outlook files OST/PST",
+      "description_en": "Lists the files Outlook local and leur size.",
       "category_en": "Microsoft 365",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6838,7 +7320,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Microsoft 365",
       "name_en": "OneDrive Status",
-      "description_en": "Processes OneDrive et Folders de Synchronization.",
+      "description_en": "processes OneDrive and folders of synchronization.",
       "category_en": "Microsoft 365",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6854,7 +7336,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Intune / Entra / SCCM",
       "name_en": "DSREGCMD résumé support",
-      "description_en": "Filtre les champs Entra/MDM les plus utiles.",
+      "description_en": "Filters the champs Entra/MDM the plus useful.",
       "category_en": "Intune / Entra",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6902,7 +7384,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Intune / Entra / SCCM",
       "name_en": "SCCM client status",
-      "description_en": "Displays the CcmExec service and SMS_Client information.",
+      "description_en": "Displays the CcmExec service and SMS_Client Information.",
       "category_en": "SCCM",
       "rights_en": "User",
       "risk_en": "Read-only",
@@ -6918,7 +7400,7 @@ window.SSIT_DATA = {
       "risk": "Lecture seule",
       "webCategory": "Sécurité Windows",
       "name_en": "Microsoft Defender",
-      "description_en": "Status du moteur et des protections Defender.",
+      "description_en": "Status the moteur and the protections Defender.",
       "category_en": "Security",
       "rights_en": "Depending on security policies",
       "risk_en": "Read-only",
@@ -6949,8 +7431,8 @@ window.SSIT_DATA = {
       "rights": "Administrateur recommandé",
       "risk": "Faible",
       "webCategory": "Périphériques & Pilotes",
-      "name_en": "Rescan matériel",
-      "description_en": "Demande à Windows de rescanner les Devices.",
+      "name_en": "Devices support action",
+      "description_en": "Demande à Windows of rescanner the Devices.",
       "category_en": "Devices",
       "rights_en": "Administrator recommended",
       "risk_en": "Low",
