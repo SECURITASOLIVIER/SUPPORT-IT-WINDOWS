@@ -4882,7 +4882,7 @@ window.SSIT_DATA = {
       "name": "Teams - Message automatique support",
       "category": "Tickets",
       "subject": "Teams - Message automatique support",
-      "content": "Bonjour,\n\nMerci pour votre message.\n\n\nCeci est un message automatique.\n\nJe suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\n\nPour toute demande de support ou incident, merci d'ouvrir un ticket Ticket :\n\n🔗 [Portail support]\n\n📞 En cas d'urgence uniquement, la Hotline est joignable au [Hotline support], selon les horaires du service informatique sans interruption.\n\n\nMerci de votre compréhension."
+      "content": "Bonjour,\n\nMerci pour votre message.\n\nCeci est un message automatique. Je suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\nPour toute demande de support ou incident, merci d’utiliser le portail support :\n[Portail support]\n\nEn cas d’urgence, la hotline est joignable au [Hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension."
     },
     {
       "name": "Ticket - DEMANDE - Premier contact",
@@ -4942,157 +4942,157 @@ window.SSIT_DATA = {
       "name": "Ticket - Mauvais type de ticket REQ / Incident",
       "category": "Tickets",
       "subject": "Ticket - Mauvais type de ticket REQ / Incident",
-      "content": "REQ = incident cancel\n\nBonjour,\n\nVotre ticket n'est pas une demande mais un incident.\n\nAfin de déclarer un incident auprès de nos équipe de support, nous vous invitons de créer un ticket INCIDENT depuis le site [Portail support] dans la rubrique.\n\nMerci de votre compréhension\n\nCordialement"
+      "content": "Bonjour,\n\nVotre demande correspond à un incident.\n\nAfin qu’elle soit prise en charge correctement, merci de créer un incident depuis le portail support :\n[Portail support]\n\nMerci de votre compréhension.\n\nCordialement"
     },
     {
       "name": "MFA - Réinitialisation collaborateur + procédure",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation collaborateur + procédure",
-      "content": "Bonjour,\n\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
     },
     {
       "name": "MFA - Procédure Microsoft Authenticator",
       "category": "Accès & MFA",
       "subject": "MFA - Procédure Microsoft Authenticator",
-      "content": "Reconfigurer Microsoft Authenticator pour sécuriser vos accès via l'authentification multifacteur (MFA)\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n\t• Disponible sur l'App Store (iOS) et Google Play (Android).\n\n2. Accédez à la page de configuration MFA 👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n\t• Cliquez sur + Ajouter une méthode.\n\n\t• Sélectionnez Application d'authentification.\n\n\t• Choisissez Microsoft Authenticator.\n\n4. Associez votre compte à l'application mobile\n\n\t• Ouvrez l'application sur votre téléphone.\n\n\t• Ajoutez un compte professionnel ou scolaire.\n\n\t• Scannez le code QR affiché à l'écran.\n\n5. Validez la configuration\n\n\t• Une notification sera envoyée sur votre téléphone.\n\n\t• Suivez les instructions affichées pour confirmer l'association.\n\n🔒 Important : Cette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci de votre collaboration.\n\nCordialement,"
+      "content": "Reconfigurer Microsoft Authenticator pour sécuriser vos accès via l'authentification multifacteur (MFA)\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n\t• Disponible sur l'App Store (iOS) et Google Play (Android).\n\n2. Accédez à la page de configuration MFA 👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n\t• Cliquez sur + Ajouter une méthode.\n\n\t• Sélectionnez Application d'authentification.\n\n\t• Choisissez Microsoft Authenticator.\n\n4. Associez votre compte à l'application mobile\n\n\t• Ouvrez l'application sur votre téléphone.\n\n\t• Ajoutez un compte professionnel ou scolaire.\n\n\t• Scannez le code QR affiché à l'écran.\n\n5. Validez la configuration\n\n\t• Une notification sera envoyée sur votre téléphone.\n\n\t• Suivez les instructions affichées pour confirmer l'association.\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci de votre collaboration.\n\nCordialement,"
     },
     {
       "name": "MFA - RESET MFA",
       "category": "Accès & MFA",
       "subject": "MFA - RESET MFA",
-      "content": "RESET MFA\n\n\nObjet : Reconfiguration de Microsoft Authenticator pour l'authentification multifacteur (MFA)\n\nBonjour,\n\nNous vous informons que vous pouvez désormais reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+      "content": "RESET MFA\n\nObjet : Reconfiguration de Microsoft Authenticator pour l'authentification multifacteur (MFA)\n\nBonjour,\n\nNous vous informons que vous pouvez désormais reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
     },
     {
       "name": "[Application / portail] - RESET MOT DE PASSE",
       "category": "Accès & MFA",
       "subject": "[Application / portail] - RESET MOT DE PASSE",
-      "content": "RESET MOT DE PASSE [Application / portail]\n\nBonjour,\n\n🔐 Votre mot de passe a été réinitialisé temporairement :\n\n[Mot de passe temporaire]\n\n\n🌐 Rappel de l'adresse de connexion du portail :\n\n\n👤 Identifiant :\n\n[Identifiant professionnel]\n\n\n⚠️ Attention !\n\n\nPour que l'agent puisse modifier son mot de passe, il faudra saisir le mot de passe temporaire puis créer un nouveau mot de passe\n\n\n🛠️ Il pourra alors le personnaliser en cliquant sur \"Changer\"\n\n📏 Le nouveau mot de passe devra contenir :\n\n• ✅ 14 caractères minimum\n\n• ❌ Ne doit pas contenir le prénom, le nom, le nom de la société etc…\n\n\nCordialement"
+      "content": "RESET MOT DE PASSE [Application / portail]\n\nBonjour,\n\nVotre mot de passe a été réinitialisé temporairement :\n\n[Mot de passe temporaire]\n\n🌐 Rappel de l'adresse de connexion du portail :\n\n👤 Identifiant :\n\n[Identifiant professionnel]\n\n⚠️ Attention !\n\nPour que l'agent puisse modifier son mot de passe, il faudra saisir le mot de passe temporaire puis créer un nouveau mot de passe\n\n🛠️ Il pourra alors le personnaliser en cliquant sur \"Changer\"\n\n📏 Le nouveau mot de passe devra contenir :\n\n• ✅ 14 caractères minimum\n\n• ❌ Ne doit pas contenir le prénom, le nom, le nom de la société etc…\n\nCordialement"
     },
     {
       "name": "Sécurité - PHISHING",
       "category": "Sécurité",
       "subject": "Sécurité - PHISHING",
-      "content": "PHISHING\n\n\nObjet : 🚨 Rappel – Comment signaler un mail suspect dans Outlook\n\n\nBonjour à tous 👋\n\nSi vous recevez un mail suspect (phishing / hameçonnage) :\n\n1️⃣ Ne cliquez sur rien et n'ouvrez pas les pièces jointes.\n\n2️⃣ Dans Outlook, cliquez sur 📩 \"Signaler un message\" → \"Phishing\".\n\n3️⃣ Si l'option n'apparaît pas, transférez le mail en pièce jointe à ou👉 [Adresse sécurité]\n\nMerci pour votre vigilance 💪\n\nChaque signalement aide à protéger tout le monde 🛡️\n\nBonne journée,\n\n\n[Ton prénom]"
+      "content": "Bonjour,\n\nSi vous recevez un message suspect ou potentiellement frauduleux :\n\n• Ne cliquez sur aucun lien et n’ouvrez aucune pièce jointe.\n• Dans Outlook, utilisez l’option « Signaler » puis « Phishing ».\n• Si cette option n’est pas disponible, transmettez le message en pièce jointe à [Adresse sécurité].\n\n⚠️ Si vous avez déjà cliqué sur un lien, saisi un mot de passe ou validé une demande MFA, contactez immédiatement le support informatique.\n\nMerci pour votre vigilance.\n\nCordialement"
     },
     {
-      "name": "Applications - Déploiement de [Application] dans le catalogue applicatif",
-      "category": "Matériel",
-      "subject": "Applications - Déploiement de [Application] dans le catalogue applicatif",
-      "content": "Bonjour,\n\nL'application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d'être connecté au réseau de l'entreprise ou au VPN lorsque vous êtes en télétravail.\n\nSi l'application n'apparaît pas immédiatement, un redémarrage du poste peut permettre de finaliser l'installation.\n\nMerci de nous confirmer que l'installation s'est bien déroulée afin que nous puissions clôturer votre demande.\n\nBien cordialement,"
+      "name": "Applications - Déploiement de [Application]",
+      "category": "Applications",
+      "subject": "Applications - Déploiement de [Application]",
+      "content": "Bonjour,\n\nL’application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d’être connecté au réseau professionnel ou d’utiliser le VPN lorsque vous êtes en télétravail.\n\nSi l’application n’apparaît pas immédiatement, redémarrez votre poste puis effectuez un nouveau test.\n\nMerci de nous confirmer que l’installation s’est correctement déroulée afin que nous puissions clôturer la demande.\n\nBien cordialement"
     },
     {
       "name": "Matériel - PC prêt avant expédition / appel",
       "category": "Matériel",
       "subject": "Matériel - PC prêt avant expédition / appel",
-      "content": "Bonjour,\n\n\nNous vous informons que votre ordinateur est désormais prêt et disponible.\n\nAvant de procéder à son expédition, nous souhaiterions organiser un premier appel de connexion à distance afin de :\n\n\t• Vérifier ensemble le bon fonctionnement de l'équipement\n\n\t• Finaliser les réglages nécessaires\n\n\t• Répondre à vos éventuelles questions\n\n📅 Merci de nous faire part de vos disponibilités dans les prochains jours afin que nous puissions planifier cet échange.\n\nUne fois l'appel effectué, nous procéderons à l'envoi de votre matériel dans les meilleurs délais.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nNous vous informons que votre ordinateur est désormais prêt et disponible.\n\nAvant de procéder à son expédition, nous souhaiterions organiser un premier appel de connexion à distance afin de :\n\n\t• Vérifier ensemble le bon fonctionnement de l'équipement\n\n\t• Finaliser les réglages nécessaires\n\n\t• Répondre à vos éventuelles questions\n\n📅 Merci de nous faire part de vos disponibilités dans les prochains jours afin que nous puissions planifier cet échange.\n\nUne fois l'appel effectué, nous procéderons à l'envoi de votre matériel dans les meilleurs délais.\n\nBien cordialement,"
     },
     {
       "name": "MFA - Réinitialisation + méthodes d'authentification",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation + méthodes d'authentification",
-      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n\n🔒 Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique."
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique."
     },
     {
-      "name": "Matériel - Retrait service informatique service informatique",
+      "name": "Matériel - Retrait au service informatique",
       "category": "Matériel",
-      "subject": "Matériel - Retrait service informatique service informatique",
-      "content": "Bonjour,\n\nNous vous informons que votre matériel est désormais disponible et peut être retiré auprès du service informatique, situé au 5ᵉ étage.\n\n🕘 Horaires d'ouverture : selon les horaires du service informatique.\n\nN'hésitez pas à vous présenter durant cette plage horaire pour récupérer votre équipement. Pour toute question ou besoin d'assistance, nous restons à votre disposition.\n\nBien cordialement,"
+      "subject": "Matériel - Retrait au service informatique",
+      "content": "Bonjour,\n\nVotre matériel est disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d’ouverture du service.\n\nPour toute question ou besoin d’assistance, nous restons à votre disposition.\n\nBien cordialement"
     },
     {
-      "name": "Matériel - Compte environnement professionnel au lieu de compte professionnel",
+      "name": "Matériel - Compte professionnel à régulariser",
       "category": "Matériel",
-      "subject": "Matériel - Compte environnement professionnel au lieu de compte professionnel",
-      "content": "Bonjour,\n\n\n📌 Je vous contacte au sujet de votre demande de PC pour [Nom du collaborateur].\n\n⚠️ Je constate que le collaborateur dispose d'un compte environnement professionnel au lieu d'un compte compte professionnel.\n\n👉 Merci de contacter les RH afin qu'ils effectuent la modification dans [Application / portail], pour que le collaborateur puisse bénéficier d'un compte compte professionnel et ainsi obtenir un compte Microsoft avec les licences associées.\n\n❌ Sans cette modification dans [Application / portail], le PC ne pourra pas être utilisé.\n\n\nBien à vous,"
+      "subject": "Matériel - Compte professionnel à régulariser",
+      "content": "Bonjour,\n\nJe vous contacte au sujet de la demande de PC pour [Nom du collaborateur].\n\n⚠️ Le compte du collaborateur doit être régularisé avant la mise à disposition du poste.\n\nMerci de contacter les RH afin que les informations nécessaires soient corrigées dans [Application / portail]. Cette étape permettra ensuite la création des accès Microsoft et l’attribution des licences nécessaires.\n\nSans cette régularisation, le poste ne pourra pas être utilisé.\n\nBien cordialement"
     },
     {
       "name": "Applications - [Application] hors périmètre service informatique",
       "category": "Applications",
       "subject": "Applications - [Application] hors périmètre service informatique",
-      "content": "Bonjour,\n\n\nLa service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, vous pouvez contacter leur support directement via le site :\n\nhttps://app.[Application].fr/index/, rubrique Aide.\n\n\nMerci de votre compréhension."
+      "content": "Bonjour,\n\nLe service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, merci de contacter directement le support de l’éditeur ou du service concerné.\n\nMerci de votre compréhension."
     },
     {
       "name": "Accès - Mot de passe + MFA réinitialisés",
       "category": "Accès & MFA",
       "subject": "Accès - Mot de passe + MFA réinitialisés",
-      "content": "Bonjour,\n\n\nVotre mot de passe a été réinitialisé.\n\n\nVous pouvez définir un nouveau mot de passe en utilisant le lien sécurisé ci‑dessous.\n\nCe lien reste valable pendant une semaine.\n\nhttps://privatebin.net/?5289f7bde3bb0b01#12VsAqV1ATm5k7EC8wRSJ5SQ7QxBTVCzAvZsxhPeCThR\n\n\nUne fois votre nouveau mot de passe créé, merci de vous rendre sur votre espace MyAccount Microsoft afin de le modifier et de le personnaliser.\n\n\nhttps://myaccount.microsoft.com/\n\n\nPar ailleurs, votre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant la méthode de votre choix : application Microsoft Authenticator, SMS ou adresse e‑mail.\n\n\nN'hésitez pas à revenir vers nous si vous rencontrez la moindre difficulté.\n\n\nCordialement."
+      "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nLe mot de passe temporaire doit vous être communiqué via le canal sécurisé prévu. Lors de votre prochaine connexion, vous pourrez définir un nouveau mot de passe personnel.\n\nVotre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant une méthode disponible.\n\nEn cas de difficulté, contactez le support informatique.\n\nCordialement"
     },
     {
       "name": "Matériel - Compatibilité dock USB-C / adresse agence",
       "category": "Matériel",
       "subject": "Matériel - Compatibilité dock USB-C / adresse agence",
-      "content": "Bonjour,\n\n\nDans le cadre du remplacement de votre ordinateur portable, pouvez-vous m'envoyer une photo de votre station d'accueil (ou de votre écran dock), ou simplement le modèle indiqué dessus ?\n\n\nCela nous permet uniquement de vérifier si votre matériel actuel est compatible USB C.\n\nSi votre équipement devait être remplacé, voici les tarifs informatifs :\n\n\n• 100 € pour une station d'accueil\n\n• 140 € pour un écran standard\n\n• 175 € pour un écran docking\n\n\nVoici un exemple de station d'accueil USB C pour vous aider à identifier votre matériel :\n\n\nPouvez-vous également me confirmer l'adresse de votre agence, afin de prévoir l'envoi du matériel si nécessaire ?\n\n\nMerci d'avance pour votre retour,"
+      "content": "Bonjour,\n\nDans le cadre du remplacement de votre ordinateur portable, pouvez-vous m'envoyer une photo de votre station d'accueil (ou de votre écran dock), ou simplement le modèle indiqué dessus ?\n\nCela nous permet uniquement de vérifier si votre matériel actuel est compatible USB C.\n\nSi votre équipement devait être remplacé, voici les tarifs informatifs :\n\n• 100 € pour une station d'accueil\n\n• 140 € pour un écran standard\n\n• 175 € pour un écran docking\n\nVoici un exemple de station d'accueil USB C pour vous aider à identifier votre matériel :\n\nPouvez-vous également me confirmer l'adresse de votre agence, afin de prévoir l'envoi du matériel si nécessaire ?\n\nMerci d'avance pour votre retour,"
     },
     {
       "name": "Matériel - PC prêt et disponible",
       "category": "Matériel",
       "subject": "Matériel - PC prêt et disponible",
-      "content": "Bonjour,\n\n\nVotre ordinateur est désormais préparé et disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nMerci de nous confirmer lorsque le matériel aura bien été récupéré.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nMerci de nous confirmer lorsque le matériel aura bien été récupéré.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - PC prêt pour expédition",
       "category": "Matériel",
       "subject": "Matériel - PC prêt pour expédition",
-      "content": "Bonjour,\n\n\nVotre ordinateur est désormais préparé et prêt à être expédié.\n\nMerci de nous confirmer l'adresse de livraison ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre si nécessaire.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et prêt à être expédié.\n\nMerci de nous confirmer l'adresse de livraison ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre si nécessaire.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Confirmation expédition",
       "category": "Matériel",
       "subject": "Matériel - Confirmation expédition",
-      "content": "Bonjour,\n\n\nVotre matériel a bien été expédié.\n\nMerci de nous confirmer sa bonne réception afin de nous assurer que tout est conforme.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre matériel a bien été expédié.\n\nMerci de nous confirmer sa bonne réception afin de nous assurer que tout est conforme.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Casque disponible",
       "category": "Matériel",
       "subject": "Matériel - Casque disponible",
-      "content": "Bonjour,\n\n\nVotre casque est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre casque est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Chargeur disponible",
       "category": "Matériel",
       "subject": "Matériel - Chargeur disponible",
-      "content": "Bonjour,\n\n\nVotre chargeur est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre chargeur est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Accessoires disponibles",
       "category": "Matériel",
       "subject": "Matériel - Accessoires disponibles",
-      "content": "Bonjour,\n\n\nLe matériel demandé est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nLe matériel demandé est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Préparation en cours",
       "category": "Matériel",
       "subject": "Matériel - Préparation en cours",
-      "content": "Bonjour,\n\n\nVotre matériel est actuellement en cours de préparation par le service informatique.\n\nNous reviendrons vers vous dès qu'il sera disponible ou prêt à être expédié.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre matériel est actuellement en cours de préparation par le service informatique.\n\nNous reviendrons vers vous dès qu'il sera disponible ou prêt à être expédié.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Informations expédition",
       "category": "Matériel",
       "subject": "Matériel - Informations expédition",
-      "content": "Bonjour,\n\n\nAfin de préparer l'expédition de votre matériel, merci de nous confirmer votre adresse de livraison complète ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre.\n\n\nMerci d'avance.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nAfin de préparer l'expédition de votre matériel, merci de nous confirmer votre adresse de livraison complète ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre.\n\nMerci d'avance.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Bonne réception à confirmer",
       "category": "Matériel",
       "subject": "Matériel - Bonne réception à confirmer",
-      "content": "Bonjour,\n\n\nNous souhaitons vérifier que vous avez bien reçu votre matériel et que celui-ci est fonctionnel.\n\nMerci de nous confirmer la bonne réception afin que nous puissions clôturer la demande.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nNous souhaitons vérifier que vous avez bien reçu votre matériel et que celui-ci est fonctionnel.\n\nMerci de nous confirmer la bonne réception afin que nous puissions clôturer la demande.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Retour ancien PC",
       "category": "Matériel",
       "subject": "Matériel - Retour ancien PC",
-      "content": "Bonjour,\n\n\nDans le cadre du remplacement de votre ordinateur, merci de prévoir la restitution de votre ancien matériel auprès du service informatique ainsi que des accessoires concernés si nécessaire.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nDans le cadre du remplacement de votre ordinateur, merci de prévoir la restitution de votre ancien matériel auprès du service informatique ainsi que des accessoires concernés si nécessaire.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Rendez-vous première connexion",
       "category": "Accès & MFA",
       "subject": "Matériel - Rendez-vous première connexion",
-      "content": "Bonjour,\n\n\nVotre ordinateur est prêt.\n\nNous vous proposons un court rendez-vous avec le service informatique afin d'effectuer la première connexion et de vérifier que vos principaux accès fonctionnent correctement.\n\nMerci de nous communiquer vos disponibilités.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre ordinateur est prêt.\n\nNous vous proposons un court rendez-vous avec le service informatique afin d'effectuer la première connexion et de vérifier que vos principaux accès fonctionnent correctement.\n\nMerci de nous communiquer vos disponibilités.\n\nBien cordialement,"
     },
     {
       "name": "Matériel - Mise à disposition complète",
       "category": "Matériel",
       "subject": "Matériel - Mise à disposition complète",
-      "content": "Bonjour,\n\n\nVotre matériel est désormais prêt et disponible : ordinateur, chargeur et accessoires prévus dans votre demande.\n\nVous pouvez venir le récupérer auprès du service informatique pendant les horaires d'ouverture du service informatique.\n\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre matériel est désormais prêt et disponible : ordinateur, chargeur et accessoires prévus dans votre demande.\n\nVous pouvez venir le récupérer auprès du service informatique pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
     },
     {
       "name": "Modern environnement professionnel - Demande installation application",
@@ -5122,13 +5122,13 @@ window.SSIT_DATA = {
       "name": "Mobile - Téléphone professionnel prêt",
       "category": "Matériel",
       "subject": "Mobile - Téléphone professionnel prêt",
-      "content": "Bonjour,\n\nVotre téléphone professionnel est prêt à être remis.\n\nMerci de nous communiquer vos disponibilités afin d'organiser un rendez-vous avec le service informatique au service informatique.\n\nHoraires du service informatique : selon les horaires du service informatique.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre téléphone professionnel est prêt à être remis.\n\nMerci de nous communiquer vos disponibilités afin d’organiser la remise avec le service informatique.\n\nBien cordialement"
     },
     {
       "name": "Mobile - Rendez-vous préparation / remise",
       "category": "Matériel",
       "subject": "Mobile - Rendez-vous préparation / remise",
-      "content": "Bonjour,\n\nVotre nouveau mobile est disponible auprès du service informatique au service informatique.\n\nMerci de nous communiquer vos disponibilités afin de planifier la remise et la configuration du téléphone. Prévoir environ 30 minutes.\n\nHoraires du service informatique : selon les horaires du service informatique.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre nouveau mobile est disponible auprès du service informatique.\n\nMerci de nous communiquer vos disponibilités afin de planifier la remise et la configuration du téléphone. Prévoir environ 30 minutes.\n\nBien cordialement"
     },
     {
       "name": "Mobile - Remise Android terminée",
@@ -5158,19 +5158,19 @@ window.SSIT_DATA = {
       "name": "Ticket - Prise en charge",
       "category": "Tickets",
       "subject": "Ticket - Prise en charge",
-      "content": "Bonjour [Prénom],\n\nVotre ticket [N° ticket] concernant « [Sujet] » a bien été pris en charge.\n\nJe commence l'analyse et je reviendrai vers vous dès que j'aurai un premier résultat ou si des informations complémentaires sont nécessaires.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nVotre demande concernant « [Sujet] » a bien été prise en charge.\n\nJe commence l’analyse et je reviendrai vers vous dès que j’aurai un premier résultat ou si des informations complémentaires sont nécessaires.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Demande d'informations",
       "category": "Tickets",
       "subject": "Ticket - Demande d'informations",
-      "content": "Bonjour [Prénom],\n\nAfin de poursuivre l'analyse du ticket [N° ticket], pouvez-vous me transmettre :\n- une capture du message d'erreur ;\n- l'heure approximative du dernier échec ;\n- le nom du poste concerné ;\n- les étapes permettant de reproduire le problème.\n\nMerci d'avance.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nAfin de poursuivre l’analyse, pouvez-vous me transmettre :\n\n• une capture du message d’erreur ;\n• l’heure approximative du dernier échec ;\n• le nom du poste concerné ;\n• les étapes permettant de reproduire le problème.\n\nMerci d’avance.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Demande de disponibilité",
       "category": "Tickets",
       "subject": "Ticket - Demande de disponibilité",
-      "content": "Bonjour [Prénom],\n\nPour avancer sur le ticket [N° ticket], j'aurais besoin d'un créneau où vous êtes disponible devant le poste concerné.\n\nPouvez-vous me proposer un créneau qui vous convient ?\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nAfin de poursuivre le diagnostic, j’aurais besoin d’un créneau pendant lequel vous êtes disponible devant le poste concerné.\n\nPouvez-vous me proposer un créneau qui vous convient ?\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Intervention à distance",
@@ -5182,31 +5182,31 @@ window.SSIT_DATA = {
       "name": "Ticket - En attente utilisateur",
       "category": "Tickets",
       "subject": "Ticket - En attente utilisateur",
-      "content": "Bonjour [Prénom],\n\nLe ticket [N° ticket] est actuellement en attente de votre retour concernant [information attendue].\n\nDès réception, nous pourrons reprendre l'analyse.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nVotre demande est actuellement en attente de votre retour concernant [information attendue].\n\nDès réception, nous pourrons reprendre l’analyse.\n\nCordialement,\nSupport informatique"
     },
     {
-      "name": "Ticket - En attente équipe tierce",
+      "name": "Ticket - En attente de traitement externe",
       "category": "Tickets",
-      "subject": "Ticket - En attente équipe tierce",
-      "content": "Bonjour [Prénom],\n\nVotre ticket [N° ticket] nécessite l'intervention de l'équipe [Équipe / fournisseur].\n\nLe dossier leur a été transmis avec les éléments de diagnostic disponibles. Nous vous tiendrons informé de l'avancement.\n\nCordialement,\nSupport informatique"
+      "subject": "Ticket - En attente de traitement externe",
+      "content": "Bonjour [Prénom],\n\nVotre demande nécessite une intervention complémentaire.\n\nLe dossier a été transmis avec les éléments de diagnostic disponibles. Nous vous tiendrons informé de l’avancement.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Résolution proposée",
       "category": "Tickets",
       "subject": "Ticket - Résolution proposée",
-      "content": "Bonjour [Prénom],\n\nUne correction a été appliquée sur le ticket [N° ticket].\n\nPouvez-vous effectuer un nouveau test et me confirmer si le fonctionnement est revenu à la normale ?\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nUne correction a été appliquée.\n\nPouvez-vous effectuer un nouveau test et me confirmer si le fonctionnement est revenu à la normale ?\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Résolution confirmée",
       "category": "Tickets",
       "subject": "Ticket - Résolution confirmée",
-      "content": "Bonjour [Prénom],\n\nMerci pour votre confirmation.\n\nLe ticket [N° ticket] est résolu et peut être clôturé.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nMerci pour votre confirmation.\n\nLa demande est résolue et peut être clôturée.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Clôture sans retour",
       "category": "Tickets",
       "subject": "Ticket - Clôture sans retour",
-      "content": "Bonjour [Prénom],\n\nSans retour après nos précédentes sollicitations, le ticket [N° ticket] va être clôturé administrativement.\n\nSi le problème est toujours présent, vous pourrez rouvrir une demande en précisant le numéro du ticket initial.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nSans retour après nos précédentes sollicitations, la demande va être clôturée administrativement.\n\nSi le problème est toujours présent, vous pourrez créer une nouvelle demande en précisant le contexte et les symptômes rencontrés.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Mauvaise catégorie",
@@ -5218,13 +5218,13 @@ window.SSIT_DATA = {
       "name": "Ticket - Doublon",
       "category": "Tickets",
       "subject": "Ticket - Doublon",
-      "content": "Bonjour [Prénom],\n\nLe ticket [N° ticket] fait doublon avec le ticket [N° ticket principal].\n\nPour éviter les traitements parallèles, nous poursuivons le suivi uniquement sur le ticket principal.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nCette demande fait doublon avec une demande déjà en cours de traitement.\n\nAfin d’éviter les traitements parallèles, le suivi sera poursuivi sur la demande principale.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Ticket - Hors périmètre",
       "category": "Tickets",
       "subject": "Ticket - Hors périmètre",
-      "content": "Bonjour [Prénom],\n\nAprès analyse, cette demande ne relève pas du périmètre du support informatique concerné.\n\nJe vous invite à contacter [Équipe / fournisseur / service] pour la suite du traitement.\n\nCordialement,\nSupport informatique"
+      "content": "Bonjour [Prénom],\n\nAprès analyse, cette demande ne relève pas du périmètre du support informatique.\n\nMerci de vous rapprocher du service concerné pour la suite du traitement.\n\nCordialement,\nSupport informatique"
     },
     {
       "name": "Mail - Premier contact support",
@@ -5668,37 +5668,37 @@ window.SSIT_DATA = {
       "name": "Teams - Je regarde",
       "category": "Messages rapides",
       "subject": "Teams - Je regarde",
-      "content": "Bonjour [Prénom], je prends le sujet et je reviens vers toi dès que j'ai un premier résultat."
+      "content": "Bonjour [Prénom], je prends le sujet en charge et je reviens vers vous dès que j’ai un premier résultat."
     },
     {
       "name": "Teams - Besoin du poste",
       "category": "Messages rapides",
       "subject": "Teams - Besoin du poste",
-      "content": "Bonjour [Prénom], peux-tu rester disponible devant le poste quelques minutes pour que je poursuive le diagnostic ?"
+      "content": "Bonjour [Prénom], pouvez-vous rester disponible devant le poste quelques minutes afin que je poursuive le diagnostic ?"
     },
     {
       "name": "Teams - Test demandé",
       "category": "Messages rapides",
       "subject": "Teams - Test demandé",
-      "content": "Peux-tu refaire le test maintenant et me dire exactement ce qui s'affiche ?"
+      "content": "Pouvez-vous refaire le test maintenant et me préciser exactement ce qui s’affiche ?"
     },
     {
       "name": "Teams - Redémarrage demandé",
       "category": "Messages rapides",
       "subject": "Teams - Redémarrage demandé",
-      "content": "Peux-tu enregistrer ton travail puis redémarrer complètement le poste et refaire le test ?"
+      "content": "Pouvez-vous enregistrer votre travail, redémarrer complètement le poste puis refaire le test ?"
     },
     {
       "name": "Teams - Résolu ?",
       "category": "Messages rapides",
       "subject": "Teams - Résolu ?",
-      "content": "La correction est appliquée. Peux-tu confirmer que tout fonctionne correctement maintenant ?"
+      "content": "La correction est appliquée. Pouvez-vous confirmer que tout fonctionne correctement maintenant ?"
     },
     {
       "name": "Teams - Merci clôture",
       "category": "Messages rapides",
       "subject": "Teams - Merci clôture",
-      "content": "Merci pour ton retour. Je clôture le ticket comme résolu. N'hésite pas à ouvrir une nouvelle demande si le problème revient."
+      "content": "Merci pour votre retour. Je clôture la demande comme résolue. N’hésitez pas à créer une nouvelle demande si le problème revient."
     },
     {
       "category": "Salles & MTR",
@@ -6430,6 +6430,72 @@ window.SSIT_DATA = {
       "name": "Cisco Security Advisories",
       "category": "Veille IT & Cyber",
       "url": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x"
+    },
+    {
+      "name": "OpenAI Documentation",
+      "category": "IA",
+      "url": "https://platform.openai.com/docs/",
+      "description": "Documentation officielle OpenAI pour API et modèles."
+    },
+    {
+      "name": "Microsoft Copilot - Documentation IT",
+      "category": "IA",
+      "url": "https://learn.microsoft.com/fr-fr/microsoft-365/copilot/",
+      "description": "Documentation Microsoft Copilot destinée aux professionnels IT."
+    },
+    {
+      "name": "Microsoft Copilot - Formation",
+      "category": "IA",
+      "url": "https://learn.microsoft.com/fr-fr/training/paths/copilot-foundations/",
+      "description": "Parcours Microsoft Learn pour comprendre et utiliser Copilot."
+    },
+    {
+      "name": "Google AI for Developers",
+      "category": "IA",
+      "url": "https://ai.google.dev/",
+      "description": "Documentation officielle Google sur Gemini et les outils IA."
+    },
+    {
+      "name": "Anthropic Documentation",
+      "category": "IA",
+      "url": "https://docs.anthropic.com/",
+      "description": "Documentation officielle Claude et API Anthropic."
+    },
+    {
+      "name": "Microsoft 365 Blog",
+      "category": "Actualité IT",
+      "url": "https://www.microsoft.com/en-us/microsoft-365/blog/",
+      "description": "Nouveautés et annonces officielles Microsoft 365."
+    },
+    {
+      "name": "Apple System Status",
+      "category": "Statuts services",
+      "url": "https://www.apple.com/support/systemstatus/",
+      "description": "État officiel des services Apple."
+    },
+    {
+      "name": "Google Cloud Status",
+      "category": "Statuts services",
+      "url": "https://status.cloud.google.com/",
+      "description": "État officiel des services Google Cloud."
+    },
+    {
+      "name": "Atlassian Status",
+      "category": "Statuts services",
+      "url": "https://status.atlassian.com/",
+      "description": "État officiel des services Atlassian."
+    },
+    {
+      "name": "Mozilla Support",
+      "category": "Support",
+      "url": "https://support.mozilla.org/fr/",
+      "description": "Documentation et dépannage officiels Firefox."
+    },
+    {
+      "name": "Chrome Enterprise",
+      "category": "Navigateurs",
+      "url": "https://chromeenterprise.google/",
+      "description": "Ressources officielles Chrome pour les environnements professionnels."
     }
   ]
 };
