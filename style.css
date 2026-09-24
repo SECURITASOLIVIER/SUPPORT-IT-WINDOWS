@@ -969,3 +969,47 @@ body.light .itp-shortcut-intro{background:#f7fbff}
  .itp-shortcut-grid{grid-template-columns:1fr!important}
 }
 /* === /IT Pocket shortcut compact cards v4.2 === */
+
+
+/* === IT Pocket home alignment v4.6 === */
+.itp-home-card{
+ display:flex!important;
+ flex-direction:column!important;
+ height:100%;
+}
+.itp-home-heading{
+ min-height:52px!important;
+ align-items:flex-start!important;
+}
+.itp-home-heading h3{
+ min-height:38px;
+ display:flex;
+ align-items:flex-start;
+}
+.itp-home-card .big-number{
+ margin-top:8px!important;
+}
+.itp-home-card .desc{
+ min-height:58px;
+ margin-bottom:14px;
+}
+.itp-home-card>.btn{
+ margin-top:auto;
+ align-self:flex-start;
+}
+@media(max-width:800px){
+ .all-menu-home{align-items:stretch}
+ .all-menu-home .home-kpi{min-height:220px!important}
+ .itp-home-heading{min-height:58px!important}
+ .itp-home-heading h3{
+   min-height:44px;
+   font-size:15px;
+   line-height:1.2;
+ }
+ .itp-home-card .desc{
+   min-height:72px;
+   font-size:12px;
+   line-height:1.35;
+ }
+}
+/* === /IT Pocket home alignment v4.6 === */
