@@ -285,6 +285,17 @@ const pocketSecurityOptions=[
  {category:"Intune • Utilisateur",webCategory:"Intune / Entra / SCCM",name:"Portail d’entreprise Web",description:"Accéder aux appareils et applications publiés via Microsoft Intune.",method:"Company Portal Web",command:"https://portal.manage.microsoft.com/",shell:"Navigateur",rights:"Compte professionnel",risk:"Lecture",pocketExpanded:true},
  {category:"Intune • Administration",webCategory:"Intune / Entra / SCCM",name:"Centre d’administration Intune",description:"Accéder à l’administration Microsoft Intune selon les droits du compte.",method:"Microsoft Intune Admin Center",command:"https://intune.microsoft.com/",shell:"Navigateur",rights:"Droits Intune requis",risk:"Administration",pocketExpanded:true}
 ];
+const POCKET_SECURITY_EN={
+ "Compte Microsoft — My Account":{name_en:"Microsoft account — My Account",description_en:"Manage the work account, personal information and security settings.",method_en:"Open My Account",category_en:"Security • Account",rights_en:"Work account",risk_en:"Read-only"},
+ "Mot de passe — Réinitialisation":{name_en:"Password — Reset",description_en:"Open the Microsoft portal to reset the work account password.",method_en:"Microsoft password reset portal",category_en:"Security • Password",rights_en:"Work account",risk_en:"Password change"},
+ "MFA — Configurer les méthodes":{name_en:"MFA — Configure methods",description_en:"Add or change MFA methods and account security information.",method_en:"Microsoft MFA portal",category_en:"Security • MFA",rights_en:"Work account",risk_en:"Changes MFA methods"},
+ "Mes connexions — Activité du compte":{name_en:"My sign-ins — Account activity",description_en:"Review recent sign-ins and check for unusual activity.",method_en:"Microsoft My Sign-Ins",category_en:"Security • Sign-ins",rights_en:"Work account",risk_en:"Read-only"},
+ "Mes applications Microsoft":{name_en:"My Microsoft apps",description_en:"Open enterprise applications assigned to the account.",method_en:"Microsoft My Apps",category_en:"Access • Microsoft",rights_en:"Work account",risk_en:"Read-only"},
+ "Portail d’entreprise Web":{name_en:"Company Portal Web",description_en:"Access devices and applications published through Microsoft Intune.",method_en:"Company Portal Web",category_en:"Intune • User",rights_en:"Work account",risk_en:"Read-only"},
+ "Centre d’administration Intune":{name_en:"Intune admin center",description_en:"Open Microsoft Intune administration according to the account permissions.",method_en:"Microsoft Intune admin center",category_en:"Intune • Administration",rights_en:"Intune permissions required",risk_en:"Administration"}
+};
+pocketSecurityOptions.forEach(x=>{const e=POCKET_SECURITY_EN[x.name];if(e)Object.assign(x,e);});
+
 function commandWebCategory(c){
  const k=String(c.webCategory||"").trim();
  if(k)return k;
@@ -945,7 +956,7 @@ function newTemplate(ref=null){
 }
 function editTemplate(ref){newTemplate(ref)}
 function saveTemplateRef(ref){let t={category:$("#ecat").value.trim()||"Divers",name:$("#ename").value.trim()||"Sans nom",subject:formalizeTemplateText($("#esub").value.trim()),content:formalizeTemplateText($("#ebody").value),custom:true};if(ref&&ref[0]==="c")custom[parseInt(ref.slice(1),10)]=t;else{if(ref&&ref[0]==="b"&&!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);custom.push(t)}savePocket();toast("Template enregistré");render()}
-function deleteTemplate(ref){if(!ref||!confirm("Supprimer ce template ?"))return;if(ref[0]==="c")custom.splice(parseInt(ref.slice(1),10),1);else if(!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);savePocket();render()}
+function deleteTemplate(ref){if(!ref||!confirm(ui("Supprimer ce template ?")))return;if(ref[0]==="c")custom.splice(parseInt(ref.slice(1),10),1);else if(!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);savePocket();render()}
 function allPortals(){return (D.portals||[]).map((p,i)=>({...p,builtin:true,_id:"b"+i})).filter(p=>!hiddenLinks.includes(p._id)).concat(customLinks.map((p,i)=>({...p,custom:true,_id:"c"+i})))}
 function isFavoriteLink(r){return favoriteLinks.includes(r)}
 function toggleFavoriteLink(r){favoriteLinks=isFavoriteLink(r)?favoriteLinks.filter(x=>x!==r):favoriteLinks.concat(r);savePocket();render()}
@@ -980,8 +991,8 @@ function portals(){
 }
 function newLink(ref=null){let p=ref?{...getLinkByRef(ref)}:{name:"",category:"Favoris",url:"https://"};$("#content").innerHTML='<div class="card"><h3>'+(ref?'Modifier le lien':'Ajouter un lien favori')+'</h3><div class="editor"><div><div class="meta">Nom</div><input id="lname" value="'+esc(p.name||"")+'"></div><div><div class="meta">Catégorie</div><input id="lcat" value="'+esc(p.category||"Favoris")+'"></div><div class="full"><div class="meta">URL</div><input id="lurl" value="'+esc(p.url||"https://")+'"></div><div class="full actions"><button class="btn primary" onclick=\'saveLink('+JSON.stringify(ref||"")+')\'>Enregistrer</button><button class="btn" onclick="render()">Annuler</button></div></div></div>'}
 function editLink(r){newLink(r)}
-function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert("Nom obligatoire et URL http/https valide.");return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
-function deleteLink(r){if(!r||!confirm("Supprimer ce lien ?"))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
+function saveLink(r){let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||"Favoris",url=$("#lurl").value.trim();if(!name||!/^https?:\/\//i.test(url)){alert(ui("Nom obligatoire et URL http/https valide."));return}let p={name,category,url,custom:true};if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;else{if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);customLinks.push(p)}savePocket();toast("Lien enregistré");render()}
+function deleteLink(r){if(!r||!confirm(ui("Supprimer ce lien ?")))return;if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);else if(!hiddenLinks.includes(r))hiddenLinks.push(r);favoriteLinks=favoriteLinks.filter(x=>x!==r);savePocket();render()}
 function renderActions(c){
  let a=filterItems(pocketActions().filter(x=>x.webCategory===c),["name","description","command","script","category","webCategory"]);
  if(!a.length)return '<div class="empty">Aucun script, commande ou lien autonome dans cette rubrique.</div>';
