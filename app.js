@@ -2174,7 +2174,6 @@ function communications(){
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
  '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
- '<input id="ticketRefInput" class="ticket-ref-input" value="'+esc(ticketRef)+'" placeholder="'+ui("N° ticket (optionnel)")+'" oninput="setTicketRef(this.value)" aria-label="'+ui("Appliquer le N° ticket aux modèles")+'">'+
  '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
  cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
