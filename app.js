@@ -2476,6 +2476,76 @@ function render(){
 }
 /* === /IT Pocket iconography v1 === */
 
+/* === IT Pocket accordion navigation v1 === */
+if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
+function itpGetTechFilter(cat){return state.techFilters&&state.techFilters[cat]?state.techFilters[cat]:"Tous"}
+function itpSetTechFilter(cat,key){
+ if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
+ state.techFilters[cat]=key||"Tous";
+ save();
+ render();
+ requestAnimationFrame(()=>{const el=document.querySelector(".itp-subnav-active");if(el)el.scrollIntoView({block:"nearest",inline:"nearest",behavior:"smooth"})});
+}
+function itpTechGroupsForCat(cat){
+ const items=pocketActions().filter(x=>x.webCategory===cat).map(localizeDataItem);
+ const seen=new Map();
+ for(const item of items){
+   const k=itpTechKey(item,cat);
+   if(!seen.has(k))seen.set(k,{key:k,label:itpTechLabel(k),count:0,item});
+   seen.get(k).count++;
+ }
+ return [...seen.values()].sort((a,b)=>itpOrder(a.key)-itpOrder(b.key)||a.label.localeCompare(b.label));
+}
+function itpHasTechSubnav(cat){
+ return !["Accueil","Communications","Portails"].includes(cat) && itpTechGroupsForCat(cat).length>1;
+}
+function openCat(c){
+ state.cat=c;
+ if(!state.tabs.includes(c))state.tabs.push(c);
+ if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
+ if(!state.techFilters[c])state.techFilters[c]="Tous";
+ save();
+ render();
+}
+function itpSubnavHtml(cat){
+ if(!itpHasTechSubnav(cat))return "";
+ const groups=itpTechGroupsForCat(cat),active=itpGetTechFilter(cat);
+ const allLabel=state.lang==="en"?"All":"Tous";
+ return '<div class="itp-subnav-wrap">'+
+   '<div class="itp-subnav-head"><span>'+itpCategoryIcon(cat,"nav")+'</span><strong>'+esc(catLabel(cat))+'</strong><span class="itp-subnav-hint">'+(state.lang==="en"?"Choose a technology":"Choisir une technologie")+'</span></div>'+
+   '<div class="itp-subnav">'+
+     '<button class="itp-subnav-btn '+(active==="Tous"?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+',"Tous")\'>'+
+       '<span class="itp-subnav-all">≡</span><span>'+allLabel+'</span><small>'+pocketActions().filter(x=>x.webCategory===cat).length+'</small></button>'+
+     groups.map(g=>'<button class="itp-subnav-btn '+(active===g.key?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+','+JSON.stringify(g.key)+')\'>'+
+       itpIconForItem(g.item)+'<span>'+esc(g.label)+'</span><small>'+g.count+'</small></button>').join("")+
+   '</div></div>';
+}
+function nav(){
+ const buttons=cats.map(c=>'<button class="navbtn '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\' aria-expanded="'+(state.cat===c&&itpHasTechSubnav(c)?"true":"false")+'">'+
+   itpTitle(itpCategoryIcon(c,"nav"),catLabel(c),"itp-nav-title")+
+   (itpHasTechSubnav(c)?'<span class="itp-nav-chevron">'+(state.cat===c?"⌃":"⌄")+'</span>':'')+
+ '</button>').join("");
+ $("#nav").innerHTML=buttons+itpSubnavHtml(state.cat);
+}
+function renderActions(c){
+ let a=filterItems(pocketActions().filter(x=>x.webCategory===c).map(localizeDataItem),["name","description","command","script","category","webCategory"]);
+ const active=itpGetTechFilter(c);
+ if(active!=="Tous")a=a.filter(x=>itpTechKey(x,c)===active);
+ if(!a.length)return itpSubnavHtml(c)+'<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
+
+ const groups=new Map();
+ a.forEach(x=>{const k=itpTechKey(x,c);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)});
+ const entries=[...groups.entries()].sort((A,B)=>itpOrder(A[0])-itpOrder(B[0])||itpTechLabel(A[0]).localeCompare(itpTechLabel(B[0])));
+ const sub=itpSubnavHtml(c);
+ const activeLabel=active==="Tous"?(state.lang==="en"?"All technologies":"Toutes les technologies"):itpTechLabel(active);
+ return sub+
+   '<div class="toolbar slimbar itp-filter-summary"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span>'+
+   '<span class="badge itp-current-tech">'+esc(activeLabel)+'</span></div>'+
+   entries.map(([k,items])=>'<div class="section-title tech-section-title">'+itpIconForItem(items[0])+'<span>'+esc(itpTechLabel(k))+'</span><span class="tech-count">'+items.length+'</span></div><div class="grid">'+items.map(actionCard).join("")+'</div>').join("");
+}
+Object.assign(window,{itpSetTechFilter,itpGetTechFilter});
+/* === /IT Pocket accordion navigation v1 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
