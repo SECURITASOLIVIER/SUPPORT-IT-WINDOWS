@@ -1389,6 +1389,63 @@ function newLink(ref=null){
 }
 function tabs(){ $("#tabs").innerHTML=state.tabs.map(c=>'<button class="tab '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\'>'+icon(c)+' '+esc(catLabel(c))+' <span onclick=\'closeTab('+JSON.stringify(c)+',event)\'>×</span></button>').join("")}
 
+
+function toggleInlineDetail(id){
+ const box=document.getElementById(id); if(!box)return;
+ const open=box.classList.toggle("open");
+ const btn=document.querySelector('[data-detail-btn="'+id+'"]');
+ if(btn)btn.textContent=open?ui("Réduire"):ui("Voir plus");
+}
+function saveTemplateRef(ref){
+ let t={
+  category:$("#ecat").value.trim()||(state.lang==="en"?"Miscellaneous":"Divers"),
+  name:$("#ename").value.trim()||(state.lang==="en"?"Untitled":"Sans nom"),
+  subject:formalizeTemplateText($("#esub").value.trim()),
+  content:formalizeTemplateText($("#ebody").value),
+  custom:true
+ };
+ if(ref&&ref[0]==="c")custom[parseInt(ref.slice(1),10)]=t;
+ else{
+  if(ref&&ref[0]==="b"&&!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);
+  custom.push(t);
+ }
+ savePocket();toast("Template enregistré");render();
+}
+function deleteTemplate(ref){
+ if(!ref||!confirm(ui("Supprimer ce template ?")))return;
+ if(ref[0]==="c")custom.splice(parseInt(ref.slice(1),10),1);
+ else if(!hiddenTemplates.includes(ref))hiddenTemplates.push(ref);
+ savePocket();render();
+}
+function importTemplates(inp){
+ let f=inp.files&&inp.files[0];if(!f)return;
+ let r=new FileReader();
+ r.onload=()=>{try{
+   let x=JSON.parse(r.result);if(!Array.isArray(x))throw 0;
+   custom=x.filter(t=>t&&t.name&&typeof t.content==="string").map(t=>({...t,custom:true}));
+   save();toast("Templates importés");render();
+ }catch{alert(state.lang==="en"?"Invalid template file.":"Fichier de templates invalide.")}};
+ r.readAsText(f);
+}
+function saveLink(r){
+ let name=$("#lname").value.trim(),category=$("#lcat").value.trim()||(state.lang==="en"?"Favorites":"Favoris"),url=$("#lurl").value.trim();
+ if(!name||!/^https?:\/\//i.test(url)){alert(ui("Nom obligatoire et URL http/https valide."));return}
+ let p={name,category,url,custom:true};
+ if(r&&r[0]==="c")customLinks[parseInt(r.slice(1),10)]=p;
+ else{
+   if(r&&r[0]==="b"&&!hiddenLinks.includes(r))hiddenLinks.push(r);
+   customLinks.push(p);
+ }
+ savePocket();toast("Lien enregistré");render();
+}
+function deleteLink(r){
+ if(!r||!confirm(ui("Supprimer ce lien ?")))return;
+ if(r[0]==="c")customLinks.splice(parseInt(r.slice(1),10),1);
+ else if(!hiddenLinks.includes(r))hiddenLinks.push(r);
+ favoriteLinks=favoriteLinks.filter(x=>x!==r);
+ savePocket();render();
+}
+
 Object.assign(window,{shareTemplate,copyTemplate,setTicketNumber,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
