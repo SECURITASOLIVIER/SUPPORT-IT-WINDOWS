@@ -8361,36 +8361,36 @@ window.SSIT_DATA = {
       "category": "Applications",
       "subject": "Application - Réinstallation proposée",
       "content": "Bonjour,\n\nLes premiers tests n'ayant pas corrigé le problème, je propose une réinstallation de [Application].\n\nMerci de confirmer que vos données locales liées à l'application sont sauvegardées avant intervention.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - Réinstallation proposée",
-      "subject_en": "application - Réinstallation proposée",
-      "content_en": "Hello,\n\nLes premiers tests n'ayant pas corrigé The issue, je propose une réinstallation de [application].\n\nMerci de confirmer que your data locales liées à l'application sont sauvegardées avant intervention.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Reinstallation proposed",
+      "subject_en": "Application - Reinstallation proposed",
+      "content_en": "Hello [First name],\n\nAs the initial troubleshooting steps did not resolve the issue, I recommend reinstalling [Application].\n\nPlease confirm that any local data associated with the application has been backed up before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Licence manquante",
       "category": "Applications",
       "subject": "Application - Licence manquante",
       "content": "Bonjour,\n\nLe problème semble lié à l'absence ou à l'expiration d'une licence pour [Application].\n\nLa demande va être transmise à l'équipe / au gestionnaire concerné pour vérification.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - Licence manquante",
-      "subject_en": "application - Licence manquante",
-      "content_en": "Hello,\n\nThe issue semble lié à l'absence ou à l'expiration d'une licence pour [application].\n\nThe request va être transmise à l'équipe / au gestionnaire concerné pour vérification.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Missing licence",
+      "subject_en": "Application - Missing licence",
+      "content_en": "Hello [First name],\n\nThe issue appears to be related to a missing or expired licence for [Application].\n\nThe request will be forwarded to the relevant team or licence administrator for review.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Outlook - Test Web demandé",
       "category": "Microsoft 365",
       "subject": "Outlook - Test Web demandé",
       "content": "Bonjour,\n\nPour isoler le problème Outlook, merci de tester votre messagerie depuis la version Web.\n\nMerci de préciser si le problème est :\n- présent uniquement dans Outlook installé ;\n- également présent sur le Web.\n\nCordialement,\nSupport informatique",
-      "name_en": "Outlook - Test Web demandé",
-      "subject_en": "Outlook - Test Web demandé",
-      "content_en": "Hello,\n\nPour isoler The issue Outlook, merci de tester votre messagerie depuis la version Web.\n\nPlease specify si The issue est :\n- présent uniquement dans Outlook installé ;\n- également présent sur le Web.\n\nKind regards,\nIT Support"
+      "name_en": "Outlook - Web test requested",
+      "subject_en": "Outlook - Web test requested",
+      "content_en": "Hello [First name],\n\nTo isolate the Outlook issue, please test your mailbox using Outlook on the web.\n\nPlease let us know whether the issue is:\n• Present only in the installed Outlook client;\n• Also present on the web.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Outlook - Nouveau profil proposé",
       "category": "Microsoft 365",
       "subject": "Outlook - Nouveau profil proposé",
       "content": "Bonjour,\n\nLe diagnostic Outlook nécessite la création d'un nouveau profil local.\n\nCette opération ne supprime pas votre boîte aux lettres hébergée dans Microsoft 365, mais peut nécessiter la reconfiguration de certains éléments locaux.\n\nCordialement,\nSupport informatique",
-      "name_en": "Outlook - Nouveau profil proposé",
-      "subject_en": "Outlook - Nouveau profil proposé",
-      "content_en": "Hello,\n\nLe diagnostic Outlook nécessite la création d'un nouveau profil local.\n\nCette opération ne supprime pas votre boîte aux lettres hébergée dans Microsoft 365, mais peut nécessiter la reconfiguration de certains éléments locaux.\n\nKind regards,\nIT Support"
+      "name_en": "Outlook - New profile proposed",
+      "subject_en": "Outlook - New profile proposed",
+      "content_en": "Hello [First name],\n\nThe Outlook diagnosis requires the creation of a new local profile.\n\nThis operation does not delete your mailbox hosted in Microsoft 365, but some local settings may need to be configured again.\n\nKind regards,\nIT Support"
     },
     {
       "name": "OneDrive - Synchronisation",
@@ -8399,412 +8399,412 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nLe problème concerne la synchronisation OneDrive.\n\nMerci de laisser OneDrive ouvert et de ne pas déplacer / supprimer de fichiers pendant le diagnostic.\n\nCordialement,\nSupport informatique",
       "name_en": "OneDrive - Synchronisation",
       "subject_en": "OneDrive - Synchronisation",
-      "content_en": "Hello,\n\nThe issue concerne la synchronisation OneDrive.\n\nMerci de laisser OneDrive ouvert et de ne pas déplacer / supprimer de fichiers pendant le diagnostic.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nThe issue concerns OneDrive synchronisation.\n\nPlease keep OneDrive running and do not move or delete files while troubleshooting is in progress.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Teams - Cache / redémarrage",
       "category": "Microsoft 365",
       "subject": "Teams - Cache / redémarrage",
       "content": "Bonjour,\n\nUne action de nettoyage / redémarrage Teams va être réalisée.\n\nMerci d'enregistrer vos messages ou éléments en cours avant l'intervention.\n\nCordialement,\nSupport informatique",
-      "name_en": "Teams - Cache / redémarrage",
-      "subject_en": "Teams - Cache / redémarrage",
-      "content_en": "Hello,\n\nUne action de nettoyage / redémarrage Teams va être réalisée.\n\nPlease save vos messages ou éléments en cours avant the intervention.\n\nKind regards,\nIT Support"
+      "name_en": "Teams - Cache / restart",
+      "subject_en": "Teams - Cache / restart",
+      "content_en": "Hello [First name],\n\nA Teams cleanup and restart will be performed.\n\nPlease save any messages or work in progress before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Office - Réparation",
       "category": "Microsoft 365",
       "subject": "Office - Réparation",
       "content": "Bonjour,\n\nUne réparation de Microsoft 365 Apps est nécessaire.\n\nMerci de fermer Word, Excel, PowerPoint, Outlook et les autres applications Office avant l'intervention.\n\nCordialement,\nSupport informatique",
-      "name_en": "Office - Réparation",
-      "subject_en": "Office - Réparation",
-      "content_en": "Hello,\n\nUne réparation de Microsoft 365 Apps est nécessaire.\n\nMerci de fermer Word, Excel, PowerPoint, Outlook et les autres applications Office avant the intervention.\n\nKind regards,\nIT Support"
+      "name_en": "Office - Repair",
+      "subject_en": "Office - Repair",
+      "content_en": "Hello [First name],\n\nA repair of Microsoft 365 Apps is required.\n\nPlease close Word, Excel, PowerPoint, Outlook and any other Office applications before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Boîte partagée - Accès ajouté",
       "category": "Microsoft 365",
       "subject": "Boîte partagée - Accès ajouté",
       "content": "Bonjour,\n\nL'accès à la boîte partagée [Nom de la boîte] a été ajouté / corrigé.\n\nMerci de relancer Outlook et de prévoir un délai de propagation avant de tester.\n\nCordialement,\nSupport informatique",
-      "name_en": "Boîte partagée - access ajouté",
-      "subject_en": "Boîte partagée - access ajouté",
-      "content_en": "Hello,\n\nL'access à la boîte partagée [Nom de la boîte] a été ajouté / corrigé.\n\nMerci de relancer Outlook et de prévoir un délai de propagation avant de tester.\n\nKind regards,\nIT Support"
+      "name_en": "Shared mailbox - Access added",
+      "subject_en": "Shared mailbox - Access added",
+      "content_en": "Hello [First name],\n\nAccess to the shared mailbox [Mailbox name] has been added or corrected.\n\nPlease restart Outlook and allow some time for the change to propagate before testing.\n\nKind regards,\nIT Support"
     },
     {
       "name": "VPN - Premier diagnostic",
       "category": "Réseau & VPN",
       "subject": "VPN - Premier diagnostic",
       "content": "Bonjour,\n\nConcernant le problème VPN, merci de préciser :\n- le réseau utilisé (domicile / partage mobile / autre) ;\n- le message d'erreur exact ;\n- si Internet fonctionne hors VPN ;\n- l'heure du dernier échec.\n\nCordialement,\nSupport informatique",
-      "name_en": "VPN - Premier diagnostic",
-      "subject_en": "VPN - Premier diagnostic",
-      "content_en": "Hello,\n\nConcernant The issue VPN, Please specify :\n- le Network utilisé (domicile / partage mobile / autre) ;\n- le error message exact ;\n- si Internet fonctionne hors VPN ;\n- l'heure du dernier échec.\n\nKind regards,\nIT Support"
+      "name_en": "VPN - Initial diagnostics",
+      "subject_en": "VPN - Initial diagnostics",
+      "content_en": "Hello [First name],\n\nRegarding the VPN issue, please provide:\n• The network being used (home / mobile hotspot / other);\n• The exact error message;\n• Whether Internet access works without the VPN;\n• The time of the last failure.\n\nKind regards,\nIT Support"
     },
     {
       "name": "VPN - Test autre réseau",
       "category": "Réseau & VPN",
       "subject": "VPN - Test autre réseau",
       "content": "Bonjour,\n\nPour isoler l'origine du problème VPN, pouvez-vous effectuer un test depuis un autre accès Internet, par exemple un partage de connexion mobile ?\n\nMerci de m'indiquer le résultat.\n\nCordialement,\nSupport informatique",
-      "name_en": "VPN - Test autre Network",
-      "subject_en": "VPN - Test autre Network",
-      "content_en": "Hello,\n\nPour isoler l'origine du issue VPN, pouvez-vous effectuer un test depuis un autre access Internet, par exemple un partage de connection mobile ?\n\nMerci de m'indiquer le Result.\n\nKind regards,\nIT Support"
+      "name_en": "VPN - Test another network",
+      "subject_en": "VPN - Test another network",
+      "content_en": "Hello [First name],\n\nTo help identify the source of the VPN issue, could you please test from another Internet connection, for example a mobile hotspot?\n\nPlease let me know the result.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Wi-Fi - Informations nécessaires",
       "category": "Réseau & VPN",
       "subject": "Wi-Fi - Informations nécessaires",
       "content": "Bonjour,\n\nPour le problème Wi-Fi, merci de transmettre :\n- le nom du réseau concerné ;\n- si d'autres appareils se connectent ;\n- le message affiché ;\n- si le problème est permanent ou intermittent.\n\nCordialement,\nSupport informatique",
-      "name_en": "Wi-Fi - Informations nécessaires",
-      "subject_en": "Wi-Fi - Informations nécessaires",
-      "content_en": "Hello,\n\nPour The issue Wi-Fi, Please provide :\n- le nom du Network concerné ;\n- si d'autres appareils se connectent ;\n- le message affiché ;\n- si The issue est permanent ou intermittent.\n\nKind regards,\nIT Support"
+      "name_en": "Wi-Fi - Information required",
+      "subject_en": "Wi-Fi - Information required",
+      "content_en": "Hello [First name],\n\nFor the Wi-Fi issue, please provide:\n• The name of the affected network;\n• Whether other devices can connect;\n• The message displayed;\n• Whether the issue is constant or intermittent.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Réseau - Incident local ou général",
       "category": "Réseau & VPN",
       "subject": "Réseau - Incident local ou général",
       "content": "Bonjour,\n\nPour déterminer si l'incident réseau est local ou plus large, pouvez-vous me confirmer si d'autres utilisateurs proches rencontrent le même problème ?\n\nMerci également de préciser si la connexion Ethernet / Wi-Fi est concernée.\n\nCordialement,\nSupport informatique",
-      "name_en": "Network - Incident local ou général",
-      "subject_en": "Network - Incident local ou général",
-      "content_en": "Hello,\n\nPour déterminer si The Incident Network est local ou plus large, pouvez-vous me confirmer si d'autres utilisateurs proches rencontrent le même issue ?\n\nMerci également de préciser si la connection Ethernet / Wi-Fi est concernée.\n\nKind regards,\nIT Support"
+      "name_en": "Network - Local or widespread incident",
+      "subject_en": "Network - Local or widespread incident",
+      "content_en": "Hello [First name],\n\nTo determine whether the network incident is local or more widespread, could you please confirm whether nearby users are experiencing the same issue?\n\nPlease also specify whether Ethernet, Wi-Fi, or both are affected.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Proxy / accès Web",
       "category": "Réseau & VPN",
       "subject": "Proxy / accès Web",
       "content": "Bonjour,\n\nPour le problème d'accès Web, merci de transmettre l'adresse exacte du site concerné ainsi qu'une capture du message affiché.\n\nMerci également de préciser si d'autres sites fonctionnent normalement.\n\nCordialement,\nSupport informatique",
-      "name_en": "Proxy / access Web",
-      "subject_en": "Proxy / access Web",
-      "content_en": "Hello,\n\nPour The issue d'access Web, Please provide l'adresse exacte du site concerné ainsi qu'une capture du message affiché.\n\nMerci également de préciser si d'autres sites fonctionnent normalement.\n\nKind regards,\nIT Support"
+      "name_en": "Proxy / web access",
+      "subject_en": "Proxy / web access",
+      "content_en": "Hello [First name],\n\nFor the web access issue, please send the exact address of the affected website and a screenshot of the message displayed.\n\nPlease also confirm whether other websites are working normally.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Arrivée - Préparation compte et poste",
       "category": "Onboarding / Offboarding",
       "subject": "Arrivée - Préparation compte et poste",
       "content": "PRÉPARATION ARRIVÉE\n\nCollaborateur : [Nom]\nDate d'arrivée : [Date]\nResponsable : [Responsable]\n\nÀ préparer :\n- compte utilisateur ;\n- poste de travail ;\n- licences ;\n- groupes / accès ;\n- messagerie ;\n- MFA ;\n- applications ;\n- accessoires ;\n- mobile si nécessaire.\n\nCommentaires :\n[Informations]",
-      "name_en": "onboarding - preparation compte et Computer",
-      "subject_en": "onboarding - preparation compte et Computer",
-      "content_en": "preparation onboarding\n\nemployee : [Nom]\nDate d'onboarding : [Date]\nResponsable : [Responsable]\n\nÀ préparer :\n- compte User ;\n- Computer de travail ;\n- licences ;\n- groupes / access ;\n- messagerie ;\n- MFA ;\n- applications ;\n- accessoires ;\n- mobile if needed.\n\nCommentaires :\n[Informations]"
+      "name_en": "Onboarding - Prepare account and computer",
+      "subject_en": "Onboarding - Prepare account and computer",
+      "content_en": "ONBOARDING PREPARATION\n\nEmployee: [Name]\nStart date: [Date]\nManager: [Manager]\n\nTo prepare:\n• User account;\n• Workstation;\n• Licences;\n• Groups / access;\n• Mailbox;\n• MFA;\n• Applications;\n• Accessories;\n• Mobile device if required.\n\nComments:\n[Information]"
     },
     {
       "name": "Arrivée - Matériel prêt",
       "category": "Onboarding / Offboarding",
       "subject": "Arrivée - Matériel prêt",
       "content": "Bonjour,\n\nVotre environnement de travail est préparé pour votre arrivée.\n\nLe poste, les accès principaux et les éléments nécessaires à la première connexion sont prêts.\n\nUn accompagnement pourra être réalisé lors de la première ouverture de session.\n\nCordialement,\nSupport informatique",
-      "name_en": "onboarding - Equipment prêt",
-      "subject_en": "onboarding - Equipment prêt",
-      "content_en": "Hello,\n\nVotre environnement de travail est préparé pour votre onboarding.\n\nLe Computer, les access principaux et les éléments nécessaires à la première connection sont prêts.\n\nUn accompagnement pourra être réalisé lors de la première ouverture de session.\n\nKind regards,\nIT Support"
+      "name_en": "Onboarding - Equipment ready",
+      "subject_en": "Onboarding - Equipment ready",
+      "content_en": "Hello [First name],\n\nYour work environment has been prepared for your arrival.\n\nThe computer, main access and first-sign-in requirements are ready.\n\nAssistance can be provided during the first sign-in if needed.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Départ - Checklist IT",
       "category": "Onboarding / Offboarding",
       "subject": "Départ - Checklist IT",
       "content": "CHECKLIST DÉPART\n\nUtilisateur : [Nom]\nDate de départ : [Date]\n\nÀ traiter :\n- désactivation du compte ;\n- révocation des sessions ;\n- MFA ;\n- délégation / transfert messagerie ;\n- OneDrive / données ;\n- groupes / accès ;\n- licences ;\n- récupération PC ;\n- chargeur / dock / écran / casque ;\n- téléphone professionnel ;\n- autres équipements.\n\nStatut :\n[À compléter]",
-      "name_en": "departure - Checklist IT",
-      "subject_en": "departure - Checklist IT",
-      "content_en": "CHECKLIST departure\n\nUser : [Nom]\nDate de departure : [Date]\n\nÀ traiter :\n- désactivation du compte ;\n- révocation des sessions ;\n- MFA ;\n- délégation / transfert messagerie ;\n- OneDrive / données ;\n- groupes / access ;\n- licences ;\n- récupération PC ;\n- charger / dock / écran / headset ;\n- phone professionnel ;\n- autres équipements.\n\nStatus :\n[À compléter]"
+      "name_en": "Offboarding - IT checklist",
+      "subject_en": "Offboarding - IT checklist",
+      "content_en": "OFFBOARDING CHECKLIST\n\nUser: [Name]\nDeparture date: [Date]\n\nTo process:\n• Disable account;\n• Revoke active sessions;\n• MFA;\n• Mailbox delegation / transfer;\n• OneDrive / data;\n• Groups / access;\n• Licences;\n• Recover PC;\n• Charger / dock / monitor / headset;\n• Work phone;\n• Other equipment.\n\nStatus:\n[To be completed]"
     },
     {
       "name": "Départ - Retour matériel",
       "category": "Onboarding / Offboarding",
       "subject": "Départ - Retour matériel",
       "content": "Bonjour,\n\nDans le cadre de votre départ, merci de restituer les équipements professionnels en votre possession :\n\n- [PC]\n- [Chargeur]\n- [Dock]\n- [Écran]\n- [Casque]\n- [Téléphone]\n- [Autres]\n\nMerci de confirmer le mode de retour prévu.\n\nCordialement,\nSupport informatique",
-      "name_en": "departure - feedback Equipment",
-      "subject_en": "departure - feedback Equipment",
-      "content_en": "Hello,\n\nDans le cadre de votre departure, merci de restituer les équipements professionnels en votre possession :\n\n- [PC]\n- [charger]\n- [Dock]\n- [Écran]\n- [headset]\n- [phone]\n- [Autres]\n\nMerci de confirmer le mode de feedback prévu.\n\nKind regards,\nIT Support"
+      "name_en": "Offboarding - Equipment return",
+      "subject_en": "Offboarding - Equipment return",
+      "content_en": "Hello [First name],\n\nAs part of your departure, please return the professional equipment in your possession:\n\n• [PC]\n• [Charger]\n• [Dock]\n• [Monitor]\n• [Headset]\n• [Phone]\n• [Other]\n\nPlease confirm the planned return method.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Relance - Utilisateur indisponible",
       "category": "Relances & Escalades",
       "subject": "Relance - Utilisateur indisponible",
       "content": "Bonjour,\n\nJe n'ai pas pu vous joindre concernant [Sujet].\n\nMerci de me communiquer un créneau de disponibilité afin que nous puissions poursuivre le diagnostic.\n\nCordialement,\nSupport informatique",
-      "name_en": "Follow-up - User indisponible",
-      "subject_en": "Follow-up - User indisponible",
-      "content_en": "Hello,\n\nJe n'ai pas pu vous joindre concernant [Subject].\n\nPlease provide me with un créneau de disponibilité afin que nous puissions poursuivre le diagnostic.\n\nKind regards,\nIT Support"
+      "name_en": "Follow-up - User unavailable",
+      "subject_en": "Follow-up - User unavailable",
+      "content_en": "Hello [First name],\n\nI was unable to reach you regarding [Subject].\n\nPlease send me an available time slot so that we can continue troubleshooting.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Relance - Test attendu",
       "category": "Relances & Escalades",
       "subject": "Relance - Test attendu",
       "content": "Bonjour,\n\nJe reviens vers vous concernant le test demandé sur [Sujet].\n\nPouvez-vous me confirmer le résultat afin que nous puissions clôturer ou poursuivre l'analyse ?\n\nCordialement,\nSupport informatique",
-      "name_en": "Follow-up - Test attendu",
-      "subject_en": "Follow-up - Test attendu",
-      "content_en": "Hello,\n\nJe reviens vers vous concernant le test demandé sur [Subject].\n\nCould you me confirmer le Result afin que nous puissions close ou poursuivre l'analyse ?\n\nKind regards,\nIT Support"
+      "name_en": "Follow-up - Test result required",
+      "subject_en": "Follow-up - Test result required",
+      "content_en": "Hello [First name],\n\nI am following up regarding the test requested for [Subject].\n\nCould you please confirm the result so that we can either close the case or continue the analysis?\n\nKind regards,\nIT Support"
     },
     {
       "name": "Escalade - Fournisseur",
       "category": "Relances & Escalades",
       "subject": "Escalade - Fournisseur",
       "content": "Bonjour,\n\nNous sollicitons votre support concernant l'incident suivant :\n\nClient / utilisateur : [Référence]\nProduit / service : [Produit]\nDébut incident : [Date / heure]\nImpact : [Impact]\nErreur : [Erreur]\n\nTests déjà réalisés :\n- [Test]\n- [Test]\n\nMerci de nous indiquer les prochaines actions recommandées.\n\nCordialement,\nSupport informatique",
-      "name_en": "Escalade - Fournisseur",
-      "subject_en": "Escalade - Fournisseur",
-      "content_en": "Hello,\n\nNous sollicitons votre support concernant The Incident suivant :\n\nClient / User : [Référence]\nProduit / service : [Produit]\nDébut Incident : [Date / heure]\nImpact : [Impact]\nErreur : [Erreur]\n\nTests déjà réalisés :\n- [Test]\n- [Test]\n\nMerci de nous indiquer les prochaines actions recommandées.\n\nKind regards,\nIT Support"
+      "name_en": "Escalation - Vendor",
+      "subject_en": "Escalation - Vendor",
+      "content_en": "Hello,\n\nWe require your assistance with the following incident:\n\nCustomer / user: [Reference]\nProduct / service: [Product]\nIncident start: [Date / time]\nImpact: [Impact]\nError: [Error]\n\nTests already performed:\n• [Test]\n• [Test]\n\nPlease advise on the recommended next steps.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Escalade - Équipe infrastructure",
       "category": "Relances & Escalades",
       "subject": "Escalade - Équipe infrastructure",
       "content": "Bonjour,\n\nMerci de prendre en charge l'analyse suivante :\n\nUtilisateur / poste : [Informations]\nService concerné : [Service]\nImpact : [Impact]\n\nDiagnostic déjà réalisé :\n[Diagnostic]\n\nLogs / éléments :\n[Éléments]\n\nAction attendue :\n[Demande]",
-      "name_en": "Escalade - Équipe infrastructure",
-      "subject_en": "Escalade - Équipe infrastructure",
-      "content_en": "Hello,\n\nMerci de prendre en charge l'analyse suivante :\n\nUser / Computer : [Informations]\nService concerné : [Service]\nImpact : [Impact]\n\nDiagnostic déjà réalisé :\n[Diagnostic]\n\nLogs / éléments :\n[Éléments]\n\nAction attendue :\n[Request]"
+      "name_en": "Escalation - Infrastructure team",
+      "subject_en": "Escalation - Infrastructure team",
+      "content_en": "Hello,\n\nPlease investigate the following case:\n\nTicket: [Ticket #]\nUser / computer: [Information]\nAffected service: [Service]\nImpact: [Impact]\n\nDiagnostics already performed:\n[Diagnostics]\n\nLogs / evidence:\n[Details]\n\nRequested action:\n[Request]"
     },
     {
       "name": "Escalade - Équipe sécurité",
       "category": "Relances & Escalades",
       "subject": "Escalade - Équipe sécurité",
       "content": "Bonjour,\n\nMerci d'analyser l'événement de sécurité suivant :\n\nUtilisateur / poste : [Informations]\nType : [Type]\nDate / heure : [Date]\nIndicateurs : [URL / expéditeur / fichier / alerte]\n\nActions déjà réalisées :\n[Actions]\n\nMerci de confirmer la conduite à tenir.",
-      "name_en": "Escalade - Équipe sécurité",
-      "subject_en": "Escalade - Équipe sécurité",
-      "content_en": "Hello,\n\nMerci d'analyser l'événement de sécurité suivant :\n\nUser / Computer : [Informations]\nType : [Type]\nDate / heure : [Date]\nIndicateurs : [URL / expéditeur / fichier / alerte]\n\nActions déjà réalisées :\n[Actions]\n\nMerci de confirmer la conduite à tenir."
+      "name_en": "Escalation - Security team",
+      "subject_en": "Escalation - Security team",
+      "content_en": "Hello,\n\nPlease investigate the following security event:\n\nTicket: [Ticket #]\nUser / computer: [Information]\nType: [Type]\nDate / time: [Date]\nIndicators: [URL / sender / file / alert]\n\nActions already performed:\n[Actions]\n\nPlease confirm the recommended course of action."
     },
     {
       "name": "Escalade - N3 avec chronologie",
       "category": "Relances & Escalades",
       "subject": "Escalade - N3 avec chronologie",
       "content": "ESCALADE N3\n\nImpact : [Impact]\n\nChronologie :\n[Heure] - [Événement]\n[Heure] - [Test]\n[Heure] - [Action]\n[Heure] - [Résultat]\n\nÉtat actuel :\n[État]\n\nBesoin :\n[Action / expertise demandée]",
-      "name_en": "Escalade - N3 avec chronologie",
-      "subject_en": "Escalade - N3 avec chronologie",
-      "content_en": "ESCALADE N3\n\nImpact : [Impact]\n\nChronologie :\n[Heure] - [Événement]\n[Heure] - [Test]\n[Heure] - [Action]\n[Heure] - [Result]\n\nÉtat actuel :\n[État]\n\nBesoin :\n[Action / expertise demandée]"
+      "name_en": "Escalation - N3 with timeline",
+      "subject_en": "Escalation - N3 with timeline",
+      "content_en": "N3 ESCALATION\n\nTicket: [Ticket #]\nImpact: [Impact]\n\nTimeline:\n[Time] - [Event]\n[Time] - [Test]\n[Time] - [Action]\n[Time] - [Result]\n\nCurrent status:\n[Status]\n\nRequired assistance:\n[Action / expertise required]"
     },
     {
       "name": "Incident majeur - Accusé utilisateur",
       "category": "Incident majeur",
       "subject": "Incident majeur - Accusé utilisateur",
       "content": "Bonjour,\n\nUn incident général affecte actuellement [Service / application].\n\nLes équipes techniques sont mobilisées. Il n'est pas nécessaire de créer plusieurs tickets pour le même symptôme.\n\nNous communiquerons une mise à jour dès qu'un nouvel élément sera disponible.\n\nCordialement,\nSupport informatique",
-      "name_en": "Incident majeur - Accusé User",
-      "subject_en": "Incident majeur - Accusé User",
-      "content_en": "Hello,\n\nUn Incident général affecte actuellement [Service / application].\n\nLes équipes techniques sont mobilisées. Il n'est pas nécessaire de créer plusieurs tickets pour le même Symptom.\n\nNous communiquerons An update dès qu'un nouvel élément sera disponible.\n\nKind regards,\nIT Support"
+      "name_en": "Major incident - User acknowledgement",
+      "subject_en": "Major incident - User acknowledgement",
+      "content_en": "Hello,\n\nA widespread incident is currently affecting [Service / application].\n\nThe technical teams are working on the issue. There is no need to create multiple tickets for the same symptom.\n\nWe will provide an update as soon as new information is available.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Incident majeur - Mise à jour",
       "category": "Incident majeur",
       "subject": "Incident majeur - Mise à jour",
       "content": "MISE À JOUR incident Service: [Service]\nHeure: [Heure]\nStatut: [En cours / amélioration / surveillance]\n\nÉtat actuel:\n[Description]\n\nActions en cours:\n[Actions]\n\nProchaine mise à jour:\n[Dès nouvel élément / heure prévue]",
-      "name_en": "Incident majeur - update",
-      "subject_en": "Incident majeur - update",
-      "content_en": "update Incident Service: [Service]\nHeure: [Heure]\nStatus: [En cours / amélioration / surveillance]\n\nÉtat actuel:\n[Description]\n\nActions en cours:\n[Actions]\n\nProchaine update:\n[Dès nouvel élément / heure prévue]"
+      "name_en": "Major incident - Update",
+      "subject_en": "Major incident - Update",
+      "content_en": "INCIDENT UPDATE\n\nService: [Service]\nTime: [Time]\nStatus: [Ongoing / improving / monitoring]\n\nCurrent status:\n[Description]\n\nActions in progress:\n[Actions]\n\nNext update:\n[When new information is available / planned time]"
     },
     {
       "name": "Incident majeur - Service rétabli",
       "category": "Incident majeur",
       "subject": "Incident majeur - Service rétabli",
       "content": "Bonjour,\n\nLe service [Service] est de nouveau disponible.\n\nLes équipes continuent la surveillance. Si vous rencontrez encore le problème, merci de relancer l'application / la session puis de signaler le cas avec les détails nécessaires.\n\nCordialement,\nSupport informatique",
-      "name_en": "Incident majeur - Service restored",
-      "subject_en": "Incident majeur - Service restored",
-      "content_en": "Hello,\n\nLe service [Service] est de nouveau disponible.\n\nLes équipes continuent la surveillance. Si vous rencontrez encore The issue, merci de relancer l'application / la session puis de signaler le cas avec les détails nécessaires.\n\nKind regards,\nIT Support"
+      "name_en": "Major incident - Service restored",
+      "subject_en": "Major incident - Service restored",
+      "content_en": "Hello,\n\n[Service] is available again.\n\nThe technical teams are continuing to monitor the service. If you still experience the issue, restart the application or session and report the case with the relevant details.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Incident majeur - Contournement",
       "category": "Incident majeur",
       "subject": "Incident majeur - Contournement",
       "content": "Bonjour,\n\nL'incident sur [Service] est toujours en cours.\n\nContournement temporaire disponible:\n[Procédure]\n\nMerci d'utiliser cette solution uniquement jusqu'au rétablissement complet du service.\n\nCordialement,\nSupport informatique",
-      "name_en": "Incident majeur - Contournement",
-      "subject_en": "Incident majeur - Contournement",
-      "content_en": "Hello,\n\nThe Incident sur [Service] est toujours en cours.\n\nContournement temporaire disponible:\n[procedure]\n\nMerci d'utiliser cette solution uniquement jusqu'au restoration complet du service.\n\nKind regards,\nIT Support"
+      "name_en": "Major incident - Workaround",
+      "subject_en": "Major incident - Workaround",
+      "content_en": "Hello,\n\nThe incident affecting [Service] is still ongoing.\n\nTemporary workaround:\n[Procedure]\n\nPlease use this workaround only until the service has been fully restored.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Maintenance - Information préalable",
       "category": "Maintenance & Changement",
       "subject": "Maintenance - Information préalable",
       "content": "Bonjour,\n\nUne opération de maintenance est prévue sur [Service / application / équipement].\n\nPériode : [Date / plage]\nImpact possible : [Impact]\nAction utilisateur : [Action éventuelle]\n\nUne confirmation sera envoyée à la fin de l'intervention.\n\nCordialement,\nSupport informatique",
-      "name_en": "maintenance - Information préalable",
-      "subject_en": "maintenance - Information préalable",
-      "content_en": "Hello,\n\nUne opération de maintenance est prévue sur [Service / application / équipement].\n\nPériode : [Date / plage]\nImpact possible : [Impact]\nAction User : [Action éventuelle]\n\nUne confirmation sera envoyée à la fin de the intervention.\n\nKind regards,\nIT Support"
+      "name_en": "Maintenance - Advance notice",
+      "subject_en": "Maintenance - Advance notice",
+      "content_en": "Hello,\n\nMaintenance is scheduled for [Service / application / equipment].\n\nWindow: [Date / time range]\nPossible impact: [Impact]\nUser action: [Action if required]\n\nA confirmation will be sent once the maintenance is complete.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Maintenance - Terminée",
       "category": "Maintenance & Changement",
       "subject": "Maintenance - Terminée",
       "content": "Bonjour,\n\nL'opération de maintenance sur [Service] est terminée.\n\nLes contrôles de validation sont concluants et le service est disponible.\n\nMerci de signaler toute anomalie résiduelle.\n\nCordialement,\nSupport informatique",
-      "name_en": "maintenance - Terminée",
-      "subject_en": "maintenance - Terminée",
-      "content_en": "Hello,\n\nL'opération de maintenance sur [Service] is complete.\n\nLes contrôles de validation sont concluants et le service is available.\n\nMerci de signaler toute issue résiduelle.\n\nKind regards,\nIT Support"
+      "name_en": "Maintenance - Completed",
+      "subject_en": "Maintenance - Completed",
+      "content_en": "Hello,\n\nMaintenance on [Service] has been completed.\n\nValidation checks are successful and the service is available.\n\nPlease report any remaining issue.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Changement - Redémarrage requis",
       "category": "Maintenance & Changement",
       "subject": "Changement - Redémarrage requis",
       "content": "Bonjour,\n\nUne modification a été appliquée sur votre poste / compte et nécessite un redémarrage pour être pleinement prise en compte.\n\nMerci d'enregistrer votre travail puis de redémarrer le poste.\n\nCordialement,\nSupport informatique",
-      "name_en": "Changement - Redémarrage requis",
-      "subject_en": "Changement - Redémarrage requis",
-      "content_en": "Hello,\n\nUne modification a été appliquée sur your computer / compte et nécessite A restart pour être pleinement prise en compte.\n\nPlease save votre travail puis de restart le Computer.\n\nKind regards,\nIT Support"
+      "name_en": "Change - Restart required",
+      "subject_en": "Change - Restart required",
+      "content_en": "Hello [First name],\n\nA change has been applied to your computer or account and requires a restart to take full effect.\n\nPlease save your work and restart the computer.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Changement - Fenêtre d'intervention",
       "category": "Maintenance & Changement",
       "subject": "Changement - Fenêtre d'intervention",
       "content": "Bonjour,\n\nUne intervention est nécessaire sur [Poste / service].\n\nDurée estimée : [Durée]\nImpact : [Impact]\nPréparation demandée : [Fermer applications / enregistrer travail / autre]\n\nMerci de confirmer le créneau retenu.\n\nCordialement,\nSupport informatique",
-      "name_en": "Changement - Fenêtre d'intervention",
-      "subject_en": "Changement - Fenêtre d'intervention",
-      "content_en": "Hello,\n\nAn intervention est nécessaire sur [Computer / service].\n\nDurée estimée : [Durée]\nImpact : [Impact]\npreparation demandée : [Fermer applications / enregistrer travail / autre]\n\nMerci de confirmer le créneau retenu.\n\nKind regards,\nIT Support"
+      "name_en": "Change - Intervention window",
+      "subject_en": "Change - Intervention window",
+      "content_en": "Hello [First name],\n\nAn intervention is required on [Computer / service].\n\nEstimated duration: [Duration]\nImpact: [Impact]\nPreparation required: [Close applications / save work / other]\n\nPlease confirm the selected time slot.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Teams - Je regarde",
       "category": "Messages rapides",
       "subject": "Teams - Je regarde",
       "content": "Bonjour, je prends le sujet en charge et je reviens vers vous dès que j’ai un premier résultat.",
-      "name_en": "Teams - Je regarde",
-      "subject_en": "Teams - Je regarde",
-      "content_en": "Bonjour, je prends le Subject en charge et je reviens vers vous dès que j’ai un premier Result."
+      "name_en": "Teams - I am looking into it",
+      "subject_en": "Teams - I am looking into it",
+      "content_en": "Hello, I am taking ownership of the issue and will get back to you as soon as I have an initial result."
     },
     {
       "name": "Teams - Besoin du poste",
       "category": "Messages rapides",
       "subject": "Teams - Besoin du poste",
       "content": "Bonjour, pouvez-vous rester disponible devant le poste quelques minutes afin que je poursuive le diagnostic ?",
-      "name_en": "Teams - Besoin du Computer",
-      "subject_en": "Teams - Besoin du Computer",
-      "content_en": "Bonjour, pouvez-vous rester disponible devant le Computer quelques minutes afin que je poursuive le diagnostic ?"
+      "name_en": "Teams - Need access to the computer",
+      "subject_en": "Teams - Need access to the computer",
+      "content_en": "Hello, could you please remain available in front of the computer for a few minutes so that I can continue troubleshooting?"
     },
     {
       "name": "Teams - Test demandé",
       "category": "Messages rapides",
       "subject": "Teams - Test demandé",
       "content": "Pouvez-vous refaire le test maintenant et me préciser exactement ce qui s’affiche ?",
-      "name_en": "Teams - Test demandé",
-      "subject_en": "Teams - Test demandé",
-      "content_en": "Could you refaire le test maintenant et me préciser exactement ce qui s’affiche ?"
+      "name_en": "Teams - Test requested",
+      "subject_en": "Teams - Test requested",
+      "content_en": "Could you please run the test again now and tell me exactly what is displayed?"
     },
     {
       "name": "Teams - Redémarrage demandé",
       "category": "Messages rapides",
       "subject": "Teams - Redémarrage demandé",
       "content": "Pouvez-vous enregistrer votre travail, redémarrer complètement le poste, puis refaire le test ?",
-      "name_en": "Teams - Redémarrage demandé",
-      "subject_en": "Teams - Redémarrage demandé",
-      "content_en": "Could you enregistrer votre travail, restart complètement le Computer, puis refaire le test ?"
+      "name_en": "Teams - Restart requested",
+      "subject_en": "Teams - Restart requested",
+      "content_en": "Could you please save your work, fully restart the computer, and then run the test again?"
     },
     {
       "name": "Teams - Résolu ?",
       "category": "Messages rapides",
       "subject": "Teams - Résolu ?",
       "content": "La correction est appliquée. Pouvez-vous confirmer que tout fonctionne correctement maintenant ?",
-      "name_en": "Teams - Résolu ?",
-      "subject_en": "Teams - Résolu ?",
-      "content_en": "The fix has been applied. Could you confirmer que tout works correctly maintenant ?"
+      "name_en": "Teams - Resolved?",
+      "subject_en": "Teams - Resolved?",
+      "content_en": "The fix has been applied. Could you please confirm that everything is working correctly now?"
     },
     {
       "name": "Teams - Merci clôture",
       "category": "Messages rapides",
       "subject": "Teams - Merci clôture",
       "content": "Merci pour votre retour. Je clôture le ticket comme résolu. Si le problème revient, merci d’ouvrir une nouvelle demande.",
-      "name_en": "Teams - Merci Closure",
-      "subject_en": "Teams - Merci Closure",
-      "content_en": "Thank you for your feedback. Je Closure The ticket comme résolu. Si The issue revient, merci d’ouvrir une nouvelle Request."
+      "name_en": "Teams - Thank you / closure",
+      "subject_en": "Teams - Thank you / closure",
+      "content_en": "Thank you for your feedback. I am closing the ticket as resolved. If the issue occurs again, please open a new request."
     },
     {
       "category": "Salles & MTR",
       "name": "MTR - Incident salle pris en charge",
       "subject": "Prise en charge de l’incident en salle de réunion",
       "content": "Bonjour,\n\nNous avons pris en charge l’incident signalé dans la salle [Nom / étage].\n\nÉquipement concerné : [MTR / écran / caméra / micro / haut-parleur / console].\nSymptôme : [Description].\n\nLes vérifications sont en cours. Nous vous tiendrons informé de l’avancement.\n\nCordialement,\nSupport informatique",
-      "name_en": "MTR - Incident salle Taken into support",
-      "subject_en": "taken into support de the Incident en salle de réunion",
-      "content_en": "Hello,\n\nNous avons Taken into support the Incident signalé dans la salle [Nom / étage].\n\nÉquipement concerné : [MTR / écran / caméra / micro / haut-parleur / console].\nSymptom : [Description].\n\nChecks sont en cours. Nous vous tiendrons informé de l’avancement.\n\nKind regards,\nIT Support"
+      "name_en": "MTR - Meeting room incident assigned",
+      "subject_en": "Meeting room incident assigned",
+      "content_en": "Hello [First name],\n\nWe have taken ownership of the incident reported in meeting room [Name / floor].\n\nAffected equipment: [MTR / display / camera / microphone / speaker / console].\nSymptom: [Description].\n\nChecks are in progress. We will keep you informed of progress.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "MTR - Salle de nouveau opérationnelle",
       "subject": "Salle de réunion de nouveau opérationnelle",
       "content": "Bonjour,\n\nLa salle [Nom / étage] est de nouveau opérationnelle.\n\nVérifications réalisées :\n- affichage ;\n- caméra ;\n- microphones / haut-parleurs ;\n- console Teams Rooms ;\n- connexion à une réunion de test.\n\nMerci de nous signaler toute nouvelle anomalie.\n\nCordialement,\nSupport informatique",
-      "name_en": "MTR - Salle de nouveau opérationnelle",
-      "subject_en": "Salle de réunion de nouveau opérationnelle",
-      "content_en": "Hello,\n\nLa salle [Nom / étage] est de nouveau opérationnelle.\n\nchecks réalisées :\n- affichage ;\n- caméra ;\n- microphones / haut-parleurs ;\n- console Teams Rooms ;\n- connection à une réunion de test.\n\nMerci de nous signaler toute nouvelle issue.\n\nKind regards,\nIT Support"
+      "name_en": "MTR - Meeting room operational again",
+      "subject_en": "Meeting room operational again",
+      "content_en": "Hello,\n\nMeeting room [Name / floor] is operational again.\n\nChecks performed:\n• Display;\n• Camera;\n• Microphones / speakers;\n• Teams Rooms console;\n• Test meeting connection.\n\nPlease report any new issue.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "MTR - Maintenance planifiée",
       "subject": "Maintenance planifiée de la salle de réunion",
       "content": "Bonjour,\n\nUne intervention de maintenance est planifiée dans la salle [Nom] le [Date] à [Heure].\n\nLa salle pourra être indisponible pendant environ [Durée].\n\nObjet de l’intervention : [mise à jour / remplacement équipement / diagnostic / configuration].\n\nCordialement,\nSupport informatique",
-      "name_en": "MTR - maintenance planifiée",
-      "subject_en": "maintenance planifiée de la salle de réunion",
-      "content_en": "Hello,\n\nAn intervention de maintenance est planifiée dans la salle [Nom] le [Date] à [Heure].\n\nLa salle pourra être indisponible pendant environ [Durée].\n\nObjet de l’intervention : [update / remplacement équipement / diagnostic / configuration].\n\nKind regards,\nIT Support"
+      "name_en": "MTR - Scheduled maintenance",
+      "subject_en": "Scheduled meeting room maintenance",
+      "content_en": "Hello,\n\nMaintenance is scheduled in meeting room [Name] on [Date] at [Time].\n\nThe room may be unavailable for approximately [Duration].\n\nPurpose of the intervention: [update / equipment replacement / diagnostics / configuration].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "MTR - Test avant réunion importante",
       "subject": "Validation technique avant réunion",
       "content": "Bonjour,\n\nUn contrôle technique de la salle [Nom] a été réalisé avant votre réunion.\n\nTests :\n- écran / partage ;\n- caméra ;\n- microphones et audio ;\n- console Teams Rooms ;\n- appel de test.\n\nStatut : [OK / point à corriger].\n\nCordialement,\nSupport informatique",
-      "name_en": "MTR - Test avant réunion importante",
-      "subject_en": "Validation technique avant réunion",
-      "content_en": "Hello,\n\nUn contrôle technique de la salle [Nom] a été réalisé avant votre réunion.\n\nTests :\n- écran / partage ;\n- caméra ;\n- microphones et audio ;\n- console Teams Rooms ;\n- appel de test.\n\nStatus : [OK / point à corriger].\n\nKind regards,\nIT Support"
+      "name_en": "MTR - Test before important meeting",
+      "subject_en": "Technical validation before meeting",
+      "content_en": "Hello [First name],\n\nA technical check of meeting room [Name] has been completed before your meeting.\n\nTests:\n• Display / sharing;\n• Camera;\n• Microphones and audio;\n• Teams Rooms console;\n• Test call.\n\nStatus: [OK / issue to address].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "Salle - Demande d’informations incident",
       "subject": "Informations nécessaires - salle de réunion",
       "content": "Bonjour,\n\nAfin de diagnostiquer le problème de la salle [Nom], merci de préciser :\n- l’équipement concerné ;\n- le message d’erreur affiché ;\n- l’heure approximative de l’incident ;\n- si le problème concerne toutes les réunions ou une seule ;\n- une photo de l’écran / console si possible.\n\nCordialement,\nSupport informatique",
-      "name_en": "Salle - Request d’informations Incident",
-      "subject_en": "Informations nécessaires - salle de réunion",
-      "content_en": "Hello,\n\nTo diagnostiquer The issue de la salle [Nom], Please specify :\n- l’équipement concerné ;\n- le message d’erreur affiché ;\n- l’heure approximative de the Incident ;\n- si The issue concerne toutes les réunions ou une seule ;\n- une photo de l’écran / console si possible.\n\nKind regards,\nIT Support"
+      "name_en": "Meeting room - Incident information required",
+      "subject_en": "Information required - meeting room",
+      "content_en": "Hello [First name],\n\nTo diagnose the issue in meeting room [Name], please provide:\n• The affected equipment;\n• The error message displayed;\n• The approximate time of the incident;\n• Whether the issue affects all meetings or only one;\n• A photo of the screen / console if possible.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Préparation en cours",
       "subject": "Préparation de votre matériel",
       "content": "Bonjour,\n\nLa préparation de votre matériel est en cours.\n\nÉquipement : [PC / téléphone / casque / écran / dock / chargeur].\nConfiguration prévue : [Windows / applications / sécurité / accessoires].\n\nNous vous confirmerons dès que l’équipement sera disponible.\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - preparation en cours",
-      "subject_en": "preparation de your equipment",
-      "content_en": "Hello,\n\nLa preparation de your equipment est en cours.\n\nÉquipement : [PC / phone / headset / écran / dock / charger].\nconfiguration prévue : [Windows / applications / sécurité / accessoires].\n\nNous vous confirmerons dès que l’équipement sera disponible.\n\nKind regards,\nIT Support"
+      "name_en": "Hardware - Preparation in progress",
+      "subject_en": "Your equipment is being prepared",
+      "content_en": "Hello [First name],\n\nYour equipment is currently being prepared.\n\nEquipment: [PC / phone / headset / monitor / dock / charger].\nPlanned configuration: [Windows / applications / security / accessories].\n\nWe will let you know as soon as the equipment is available.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Configuration terminée",
       "subject": "Configuration de votre matériel terminée",
       "content": "Bonjour,\n\nLa configuration de votre matériel est terminée.\n\nÉléments vérifiés :\n- système et mises à jour ;\n- applications ;\n- compte et accès ;\n- réseau ;\n- accessoires ;\n- chiffrement / sécurité si applicable.\n\nLe matériel est prêt pour [remise / expédition].\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - configuration terminée",
-      "subject_en": "configuration de your equipment terminée",
-      "content_en": "Hello,\n\nLa configuration de your equipment is complete.\n\nÉléments vérifiés :\n- système et mises à jour ;\n- applications ;\n- compte et access ;\n- Network ;\n- accessoires ;\n- chiffrement / sécurité si applicable.\n\nLe Equipment is ready pour [handover / shipment].\n\nKind regards,\nIT Support"
+      "name_en": "Hardware - Configuration completed",
+      "subject_en": "Your equipment configuration is complete",
+      "content_en": "Hello [First name],\n\nYour equipment configuration is complete.\n\nItems checked:\n• System and updates;\n• Applications;\n• Account and access;\n• Network;\n• Accessories;\n• Encryption / security where applicable.\n\nThe equipment is ready for [collection / shipment].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Colis prêt pour expédition",
       "subject": "Votre matériel est prêt pour expédition",
       "content": "Bonjour,\n\nVotre matériel est prêt à être expédié.\n\nContenu du colis :\n- [PC / équipement] ;\n- [chargeur] ;\n- [casque / dock / accessoires] ;\n- [autre].\n\nMerci de confirmer l’adresse de livraison et un numéro de téléphone pour le transporteur.\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - Colis prêt pour shipment",
-      "subject_en": "your equipment is ready pour shipment",
-      "content_en": "Hello,\n\nyour equipment is ready à être expédié.\n\nContenu du colis :\n- [PC / équipement] ;\n- [charger] ;\n- [headset / dock / accessoires] ;\n- [autre].\n\nMerci de confirmer l’adresse de delivery et un numéro de phone pour le transporteur.\n\nKind regards,\nIT Support"
+      "name_en": "Hardware - Parcel ready for shipment",
+      "subject_en": "Your equipment is ready for shipment",
+      "content_en": "Hello [First name],\n\nYour equipment is ready to be shipped.\n\nParcel contents:\n• [PC / equipment];\n• [Charger];\n• [Headset / dock / accessories];\n• [Other].\n\nPlease confirm the delivery address and a phone number for the carrier.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Expédition et suivi",
       "subject": "Expédition de votre matériel",
       "content": "Bonjour,\n\nVotre matériel a été expédié.\n\nTransporteur : [Transporteur]\nNuméro de suivi : [Suivi]\nContenu : [Matériel / accessoires]\n\nMerci de confirmer la bonne réception du colis.\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - shipment et suivi",
-      "subject_en": "shipment de your equipment",
-      "content_en": "Hello,\n\nyour equipment a été expédié.\n\nTransporteur : [Transporteur]\nNuméro de suivi : [Suivi]\nContenu : [Equipment / accessoires]\n\nMerci de confirmer la bonne réception du colis.\n\nKind regards,\nIT Support"
+      "name_en": "Hardware - Shipment and tracking",
+      "subject_en": "Your equipment has been shipped",
+      "content_en": "Hello [First name],\n\nYour equipment has been shipped.\n\nCarrier: [Carrier]\nTracking number: [Tracking]\nContents: [Equipment / accessories]\n\nPlease confirm receipt of the parcel.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Restitution à organiser",
       "subject": "Organisation de la restitution du matériel",
       "content": "Bonjour,\n\nMerci d’organiser la restitution des équipements suivants :\n- [PC] ;\n- [chargeur] ;\n- [dock] ;\n- [casque] ;\n- [téléphone] ;\n- [autres accessoires].\n\nMode de retour : [remise en main propre / expédition].\nDate souhaitée : [Date].\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - return à organiser",
-      "subject_en": "Organisation de la return du Equipment",
-      "content_en": "Hello,\n\nPlease arrange la return des équipements suivants :\n- [PC] ;\n- [charger] ;\n- [dock] ;\n- [headset] ;\n- [phone] ;\n- [autres accessoires].\n\nMode de feedback : [handover en main propre / shipment].\nDate souhaitée : [Date].\n\nKind regards,\nIT Support"
+      "name_en": "Hardware - Return to arrange",
+      "subject_en": "Arrange equipment return",
+      "content_en": "Hello [First name],\n\nPlease arrange the return of the following equipment:\n• [PC];\n• [Charger];\n• [Dock];\n• [Headset];\n• [Phone];\n• [Other accessories].\n\nReturn method: [In-person handover / shipment].\nPreferred date: [Date].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Onboarding / Offboarding",
       "name": "Onboarding - Poste prêt",
       "subject": "Votre environnement informatique est prêt",
       "content": "Bonjour,\n\nVotre environnement informatique est prêt pour votre arrivée.\n\nPréparé :\n- poste de travail ;\n- compte professionnel ;\n- accès principaux ;\n- applications ;\n- MFA / sécurité ;\n- accessoires.\n\nModalité de remise : [Lieu / date / expédition].\n\nCordialement,\nSupport informatique",
-      "name_en": "Onboarding - Computer prêt",
+      "name_en": "Onboarding - Workstation ready",
       "subject_en": "Your IT environment is ready",
-      "content_en": "Hello,\n\nYour IT environment is ready pour votre onboarding.\n\nPréparé :\n- Computer de travail ;\n- work account ;\n- access principaux ;\n- applications ;\n- MFA / sécurité ;\n- accessoires.\n\nModalité de handover : [Lieu / Date / shipment].\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour IT environment is ready for your arrival.\n\nPrepared:\n• Workstation;\n• Work account;\n• Main access;\n• Applications;\n• MFA / security;\n• Accessories.\n\nHandover method: [Location / date / shipment].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Onboarding / Offboarding",
       "name": "Offboarding - Restitution et fermeture",
       "subject": "Départ - restitution du matériel et des accès",
       "content": "Bonjour,\n\nDans le cadre du départ de [Prénom Nom], merci de confirmer :\n- la date de fin ;\n- les équipements à restituer ;\n- le mode de retour ;\n- les accès ou délégations à maintenir temporairement si nécessaire.\n\nLe support pourra ensuite finaliser la restitution et la fermeture des accès selon le processus interne.\n\nCordialement,\nSupport informatique",
-      "name_en": "Offboarding - return et fermeture",
-      "subject_en": "departure - return du Equipment et des access",
-      "content_en": "Hello,\n\nDans le cadre du departure de [Prénom Nom], merci de confirmer :\n- la Date de fin ;\n- les équipements à restituer ;\n- le mode de feedback ;\n- les access ou délégations à maintenir temporairement if needed.\n\nLe support pourra ensuite finaliser la return et la fermeture des access selon le processus interne.\n\nKind regards,\nIT Support"
+      "name_en": "Offboarding - Equipment return and access closure",
+      "subject_en": "Departure - equipment return and access closure",
+      "content_en": "Hello,\n\nAs part of the departure of [First name Last name], please confirm:\n• The end date;\n• The equipment to be returned;\n• The return method;\n• Any access or delegation that must remain temporarily active, if required.\n\nIT Support can then complete the equipment return and access closure according to the internal process.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Applications",
       "name": "Logiciel - Installation planifiée",
       "subject": "Installation de votre logiciel",
       "content": "Bonjour,\n\nL’installation de [Application] est planifiée le [Date / heure].\n\nMerci de laisser votre poste connecté et disponible pendant l’intervention.\n\nUn redémarrage pourra être nécessaire.\n\nCordialement,\nSupport informatique",
-      "name_en": "Logiciel - Installation planifiée",
-      "subject_en": "Installation de votre logiciel",
-      "content_en": "Hello,\n\nthe installation de [application] est planifiée le [Date / heure].\n\nMerci de laisser your computer connecté et disponible pendant l’intervention.\n\nA restart pourra être nécessaire.\n\nKind regards,\nIT Support"
+      "name_en": "Software - Installation scheduled",
+      "subject_en": "Software installation",
+      "content_en": "Hello [First name],\n\nThe installation of [Application] is scheduled for [Date / time].\n\nPlease keep your computer connected and available during the intervention.\n\nA restart may be required.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Applications",
