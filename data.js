@@ -5704,7 +5704,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nVos méthodes d'authentification multifacteur ont été réinitialisées.\n\nLors de votre prochaine connexion, l'enregistrement d'une nouvelle méthode vous sera demandé.\n\nCordialement,\nSupport informatique",
       "name_en": "MFA - Reset completed",
       "subject_en": "MFA - Reset completed",
-      "content_en": "Hello [First name],\n\nYour multi-factor authentication methods have been reset.\n\nAt your next sign-in, you will be prompted to register a new method.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour multi-factor authentication methods have been reset.\n\nAt your next sign-in, you will be prompted to register a new authentication method.\n\nKind regards,\nIT Support"
     },
     {
       "name": "MFA - Nouvelle méthode",
@@ -5713,16 +5713,16 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nPour ajouter une nouvelle méthode MFA :\n1. ouvrez la page de sécurité de votre compte ;\n2. ajoutez la méthode souhaitée ;\n3. suivez la validation demandée ;\n4. effectuez un test de connexion.\n\nContactez le support si l'enregistrement échoue.\n\nCordialement,\nSupport informatique",
       "name_en": "MFA - New method",
       "subject_en": "MFA - New method",
-      "content_en": "Hello [First name],\n\nTo add a new MFA method:\n1. open your account security page;\n2. add the desired method;\n3. complete the requested verification;\n4. perform a sign-in test.\n\nContact IT Support if registration fails.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nTo add a new MFA method:\n1. Open your account security page;\n2. Add the authentication method you want;\n3. Complete the requested verification;\n4. Test your sign-in.\n\nContact IT Support if registration fails.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Demande de justification",
       "category": "Accès & MFA",
       "subject": "Accès - Demande de justification",
       "content": "Bonjour [Prénom],\n\nPour traiter votre demande d'accès à [Ressource], merci de préciser :\n- le besoin métier ;\n- le niveau d'accès attendu ;\n- la durée si l'accès est temporaire ;\n- le responsable / valideur concerné.\n\nCordialement,\nSupport informatique",
-      "name_en": "Access - Business justification request",
-      "subject_en": "Access - Business justification request",
-      "content_en": "Hello [First name],\n\nTo process your access request for [Resource], please provide:\n- the business need;\n- the required access level;\n- the duration if access is temporary;\n- the relevant manager / approver.\n\nKind regards,\nIT Support"
+      "name_en": "Access - Business justification required",
+      "subject_en": "Access - Business justification required",
+      "content_en": "Hello [First name],\n\nTo process your request for access to [Resource], please provide:\n- the business need;\n- the expected access level;\n- the duration if the access is temporary;\n- the relevant manager / approver.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Accord requis",
@@ -5731,16 +5731,16 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLa demande d'accès à [Ressource] nécessite une validation préalable de [Responsable / propriétaire].\n\nDès validation, le traitement pourra se poursuivre.\n\nCordialement,\nSupport informatique",
       "name_en": "Access - Approval required",
       "subject_en": "Access - Approval required",
-      "content_en": "Hello [First name],\n\nThe access request for [Resource] requires prior approval from [Manager / owner].\n\nProcessing can continue once approval is received.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAccess to [Resource] requires prior approval from [Manager / owner].\n\nOnce approval is received, processing can continue.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Ajout effectué",
       "category": "Accès & MFA",
       "subject": "Accès - Ajout effectué",
       "content": "Bonjour [Prénom],\n\nL'accès à [Ressource] a été ajouté.\n\nUn délai de propagation peut être nécessaire. Merci de vous déconnecter / reconnecter avant de tester.\n\nCordialement,\nSupport informatique",
-      "name_en": "Access - Granted",
-      "subject_en": "Access - Granted",
-      "content_en": "Hello [First name],\n\nAccess to [Resource] has been granted.\n\nA propagation delay may apply. Please sign out and sign back in before testing.\n\nKind regards,\nIT Support"
+      "name_en": "Access - Access granted",
+      "subject_en": "Access - Access granted",
+      "content_en": "Hello [First name],\n\nAccess to [Resource] has been granted.\n\nA propagation delay may be required. Please sign out and sign back in before testing.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Demande d'installation",
@@ -5749,7 +5749,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nVotre demande d'installation de [Application] est bien prise en compte.\n\nMerci de préciser si nécessaire :\n- la version souhaitée ;\n- le besoin métier ;\n- le nombre d'utilisateurs ;\n- l'urgence éventuelle.\n\nCordialement,\nSupport informatique",
       "name_en": "Application - Installation request",
       "subject_en": "Application - Installation request",
-      "content_en": "Hello [First name],\n\nYour installation request for [Application] has been received.\n\nIf required, please provide:\n- the requested version;\n- the business need;\n- the number of users;\n- any urgency.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour request to install [Application] has been received.\n\nIf needed, please provide:\n- the required version;\n- the business need;\n- the number of users;\n- any urgency.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Installation terminée",
@@ -5776,7 +5776,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nUne mise à jour de [Application] est nécessaire afin de corriger le problème rencontré / maintenir la compatibilité.\n\nMerci d'enregistrer votre travail avant l'intervention.\n\nCordialement,\nSupport informatique",
       "name_en": "Application - Update required",
       "subject_en": "Application - Update required",
-      "content_en": "Hello [First name],\n\nAn update to [Application] is required to correct the issue / maintain compatibility.\n\nPlease save your work before the intervention.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAn update to [Application] is required to resolve the issue / maintain compatibility.\n\nPlease save your work before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Réinstallation proposée",
@@ -5785,7 +5785,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLes premiers tests n'ayant pas corrigé le problème, je propose une réinstallation de [Application].\n\nMerci de confirmer que vos données locales liées à l'application sont sauvegardées avant intervention.\n\nCordialement,\nSupport informatique",
       "name_en": "Application - Reinstallation proposed",
       "subject_en": "Application - Reinstallation proposed",
-      "content_en": "Hello [First name],\n\nAs the initial tests did not resolve the issue, I propose reinstalling [Application].\n\nPlease confirm that any local data related to the application is backed up before the intervention.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAs the initial tests did not resolve the issue, I recommend reinstalling [Application].\n\nPlease confirm that any local data linked to the application has been backed up before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Licence manquante",
@@ -5794,7 +5794,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLe problème semble lié à l'absence ou à l'expiration d'une licence pour [Application].\n\nLa demande va être transmise à l'équipe / au gestionnaire concerné pour vérification.\n\nCordialement,\nSupport informatique",
       "name_en": "Application - Missing license",
       "subject_en": "Application - Missing license",
-      "content_en": "Hello [First name],\n\nThe issue appears to be related to a missing or expired license for [Application].\n\nThe request will be forwarded to the relevant team / license owner for verification.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nThe issue appears to be related to a missing or expired license for [Application].\n\nThe request will be forwarded to the relevant team / license manager for review.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Outlook - Test Web demandé",
@@ -5803,7 +5803,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nPour isoler le problème Outlook, merci de tester votre messagerie depuis la version Web.\n\nMerci de préciser si le problème est :\n- présent uniquement dans Outlook installé ;\n- également présent sur le Web.\n\nCordialement,\nSupport informatique",
       "name_en": "Outlook - Web test requested",
       "subject_en": "Outlook - Web test requested",
-      "content_en": "Hello [First name],\n\nTo isolate the Outlook issue, please test your mailbox using Outlook on the web.\n\nPlease indicate whether the issue is:\n- present only in the installed Outlook client;\n- also present on the web.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nTo isolate the Outlook issue, please test your mailbox using Outlook on the web.\n\nPlease confirm whether the issue is:\n- only present in the installed Outlook client;\n- also present on the web.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Outlook - Nouveau profil proposé",
@@ -5812,7 +5812,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLe diagnostic Outlook nécessite la création d'un nouveau profil local.\n\nCette opération ne supprime pas votre boîte aux lettres hébergée dans Microsoft 365, mais peut nécessiter la reconfiguration de certains éléments locaux.\n\nCordialement,\nSupport informatique",
       "name_en": "Outlook - New profile proposed",
       "subject_en": "Outlook - New profile proposed",
-      "content_en": "Hello [First name],\n\nThe Outlook diagnosis requires creating a new local profile.\n\nThis operation does not delete your mailbox hosted in Microsoft 365, but some local settings may need to be reconfigured.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nThe Outlook diagnosis requires creating a new local profile.\n\nThis operation does not delete your mailbox hosted in Microsoft 365, but some local settings may need to be configured again.\n\nKind regards,\nIT Support"
     },
     {
       "name": "OneDrive - Synchronisation",
@@ -5821,7 +5821,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLe problème concerne la synchronisation OneDrive.\n\nMerci de laisser OneDrive ouvert et de ne pas déplacer / supprimer de fichiers pendant le diagnostic.\n\nCordialement,\nSupport informatique",
       "name_en": "OneDrive - Synchronization",
       "subject_en": "OneDrive - Synchronization",
-      "content_en": "Hello [First name],\n\nThe issue concerns OneDrive synchronization.\n\nPlease leave OneDrive open and do not move / delete files during the diagnosis.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nThe issue concerns OneDrive synchronization.\n\nPlease keep OneDrive open and do not move or delete files while the diagnosis is in progress.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Teams - Cache / redémarrage",
@@ -5830,7 +5830,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nUne action de nettoyage / redémarrage Teams va être réalisée.\n\nMerci d'enregistrer vos messages ou éléments en cours avant l'intervention.\n\nCordialement,\nSupport informatique",
       "name_en": "Teams - Cache / restart",
       "subject_en": "Teams - Cache / restart",
-      "content_en": "Hello [First name],\n\nA Teams cleanup / restart action will be performed.\n\nPlease save any messages or items in progress before the intervention.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nA Teams cleanup / restart action will be performed.\n\nPlease save any messages or work in progress before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Office - Réparation",
@@ -5839,7 +5839,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nUne réparation de Microsoft 365 Apps est nécessaire.\n\nMerci de fermer Word, Excel, PowerPoint, Outlook et les autres applications Office avant l'intervention.\n\nCordialement,\nSupport informatique",
       "name_en": "Office - Repair",
       "subject_en": "Office - Repair",
-      "content_en": "Hello [First name],\n\nA repair of Microsoft 365 Apps is required.\n\nPlease close Word, Excel, PowerPoint, Outlook, and any other Office applications before the intervention.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nA Microsoft 365 Apps repair is required.\n\nPlease close Word, Excel, PowerPoint, Outlook and any other Office applications before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Boîte partagée - Accès ajouté",
@@ -5848,7 +5848,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nL'accès à la boîte partagée [Nom de la boîte] a été ajouté / corrigé.\n\nMerci de relancer Outlook et de prévoir un délai de propagation avant de tester.\n\nCordialement,\nSupport informatique",
       "name_en": "Shared mailbox - Access added",
       "subject_en": "Shared mailbox - Access added",
-      "content_en": "Hello [First name],\n\nAccess to the shared mailbox [Mailbox name] has been added / corrected.\n\nPlease restart Outlook and allow some propagation time before testing.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAccess to the shared mailbox [Mailbox name] has been added / corrected.\n\nPlease restart Outlook and allow some time for propagation before testing.\n\nKind regards,\nIT Support"
     },
     {
       "name": "VPN - Premier diagnostic",
@@ -5857,7 +5857,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nConcernant le problème VPN, merci de préciser :\n- le réseau utilisé (domicile / partage mobile / autre) ;\n- le message d'erreur exact ;\n- si Internet fonctionne hors VPN ;\n- l'heure du dernier échec.\n\nCordialement,\nSupport informatique",
       "name_en": "VPN - Initial diagnosis",
       "subject_en": "VPN - Initial diagnosis",
-      "content_en": "Hello [First name],\n\nRegarding the VPN issue, please provide:\n- the network being used (home / mobile hotspot / other);\n- the exact error message;\n- whether Internet access works without the VPN;\n- the time of the latest failure.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nRegarding the VPN issue, please provide:\n- the network being used (home / mobile hotspot / other);\n- the exact error message;\n- whether Internet access works without the VPN;\n- the time of the most recent failure.\n\nKind regards,\nIT Support"
     },
     {
       "name": "VPN - Test autre réseau",
@@ -5866,16 +5866,16 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nPour isoler l'origine du problème VPN, pouvez-vous effectuer un test depuis un autre accès Internet, par exemple un partage de connexion mobile ?\n\nMerci de m'indiquer le résultat.\n\nCordialement,\nSupport informatique",
       "name_en": "VPN - Test another network",
       "subject_en": "VPN - Test another network",
-      "content_en": "Hello [First name],\n\nTo isolate the cause of the VPN issue, could you test from another Internet connection, such as a mobile hotspot?\n\nPlease send me the result.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nTo isolate the cause of the VPN issue, could you test from another Internet connection, for example a mobile hotspot?\n\nPlease send me the result.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Wi-Fi - Informations nécessaires",
       "category": "Réseau & VPN",
       "subject": "Wi-Fi - Informations nécessaires",
       "content": "Bonjour [Prénom],\n\nPour le problème Wi-Fi, merci de transmettre :\n- le nom du réseau concerné ;\n- si d'autres appareils se connectent ;\n- le message affiché ;\n- si le problème est permanent ou intermittent.\n\nCordialement,\nSupport informatique",
-      "name_en": "Wi-Fi - Required information",
-      "subject_en": "Wi-Fi - Required information",
-      "content_en": "Hello [First name],\n\nFor the Wi-Fi issue, please provide:\n- the network name;\n- whether other devices can connect;\n- the message displayed;\n- whether the issue is permanent or intermittent.\n\nKind regards,\nIT Support"
+      "name_en": "Wi-Fi - Information required",
+      "subject_en": "Wi-Fi - Information required",
+      "content_en": "Hello [First name],\n\nFor the Wi-Fi issue, please provide:\n- the name of the affected network;\n- whether other devices can connect;\n- the message displayed;\n- whether the issue is permanent or intermittent.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Réseau - Incident local ou général",
@@ -5893,7 +5893,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nPour le problème d'accès Web, merci de transmettre l'adresse exacte du site concerné ainsi qu'une capture du message affiché.\n\nMerci également de préciser si d'autres sites fonctionnent normalement.\n\nCordialement,\nSupport informatique",
       "name_en": "Proxy / Web access",
       "subject_en": "Proxy / Web access",
-      "content_en": "Hello [First name],\n\nFor the web access issue, please send the exact address of the affected site and a screenshot of the message displayed.\n\nPlease also confirm whether other sites work normally.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nFor the web access issue, please send the exact address of the affected website and a screenshot of the displayed message.\n\nPlease also confirm whether other websites are working normally.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Arrivée - Préparation compte et poste",
@@ -5902,7 +5902,7 @@ window.SSIT_DATA = {
       "content": "PRÉPARATION ARRIVÉE\n\nCollaborateur : [Nom]\nDate d'arrivée : [Date]\nResponsable : [Responsable]\n\nÀ préparer :\n- compte utilisateur ;\n- poste de travail ;\n- licences ;\n- groupes / accès ;\n- messagerie ;\n- MFA ;\n- applications ;\n- accessoires ;\n- mobile si nécessaire.\n\nCommentaires :\n[Informations]",
       "name_en": "Onboarding - Account and device preparation",
       "subject_en": "Onboarding - Account and device preparation",
-      "content_en": "ONBOARDING PREPARATION\n\nEmployee: [Name]\nStart date: [Date]\nManager: [Manager]\n\nTo prepare:\n- user account;\n- workstation;\n- licenses;\n- groups / access;\n- email;\n- MFA;\n- applications;\n- accessories;\n- mobile device if required.\n\nComments:\n[Information]"
+      "content_en": "ONBOARDING PREPARATION\n\nEmployee: [Name]\nStart date: [Date]\nManager: [Manager]\n\nTo prepare:\n- user account;\n- workstation;\n- licenses;\n- groups / access;\n- mailbox;\n- MFA;\n- applications;\n- accessories;\n- mobile device if required.\n\nComments:\n[Information]"
     },
     {
       "name": "Arrivée - Matériel prêt",
@@ -5911,7 +5911,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nVotre environnement de travail est préparé pour votre arrivée.\n\nLe poste, les accès principaux et les éléments nécessaires à la première connexion sont prêts.\n\nUn accompagnement pourra être réalisé lors de la première ouverture de session.\n\nCordialement,\nSupport informatique",
       "name_en": "Onboarding - Equipment ready",
       "subject_en": "Onboarding - Equipment ready",
-      "content_en": "Hello [First name],\n\nYour work environment is prepared for your arrival.\n\nThe device, main access rights, and items required for the first sign-in are ready.\n\nAssistance can be provided during the first sign-in.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour work environment has been prepared for your arrival.\n\nThe workstation, main access rights and first sign-in requirements are ready.\n\nAssistance can be provided during the first sign-in.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Départ - Checklist IT",
@@ -5920,7 +5920,7 @@ window.SSIT_DATA = {
       "content": "CHECKLIST DÉPART\n\nUtilisateur : [Nom]\nDate de départ : [Date]\n\nÀ traiter :\n- désactivation du compte ;\n- révocation des sessions ;\n- MFA ;\n- délégation / transfert messagerie ;\n- OneDrive / données ;\n- groupes / accès ;\n- licences ;\n- récupération PC ;\n- chargeur / dock / écran / casque ;\n- téléphone professionnel ;\n- autres équipements.\n\nStatut :\n[À compléter]",
       "name_en": "Offboarding - IT checklist",
       "subject_en": "Offboarding - IT checklist",
-      "content_en": "OFFBOARDING CHECKLIST\n\nUser: [Name]\nDeparture date: [Date]\n\nTo process:\n- disable the account;\n- revoke sessions;\n- MFA;\n- email delegation / transfer;\n- OneDrive / data;\n- groups / access;\n- licenses;\n- recover PC;\n- charger / dock / monitor / headset;\n- work phone;\n- other equipment.\n\nStatus:\n[To complete]"
+      "content_en": "OFFBOARDING CHECKLIST\n\nUser: [Name]\nDeparture date: [Date]\n\nTo process:\n- disable the account;\n- revoke sessions;\n- MFA;\n- mailbox delegation / transfer;\n- OneDrive / data;\n- groups / access;\n- licenses;\n- retrieve PC;\n- charger / dock / monitor / headset;\n- work phone;\n- other equipment.\n\nStatus:\n[To be completed]"
     },
     {
       "name": "Départ - Retour matériel",
@@ -5929,7 +5929,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nDans le cadre de votre départ, merci de restituer les équipements professionnels en votre possession :\n\n- [PC]\n- [Chargeur]\n- [Dock]\n- [Écran]\n- [Casque]\n- [Téléphone]\n- [Autres]\n\nMerci de confirmer le mode de retour prévu.\n\nCordialement,\nSupport informatique",
       "name_en": "Offboarding - Equipment return",
       "subject_en": "Offboarding - Equipment return",
-      "content_en": "Hello [First name],\n\nAs part of your departure, please return the work equipment in your possession:\n\n- [PC]\n- [Charger]\n- [Dock]\n- [Monitor]\n- [Headset]\n- [Phone]\n- [Other]\n\nPlease confirm the planned return method.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAs part of your departure, please return the company equipment in your possession:\n\n- [PC]\n- [Charger]\n- [Dock]\n- [Monitor]\n- [Headset]\n- [Phone]\n- [Other]\n\nPlease confirm the planned return method.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Relance - Utilisateur indisponible",
@@ -5938,7 +5938,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nJe n'ai pas pu vous joindre concernant [Sujet].\n\nMerci de me communiquer un créneau de disponibilité afin que nous puissions poursuivre le diagnostic.\n\nCordialement,\nSupport informatique",
       "name_en": "Follow-up - User unavailable",
       "subject_en": "Follow-up - User unavailable",
-      "content_en": "Hello [First name],\n\nI was unable to reach you regarding [Subject].\n\nPlease provide a suitable time slot so we can continue the diagnosis.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nI was unable to reach you regarding [Subject].\n\nPlease send me a suitable time so we can continue the diagnosis.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Relance - Test attendu",
@@ -5947,7 +5947,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nJe reviens vers vous concernant le test demandé sur [Sujet].\n\nPouvez-vous me confirmer le résultat afin que nous puissions clôturer ou poursuivre l'analyse ?\n\nCordialement,\nSupport informatique",
       "name_en": "Follow-up - Test result required",
       "subject_en": "Follow-up - Test result required",
-      "content_en": "Hello [First name],\n\nI am following up regarding the requested test for [Subject].\n\nCould you confirm the result so we can either close the case or continue the analysis?\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nI am following up regarding the requested test for [Subject].\n\nCould you confirm the result so that we can either close the case or continue the investigation?\n\nKind regards,\nIT Support"
     },
     {
       "name": "Escalade - Fournisseur",
@@ -5956,7 +5956,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nNous sollicitons votre support concernant l'incident suivant :\n\nClient / utilisateur : [Référence]\nProduit / service : [Produit]\nDébut incident : [Date / heure]\nImpact : [Impact]\nErreur : [Erreur]\n\nTests déjà réalisés :\n- [Test]\n- [Test]\n\nMerci de nous indiquer les prochaines actions recommandées.\n\nCordialement,\nSupport informatique",
       "name_en": "Escalation - Vendor",
       "subject_en": "Escalation - Vendor",
-      "content_en": "Hello,\n\nWe are requesting your support regarding the following incident:\n\nClient / user: [Reference]\nProduct / service: [Product]\nIncident start: [Date / time]\nImpact: [Impact]\nError: [Error]\n\nTests already performed:\n- [Test]\n- [Test]\n\nPlease advise on the recommended next actions.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nWe are requesting your support regarding the following incident:\n\nCustomer / user: [Reference]\nProduct / service: [Product]\nIncident start: [Date / time]\nImpact: [Impact]\nError: [Error]\n\nTests already performed:\n- [Test]\n- [Test]\n\nPlease advise on the recommended next actions.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Escalade - Équipe infrastructure",
@@ -5965,7 +5965,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nMerci de prendre en charge l'analyse suivante :\n\nTicket : [N°]\nUtilisateur / poste : [Informations]\nService concerné : [Service]\nImpact : [Impact]\n\nDiagnostic déjà réalisé :\n[Diagnostic]\n\nLogs / éléments :\n[Éléments]\n\nAction attendue :\n[Demande]",
       "name_en": "Escalation - Infrastructure team",
       "subject_en": "Escalation - Infrastructure team",
-      "content_en": "Hello,\n\nPlease take ownership of the following analysis:\n\nTicket: [Ticket #]\nUser / device: [Information]\nAffected service: [Service]\nImpact: [Impact]\n\nDiagnostics already performed:\n[Diagnostic]\n\nLogs / evidence:\n[Details]\n\nRequested action:\n[Request]"
+      "content_en": "Hello,\n\nPlease take ownership of the following analysis:\n\nTicket: [Ticket #]\nUser / device: [Information]\nAffected service: [Service]\nImpact: [Impact]\n\nDiagnosis already performed:\n[Diagnosis]\n\nLogs / evidence:\n[Information]\n\nRequested action:\n[Request]"
     },
     {
       "name": "Escalade - Équipe sécurité",
@@ -5981,9 +5981,9 @@ window.SSIT_DATA = {
       "category": "Relances & Escalades",
       "subject": "Escalade - N3 avec chronologie",
       "content": "ESCALADE N3\n\nTicket : [N°]\nImpact : [Impact]\n\nChronologie :\n[Heure] - [Événement]\n[Heure] - [Test]\n[Heure] - [Action]\n[Heure] - [Résultat]\n\nÉtat actuel :\n[État]\n\nBesoin :\n[Action / expertise demandée]",
-      "name_en": "Escalation - N3 with timeline",
-      "subject_en": "Escalation - N3 with timeline",
-      "content_en": "N3 ESCALATION\n\nTicket: [Ticket #]\nImpact: [Impact]\n\nTimeline:\n[Time] - [Event]\n[Time] - [Test]\n[Time] - [Action]\n[Time] - [Result]\n\nCurrent status:\n[Status]\n\nNeed:\n[Requested action / expertise]"
+      "name_en": "Escalation - L3 with timeline",
+      "subject_en": "Escalation - L3 with timeline",
+      "content_en": "L3 ESCALATION\n\nTicket: [Ticket #]\nImpact: [Impact]\n\nTimeline:\n[Time] - [Event]\n[Time] - [Test]\n[Time] - [Action]\n[Time] - [Result]\n\nCurrent status:\n[Status]\n\nNeed:\n[Requested action / expertise]"
     },
     {
       "name": "Incident majeur - Accusé utilisateur",
@@ -5992,7 +5992,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nUn incident général affecte actuellement [Service / application].\n\nLes équipes techniques sont mobilisées. Il n'est pas nécessaire de créer plusieurs tickets pour le même symptôme.\n\nNous communiquerons une mise à jour dès qu'un nouvel élément sera disponible.\n\nCordialement,\nSupport informatique",
       "name_en": "Major incident - User acknowledgement",
       "subject_en": "Major incident - User acknowledgement",
-      "content_en": "Hello,\n\nA widespread incident is currently affecting [Service / application].\n\nThe technical teams are working on it. There is no need to create multiple tickets for the same symptom.\n\nWe will provide an update as soon as new information is available.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nA general incident is currently affecting [Service / application].\n\nTechnical teams are working on it. There is no need to create multiple tickets for the same symptom.\n\nWe will provide an update as soon as new information is available.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Incident majeur - Mise à jour",
@@ -6001,7 +6001,7 @@ window.SSIT_DATA = {
       "content": "MISE À JOUR INCIDENT\n\nService : [Service]\nHeure : [Heure]\nStatut : [En cours / amélioration / surveillance]\n\nÉtat actuel :\n[Description]\n\nActions en cours :\n[Actions]\n\nProchaine mise à jour :\n[Dès nouvel élément / heure prévue]",
       "name_en": "Major incident - Update",
       "subject_en": "Major incident - Update",
-      "content_en": "INCIDENT UPDATE\n\nService: [Service]\nTime: [Time]\nStatus: [Ongoing / improving / monitoring]\n\nCurrent status:\n[Description]\n\nActions in progress:\n[Actions]\n\nNext update:\n[When new information is available / scheduled time]"
+      "content_en": "INCIDENT UPDATE\n\nService: [Service]\nTime: [Time]\nStatus: [Ongoing / improving / monitoring]\n\nCurrent status:\n[Description]\n\nActions in progress:\n[Actions]\n\nNext update:\n[When new information is available / planned time]"
     },
     {
       "name": "Incident majeur - Service rétabli",
@@ -6010,7 +6010,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nLe service [Service] est de nouveau disponible.\n\nLes équipes continuent la surveillance. Si vous rencontrez encore le problème, merci de relancer l'application / la session puis de signaler le cas avec les détails nécessaires.\n\nCordialement,\nSupport informatique",
       "name_en": "Major incident - Service restored",
       "subject_en": "Major incident - Service restored",
-      "content_en": "Hello,\n\n[Service] is available again.\n\nThe teams are continuing to monitor the service. If you still experience the issue, please restart the application / session and report the case with the required details.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\n[Service] is available again.\n\nThe teams are continuing to monitor the service. If you still experience the issue, please restart the application / session and report the case with the relevant details.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Incident majeur - Contournement",
@@ -6019,7 +6019,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nL'incident sur [Service] est toujours en cours.\n\nContournement temporaire disponible :\n[Procédure]\n\nMerci d'utiliser cette solution uniquement jusqu'au rétablissement complet du service.\n\nCordialement,\nSupport informatique",
       "name_en": "Major incident - Workaround",
       "subject_en": "Major incident - Workaround",
-      "content_en": "Hello,\n\nThe incident affecting [Service] is still ongoing.\n\nTemporary workaround:\n[Procedure]\n\nPlease use this solution only until the service is fully restored.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nThe incident affecting [Service] is still ongoing.\n\nTemporary workaround:\n[Procedure]\n\nPlease use this workaround only until the service is fully restored.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Maintenance - Information préalable",
@@ -6028,7 +6028,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nUne opération de maintenance est prévue sur [Service / application / équipement].\n\nPériode : [Date / plage]\nImpact possible : [Impact]\nAction utilisateur : [Action éventuelle]\n\nUne confirmation sera envoyée à la fin de l'intervention.\n\nCordialement,\nSupport informatique",
       "name_en": "Maintenance - Advance notice",
       "subject_en": "Maintenance - Advance notice",
-      "content_en": "Hello,\n\nMaintenance is scheduled for [Service / application / equipment].\n\nWindow: [Date / window]\nPossible impact: [Impact]\nUser action: [User action if required]\n\nA confirmation will be sent when the intervention is complete.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nMaintenance is scheduled for [Service / application / equipment].\n\nWindow: [Date / time range]\nPossible impact: [Impact]\nUser action: [Required action, if any]\n\nA confirmation will be sent when the intervention is complete.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Maintenance - Terminée",
@@ -6037,7 +6037,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nL'opération de maintenance sur [Service] est terminée.\n\nLes contrôles de validation sont concluants et le service est disponible.\n\nMerci de signaler toute anomalie résiduelle.\n\nCordialement,\nSupport informatique",
       "name_en": "Maintenance - Completed",
       "subject_en": "Maintenance - Completed",
-      "content_en": "Hello,\n\nMaintenance on [Service] is complete.\n\nValidation checks were successful and the service is available.\n\nPlease report any remaining issue.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nMaintenance on [Service] has been completed.\n\nValidation checks were successful and the service is available.\n\nPlease report any remaining issue.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Changement - Redémarrage requis",
@@ -6055,7 +6055,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nUne intervention est nécessaire sur [Poste / service].\n\nDurée estimée : [Durée]\nImpact : [Impact]\nPréparation demandée : [Fermer applications / enregistrer travail / autre]\n\nMerci de confirmer le créneau retenu.\n\nCordialement,\nSupport informatique",
       "name_en": "Change - Intervention window",
       "subject_en": "Change - Intervention window",
-      "content_en": "Hello [First name],\n\nAn intervention is required on [Device / service].\n\nEstimated duration: [Duration]\nImpact: [Impact]\nRequired preparation: [Close applications / save work / other]\n\nPlease confirm the selected time slot.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nAn intervention is required on [Device / service].\n\nEstimated duration: [Duration]\nImpact: [Impact]\nPreparation required: [Close applications / save work / other]\n\nPlease confirm the selected time slot.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Teams - Je regarde",
@@ -6064,7 +6064,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom], je prends le sujet en charge et je reviens vers vous dès que j’ai un premier résultat.",
       "name_en": "Teams - I am checking",
       "subject_en": "Teams - I am checking",
-      "content_en": "Hello [First name], I am taking ownership of this and will get back to you as soon as I have an initial result."
+      "content_en": "Hello [First name], I am taking care of the issue and will get back to you as soon as I have an initial result."
     },
     {
       "name": "Teams - Besoin du poste",
@@ -6073,7 +6073,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom], pouvez-vous rester disponible devant le poste quelques minutes afin que je poursuive le diagnostic ?",
       "name_en": "Teams - Need access to the device",
       "subject_en": "Teams - Need access to the device",
-      "content_en": "Hello [First name], could you remain available in front of the device for a few minutes so I can continue the diagnosis?"
+      "content_en": "Hello [First name], could you stay available at the device for a few minutes so I can continue the diagnosis?"
     },
     {
       "name": "Teams - Test demandé",
@@ -6091,7 +6091,7 @@ window.SSIT_DATA = {
       "content": "Pouvez-vous enregistrer votre travail, redémarrer complètement le poste puis refaire le test ?",
       "name_en": "Teams - Restart requested",
       "subject_en": "Teams - Restart requested",
-      "content_en": "Could you save your work, fully restart the device, and run the test again?"
+      "content_en": "Could you save your work, fully restart the device, and then run the test again?"
     },
     {
       "name": "Teams - Résolu ?",
@@ -6100,16 +6100,16 @@ window.SSIT_DATA = {
       "content": "La correction est appliquée. Pouvez-vous confirmer que tout fonctionne correctement maintenant ?",
       "name_en": "Teams - Resolved?",
       "subject_en": "Teams - Resolved?",
-      "content_en": "The correction has been applied. Could you confirm that everything is working correctly now?"
+      "content_en": "The fix has been applied. Could you confirm that everything is now working correctly?"
     },
     {
       "name": "Teams - Merci clôture",
       "category": "Messages rapides",
       "subject": "Teams - Merci clôture",
       "content": "Merci pour votre retour. Je clôture la demande comme résolue. N’hésitez pas à créer une nouvelle demande si le problème revient.",
-      "name_en": "Teams - Closure thanks",
-      "subject_en": "Teams - Closure thanks",
-      "content_en": "Thank you for your feedback. I am closing the request as resolved. Please create a new request if the issue returns."
+      "name_en": "Teams - Closing confirmation",
+      "subject_en": "Teams - Closing confirmation",
+      "content_en": "Thank you for your feedback. I am closing the request as resolved. Please create a new request if the issue occurs again."
     },
     {
       "category": "Salles & MTR",
@@ -6118,7 +6118,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nNous avons pris en charge l’incident signalé dans la salle [Nom / étage].\n\nÉquipement concerné : [MTR / écran / caméra / micro / haut-parleur / console].\nSymptôme : [Description].\n\nLes vérifications sont en cours. Nous vous tiendrons informé de l’avancement.\n\nCordialement,\nSupport informatique",
       "name_en": "MTR - Meeting room incident acknowledged",
       "subject_en": "Meeting room incident acknowledged",
-      "content_en": "Hello [First name],\n\nWe have acknowledged the incident reported in room [Room / floor].\n\nAffected equipment: [MTR / screen / camera / microphone / speaker / console].\nSymptom: [Description].\n\nChecks are in progress. We will keep you informed of progress.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nWe have taken ownership of the incident reported in room [Name / floor].\n\nAffected equipment: [MTR / display / camera / microphone / speaker / console].\nSymptom: [Description].\n\nChecks are in progress. We will keep you informed of progress.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
@@ -6127,16 +6127,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nLa salle [Nom / étage] est de nouveau opérationnelle.\n\nVérifications réalisées :\n- affichage ;\n- caméra ;\n- microphones / haut-parleurs ;\n- console Teams Rooms ;\n- connexion à une réunion de test.\n\nMerci de nous signaler toute nouvelle anomalie.\n\nCordialement,\nSupport informatique",
       "name_en": "MTR - Room operational again",
       "subject_en": "Meeting room operational again",
-      "content_en": "Hello,\n\nRoom [Room / floor] is operational again.\n\nChecks performed:\n- display;\n- camera;\n- microphones / speakers;\n- Teams Rooms console;\n- connection to a test meeting.\n\nPlease report any new issue.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nRoom [Name / floor] is operational again.\n\nChecks performed:\n- display;\n- camera;\n- microphones / speakers;\n- Teams Rooms console;\n- connection to a test meeting.\n\nPlease report any new issue.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "MTR - Maintenance planifiée",
       "subject": "Maintenance planifiée de la salle de réunion",
       "content": "Bonjour,\n\nUne intervention de maintenance est planifiée dans la salle [Nom] le [Date] à [Heure].\n\nLa salle pourra être indisponible pendant environ [Durée].\n\nObjet de l’intervention : [mise à jour / remplacement équipement / diagnostic / configuration].\n\nCordialement,\nSupport informatique",
-      "name_en": "MTR - Scheduled maintenance",
-      "subject_en": "Scheduled meeting room maintenance",
-      "content_en": "Hello,\n\nMaintenance is scheduled in room [Name] on [Date] at [Time].\n\nThe room may be unavailable for approximately [Duration].\n\nPurpose of the intervention: [update / equipment replacement / diagnostics / configuration].\n\nKind regards,\nIT Support"
+      "name_en": "MTR - Planned maintenance",
+      "subject_en": "Planned meeting room maintenance",
+      "content_en": "Hello,\n\nMaintenance is scheduled in room [Name] on [Date] at [Time].\n\nThe room may be unavailable for approximately [Duration].\n\nPurpose of the intervention: [update / equipment replacement / diagnosis / configuration].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
@@ -6145,16 +6145,16 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nUn contrôle technique de la salle [Nom] a été réalisé avant votre réunion.\n\nTests :\n- écran / partage ;\n- caméra ;\n- microphones et audio ;\n- console Teams Rooms ;\n- appel de test.\n\nStatut : [OK / point à corriger].\n\nCordialement,\nSupport informatique",
       "name_en": "MTR - Test before important meeting",
       "subject_en": "Technical validation before meeting",
-      "content_en": "Hello [First name],\n\nA technical check of room [Name] was completed before your meeting.\n\nTests:\n- screen / sharing;\n- camera;\n- microphones and audio;\n- Teams Rooms console;\n- test call.\n\nStatus: [OK / item to fix].\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nA technical check of room [Name] was performed before your meeting.\n\nTests:\n- display / screen sharing;\n- camera;\n- microphones and audio;\n- Teams Rooms console;\n- test call.\n\nStatus: [OK / issue to correct].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Salles & MTR",
       "name": "Salle - Demande d’informations incident",
       "subject": "Informations nécessaires - salle de réunion",
       "content": "Bonjour [Prénom],\n\nAfin de diagnostiquer le problème de la salle [Nom], merci de préciser :\n- l’équipement concerné ;\n- le message d’erreur affiché ;\n- l’heure approximative de l’incident ;\n- si le problème concerne toutes les réunions ou une seule ;\n- une photo de l’écran / console si possible.\n\nCordialement,\nSupport informatique",
-      "name_en": "Meeting room - Incident information request",
+      "name_en": "Meeting room - Incident information required",
       "subject_en": "Information required - meeting room",
-      "content_en": "Hello [First name],\n\nTo diagnose the issue in room [Name], please provide:\n- the affected equipment;\n- the error message displayed;\n- the approximate time of the incident;\n- whether the issue affects all meetings or only one;\n- a photo of the screen / console if possible.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nTo diagnose the issue in room [Name], please provide:\n- the affected equipment;\n- the displayed error message;\n- the approximate time of the incident;\n- whether the issue affects all meetings or only one;\n- a photo of the screen / console if possible.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
@@ -6163,7 +6163,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLa préparation de votre matériel est en cours.\n\nÉquipement : [PC / téléphone / casque / écran / dock / chargeur].\nConfiguration prévue : [Windows / applications / sécurité / accessoires].\n\nNous vous confirmerons dès que l’équipement sera disponible.\n\nCordialement,\nSupport informatique",
       "name_en": "Equipment - Preparation in progress",
       "subject_en": "Your equipment is being prepared",
-      "content_en": "Hello [First name],\n\nYour equipment is currently being prepared.\n\nEquipment: [PC / phone / headset / monitor / dock / charger].\nPlanned configuration: [Windows / applications / security / accessories].\n\nWe will confirm as soon as the equipment is available.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour equipment is being prepared.\n\nEquipment: [PC / phone / headset / monitor / dock / charger].\nPlanned configuration: [Windows / applications / security / accessories].\n\nWe will confirm as soon as the equipment is available.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
@@ -6172,15 +6172,15 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nLa configuration de votre matériel est terminée.\n\nÉléments vérifiés :\n- système et mises à jour ;\n- applications ;\n- compte et accès ;\n- réseau ;\n- accessoires ;\n- chiffrement / sécurité si applicable.\n\nLe matériel est prêt pour [remise / expédition].\n\nCordialement,\nSupport informatique",
       "name_en": "Equipment - Configuration completed",
       "subject_en": "Your equipment configuration is complete",
-      "content_en": "Hello [First name],\n\nYour equipment configuration is complete.\n\nItems checked:\n- system and updates;\n- applications;\n- account and access;\n- network;\n- accessories;\n- encryption / security where applicable.\n\nThe equipment is ready for [collection / shipping].\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour equipment configuration is complete.\n\nItems checked:\n- system and updates;\n- applications;\n- account and access;\n- network;\n- accessories;\n- encryption / security where applicable.\n\nThe equipment is ready for [handover / shipment].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
       "name": "Matériel - Colis prêt pour expédition",
       "subject": "Votre matériel est prêt pour expédition",
       "content": "Bonjour [Prénom],\n\nVotre matériel est prêt à être expédié.\n\nContenu du colis :\n- [PC / équipement] ;\n- [chargeur] ;\n- [casque / dock / accessoires] ;\n- [autre].\n\nMerci de confirmer l’adresse de livraison et un numéro de téléphone pour le transporteur.\n\nCordialement,\nSupport informatique",
-      "name_en": "Equipment - Package ready for shipping",
-      "subject_en": "Your equipment is ready for shipping",
+      "name_en": "Equipment - Package ready for shipment",
+      "subject_en": "Your equipment is ready for shipment",
       "content_en": "Hello [First name],\n\nYour equipment is ready to be shipped.\n\nPackage contents:\n- [PC / equipment];\n- [charger];\n- [headset / dock / accessories];\n- [other].\n\nPlease confirm the delivery address and a phone number for the carrier.\n\nKind regards,\nIT Support"
     },
     {
@@ -6189,8 +6189,8 @@ window.SSIT_DATA = {
       "subject": "Expédition de votre matériel",
       "content": "Bonjour [Prénom],\n\nVotre matériel a été expédié.\n\nTransporteur : [Transporteur]\nNuméro de suivi : [Suivi]\nContenu : [Matériel / accessoires]\n\nMerci de confirmer la bonne réception du colis.\n\nCordialement,\nSupport informatique",
       "name_en": "Equipment - Shipment and tracking",
-      "subject_en": "Your equipment has been shipped",
-      "content_en": "Hello [First name],\n\nYour equipment has been shipped.\n\nCarrier: [Carrier]\nTracking number: [Tracking #]\nContents: [Equipment / accessories]\n\nPlease confirm receipt of the package.\n\nKind regards,\nIT Support"
+      "subject_en": "Your equipment shipment",
+      "content_en": "Hello [First name],\n\nYour equipment has been shipped.\n\nCarrier: [Carrier]\nTracking number: [Tracking]\nContents: [Equipment / accessories]\n\nPlease confirm receipt of the package.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Matériel",
@@ -6199,7 +6199,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nMerci d’organiser la restitution des équipements suivants :\n- [PC] ;\n- [chargeur] ;\n- [dock] ;\n- [casque] ;\n- [téléphone] ;\n- [autres accessoires].\n\nMode de retour : [remise en main propre / expédition].\nDate souhaitée : [Date].\n\nCordialement,\nSupport informatique",
       "name_en": "Equipment - Return to arrange",
       "subject_en": "Arrange equipment return",
-      "content_en": "Hello [First name],\n\nPlease arrange the return of the following equipment:\n- [PC];\n- [charger];\n- [dock];\n- [headset];\n- [phone];\n- [other accessories].\n\nReturn method: [in-person return / shipping].\nPreferred date: [Date].\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nPlease arrange the return of the following equipment:\n- [PC];\n- [charger];\n- [dock];\n- [headset];\n- [phone];\n- [other accessories].\n\nReturn method: [in-person handover / shipment].\nPreferred date: [Date].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Onboarding / Offboarding",
@@ -6208,25 +6208,25 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nVotre environnement informatique est prêt pour votre arrivée.\n\nPréparé :\n- poste de travail ;\n- compte professionnel ;\n- accès principaux ;\n- applications ;\n- MFA / sécurité ;\n- accessoires.\n\nModalité de remise : [Lieu / date / expédition].\n\nCordialement,\nSupport informatique",
       "name_en": "Onboarding - Device ready",
       "subject_en": "Your IT environment is ready",
-      "content_en": "Hello [First name],\n\nYour IT environment is ready for your arrival.\n\nPrepared:\n- workstation;\n- work account;\n- main access rights;\n- applications;\n- MFA / security;\n- accessories.\n\nDelivery method: [Location / date / shipping].\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nYour IT environment is ready for your arrival.\n\nPrepared:\n- workstation;\n- work account;\n- main access rights;\n- applications;\n- MFA / security;\n- accessories.\n\nHandover method: [Location / date / shipment].\n\nKind regards,\nIT Support"
     },
     {
       "category": "Onboarding / Offboarding",
       "name": "Offboarding - Restitution et fermeture",
       "subject": "Départ - restitution du matériel et des accès",
       "content": "Bonjour,\n\nDans le cadre du départ de [Prénom Nom], merci de confirmer :\n- la date de fin ;\n- les équipements à restituer ;\n- le mode de retour ;\n- les accès ou délégations à maintenir temporairement si nécessaire.\n\nLe support pourra ensuite finaliser la restitution et la fermeture des accès selon le processus interne.\n\nCordialement,\nSupport informatique",
-      "name_en": "Offboarding - Return and access closure",
+      "name_en": "Offboarding - Equipment return and closure",
       "subject_en": "Departure - equipment return and access closure",
-      "content_en": "Hello,\n\nAs part of [First name Last name]'s departure, please confirm:\n- the end date;\n- the equipment to return;\n- the return method;\n- any access rights or delegations that must remain temporarily active if required.\n\nIT Support can then complete the equipment return and close access according to the internal process.\n\nKind regards,\nIT Support"
+      "content_en": "Hello,\n\nAs part of [First name Last name]'s departure, please confirm:\n- the end date;\n- the equipment to be returned;\n- the return method;\n- any access rights or delegations that must remain temporarily active.\n\nIT Support can then finalize the equipment return and access closure according to the internal process.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Applications",
       "name": "Logiciel - Installation planifiée",
       "subject": "Installation de votre logiciel",
       "content": "Bonjour [Prénom],\n\nL’installation de [Application] est planifiée le [Date / heure].\n\nMerci de laisser votre poste connecté et disponible pendant l’intervention.\n\nUn redémarrage pourra être nécessaire.\n\nCordialement,\nSupport informatique",
-      "name_en": "Software - Scheduled installation",
+      "name_en": "Software - Installation scheduled",
       "subject_en": "Your software installation",
-      "content_en": "Hello [First name],\n\nThe installation of [Application] is scheduled for [Date / time].\n\nPlease leave your device connected and available during the intervention.\n\nA restart may be required.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nInstallation of [Application] is scheduled for [Date / time].\n\nPlease keep your device connected and available during the intervention.\n\nA restart may be required.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Applications",
@@ -6235,15 +6235,15 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nL’installation de [Application] est terminée.\n\nMerci de lancer l’application et de confirmer que l’accès est fonctionnel.\n\nCordialement,\nSupport informatique",
       "name_en": "Software - Installation completed",
       "subject_en": "Installation completed - [Application]",
-      "content_en": "Hello [First name],\n\nThe installation of [Application] is complete.\n\nPlease launch the application and confirm that access is working correctly.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nInstallation of [Application] is complete.\n\nPlease launch the application and confirm that access is working.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Maintenance & Changement",
       "name": "Mise à jour - Intervention planifiée",
       "subject": "Mise à jour planifiée sur votre poste",
       "content": "Bonjour [Prénom],\n\nUne mise à jour est prévue sur votre poste le [Date / heure].\n\nMerci d’enregistrer vos travaux avant l’intervention. Un redémarrage peut être nécessaire.\n\nCordialement,\nSupport informatique",
-      "name_en": "Update - Scheduled intervention",
-      "subject_en": "Scheduled update on your device",
+      "name_en": "Update - Planned intervention",
+      "subject_en": "Planned update on your device",
       "content_en": "Hello [First name],\n\nAn update is scheduled on your device for [Date / time].\n\nPlease save your work before the intervention. A restart may be required.\n\nKind regards,\nIT Support"
     },
     {
@@ -6253,7 +6253,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nNous avons pris en charge votre incident réseau / Wi-Fi / VPN.\n\nPérimètre : [poste / site / Wi-Fi / VPN].\nSymptôme : [Description].\n\nLes vérifications sont en cours et nous vous tiendrons informé.\n\nCordialement,\nSupport informatique",
       "name_en": "Network - Incident acknowledged",
       "subject_en": "Network incident acknowledged",
-      "content_en": "Hello [First name],\n\nWe have acknowledged your network / Wi-Fi / VPN incident.\n\nScope: [device / site / Wi-Fi / VPN].\nSymptom: [Description].\n\nChecks are in progress and we will keep you informed.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nWe have taken ownership of your network / Wi-Fi / VPN incident.\n\nScope: [device / site / Wi-Fi / VPN].\nSymptom: [Description].\n\nChecks are in progress and we will keep you informed.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Microsoft 365",
@@ -6262,7 +6262,7 @@ window.SSIT_DATA = {
       "content": "Bonjour [Prénom],\n\nNous avons pris en charge votre incident concernant [Outlook / Teams / OneDrive / Office].\n\nSymptôme : [Description].\n\nLes vérifications sont en cours.\n\nCordialement,\nSupport informatique",
       "name_en": "Microsoft 365 - Incident acknowledged",
       "subject_en": "Microsoft 365 incident acknowledged",
-      "content_en": "Hello [First name],\n\nWe have acknowledged your incident involving [Outlook / Teams / OneDrive / Office].\n\nSymptom: [Description].\n\nChecks are in progress.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nWe have taken ownership of your incident involving [Outlook / Teams / OneDrive / Office].\n\nSymptom: [Description].\n\nChecks are in progress.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Tickets",
@@ -6271,7 +6271,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nVotre incident a bien été pris en charge. Nous analysons actuellement les éléments disponibles et reviendrons vers vous dès que possible.\n\nCordialement,",
       "name_en": "Incident - Acknowledgement",
       "subject_en": "Your incident has been acknowledged",
-      "content_en": "Hello,\n\nYour incident has been acknowledged. We are currently analyzing the available information and will get back to you as soon as possible.\n\nKind regards,"
+      "content_en": "Hello,\n\nYour incident has been taken into account. We are currently reviewing the available information and will get back to you as soon as possible.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -6279,8 +6279,8 @@ window.SSIT_DATA = {
       "subject": "Informations nécessaires pour poursuivre le diagnostic",
       "content": "Bonjour,\n\nAfin de poursuivre le diagnostic, pourriez-vous nous transmettre :\n• le message d’erreur exact ;\n• une capture d’écran si possible ;\n• les étapes permettant de reproduire le problème ;\n• vos prochaines disponibilités.\n\nMerci d’avance.\n\nCordialement,",
       "name_en": "Incident - Additional information",
-      "subject_en": "Information required to continue the diagnosis",
-      "content_en": "Hello,\n\nTo continue the diagnosis, could you send us:\n• the exact error message;\n• a screenshot if possible;\n• the steps required to reproduce the issue;\n• your next availability.\n\nThank you in advance.\n\nKind regards,"
+      "subject_en": "Information required to continue diagnosis",
+      "content_en": "Hello,\n\nTo continue the diagnosis, could you provide:\n• the exact error message;\n• a screenshot if possible;\n• the steps needed to reproduce the issue;\n• your next available time slots.\n\nThank you in advance.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -6289,7 +6289,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nL’incident a été traité. Les actions réalisées ont permis de rétablir le fonctionnement.\n\nMerci de nous confirmer que tout est désormais opérationnel. Sans anomalie complémentaire, le ticket pourra être clôturé.\n\nCordialement,",
       "name_en": "Incident - Closure",
       "subject_en": "Resolution of your incident",
-      "content_en": "Hello,\n\nThe incident has been resolved. The actions performed restored normal operation.\n\nPlease confirm that everything is now working. If no further issue is reported, the ticket can be closed.\n\nKind regards,"
+      "content_en": "Hello,\n\nThe incident has been handled. The actions performed restored normal operation.\n\nPlease confirm that everything is now operational. If there are no further issues, the ticket can be closed.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -6298,7 +6298,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nVotre demande a bien été prise en charge. Nous revenons vers vous dès que les éléments nécessaires auront été vérifiés.\n\nCordialement,",
       "name_en": "Request - Acknowledgement",
       "subject_en": "Your request has been acknowledged",
-      "content_en": "Hello,\n\nYour request has been acknowledged. We will get back to you once the required checks have been completed.\n\nKind regards,"
+      "content_en": "Hello,\n\nYour request has been taken into account. We will get back to you once the required checks have been completed.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -6307,16 +6307,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nNous revenons vers vous concernant votre ticket. Sans retour de votre part, nous ne pouvons pas poursuivre le traitement.\n\nPourriez-vous nous transmettre votre retour ou vos prochaines disponibilités ?\n\nCordialement,",
       "name_en": "User follow-up",
       "subject_en": "Follow-up regarding your ticket",
-      "content_en": "Hello,\n\nWe are following up regarding your ticket. Without a response from you, we cannot continue processing it.\n\nCould you send us your feedback or your next availability?\n\nKind regards,"
+      "content_en": "Hello,\n\nWe are following up regarding your ticket. Without your feedback, we cannot continue processing it.\n\nCould you send us your feedback or your next available time slots?\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Utilisateur injoignable",
       "subject": "Tentative de contact",
       "content": "Bonjour,\n\nNous avons tenté de vous joindre concernant votre ticket, sans succès.\n\nMerci de nous indiquer un créneau de disponibilité afin de poursuivre le traitement.\n\nCordialement,",
-      "name_en": "User unreachable",
+      "name_en": "User unavailable",
       "subject_en": "Attempted contact",
-      "content_en": "Hello,\n\nWe tried to contact you regarding your ticket but were unable to reach you.\n\nPlease provide a suitable time slot so we can continue processing the request.\n\nKind regards,"
+      "content_en": "Hello,\n\nWe tried to reach you regarding your ticket but were unsuccessful.\n\nPlease let us know a suitable time so we can continue processing it.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -6325,16 +6325,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nMalgré plusieurs tentatives de contact, nous n’avons pas reçu de retour. Sans réponse, le ticket pourra être clôturé administrativement.\n\nSi le besoin est toujours d’actualité, merci de nous transmettre vos disponibilités.\n\nCordialement,",
       "name_en": "Final follow-up before closure",
       "subject_en": "Final follow-up regarding your ticket",
-      "content_en": "Hello,\n\nDespite several attempts to contact you, we have not received a response. Without a reply, the ticket may be administratively closed.\n\nIf you still need assistance, please send us your availability.\n\nKind regards,"
+      "content_en": "Hello,\n\nDespite several contact attempts, we have not received a response. Without a reply, the ticket may be administratively closed.\n\nIf the request is still relevant, please send us your availability.\n\nKind regards"
     },
     {
       "category": "Rendez-vous",
       "name": "Prise de rendez-vous",
       "subject": "Proposition de rendez-vous support",
       "content": "Bonjour,\n\nAfin de poursuivre le traitement, je vous propose une intervention le [DATE] à [HEURE], pour une durée estimée de [DURÉE].\n\nMerci de me confirmer si ce créneau vous convient.\n\nCordialement,",
-      "name_en": "Schedule an appointment",
+      "name_en": "Schedule appointment",
       "subject_en": "Support appointment proposal",
-      "content_en": "Hello,\n\nTo continue processing the request, I suggest an intervention on [DATE] at [TIME], with an estimated duration of [DURATION].\n\nPlease confirm whether this time works for you.\n\nKind regards,"
+      "content_en": "Hello,\n\nTo continue processing the request, I propose an intervention on [DATE] at [TIME], with an estimated duration of [DURATION].\n\nPlease confirm whether this time slot suits you.\n\nKind regards"
     },
     {
       "category": "Rendez-vous",
@@ -6343,16 +6343,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nVotre rendez-vous est confirmé pour le [DATE] à [HEURE].\n\nMotif : [MOTIF]\nDurée estimée : [DURÉE]\n\nCordialement,",
       "name_en": "Appointment confirmation",
       "subject_en": "Support appointment confirmation",
-      "content_en": "Hello,\n\nYour appointment is confirmed for [DATE] at [TIME].\n\nReason: [REASON]\nEstimated duration: [DURATION]\n\nKind regards,"
+      "content_en": "Hello,\n\nYour appointment is confirmed for [DATE] at [TIME].\n\nReason: [REASON]\nEstimated duration: [DURATION]\n\nKind regards"
     },
     {
       "category": "Rapports",
       "name": "Escalade N2/N3",
       "subject": "Escalade technique",
       "content": "Bonjour,\n\nEscalade du ticket [RÉFÉRENCE].\n\nContexte : [CONTEXTE]\nSymptôme : [SYMPTÔME]\nActions déjà réalisées : [ACTIONS]\nRésultat : [RÉSULTAT]\nÉléments collectés : [LOGS / CAPTURES / COMMANDES]\n\nMerci pour votre analyse.",
-      "name_en": "N2/N3 escalation",
+      "name_en": "L2/L3 escalation",
       "subject_en": "Technical escalation",
-      "content_en": "Hello,\n\nEscalation of ticket [REFERENCE].\n\nContext: [CONTEXT]\nSymptom: [SYMPTOM]\nActions already performed: [ACTIONS]\nResult: [RESULT]\nEvidence collected: [LOGS / SCREENSHOTS / COMMANDS]\n\nThank you for your analysis."
+      "content_en": "Hello,\n\nEscalation of ticket [REFERENCE].\n\nContext: [CONTEXT]\nSymptom: [SYMPTOM]\nActions already performed: [ACTIONS]\nResult: [RESULT]\nCollected evidence: [LOGS / SCREENSHOTS / COMMANDS]\n\nThank you for your analysis."
     },
     {
       "category": "Rapports",
@@ -6361,16 +6361,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nUn contournement temporaire a été mis en place afin de permettre la continuité d’activité.\n\nContournement : [DÉTAIL]\nLimite connue : [LIMITE]\nSuite prévue : [ACTION]\n\nCordialement,",
       "name_en": "Temporary resolution / workaround",
       "subject_en": "Temporary workaround",
-      "content_en": "Hello,\n\nA temporary workaround has been implemented to maintain business continuity.\n\nWorkaround: [DETAILS]\nKnown limitation: [LIMIT]\nPlanned next step: [ACTION]\n\nKind regards,"
+      "content_en": "Hello,\n\nA temporary workaround has been implemented to maintain business continuity.\n\nWorkaround: [DETAIL]\nKnown limitation: [LIMIT]\nNext step: [ACTION]\n\nKind regards"
     },
     {
       "category": "Matériel",
       "name": "Mise à disposition matériel",
       "subject": "Mise à disposition de matériel",
       "content": "Bonjour,\n\nLe matériel suivant est prêt à être mis à disposition :\n• Équipement : [PC / CASQUE / CHARGEUR / AUTRE]\n• Référence / numéro de série : [RÉFÉRENCE]\n• Date : [DATE]\n• Modalité de remise : [DÉTAIL]\n\nCordialement,",
-      "name_en": "Equipment provisioning",
-      "subject_en": "Equipment provisioning",
-      "content_en": "Hello,\n\nThe following equipment is ready to be provided:\n• Equipment: [PC / HEADSET / CHARGER / OTHER]\n• Reference / serial number: [REFERENCE]\n• Date: [DATE]\n• Delivery method: [DETAILS]\n\nKind regards,"
+      "name_en": "Equipment availability",
+      "subject_en": "Equipment availability",
+      "content_en": "Hello,\n\nThe following equipment is ready to be provided:\n• Equipment: [PC / HEADSET / CHARGER / OTHER]\n• Reference / serial number: [REFERENCE]\n• Date: [DATE]\n• Handover method: [DETAIL]\n\nKind regards"
     },
     {
       "category": "Matériel",
@@ -6379,7 +6379,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nMerci de prévoir la restitution du matériel suivant : [MATÉRIEL].\n\nRéférence : [RÉFÉRENCE]\nDate / créneau : [DATE]\nLieu / modalité : [DÉTAIL]\n\nCordialement,",
       "name_en": "Equipment return",
       "subject_en": "Equipment return",
-      "content_en": "Hello,\n\nPlease arrange the return of the following equipment: [EQUIPMENT].\n\nReference: [REFERENCE]\nDate / time slot: [DATE]\nLocation / method: [DETAILS]\n\nKind regards,"
+      "content_en": "Hello,\n\nPlease arrange the return of the following equipment: [EQUIPMENT].\n\nReference: [REFERENCE]\nDate / time slot: [DATE]\nLocation / method: [DETAIL]\n\nKind regards"
     },
     {
       "category": "Sécurité",
@@ -6388,16 +6388,16 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nUne action de sécurité est nécessaire concernant votre poste ou votre compte.\n\nMerci de ne pas communiquer vos mots de passe et de suivre uniquement les instructions transmises par votre support informatique.\n\nAction demandée : [ACTION]\n\nCordialement,",
       "name_en": "User security alert",
       "subject_en": "Security action required",
-      "content_en": "Hello,\n\nA security action is required for your device or account.\n\nPlease do not share your passwords and follow only the instructions provided by IT Support.\n\nRequired action: [ACTION]\n\nKind regards,"
+      "content_en": "Hello,\n\nA security action is required for your device or account.\n\nPlease do not share your passwords and follow only the instructions provided by your IT Support team.\n\nRequired action: [ACTION]\n\nKind regards"
     },
     {
       "category": "Communication",
       "name": "Interruption de service",
       "subject": "Information - interruption de service",
       "content": "Bonjour,\n\nUne interruption de service est actuellement en cours sur [SERVICE]. Les équipes techniques sont mobilisées.\n\nImpact : [IMPACT]\nDébut : [HEURE]\nProchaine information : [HEURE / DÈS ÉVOLUTION]\n\nMerci de votre compréhension.",
-      "name_en": "Service outage",
-      "subject_en": "Information - service outage",
-      "content_en": "Hello,\n\nA service outage is currently affecting [SERVICE]. The technical teams are working on it.\n\nImpact: [IMPACT]\nStart: [TIME]\nNext update: [TIME / WHEN UPDATED]\n\nThank you for your understanding."
+      "name_en": "Service interruption",
+      "subject_en": "Information - service interruption",
+      "content_en": "Hello,\n\nA service interruption is currently affecting [SERVICE]. Technical teams are working on it.\n\nImpact: [IMPACT]\nStart: [TIME]\nNext update: [TIME / WHEN AVAILABLE]\n\nThank you for your understanding."
     },
     {
       "category": "Communication",
@@ -6406,7 +6406,7 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nLe service [SERVICE] est de nouveau opérationnel.\n\nNous vous invitons à reprendre votre activité normalement et à signaler toute anomalie persistante via un ticket.\n\nCordialement,",
       "name_en": "Service restored",
       "subject_en": "Service restored",
-      "content_en": "Hello,\n\n[SERVICE] is operational again.\n\nYou can resume normal activity. Please report any persistent issue through a ticket.\n\nKind regards,"
+      "content_en": "Hello,\n\n[SERVICE] is operational again.\n\nYou can resume normal activity. Please report any persistent issue by creating a ticket.\n\nKind regards"
     }
   ],
   "portals": [
