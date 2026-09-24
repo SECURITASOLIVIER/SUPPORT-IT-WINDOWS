@@ -1134,3 +1134,53 @@ body.light .itp-shortcut-intro{background:#f7fbff}
   .all-menu-home .itp-home-heading{height:86px}
 }
 /* === /IT Pocket home equal cards v4.7 === */
+
+
+/* === IT Pocket mobile nav + communications collapse v4.8 === */
+.itp-template-summary{
+  margin:9px 0 2px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.45;
+}
+.template-preview-collapsed{
+  display:none !important;
+}
+.template-preview-collapsed.open{
+  display:block !important;
+  margin-top:12px;
+}
+.template-card .template-actions{
+  margin-top:12px;
+}
+@media(max-width:800px){
+  nav{
+    gap:7px !important;
+  }
+  nav .navbtn{
+    flex:0 0 auto !important;
+    width:auto !important;
+    min-width:142px !important;
+    max-width:220px !important;
+    min-height:50px !important;
+    padding:9px 12px !important;
+    justify-content:flex-start !important;
+  }
+  nav .itp-tech-title{
+    width:auto !important;
+    max-width:100%;
+    gap:8px !important;
+  }
+  nav .itp-nav-title>span:last-child{
+    max-width:168px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  nav .navbtn .itp-official-icon.itp-icon-nav{
+    width:22px;
+    height:22px;
+    flex-basis:22px;
+  }
+}
+/* === /IT Pocket mobile nav + communications collapse v4.8 === */
