@@ -4882,181 +4882,271 @@ window.SSIT_DATA = {
       "name": "Teams - Message automatique support",
       "category": "Tickets",
       "subject": "Teams - Message automatique support",
-      "content": "Bonjour,\n\nMerci pour votre message.\n\nCeci est un message automatique. Je suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\nPour toute demande de support ou incident, merci d’utiliser le portail support :\n[Portail support]\n\nEn cas d’urgence, la hotline est joignable au [Hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension."
+      "content": "Bonjour,\n\nMerci pour votre message.\n\nCeci est un message automatique. Je suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\nPour toute demande de support ou incident, merci d’utiliser le portail support :\n[Portail support]\n\nEn cas d’urgence, la hotline est joignable au [Hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension.",
+      "name_en": "Teams - Automatic support message",
+      "subject_en": "Teams - Automatic support message",
+      "content_en": "Hello,\n\nThank you for your message.\n\nThis is an automated message. I am currently unavailable and unfortunately cannot handle your request via Teams.\n\nFor any support request or incident, please use the support portal:\n[Support portal]\n\nFor urgent matters, the hotline is available at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding."
     },
     {
       "name": "Ticket - DEMANDE - Premier contact",
       "category": "Matériel",
       "subject": "Ticket - DEMANDE - Premier contact",
-      "content": "DEMANDE - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre demande XX.\n\nAfin de pouvoir traiter votre demande, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "DEMANDE - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre demande XX.\n\nAfin de pouvoir traiter votre demande, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - REQUEST - First contact",
+      "subject_en": "Ticket - REQUEST - First contact",
+      "content_en": "REQUEST - First contact\n\nHello,\n\nWe are contacting you regarding request XX.\n\nTo process your request, could you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - DEMANDE - Relance",
       "category": "Matériel",
       "subject": "Ticket - DEMANDE - Relance",
-      "content": "DEMANDE - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre le traitement de votre demande.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "DEMANDE - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre le traitement de votre demande.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - REQUEST - Follow-up",
+      "subject_en": "Ticket - REQUEST - Follow-up",
+      "content_en": "REQUEST - Follow-up\n\nHello,\n\nWe tried to reach you regarding request XX on XX.\n\nWithout a response from you, we are unable to continue processing your request.\n\nCould you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - DEMANDE - Dernière relance avant clôture",
       "category": "Matériel",
       "subject": "Ticket - DEMANDE - Dernière relance avant clôture",
-      "content": "DEMANDE - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre demande à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "DEMANDE - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre demande XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre demande à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - REQUEST - Final follow-up before closure",
+      "subject_en": "Ticket - REQUEST - Final follow-up before closure",
+      "content_en": "REQUEST - Final follow-up before closure\n\nHello,\n\nWe tried to reach you regarding request XX on XX and XX.\n\nWithout a response from you, we will administratively close your request from XX.\n\nTo avoid closure, could you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - DEMANDE - Clôture administrative",
       "category": "Matériel",
       "subject": "Ticket - DEMANDE - Clôture administrative",
-      "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre demande.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,"
+      "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre demande.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
+      "name_en": "Ticket - REQUEST - Administrative closure",
+      "subject_en": "Ticket - REQUEST - Administrative closure",
+      "content_en": "REQUEST - Administrative closure\n\nHello,\n\nDespite our attempts to contact you regarding request XX, we have not received a response.\n\nWe are therefore administratively closing your request.\n\nIf you still need assistance, please create a new request through the support portal:\n\n[Support portal]\n\nFor urgent matters only, our hotline is available at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding.\n\nKind regards,"
     },
     {
       "name": "Ticket - INCIDENT - Premier contact",
       "category": "Matériel",
       "subject": "Ticket - INCIDENT - Premier contact",
-      "content": "INCIDENT - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre incident XX.\n\nAfin de pouvoir poursuivre sa résolution, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "INCIDENT - Premier contact\n\nBonjour,\n\nNous vous contactons au sujet de votre incident XX.\n\nAfin de pouvoir poursuivre sa résolution, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - INCIDENT - First contact",
+      "subject_en": "Ticket - INCIDENT - First contact",
+      "content_en": "INCIDENT - First contact\n\nHello,\n\nWe are contacting you regarding incident XX.\n\nTo continue resolving it, could you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - INCIDENT - Demande d'informations diagnostic",
       "category": "Matériel",
       "subject": "Ticket - INCIDENT - Demande d'informations diagnostic",
-      "content": "Bonjour,\n\nJe vous contacte au sujet du ticket que vous avez ouvert.\n\nAfin de poursuivre l'analyse et résoudre votre incident, pourriez-vous nous transmettre les informations suivantes :\n\n\t• Le message d'erreur exact rencontré ;\n\n\t• Une capture d'écran de l'erreur (si possible) ;\n\n\t• Les étapes qui ont conduit à l'apparition du problème.\n\nCes éléments nous permettront d'identifier plus rapidement l'origine de l'incident et de vous apporter une solution adaptée.\n\nDans l'attente de votre retour.\n\nCordialement,"
+      "content": "Bonjour,\n\nJe vous contacte au sujet du ticket que vous avez ouvert.\n\nAfin de poursuivre l'analyse et résoudre votre incident, pourriez-vous nous transmettre les informations suivantes :\n\n\t• Le message d'erreur exact rencontré ;\n\n\t• Une capture d'écran de l'erreur (si possible) ;\n\n\t• Les étapes qui ont conduit à l'apparition du problème.\n\nCes éléments nous permettront d'identifier plus rapidement l'origine de l'incident et de vous apporter une solution adaptée.\n\nDans l'attente de votre retour.\n\nCordialement,",
+      "name_en": "Ticket - INCIDENT - Diagnostic information request",
+      "subject_en": "Ticket - INCIDENT - Diagnostic information request",
+      "content_en": "Hello,\n\nI am contacting you regarding the ticket you opened.\n\nTo continue the analysis and resolve your incident, could you send us the following information:\n\n• The exact error message;\n• A screenshot of the error, if possible;\n• The steps that led to the issue.\n\nThis information will help us identify the cause of the incident more quickly and provide an appropriate solution.\n\nWe look forward to hearing from you.\n\nKind regards,"
     },
     {
       "name": "Ticket - INCIDENT - Relance",
       "category": "Matériel",
       "subject": "Ticket - INCIDENT - Relance",
-      "content": "INCIDENT - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre sa résolution.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "INCIDENT - Relance\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX le XX.\n\nSans retour de votre part, nous ne sommes pas en mesure de poursuivre sa résolution.\n\nPourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - INCIDENT - Follow-up",
+      "subject_en": "Ticket - INCIDENT - Follow-up",
+      "content_en": "INCIDENT - Follow-up\n\nHello,\n\nWe tried to reach you regarding incident XX on XX.\n\nWithout a response from you, we are unable to continue resolving it.\n\nCould you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - INCIDENT - Dernière relance avant clôture",
       "category": "Matériel",
       "subject": "Ticket - INCIDENT - Dernière relance avant clôture",
-      "content": "INCIDENT - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre ticket à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,"
+      "content": "INCIDENT - Dernière relance avant clôture\n\nBonjour,\n\nNous avons tenté de vous joindre au sujet de votre incident XX les XX et XX.\n\nSans retour de votre part, nous procéderons à la clôture administrative de votre ticket à compter du XX.\n\nAfin d'éviter cette fermeture, pourriez-vous nous faire part de votre retour et/ou nous communiquer vos prochaines disponibilités, s'il vous plaît ?\n\nMerci d'avance.\n\nCordialement,",
+      "name_en": "Ticket - INCIDENT - Final follow-up before closure",
+      "subject_en": "Ticket - INCIDENT - Final follow-up before closure",
+      "content_en": "INCIDENT - Final follow-up before closure\n\nHello,\n\nWe tried to reach you regarding incident XX on XX and XX.\n\nWithout a response from you, we will administratively close your ticket from XX.\n\nTo avoid closure, could you please reply and/or provide your next availability?\n\nThank you in advance.\n\nKind regards,"
     },
     {
       "name": "Ticket - INCIDENT - Clôture administrative",
       "category": "Matériel",
       "subject": "Ticket - INCIDENT - Clôture administrative",
-      "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre ticket.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,"
+      "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident XX, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de votre ticket.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail Ticket :\n\n[Portail support]\n\nPour toute urgence uniquement, notre Hotline est joignable au [Hotline support], selon les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
+      "name_en": "Ticket - INCIDENT - Administrative closure",
+      "subject_en": "Ticket - INCIDENT - Administrative closure",
+      "content_en": "INCIDENT - Administrative closure\n\nHello,\n\nDespite our attempts to contact you regarding incident XX, we have not received a response.\n\nWe are therefore administratively closing your ticket.\n\nIf the issue persists, please create a new request through the support portal:\n\n[Support portal]\n\nFor urgent matters only, our hotline is available at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding.\n\nKind regards,"
     },
     {
       "name": "Ticket - Mauvais type de ticket REQ / Incident",
       "category": "Tickets",
       "subject": "Ticket - Mauvais type de ticket REQ / Incident",
-      "content": "Bonjour,\n\nVotre demande correspond à un incident.\n\nAfin qu’elle soit prise en charge correctement, merci de créer un incident depuis le portail support :\n[Portail support]\n\nMerci de votre compréhension.\n\nCordialement"
+      "content": "Bonjour,\n\nVotre demande correspond à un incident.\n\nAfin qu’elle soit prise en charge correctement, merci de créer un incident depuis le portail support :\n[Portail support]\n\nMerci de votre compréhension.\n\nCordialement",
+      "name_en": "Ticket - Wrong ticket type REQ / Incident",
+      "subject_en": "Ticket - Wrong ticket type REQ / Incident",
+      "content_en": "Hello,\n\nYour request should be handled as an incident.\n\nTo ensure proper handling, please create an incident through the support portal:\n[Support portal]\n\nThank you for your understanding.\n\nKind regards"
     },
     {
       "name": "MFA - Réinitialisation collaborateur + procédure",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation collaborateur + procédure",
-      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,",
+      "name_en": "MFA - Employee reset + procedure",
+      "subject_en": "MFA - Employee reset + procedure",
+      "content_en": "Hello,\n\nMulti-factor authentication (MFA) has been reset for the employee.\n\nAt the next sign-in, the employee will be able to reconfigure MFA using an email address and phone number.\n\nIf the employee wants to use Microsoft Authenticator, the detailed procedure below can be followed to complete account pairing.\n\nPlease contact us if you need any additional information.\n\n>>Reconfigure Microsoft Authenticator to secure your access with multi-factor authentication (MFA).\n\n📱 Steps:\n\n1. Download the Microsoft Authenticator app\n\n• Available from the App Store (iOS) or Google Play (Android)\n\n2. Open the MFA setup page\n\n👉 https://aka.ms/mfasetup\n\n3. Add an authentication method\n\n• Click + Add sign-in method\n• Select Authenticator app\n• Choose Microsoft Authenticator\n\n4. Link your account to the mobile app\n\n• Open the app on your phone\n• Add a work or school account\n• Scan the QR code displayed on your screen\n\n5. Confirm the setup\n\n• A notification will be sent to your phone\n• Follow the instructions to confirm the pairing\n\n⚠️ Important:\n\nThis configuration is essential to keep your access secure.\n\nIf you experience any difficulty, please contact IT Support.\n\nThank you for your cooperation,"
     },
     {
       "name": "MFA - Procédure Microsoft Authenticator",
       "category": "Accès & MFA",
       "subject": "MFA - Procédure Microsoft Authenticator",
-      "content": "Reconfigurer Microsoft Authenticator pour sécuriser vos accès via l'authentification multifacteur (MFA)\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n\t• Disponible sur l'App Store (iOS) et Google Play (Android).\n\n2. Accédez à la page de configuration MFA 👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n\t• Cliquez sur + Ajouter une méthode.\n\n\t• Sélectionnez Application d'authentification.\n\n\t• Choisissez Microsoft Authenticator.\n\n4. Associez votre compte à l'application mobile\n\n\t• Ouvrez l'application sur votre téléphone.\n\n\t• Ajoutez un compte professionnel ou scolaire.\n\n\t• Scannez le code QR affiché à l'écran.\n\n5. Validez la configuration\n\n\t• Une notification sera envoyée sur votre téléphone.\n\n\t• Suivez les instructions affichées pour confirmer l'association.\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci de votre collaboration.\n\nCordialement,"
+      "content": "Reconfigurer Microsoft Authenticator pour sécuriser vos accès via l'authentification multifacteur (MFA)\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n\t• Disponible sur l'App Store (iOS) et Google Play (Android).\n\n2. Accédez à la page de configuration MFA 👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n\t• Cliquez sur + Ajouter une méthode.\n\n\t• Sélectionnez Application d'authentification.\n\n\t• Choisissez Microsoft Authenticator.\n\n4. Associez votre compte à l'application mobile\n\n\t• Ouvrez l'application sur votre téléphone.\n\n\t• Ajoutez un compte professionnel ou scolaire.\n\n\t• Scannez le code QR affiché à l'écran.\n\n5. Validez la configuration\n\n\t• Une notification sera envoyée sur votre téléphone.\n\n\t• Suivez les instructions affichées pour confirmer l'association.\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci de votre collaboration.\n\nCordialement,",
+      "name_en": "MFA - Microsoft Authenticator procedure",
+      "subject_en": "MFA - Microsoft Authenticator procedure",
+      "content_en": "Reconfigure Microsoft Authenticator to secure your access with multi-factor authentication (MFA)\n\n📱 Steps:\n\n1. Download the Microsoft Authenticator app\n\n• Available from the App Store (iOS) and Google Play (Android).\n\n2. Open the MFA setup page 👉 https://aka.ms/mfasetup\n\n3. Add an authentication method\n\n• Click + Add sign-in method.\n• Select Authenticator app.\n• Choose Microsoft Authenticator.\n\n4. Link your account to the mobile app\n\n• Open the app on your phone.\n• Add a work or school account.\n• Scan the QR code displayed on screen.\n\n5. Confirm the setup\n\n• A notification will be sent to your phone.\n• Follow the on-screen instructions to confirm the pairing.\n\n⚠️ Important: This configuration is essential to keep your access secure.\n\nIf you experience any difficulty, please contact IT Support.\n\nThank you for your cooperation.\n\nKind regards,"
     },
     {
       "name": "MFA - RESET MFA",
       "category": "Accès & MFA",
       "subject": "MFA - RESET MFA",
-      "content": "RESET MFA\n\nObjet : Reconfiguration de Microsoft Authenticator pour l'authentification multifacteur (MFA)\n\nBonjour,\n\nNous vous informons que vous pouvez désormais reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,"
+      "content": "RESET MFA\n\nObjet : Reconfiguration de Microsoft Authenticator pour l'authentification multifacteur (MFA)\n\nBonjour,\n\nNous vous informons que vous pouvez désormais reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,",
+      "name_en": "MFA - RESET MFA",
+      "subject_en": "MFA - RESET MFA",
+      "content_en": "RESET MFA\n\nSubject: Reconfigure Microsoft Authenticator for multi-factor authentication (MFA)\n\nHello,\n\nYou can now reconfigure Microsoft Authenticator to secure your access with multi-factor authentication (MFA).\n\n📱 Steps:\n\n1. Download the Microsoft Authenticator app\n\n• Available from the App Store (iOS) or Google Play (Android)\n\n2. Open the MFA setup page\n\n👉 https://aka.ms/mfasetup\n\n3. Add an authentication method\n\n• Click + Add sign-in method\n• Select Authenticator app\n• Choose Microsoft Authenticator\n\n4. Link your account to the mobile app\n\n• Open the app on your phone\n• Add a work or school account\n• Scan the QR code displayed on your screen\n\n5. Confirm the setup\n\n• A notification will be sent to your phone\n• Follow the instructions to confirm the pairing\n\n⚠️ Important:\n\nThis configuration is essential to keep your access secure.\n\nIf you experience any difficulty, please contact IT Support.\n\nThank you for your cooperation,"
     },
     {
       "name": "[Application / portail] - RESET MOT DE PASSE",
       "category": "Accès & MFA",
       "subject": "[Application / portail] - RESET MOT DE PASSE",
-      "content": "RESET MOT DE PASSE [Application / portail]\n\nBonjour,\n\nVotre mot de passe a été réinitialisé temporairement :\n\n[Mot de passe temporaire]\n\n🌐 Rappel de l'adresse de connexion du portail :\n\n👤 Identifiant :\n\n[Identifiant professionnel]\n\n⚠️ Attention !\n\nPour que l'agent puisse modifier son mot de passe, il faudra saisir le mot de passe temporaire puis créer un nouveau mot de passe\n\n🛠️ Il pourra alors le personnaliser en cliquant sur \"Changer\"\n\n📏 Le nouveau mot de passe devra contenir :\n\n• ✅ 14 caractères minimum\n\n• ❌ Ne doit pas contenir le prénom, le nom, le nom de la société etc…\n\nCordialement"
+      "content": "RESET MOT DE PASSE [Application / portail]\n\nBonjour,\n\nVotre mot de passe a été réinitialisé temporairement :\n\n[Mot de passe temporaire]\n\n🌐 Rappel de l'adresse de connexion du portail :\n\n👤 Identifiant :\n\n[Identifiant professionnel]\n\n⚠️ Attention !\n\nPour que l'agent puisse modifier son mot de passe, il faudra saisir le mot de passe temporaire puis créer un nouveau mot de passe\n\n🛠️ Il pourra alors le personnaliser en cliquant sur \"Changer\"\n\n📏 Le nouveau mot de passe devra contenir :\n\n• ✅ 14 caractères minimum\n\n• ❌ Ne doit pas contenir le prénom, le nom, le nom de la société etc…\n\nCordialement",
+      "name_en": "[Application / portal] - PASSWORD RESET",
+      "subject_en": "[Application / portal] - PASSWORD RESET",
+      "content_en": "PASSWORD RESET [Application / portal]\n\nHello,\n\nYour password has been temporarily reset:\n\n[Temporary password]\n\n🌐 Portal sign-in address:\n\n👤 Username:\n\n[Work username]\n\n⚠️ Important!\n\nTo change the password, the user must enter the temporary password and then create a new one.\n\n🛠️ The user can then personalize it by clicking \"Change\".\n\n📏 The new password must meet the following requirements:\n\n• ✅ At least 14 characters\n• ❌ Must not contain the first name, last name, company name, etc.\n\nKind regards"
     },
     {
       "name": "Sécurité - PHISHING",
       "category": "Sécurité",
       "subject": "Sécurité - PHISHING",
-      "content": "Bonjour,\n\nSi vous recevez un message suspect ou potentiellement frauduleux :\n\n• Ne cliquez sur aucun lien et n’ouvrez aucune pièce jointe.\n• Dans Outlook, utilisez l’option « Signaler » puis « Phishing ».\n• Si cette option n’est pas disponible, transmettez le message en pièce jointe à [Adresse sécurité].\n\n⚠️ Si vous avez déjà cliqué sur un lien, saisi un mot de passe ou validé une demande MFA, contactez immédiatement le support informatique.\n\nMerci pour votre vigilance.\n\nCordialement"
+      "content": "Bonjour,\n\nSi vous recevez un message suspect ou potentiellement frauduleux :\n\n• Ne cliquez sur aucun lien et n’ouvrez aucune pièce jointe.\n• Dans Outlook, utilisez l’option « Signaler » puis « Phishing ».\n• Si cette option n’est pas disponible, transmettez le message en pièce jointe à [Adresse sécurité].\n\n⚠️ Si vous avez déjà cliqué sur un lien, saisi un mot de passe ou validé une demande MFA, contactez immédiatement le support informatique.\n\nMerci pour votre vigilance.\n\nCordialement",
+      "name_en": "Security - PHISHING",
+      "subject_en": "Security - PHISHING",
+      "content_en": "Hello,\n\nIf you receive a suspicious or potentially fraudulent message:\n\n• Do not click any links or open any attachments.\n• In Outlook, use Report, then Phishing.\n• If this option is unavailable, forward the message as an attachment to [Security address].\n\n⚠️ If you already clicked a link, entered a password, or approved an MFA request, contact IT Support immediately.\n\nThank you for your vigilance.\n\nKind regards"
     },
     {
       "name": "Applications - Déploiement de [Application]",
       "category": "Applications",
       "subject": "Applications - Déploiement de [Application]",
-      "content": "Bonjour,\n\nL’application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d’être connecté au réseau professionnel ou d’utiliser le VPN lorsque vous êtes en télétravail.\n\nSi l’application n’apparaît pas immédiatement, redémarrez votre poste puis effectuez un nouveau test.\n\nMerci de nous confirmer que l’installation s’est correctement déroulée afin que nous puissions clôturer la demande.\n\nBien cordialement"
+      "content": "Bonjour,\n\nL’application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d’être connecté au réseau professionnel ou d’utiliser le VPN lorsque vous êtes en télétravail.\n\nSi l’application n’apparaît pas immédiatement, redémarrez votre poste puis effectuez un nouveau test.\n\nMerci de nous confirmer que l’installation s’est correctement déroulée afin que nous puissions clôturer la demande.\n\nBien cordialement",
+      "name_en": "Applications - Deployment of [Application]",
+      "subject_en": "Applications - Deployment of [Application]",
+      "content_en": "Hello,\n\n[Application] has been deployed to the application catalog.\n\nTo ensure correct operation and receive updates, connect to the corporate network or use the VPN when working remotely.\n\nIf the application does not appear immediately, restart your device and test again.\n\nPlease confirm that the installation completed successfully so we can close the request.\n\nKind regards"
     },
     {
       "name": "Matériel - PC prêt avant expédition / appel",
       "category": "Matériel",
       "subject": "Matériel - PC prêt avant expédition / appel",
-      "content": "Bonjour,\n\nNous vous informons que votre ordinateur est désormais prêt et disponible.\n\nAvant de procéder à son expédition, nous souhaiterions organiser un premier appel de connexion à distance afin de :\n\n\t• Vérifier ensemble le bon fonctionnement de l'équipement\n\n\t• Finaliser les réglages nécessaires\n\n\t• Répondre à vos éventuelles questions\n\n📅 Merci de nous faire part de vos disponibilités dans les prochains jours afin que nous puissions planifier cet échange.\n\nUne fois l'appel effectué, nous procéderons à l'envoi de votre matériel dans les meilleurs délais.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nNous vous informons que votre ordinateur est désormais prêt et disponible.\n\nAvant de procéder à son expédition, nous souhaiterions organiser un premier appel de connexion à distance afin de :\n\n\t• Vérifier ensemble le bon fonctionnement de l'équipement\n\n\t• Finaliser les réglages nécessaires\n\n\t• Répondre à vos éventuelles questions\n\n📅 Merci de nous faire part de vos disponibilités dans les prochains jours afin que nous puissions planifier cet échange.\n\nUne fois l'appel effectué, nous procéderons à l'envoi de votre matériel dans les meilleurs délais.\n\nBien cordialement,",
+      "name_en": "Equipment - PC ready before shipping / call",
+      "subject_en": "Equipment - PC ready before shipping / call",
+      "content_en": "Hello,\n\nYour computer is now ready and available.\n\nBefore shipping it, we would like to arrange an initial remote connection call to:\n\n• Check the equipment is working correctly together\n• Complete any required settings\n• Answer any questions you may have\n\n📅 Please send us your availability over the next few days so we can schedule this session.\n\nOnce the call is completed, we will ship your equipment as soon as possible.\n\nKind regards,"
     },
     {
       "name": "MFA - Réinitialisation + méthodes d'authentification",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation + méthodes d'authentification",
-      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique."
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique.",
+      "name_en": "MFA - Reset + authentication methods",
+      "subject_en": "MFA - Reset + authentication methods",
+      "content_en": "Hello,\n\nMulti-factor authentication (MFA) has been reset for the employee.\n\n👉 At the next sign-in, the employee can reconfigure MFA using one of three methods:\n\n• an authenticator app (Microsoft Authenticator),\n• an email address,\n• or a phone number (SMS or call).\n\nWe recommend adding several methods to improve account security and avoid lockout if a phone is lost or one authentication method is unavailable.\n\nIf the employee wants to use Microsoft Authenticator, the detailed procedure below can be followed to pair the account with a device.\n\nPlease contact us if you need any additional information.\n\n📱 Reconfigure Microsoft Authenticator (MFA)\n\n1. Download the Microsoft Authenticator app\n\n• Available from the App Store (iOS) or Google Play (Android)\n\n2. Open the MFA setup page\n\n👉 https://aka.ms/mfasetup\n\n3. Add an authentication method\n\n• Click + Add sign-in method\n• Select Authenticator app\n• Choose Microsoft Authenticator\n\n4. Link your account to the mobile app\n\n• Open the app on your phone\n• Add a work or school account\n• Scan the QR code displayed on screen\n\n5. Confirm the setup\n\n• A notification will be sent to your phone\n• Follow the instructions to confirm the pairing\n\n⚠️ Important: This configuration is essential to keep your access secure. If you experience any difficulty, please contact IT Support."
     },
     {
       "name": "Matériel - Retrait au service informatique",
       "category": "Matériel",
       "subject": "Matériel - Retrait au service informatique",
-      "content": "Bonjour,\n\nVotre matériel est disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d’ouverture du service.\n\nPour toute question ou besoin d’assistance, nous restons à votre disposition.\n\nBien cordialement"
+      "content": "Bonjour,\n\nVotre matériel est disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d’ouverture du service.\n\nPour toute question ou besoin d’assistance, nous restons à votre disposition.\n\nBien cordialement",
+      "name_en": "Equipment - Collection from IT Support",
+      "subject_en": "Equipment - Collection from IT Support",
+      "content_en": "Hello,\n\nYour equipment is available from IT Support.\n\nYou can collect it during IT Support opening hours.\n\nPlease contact us if you have any questions or need assistance.\n\nKind regards"
     },
     {
       "name": "Matériel - Compte professionnel à régulariser",
       "category": "Matériel",
       "subject": "Matériel - Compte professionnel à régulariser",
-      "content": "Bonjour,\n\nJe vous contacte au sujet de la demande de PC pour [Nom du collaborateur].\n\n⚠️ Le compte du collaborateur doit être régularisé avant la mise à disposition du poste.\n\nMerci de contacter les RH afin que les informations nécessaires soient corrigées dans [Application / portail]. Cette étape permettra ensuite la création des accès Microsoft et l’attribution des licences nécessaires.\n\nSans cette régularisation, le poste ne pourra pas être utilisé.\n\nBien cordialement"
+      "content": "Bonjour,\n\nJe vous contacte au sujet de la demande de PC pour [Nom du collaborateur].\n\n⚠️ Le compte du collaborateur doit être régularisé avant la mise à disposition du poste.\n\nMerci de contacter les RH afin que les informations nécessaires soient corrigées dans [Application / portail]. Cette étape permettra ensuite la création des accès Microsoft et l’attribution des licences nécessaires.\n\nSans cette régularisation, le poste ne pourra pas être utilisé.\n\nBien cordialement",
+      "name_en": "Equipment - Work account needs correction",
+      "subject_en": "Equipment - Work account needs correction",
+      "content_en": "Hello,\n\nI am contacting you regarding the PC request for [Employee name].\n\n⚠️ The employee account must be corrected before the device can be provided.\n\nPlease contact HR so the required information can be corrected in [Application / portal]. This will allow the Microsoft account and required licenses to be provisioned.\n\nThe device cannot be used until this has been corrected.\n\nKind regards"
     },
     {
       "name": "Applications - [Application] hors périmètre service informatique",
       "category": "Applications",
       "subject": "Applications - [Application] hors périmètre service informatique",
-      "content": "Bonjour,\n\nLe service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, merci de contacter directement le support de l’éditeur ou du service concerné.\n\nMerci de votre compréhension."
+      "content": "Bonjour,\n\nLe service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, merci de contacter directement le support de l’éditeur ou du service concerné.\n\nMerci de votre compréhension.",
+      "name_en": "Applications - [Application] outside IT Support scope",
+      "subject_en": "Applications - [Application] outside IT Support scope",
+      "content_en": "Hello,\n\nIT Support does not handle incidents related to [Application].\n\nFor requests related to this application, please contact the vendor or service support team directly.\n\nThank you for your understanding."
     },
     {
       "name": "Accès - Mot de passe + MFA réinitialisés",
       "category": "Accès & MFA",
       "subject": "Accès - Mot de passe + MFA réinitialisés",
-      "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nLe mot de passe temporaire doit vous être communiqué via le canal sécurisé prévu. Lors de votre prochaine connexion, vous pourrez définir un nouveau mot de passe personnel.\n\nVotre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant une méthode disponible.\n\nEn cas de difficulté, contactez le support informatique.\n\nCordialement"
+      "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nLe mot de passe temporaire doit vous être communiqué via le canal sécurisé prévu. Lors de votre prochaine connexion, vous pourrez définir un nouveau mot de passe personnel.\n\nVotre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant une méthode disponible.\n\nEn cas de difficulté, contactez le support informatique.\n\nCordialement",
+      "name_en": "Access - Password + MFA reset",
+      "subject_en": "Access - Password + MFA reset",
+      "content_en": "Hello,\n\nYour password has been reset.\n\nThe temporary password must be provided through the approved secure channel. At your next sign-in, you can set a new personal password.\n\nYour multi-factor authentication (MFA) methods have also been reset. You can reconfigure them at your next sign-in using an available method.\n\nIf you experience any difficulty, contact IT Support.\n\nKind regards"
     },
     {
       "name": "Matériel - Compatibilité dock USB-C / adresse agence",
       "category": "Matériel",
       "subject": "Matériel - Compatibilité dock USB-C / adresse agence",
-      "content": "Bonjour,\n\nDans le cadre du remplacement de votre ordinateur portable, pouvez-vous m'envoyer une photo de votre station d'accueil (ou de votre écran dock), ou simplement le modèle indiqué dessus ?\n\nCela nous permet uniquement de vérifier si votre matériel actuel est compatible USB C.\n\nSi votre équipement devait être remplacé, voici les tarifs informatifs :\n\n• 100 € pour une station d'accueil\n\n• 140 € pour un écran standard\n\n• 175 € pour un écran docking\n\nVoici un exemple de station d'accueil USB C pour vous aider à identifier votre matériel :\n\nPouvez-vous également me confirmer l'adresse de votre agence, afin de prévoir l'envoi du matériel si nécessaire ?\n\nMerci d'avance pour votre retour,"
+      "content": "Bonjour,\n\nDans le cadre du remplacement de votre ordinateur portable, pouvez-vous m'envoyer une photo de votre station d'accueil (ou de votre écran dock), ou simplement le modèle indiqué dessus ?\n\nCela nous permet uniquement de vérifier si votre matériel actuel est compatible USB C.\n\nSi votre équipement devait être remplacé, voici les tarifs informatifs :\n\n• 100 € pour une station d'accueil\n\n• 140 € pour un écran standard\n\n• 175 € pour un écran docking\n\nVoici un exemple de station d'accueil USB C pour vous aider à identifier votre matériel :\n\nPouvez-vous également me confirmer l'adresse de votre agence, afin de prévoir l'envoi du matériel si nécessaire ?\n\nMerci d'avance pour votre retour,",
+      "name_en": "Equipment - USB-C dock compatibility / office address",
+      "subject_en": "Equipment - USB-C dock compatibility / office address",
+      "content_en": "Hello,\n\nAs part of your laptop replacement, could you send me a photo of your docking station or dock monitor, or simply the model shown on it?\n\nThis is only to confirm whether your current equipment is USB-C compatible.\n\nIf your equipment needs to be replaced, the indicative prices are:\n\n• €100 for a docking station\n• €140 for a standard monitor\n• €175 for a docking monitor\n\nHere is an example of a USB-C docking station to help identify your equipment:\n\nCould you also confirm your office address so we can arrange shipment if required?\n\nThank you in advance for your reply,"
     },
     {
       "name": "Matériel - PC prêt et disponible",
       "category": "Matériel",
       "subject": "Matériel - PC prêt et disponible",
-      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nMerci de nous confirmer lorsque le matériel aura bien été récupéré.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nMerci de nous confirmer lorsque le matériel aura bien été récupéré.\n\nBien cordialement,",
+      "name_en": "Equipment - PC ready and available",
+      "subject_en": "Equipment - PC ready and available",
+      "content_en": "Hello,\n\nYour computer is prepared and available from IT Support.\n\nYou can collect it during IT Support opening hours.\n\nPlease confirm once the equipment has been collected.\n\nKind regards,"
     },
     {
       "name": "Matériel - PC prêt pour expédition",
       "category": "Matériel",
       "subject": "Matériel - PC prêt pour expédition",
-      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et prêt à être expédié.\n\nMerci de nous confirmer l'adresse de livraison ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre si nécessaire.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre ordinateur est désormais préparé et prêt à être expédié.\n\nMerci de nous confirmer l'adresse de livraison ainsi qu'un numéro de téléphone permettant au transporteur de vous joindre si nécessaire.\n\nBien cordialement,",
+      "name_en": "Equipment - PC ready for shipping",
+      "subject_en": "Equipment - PC ready for shipping",
+      "content_en": "Hello,\n\nYour computer is prepared and ready to be shipped.\n\nPlease confirm the delivery address and a phone number the carrier can use if required.\n\nKind regards,"
     },
     {
       "name": "Matériel - Confirmation expédition",
       "category": "Matériel",
       "subject": "Matériel - Confirmation expédition",
-      "content": "Bonjour,\n\nVotre matériel a bien été expédié.\n\nMerci de nous confirmer sa bonne réception afin de nous assurer que tout est conforme.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre matériel a bien été expédié.\n\nMerci de nous confirmer sa bonne réception afin de nous assurer que tout est conforme.\n\nBien cordialement,",
+      "name_en": "Equipment - Shipment confirmation",
+      "subject_en": "Equipment - Shipment confirmation",
+      "content_en": "Hello,\n\nYour equipment has been shipped.\n\nPlease confirm receipt so we can ensure everything is as expected.\n\nKind regards,"
     },
     {
       "name": "Matériel - Casque disponible",
       "category": "Matériel",
       "subject": "Matériel - Casque disponible",
-      "content": "Bonjour,\n\nVotre casque est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre casque est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,",
+      "name_en": "Equipment - Headset available",
+      "subject_en": "Equipment - Headset available",
+      "content_en": "Hello,\n\nYour headset is available from IT Support.\n\nYou can collect it during IT Support opening hours.\n\nKind regards,"
     },
     {
       "name": "Matériel - Chargeur disponible",
       "category": "Matériel",
       "subject": "Matériel - Chargeur disponible",
-      "content": "Bonjour,\n\nVotre chargeur est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nVotre chargeur est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,",
+      "name_en": "Equipment - Charger available",
+      "subject_en": "Equipment - Charger available",
+      "content_en": "Hello,\n\nYour charger is available from IT Support.\n\nYou can collect it during IT Support opening hours.\n\nKind regards,"
     },
     {
       "name": "Matériel - Accessoires disponibles",
       "category": "Matériel",
       "subject": "Matériel - Accessoires disponibles",
-      "content": "Bonjour,\n\nLe matériel demandé est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,"
+      "content": "Bonjour,\n\nLe matériel demandé est désormais disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d'ouverture du service informatique.\n\nBien cordialement,",
+      "name_en": "Equipment - Accessories available",
+      "subject_en": "Equipment - Accessories available",
+      "content_en": "Hello,\n\nThe requested equipment is available from IT Support.\n\nYou can collect it during IT Support opening hours.\n\nKind regards,"
     },
     {
       "name": "Matériel - Préparation en cours",
