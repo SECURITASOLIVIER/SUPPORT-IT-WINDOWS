@@ -9003,7 +9003,7 @@ window.SSIT_DATA = {
       "url": "https://admin.microsoft.com/Adminportal/Home#/servicehealth",
       "category_en": "Microsoft 365",
       "name_en": "Microsoft 365 - Service health",
-      "description_en": "",
+      "description_en": "Tenant-specific incidents and health information for Microsoft 365 services.",
       "description": "Incidents et état de santé des services Microsoft 365 du tenant."
     },
     {
@@ -9273,7 +9273,7 @@ window.SSIT_DATA = {
       "url": "https://learn.microsoft.com/windows/release-health/",
       "category_en": "Windows",
       "name_en": "Windows Release Health",
-      "description_en": "",
+      "description_en": "Official known issues, resolutions and release information for Windows.",
       "description": "Problèmes connus, résolutions et informations officielles sur les versions Windows."
     },
     {
@@ -9282,7 +9282,7 @@ window.SSIT_DATA = {
       "url": "https://www.catalog.update.microsoft.com/",
       "category_en": "Windows",
       "name_en": "Microsoft Update Catalog",
-      "description_en": "",
+      "description_en": "Search for and manually download Microsoft updates.",
       "description": "Recherche et téléchargement manuel des mises à jour Microsoft."
     },
     {
@@ -9381,7 +9381,7 @@ window.SSIT_DATA = {
       "url": "https://trust.zscaler.com/",
       "category_en": "Security / Network",
       "name_en": "Zscaler Trust",
-      "description_en": "",
+      "description_en": "Availability and status information for Zscaler services.",
       "description": "État de disponibilité des services Zscaler."
     },
     {
@@ -9390,7 +9390,7 @@ window.SSIT_DATA = {
       "url": "https://status.crowdstrike.com/",
       "category_en": "Security / Network",
       "name_en": "CrowdStrike Status",
-      "description_en": "",
+      "description_en": "Status information for CrowdStrike cloud services.",
       "description": "État des services cloud CrowdStrike."
     },
     {
@@ -9399,7 +9399,7 @@ window.SSIT_DATA = {
       "url": "https://mxtoolbox.com/",
       "category_en": "IT Tools",
       "name_en": "MXToolbox",
-      "description_en": "",
+      "description_en": "DNS, email, MX, SPF, DKIM, DMARC and blacklist diagnostics.",
       "description": "Diagnostic DNS, mail, MX, SPF, DKIM, DMARC et listes de blocage."
     },
     {
@@ -9417,7 +9417,7 @@ window.SSIT_DATA = {
       "url": "https://www.ssllabs.com/ssltest/",
       "category_en": "IT Tools",
       "name_en": "SSL Labs",
-      "description_en": "",
+      "description_en": "Analyze a website's TLS/SSL configuration.",
       "description": "Analyse de la configuration TLS/SSL d'un site."
     },
     {
@@ -9426,7 +9426,7 @@ window.SSIT_DATA = {
       "url": "https://www.virustotal.com/gui/home/upload",
       "category_en": "IT Tools",
       "name_en": "VirusTotal",
-      "description_en": "",
+      "description_en": "Analyze URLs, domains and files with multiple security engines.",
       "description": "Analyse d'URL, domaines et fichiers avec plusieurs moteurs de sécurité."
     },
     {
@@ -10054,37 +10054,55 @@ window.SSIT_DATA = {
       "name": "CERT-FR",
       "category": "Cybersécurité France",
       "url": "https://www.cert.ssi.gouv.fr/",
-      "description": "Alertes, avis de sécurité et bulletins du CERT-FR."
+      "description": "Alertes, avis de sécurité et bulletins du CERT-FR.",
+      "name_en": "CERT-FR",
+      "category_en": "French Cybersecurity",
+      "description_en": "Security alerts, advisories and bulletins from CERT-FR."
     },
     {
       "name": "CNIL - Cybersécurité",
       "category": "Cybersécurité France",
       "url": "https://www.cnil.fr/fr/technologies/cybersecurite",
-      "description": "Guides et bonnes pratiques sur la sécurité des données personnelles."
+      "description": "Guides et bonnes pratiques sur la sécurité des données personnelles.",
+      "name_en": "CNIL - Cybersecurity",
+      "category_en": "French Cybersecurity",
+      "description_en": "Guides and best practices for personal data security."
     },
     {
       "name": "Microsoft Tech Community",
       "category": "Actualité Microsoft",
       "url": "https://techcommunity.microsoft.com/",
-      "description": "Annonces et échanges techniques autour des produits Microsoft."
+      "description": "Annonces et échanges techniques autour des produits Microsoft.",
+      "name_en": "Microsoft Tech Community",
+      "category_en": "Microsoft News",
+      "description_en": "Technical announcements and community discussions around Microsoft products."
     },
     {
       "name": "OpenAI Help Center",
       "category": "IA",
       "url": "https://help.openai.com/",
-      "description": "Documentation d'aide officielle sur ChatGPT et les services OpenAI."
+      "description": "Documentation d'aide officielle sur ChatGPT et les services OpenAI.",
+      "name_en": "OpenAI Help Center",
+      "category_en": "AI",
+      "description_en": "Official help documentation for ChatGPT and OpenAI services."
     },
     {
       "name": "Silicon.fr",
       "category": "Actualité IT France",
       "url": "https://www.silicon.fr/",
-      "description": "Actualité IT, cloud, cybersécurité et transformation numérique."
+      "description": "Actualité IT, cloud, cybersécurité et transformation numérique.",
+      "name_en": "Silicon.fr",
+      "category_en": "French IT News",
+      "description_en": "French IT news covering cloud, cybersecurity and digital transformation."
     },
     {
       "name": "Mozilla Observatory",
       "category": "Outils IT",
       "url": "https://developer.mozilla.org/en-US/observatory",
-      "description": "Analyse des en-têtes et bonnes pratiques de sécurité Web."
+      "description": "Analyse des en-têtes et bonnes pratiques de sécurité Web.",
+      "name_en": "Mozilla Observatory",
+      "category_en": "IT Tools",
+      "description_en": "Analyze web security headers and recommended website security practices."
     }
   ]
 };
