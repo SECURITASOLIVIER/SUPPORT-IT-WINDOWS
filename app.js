@@ -1822,27 +1822,10 @@ function newLink(ref=null){
 
 
 /* ===== IT POCKET BILINGUAL TEMPLATE SAFETY + TICKET CONTEXT ===== */
-let ticketRef=String(localStorage.getItem("itpTicketRef")||"").trim();
-function setTicketRef(v){
- ticketRef=String(v||"").trim();
- localStorage.setItem("itpTicketRef",ticketRef);
-}
-function applyTemplateContext(text){
- let s=String(text||"");
- if(!ticketRef)return s;
- s=s
-  .replace(/\[N° ticket\]/gi,ticketRef)
-  .replace(/\[N°\]/gi,ticketRef)
-  .replace(/\[Ticket #\]/gi,ticketRef)
-  .replace(/\[Ticket number\]/gi,ticketRef)
-  .replace(/\[RÉFÉRENCE\]/gi,ticketRef)
-  .replace(/\[REFERENCE\]/gi,ticketRef);
-
- // Legacy templates: replace only XX used as the ticket/request/incident reference.
- // Date placeholders such as "on XX" or "XX and XX" are intentionally preserved.
- s=s.replace(/\b(demande|incident|ticket|request)\s+XX\b/gi,(m,label)=>label+" "+ticketRef);
- return s;
-}
+let ticketRef="";
+try{localStorage.removeItem("itpTicketRef")}catch(_){}
+function setTicketRef(v){ ticketRef=""; }
+function applyTemplateContext(text){ return String(text||""); }
 function looksFrenchTemplateText(v){
  const s=String(v||"");
  return /[àâäçéèêëîïôöùûüÿœ]|\b(?:bonjour|merci|votre|vous|nous|pourriez|afin|concernant|retour|disponibilit|traitement|demande|incident|sujet|cordialement|clôture|problème|équipe|informatique|poursuivre|réinitial|connexion|compte|mot de passe|matériel|expédition|restitution|disponible|réseau|sécurité|collaborateur|application|poste|ordinateur|téléphone|rendez-vous|intervention|résolution|relance)\b/i.test(s);
@@ -2160,15 +2143,7 @@ function preparedTemplate(t){
  const originalBody=String(v&&v.content||"");
  let subject=formalizeTemplateText(applyTemplateContext(originalSubject));
  let body=formalizeTemplateText(applyTemplateContext(originalBody));
- const sourceName=String(t&&t.name||"");
- const sourceCategory=String(t&&t.category||"");
- const sourceText=[sourceName,sourceCategory,String(t&&t.subject||""),String(t&&t.content||"")].join(" ");
- const hasTicketPlaceholder=/\[N° ticket\]|\[N°\]|\[Ticket #\]|\[Ticket number\]|\b(?:demande|incident|ticket|request)\s+XX\b/i.test(sourceText);
- const isTicketSpecific=/\b(?:ticket|incident|request|demande)\b/i.test(sourceName);
- if(ticketRef && (hasTicketPlaceholder||isTicketSpecific) && !subject.includes(ticketRef)){
-   subject="["+ticketRef+"] "+subject;
- }
- const shareBody=decorateTemplatePlainText(body);
+const shareBody=decorateTemplatePlainText(body);
  const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
  return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
 }
@@ -2179,10 +2154,7 @@ function communications(){
  const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
- '<label class="ticket-ref-label">'+(state.lang==="en"?"Ticket #":"N° ticket")+
- '<input id="ticketRef" class="ticket-ref-input" value="'+esc(ticketRef)+'" placeholder="'+(state.lang==="en"?"e.g. INC123456":"ex. INC123456")+'" oninput="setTicketRef(this.value)"></label>'+
- '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
  cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
