@@ -882,3 +882,58 @@ body.light .itp-subnav-btn.itp-subnav-active small{background:#c7e2f7;color:#164
   .itp-subnav{grid-template-columns:1fr}
 }
 /* === /IT Pocket accordion navigation v1 === */
+
+
+/* === IT Pocket hierarchy v2 === */
+.itp-nav-node{display:block}
+.itp-tree-intro{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  margin:4px 0 14px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--panel);
+}
+.itp-tree-intro strong{font-size:15px}
+.itp-tree-intro span{color:var(--muted);font-size:12px}
+.itp-topic-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:10px;
+}
+.itp-topic-card{
+  width:100%;
+  min-height:72px;
+  display:grid;
+  grid-template-columns:32px minmax(0,1fr) 20px;
+  align-items:center;
+  gap:11px;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--card);
+  color:var(--text);
+  text-align:left;
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+.itp-topic-card:hover{border-color:#47789e;transform:translateY(-1px)}
+.itp-topic-card-text{display:flex;flex-direction:column;gap:4px;min-width:0}
+.itp-topic-card-text strong{font-size:14px;overflow:hidden;text-overflow:ellipsis}
+.itp-topic-card-text small{font-size:11px;color:var(--muted)}
+.itp-topic-arrow{font-size:26px;color:#6faee6;text-align:right}
+.itp-back-topics{margin-left:auto}
+body.light .itp-tree-intro{background:#f7fbff}
+body.light .itp-topic-card{box-shadow:0 4px 12px rgba(30,65,95,.07)}
+@media(max-width:800px){
+  .itp-tree-intro{display:block}
+  .itp-tree-intro strong{display:block;margin-bottom:4px}
+  .itp-topic-grid{grid-template-columns:1fr 1fr}
+  .itp-topic-card{min-height:78px}
+}
+@media(max-width:520px){
+  .itp-topic-grid{grid-template-columns:1fr}
+  .itp-topic-card{min-height:68px}
+}
+/* === /IT Pocket hierarchy v2 === */
