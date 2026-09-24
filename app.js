@@ -1820,7 +1820,141 @@ function newLink(ref=null){
  '<button class="btn" onclick="render()">'+ui("Annuler")+'</button></div></div></div>';
 }
 
-Object.assign(window,{shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+
+/* ===== IT POCKET BILINGUAL TEMPLATE SAFETY + TICKET CONTEXT ===== */
+let ticketRef=String(localStorage.getItem("itpTicketRef")||"").trim();
+function setTicketRef(v){
+ ticketRef=String(v||"").trim();
+ localStorage.setItem("itpTicketRef",ticketRef);
+ render();
+}
+function applyTemplateContext(text){
+ let s=String(text||"");
+ if(!ticketRef)return s;
+ return s
+  .replace(/\[N° ticket\]/gi,ticketRef)
+  .replace(/\[N°\]/gi,ticketRef)
+  .replace(/\[Ticket #\]/gi,ticketRef)
+  .replace(/\[Ticket number\]/gi,ticketRef)
+  .replace(/\[RÉFÉRENCE\]/gi,ticketRef)
+  .replace(/\[REFERENCE\]/gi,ticketRef);
+}
+function looksFrenchTemplateText(v){
+ const s=String(v||"");
+ return /[àâäçéèêëîïôöùûüÿœ]|\b(?:bonjour|merci|votre|vous|nous|pourriez|afin|concernant|retour|disponibilit|traitement|demande|incident|sujet|cordialement|clôture|problème|équipe|informatique|poursuivre|réinitial|connexion|compte|mot de passe|matériel|expédition|restitution|disponible|réseau|sécurité|collaborateur|application|poste|ordinateur|téléphone|rendez-vous|intervention|résolution|relance)\b/i.test(s);
+}
+function englishTemplateNameFromFrench(name){
+ let s=String(name||"");
+ const rules=[
+  [/Dernière relance avant clôture/gi,"Final follow-up before closure"],
+  [/Clôture administrative/gi,"Administrative closure"],
+  [/Premier contact/gi,"First contact"],
+  [/Prise en charge/gi,"Acknowledgement"],
+  [/Demande d'informations diagnostic/gi,"Diagnostic information request"],
+  [/Demande d'informations/gi,"Information request"],
+  [/Demande de disponibilité/gi,"Availability request"],
+  [/Intervention à distance/gi,"Remote intervention"],
+  [/En attente utilisateur/gi,"Waiting for user"],
+  [/En attente équipe tierce/gi,"Waiting for third party"],
+  [/Résolution proposée/gi,"Proposed resolution"],
+  [/Résolution confirmée/gi,"Resolution confirmed"],
+  [/Clôture sans retour/gi,"Closure without response"],
+  [/Mauvaise catégorie/gi,"Wrong category"],
+  [/Hors périmètre/gi,"Out of scope"],
+  [/Relance/gi,"Follow-up"],
+  [/Mauvais type de ticket/gi,"Wrong ticket type"],
+  [/Réinitialisation/gi,"Reset"],
+  [/Procédure/gi,"Procedure"],
+  [/Déploiement/gi,"Deployment"],
+  [/Préparation/gi,"Preparation"],
+  [/Expédition/gi,"Shipping"],
+  [/Restitution/gi,"Return"],
+  [/Mise à disposition/gi,"Availability"],
+  [/Installation terminée/gi,"Installation completed"],
+  [/Installation/gi,"Installation"],
+  [/Désinstallation/gi,"Uninstallation"],
+  [/Rendez-vous/gi,"Appointment"],
+  [/Matériel/gi,"Hardware"],
+  [/Sécurité/gi,"Security"],
+  [/Accès/gi,"Access"],
+  [/Réseau/gi,"Network"],
+  [/Incident majeur/gi,"Major incident"],
+  [/Mise à jour/gi,"Update"],
+  [/Maintenance/gi,"Maintenance"],
+  [/Changement/gi,"Change"],
+  [/Arrivée/gi,"Onboarding"],
+  [/Départ/gi,"Offboarding"],
+  [/Rapport/gi,"Report"],
+  [/Demande/gi,"Request"]
+ ];
+ for(const [re,to] of rules)s=s.replace(re,to);
+ return s;
+}
+function fallbackEnglishTemplate(t){
+ const n=String(t&&t.name||"").toLowerCase();
+ const subject=englishTemplateNameFromFrench(t&&t.subject||t&&t.name||"IT Support");
+ const hello="Hello [First name],\n\n", close="\n\nKind regards,\nIT Support";
+
+ if(/phishing/.test(n))return {subject,content:hello+"Thank you for reporting this suspicious message.\n\n• Do not click any link or open any additional attachment.\n• In Outlook, use Report Message > Phishing when available.\n• If you entered a password or approved an MFA request, contact IT Support immediately."+close};
+ if(/mfa|authenticator/.test(n))return {subject,content:hello+"Your multi-factor authentication (MFA) settings have been reset or require reconfiguration.\n\n1. Open https://aka.ms/mfasetup\n2. Add an authentication method.\n3. Select Microsoft Authenticator if required.\n4. Scan the QR code with the mobile application.\n5. Complete the validation test.\n\n⚠️ If the registration fails, contact IT Support."+close};
+ if(/mot de passe|password/.test(n))return {subject,content:hello+"Your password has been reset.\n\nUse the temporary password provided through the approved secure channel, then set a new password that complies with your organization's security policy.\n\nIf you experience any issue, contact IT Support."+close};
+ if(/demande d'informations|information request|diagnostic/.test(n))return {subject,content:hello+"To continue the diagnosis, please provide the following information:\n\n• the exact error message;\n• a screenshot when possible;\n• the affected device name;\n• the steps required to reproduce the issue;\n• your availability if a remote session is required."+close};
+ if(/dernière relance|final follow-up/.test(n))return {subject,content:hello+"We are following up again regarding your request.\n\nWithout a response, the ticket may be administratively closed. If assistance is still required, please reply with your availability or the requested information."+close};
+ if(/relance|follow-up/.test(n))return {subject,content:hello+"We are following up regarding your request.\n\nPlease send us your feedback or your next available time slot so that we can continue the investigation."+close};
+ if(/clôture|closure|résolu|resolution confirmed/.test(n))return {subject,content:hello+"The requested action has been completed and the service is now considered operational.\n\nPlease confirm that everything is working correctly. The request can then be closed."+close};
+ if(/prise en charge|acknowledgement|premier contact|first contact/.test(n))return {subject,content:hello+"Your request has been received and is now being handled by IT Support.\n\nWe will contact you if additional information is required and will keep you informed of progress."+close};
+ if(/disponibil|availability|rendez-vous|appointment/.test(n))return {subject,content:hello+"To continue with this request, please send us a time slot when you are available in front of the affected device.\n\nWe will confirm the intervention time once the slot is agreed."+close};
+ if(/intervention à distance|remote intervention/.test(n))return {subject,content:hello+"We can continue the diagnosis remotely on the affected device.\n\nPlease save your current work and confirm when you are available for the remote intervention."+close};
+ if(/expédition|shipping/.test(n))return {subject,content:hello+"Your equipment is ready for shipping / has been shipped.\n\nEquipment: [Equipment]\nCarrier: [Carrier]\nTracking number: [Tracking number]\n\nPlease confirm the delivery address when required and acknowledge receipt of the parcel."+close};
+ if(/restitution|return/.test(n))return {subject,content:hello+"Please arrange the return of the following company equipment:\n\n• [PC]\n• [Charger]\n• [Dock / accessories]\n• [Phone if applicable]\n\nPlease confirm the planned return method and date."+close};
+ if(/matériel|hardware|pc |casque|chargeur|dock|écran/.test(n))return {subject,content:hello+"Your requested equipment is being prepared or is now available.\n\nPlease confirm the required delivery / collection method and any relevant accessories."+close};
+ if(/installation|déploiement|deployment|logiciel|application/.test(n))return {subject,content:hello+"The requested application action has been processed.\n\nApplication: [Application]\nDevice: [Device]\n\nPlease launch the application and confirm that it works correctly. A restart may be required."+close};
+ if(/vpn|wi-fi|wifi|réseau|network/.test(n))return {subject,content:hello+"To continue the network diagnosis, please provide:\n\n• the network or VPN being used;\n• the exact error message;\n• whether Internet access works outside the VPN;\n• whether other nearby users are affected."+close};
+ if(/outlook|teams|onedrive|office|microsoft 365/.test(n))return {subject,content:hello+"We are investigating the Microsoft 365 issue.\n\nPlease describe the exact symptom and confirm whether the issue also occurs in the web version when applicable. Save your work before any repair or restart action."+close};
+ if(/onboarding|arrivée/.test(n))return {subject,content:"ONBOARDING\n\nEmployee: [Name]\nStart date: [Date]\nManager: [Manager]\n\nTo prepare:\n• user account;\n• workstation;\n• licenses;\n• groups and access;\n• email;\n• MFA;\n• applications;\n• accessories."};
+ if(/offboarding|départ/.test(n))return {subject,content:"OFFBOARDING\n\nEmployee: [Name]\nDeparture date: [Date]\n\nTo process:\n• disable account;\n• revoke sessions;\n• handle MFA and licenses;\n• manage mailbox / OneDrive delegation;\n• recover PC, charger, dock, headset and phone."};
+ if(/rapport|report|escalade|escalation/.test(n))return {subject,content:"IT SUPPORT REPORT\n\nTicket: [Ticket #]\nUser: [User]\nDevice: [Device]\nImpact: [Impact]\n\nIssue / observation:\n[Details]\n\nTests performed:\n• [Test 1]\n• [Test 2]\n\nActions performed:\n• [Action 1]\n• [Action 2]\n\nResult / next step:\n[Result]"};
+ if(/incident majeur|major incident|interruption de service/.test(n))return {subject,content:"Hello,\n\nA general incident is currently affecting [Service]. The technical teams are investigating.\n\nImpact: [Impact]\nStart time: [Time]\nCurrent status: [Status]\nNext update: [Time / when new information is available]\n\nThank you for your understanding."};
+ return {subject,content:hello+"This message concerns: "+englishTemplateNameFromFrench(t&&t.name||"IT support request")+".\n\nPlease review the information above and reply with any details required to continue processing the request."+close};
+}
+function safeEnglishTemplate(t){
+ const candidate={subject:String(t&&t.subject_en||""),content:String(t&&t.content_en||""),name:String(t&&t.name_en||"")};
+ const bad=!candidate.content||looksFrenchTemplateText(candidate.content)||looksFrenchTemplateText(candidate.subject)||looksFrenchTemplateText(candidate.name);
+ if(!bad)return candidate;
+ const fb=fallbackEnglishTemplate(t);
+ return {name:englishTemplateNameFromFrench(t&&t.name||"Template"),subject:fb.subject,content:fb.content};
+}
+function localizeTemplate(t){
+ if(!t)return t;
+ if(state.lang!=="en")return {...t,_categoryKey:t._categoryKey||t.category};
+ const safe=safeEnglishTemplate(t);
+ return {...t,name:safe.name||t.name,subject:safe.subject||t.subject,content:safe.content||t.content,_categoryKey:t._categoryKey||t.category,category:templateCategoryLabel(t._categoryKey||t.category)};
+}
+function preparedTemplate(t){
+ const v=localizeTemplate(t);
+ let subject=formalizeTemplateText(applyTemplateContext(v&&v.subject||""));
+ let body=formalizeTemplateText(applyTemplateContext(v&&v.content||""));
+ const shareBody=decorateTemplatePlainText(body);
+ const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
+ return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
+}
+function communications(){
+ const raw=allTemplates(),all=raw.map(localizeTemplate);
+ let ts=filterItems(all,["name","category","subject","content"]);
+ if(templateFilter!=="Tous")ts=ts.filter(t=>(t._categoryKey||t.category)===templateFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
+ let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
+ return '<div class="toolbar communication-topbar">'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+ '<label class="ticket-ref-label">'+(state.lang==="en"?"Ticket #":"N° ticket")+
+ '<input id="ticketRef" class="ticket-ref-input" value="'+esc(ticketRef)+'" placeholder="'+(state.lang==="en"?"e.g. INC123456":"ex. INC123456")+'" oninput="setTicketRef(this.value)"></label>'+
+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
+ '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+ cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
+ (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">'+ui("Modèles corporate")+'</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+'</div>';
+}
+Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
  const b=document.getElementById("scrollTopBtn");
