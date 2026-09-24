@@ -2175,6 +2175,265 @@ function communications(){
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
  '<div class="section-title">'+ui("Modèles corporate")+'</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+'</div>';
 }
+/* === IT Pocket iconography v1 === */
+const ITP_TECH_LABELS={
+ "Outlook":{fr:"Outlook",en:"Outlook"},"Word":{fr:"Word",en:"Word"},"Excel":{fr:"Excel",en:"Excel"},
+ "PowerPoint":{fr:"PowerPoint",en:"PowerPoint"},"Teams":{fr:"Teams",en:"Teams"},"OneDrive":{fr:"OneDrive",en:"OneDrive"},
+ "Microsoft 365":{fr:"Microsoft 365 / Office",en:"Microsoft 365 / Office"},"Edge":{fr:"Microsoft Edge",en:"Microsoft Edge"},
+ "Chrome":{fr:"Google Chrome",en:"Google Chrome"},"Firefox":{fr:"Mozilla Firefox",en:"Mozilla Firefox"},
+ "Intune":{fr:"Microsoft Intune",en:"Microsoft Intune"},"Entra":{fr:"Microsoft Entra ID",en:"Microsoft Entra ID"},
+ "SCCM":{fr:"SCCM / Configuration Manager",en:"SCCM / Configuration Manager"},"Autopilot":{fr:"Windows Autopilot",en:"Windows Autopilot"},
+ "Graph":{fr:"Microsoft Graph",en:"Microsoft Graph"},"Company Portal":{fr:"Company Portal",en:"Company Portal"},
+ "Azure":{fr:"Microsoft Azure",en:"Microsoft Azure"},"Citrix":{fr:"Citrix",en:"Citrix"},"FortiClient":{fr:"FortiClient",en:"FortiClient"},
+ "Ivanti":{fr:"Ivanti",en:"Ivanti"},"Zscaler":{fr:"Zscaler",en:"Zscaler"},"CrowdStrike":{fr:"CrowdStrike",en:"CrowdStrike"},
+ "VPN":{fr:"VPN",en:"VPN"},"RDP":{fr:"Bureau à distance / RDP",en:"Remote Desktop / RDP"},
+ "WiFi":{fr:"Wi‑Fi / Ethernet",en:"Wi‑Fi / Ethernet"},"Network":{fr:"Réseau Windows",en:"Windows Network"},
+ "Windows":{fr:"Windows",en:"Windows"},"Processes":{fr:"Processus & Services",en:"Processes & Services"},
+ "Storage":{fr:"Disque & Stockage",en:"Disk & Storage"},"Printing":{fr:"Impression",en:"Printing"},
+ "AudioVideo":{fr:"Audio & Vidéo",en:"Audio & Video"},"Devices":{fr:"Périphériques",en:"Devices"},
+ "Drivers":{fr:"Pilotes & BIOS",en:"Drivers & BIOS"},"Defender":{fr:"Microsoft Defender",en:"Microsoft Defender"},
+ "BitLocker":{fr:"BitLocker",en:"BitLocker"},"TPMHello":{fr:"TPM & Windows Hello",en:"TPM & Windows Hello"},
+ "Firewall":{fr:"Pare-feu",en:"Firewall"},"PowerShell":{fr:"PowerShell / Terminal",en:"PowerShell / Terminal"},
+ "Support":{fr:"Outils support",en:"Support tools"}
+};
+function itpTechLabel(k){const x=ITP_TECH_LABELS[k];return x?(state.lang==="en"?x.en:x.fr):k}
+function itpFluent(glyph,label,extra){
+ return '<span class="itp-glyph '+(extra||'')+'" aria-hidden="true" title="'+esc(label||"")+'">'+glyph+'</span>';
+}
+function itpBrand(slug,color,label,fallback){
+ const src='https://cdn.simpleicons.org/'+slug+'/'+color;
+ return '<span class="itp-brand-wrap" title="'+esc(label||"")+'">'+
+  '<img class="itp-brand-logo" src="'+src+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">'+
+  '<span class="itp-brand-fallback" aria-hidden="true">'+(fallback||'\uE713')+'</span></span>';
+}
+function itpCategoryIcon(c,size){
+ const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
+ if(c==="Microsoft 365")return itpBrand("microsoft","5E5E5E","Microsoft 365","\uE71D");
+ if(c==="Intune / Entra / SCCM")return itpBrand("microsoft","5E5E5E","Microsoft","\uE753");
+ const m={
+  "Accueil":["\uE80F","Accueil"],"Communications":["\uE715","Communications"],"Portails":["\uE8A7","Portails"],
+  "Système":["\uE770","Système"],"Réseau & Accès distant":["\uE774","Réseau"],
+  "Navigateurs":["\uE774","Navigateurs"],"Applications":["\uE71D","Applications"],
+  "Périphériques & Pilotes":["\uE772","Périphériques"],"Sécurité Windows":["\uEA18","Sécurité Windows"],
+  "Windows Update":["\uE895","Windows Update"],"Outils Support":["\uE90F","Outils Support"],
+  "Toutes les actions":["\uE8FD","Toutes les actions"],"Journal & Statistiques":["\uE9D2","Journal"]
+ };
+ const x=m[c]||["\uE713",c];
+ return itpFluent(x[0],x[1],cls);
+}
+function icon(c){return itpCategoryIcon(c,"nav")}
+function itpBrandFromText(text){
+ const s=String(text||"").toLowerCase();
+ const defs=[
+  [/\boutlook\b/,"microsoftoutlook","0078D4","Outlook","\uE715"],
+  [/\bexcel\b/,"microsoftexcel","217346","Excel","\uE8B7"],
+  [/\bpowerpoint\b|\bpowerpnt\b/,"microsoftpowerpoint","B7472A","PowerPoint","\uE8A5"],
+  [/\bteams\b|\bmsteams\b/,"microsoftteams","6264A7","Teams","\uE716"],
+  [/\bonedrive\b/,"microsoftonedrive","0078D4","OneDrive","\uE753"],
+  [/\bword\b|\bwinword\b/,"microsoftword","2B579A","Word","\uE8A5"],
+  [/\bedge\b/,"microsoftedge","0C59A4","Microsoft Edge","\uE774"],
+  [/\bchrome\b/,"googlechrome","4285F4","Google Chrome","\uE774"],
+  [/\bfirefox\b/,"firefoxbrowser","FF7139","Mozilla Firefox","\uE774"],
+  [/\bentra\b/,"microsoft","5E5E5E","Microsoft Entra ID","\uE77B"],
+  [/\bintune\b/,"microsoft","5E5E5E","Microsoft Intune","\uE772"],
+  [/\bsccm\b|configuration manager/,"microsoft","5E5E5E","SCCM","\uE713"],
+  [/\bautopilot\b/,"windows11","0078D4","Windows Autopilot","\uE770"],
+  [/microsoft graph|\bgraph\b/,"microsoft","5E5E5E","Microsoft Graph","\uE8A7"],
+  [/company portal|portail d.?entreprise/,"microsoft","5E5E5E","Company Portal","\uE71D"],
+  [/\bazure\b/,"microsoftazure","0078D4","Microsoft Azure","\uE753"],
+  [/\bpowershell\b/,"powershell","5391FE","PowerShell","\uE756"],
+  [/\bwindows\b/,"windows11","0078D4","Windows","\uE770"],
+  [/\bcitrix\b/,"citrix","452170","Citrix","\uE8CE"],
+  [/\bforti(client|net)?\b|\bfortinet\b/,"fortinet","EE3124","Fortinet","\uEA18"],
+  [/\bivanti\b|\bpulse secure\b/,"ivanti","5B2C83","Ivanti","\uE8CE"],
+  [/\bzscaler\b/,"zscaler","1670F8","Zscaler","\uEA18"],
+  [/\bcrowdstrike\b/,"crowdstrike","E01F3D","CrowdStrike","\uEA18"],
+  [/\bgithub\b/,"github","6E7781","GitHub","\uE8A7"],
+  [/\bcloudflare\b/,"cloudflare","F38020","Cloudflare","\uE753"],
+  [/\bopenai\b|\bchatgpt\b/,"openai","10A37F","OpenAI","\uE8A7"],
+  [/\bservicenow\b|service.?now/,"servicenow","81B5A1","ServiceNow","\uE8A7"],
+  [/\bhp\b|hewlett.?packard/,"hp","0096D6","HP","\uE772"],
+  [/\bdell\b/,"dell","0672CE","Dell","\uE772"],
+  [/\blenovo\b/,"lenovo","E2231A","Lenovo","\uE772"]
+ ];
+ for(const d of defs)if(d[0].test(s))return itpBrand(d[1],d[2],d[3],d[4]);
+ return "";
+}
+function itpSystemIconFromText(text){
+ const s=String(text||"").toLowerCase();
+ if(/bitlocker|chiffrement|encrypt/.test(s))return itpFluent("\uE72E","BitLocker","itp-icon-card");
+ if(/defender|antivirus|sécurit|security/.test(s))return itpFluent("\uEA18","Security","itp-icon-card");
+ if(/pare.?feu|firewall/.test(s))return itpFluent("\uEA18","Firewall","itp-icon-card");
+ if(/\btpm\b|windows hello|empreinte|fingerprint/.test(s))return itpFluent("\uE72E","TPM / Windows Hello","itp-icon-card");
+ if(/imprim|printer|print /.test(s))return itpFluent("\uE749","Printer","itp-icon-card");
+ if(/wifi|wi-fi|ethernet|réseau|network|dns|dhcp|ping|tracert|ipconfig|route/.test(s))return itpFluent("\uE774","Network","itp-icon-card");
+ if(/\bvpn\b|rdp|bureau à distance|remote desktop|quick assist|assistance rapide/.test(s))return itpFluent("\uE8CE","Remote access","itp-icon-card");
+ if(/audio|micro|casque|haut.?parleur|speaker|camera|caméra|video|vidéo/.test(s))return itpFluent("\uE767","Audio / Video","itp-icon-card");
+ if(/bluetooth|usb|périph|device|driver|pilote|bios|firmware/.test(s))return itpFluent("\uE772","Devices","itp-icon-card");
+ if(/disque|disk|storage|stockage|winsxs|temp|cache/.test(s))return itpFluent("\uE7C3","Storage","itp-icon-card");
+ if(/process|service|task|tâche|event|événement|journal|log/.test(s))return itpFluent("\uE90F","System tools","itp-icon-card");
+ if(/update|mise à jour|\bkb\d+/.test(s))return itpFluent("\uE895","Windows Update","itp-icon-card");
+ if(/application|winget|store|logiciel|software/.test(s))return itpFluent("\uE71D","Applications","itp-icon-card");
+ if(/mail|message|communication|ticket|template/.test(s))return itpFluent("\uE715","Communication","itp-icon-card");
+ if(/browser|navigateur|web|site|portail|portal|http/.test(s))return itpFluent("\uE774","Web","itp-icon-card");
+ if(/powershell|terminal|cmd|commande|script/.test(s))return itpFluent("\uE756","Terminal","itp-icon-card");
+ return itpFluent("\uE713","Windows tool","itp-icon-card");
+}
+function itpIconForItem(item){
+ const text=[item&&item.name,item&&item.category,item&&item.webCategory,item&&item.description,item&&item.url,item&&item.command,item&&item.script].filter(Boolean).join(" ");
+ return itpBrandFromText(text)||itpSystemIconFromText(text);
+}
+function itpTechKey(item,menu){
+ const s=[item&&item.name,item&&item.category,item&&item.webCategory,item&&item.description,item&&item.command,item&&item.script].filter(Boolean).join(" ").toLowerCase();
+ const tests=[
+  ["Outlook",/\boutlook\b/],["Excel",/\bexcel\b/],["PowerPoint",/\bpowerpoint\b|\bpowerpnt\b/],["Teams",/\bteams\b|\bmsteams\b/],
+  ["OneDrive",/\bonedrive\b/],["Word",/\bword\b|\bwinword\b/],["Edge",/\bedge\b/],["Chrome",/\bchrome\b/],["Firefox",/\bfirefox\b/],
+  ["Intune",/\bintune\b/],["Entra",/\bentra\b/],["SCCM",/\bsccm\b|configuration manager/],["Autopilot",/\bautopilot\b/],
+  ["Graph",/microsoft graph|\bgraph\b/],["Company Portal",/company portal|portail d.?entreprise/],["Azure",/\bazure\b/],
+  ["Citrix",/\bcitrix\b/],["FortiClient",/\bforti(client|net)?\b|\bfortinet\b/],["Ivanti",/\bivanti\b|\bpulse secure\b/],
+  ["Zscaler",/\bzscaler\b/],["CrowdStrike",/\bcrowdstrike\b/],["Defender",/\bdefender\b/],["BitLocker",/\bbitlocker\b/],
+  ["TPMHello",/\btpm\b|windows hello/],["Firewall",/pare.?feu|firewall/],["RDP",/\brdp\b|bureau à distance|remote desktop/],
+  ["VPN",/\bvpn\b/],["Printing",/imprim|printer|print /],["AudioVideo",/audio|micro|casque|speaker|camera|caméra|video|vidéo/],
+  ["Drivers",/driver|pilote|bios|firmware/],["Devices",/bluetooth|usb|périph|device|matériel|hardware/],
+  ["Storage",/disque|disk|storage|stockage|winsxs/],["Processes",/process|service|task|tâche|event|événement|journal|log/],
+  ["PowerShell",/powershell|terminal|cmd|invite de commandes/],["WiFi",/wifi|wi-fi|ethernet/],
+  ["Network",/réseau|network|dns|dhcp|ping|tracert|ipconfig|route/],["Windows",/\bwindows\b|système|system/]
+ ];
+ for(const t of tests)if(t[1].test(s))return t[0];
+ if(menu==="Microsoft 365")return "Microsoft 365";
+ if(menu==="Navigateurs")return "Support";
+ if(menu==="Réseau & Accès distant")return "Network";
+ if(menu==="Sécurité Windows")return "Defender";
+ if(menu==="Périphériques & Pilotes")return "Devices";
+ if(menu==="Intune / Entra / SCCM")return "Intune";
+ if(menu==="Windows Update")return "Windows";
+ if(menu==="Applications")return "Support";
+ if(menu==="Outils Support")return "Support";
+ return String(item&&item.category||catLabel(menu)||"Support");
+}
+const ITP_TECH_ORDER=["Outlook","Word","Excel","PowerPoint","Teams","OneDrive","Microsoft 365","Edge","Chrome","Firefox","Intune","Entra","SCCM","Autopilot","Company Portal","Graph","Azure","Citrix","FortiClient","Ivanti","Zscaler","CrowdStrike","VPN","RDP","WiFi","Network","Defender","BitLocker","TPMHello","Firewall","Printing","AudioVideo","Drivers","Devices","Storage","Processes","PowerShell","Windows","Support"];
+function itpOrder(k){const i=ITP_TECH_ORDER.indexOf(k);return i<0?999:i}
+function itpTitle(iconHtml,text,cls){
+ return '<span class="itp-tech-title '+(cls||"")+'">'+iconHtml+'<span>'+esc(text)+'</span></span>';
+}
+function nav(){
+ $("#nav").innerHTML=cats.map(c=>'<button class="navbtn '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\'>'+itpTitle(itpCategoryIcon(c,"nav"),catLabel(c),"itp-nav-title")+'</button>').join("");
+}
+function tabs(){
+ $("#tabs").innerHTML=state.tabs.map(c=>'<button class="tab '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\'>'+itpCategoryIcon(c,"nav")+' <span>'+esc(catLabel(c))+'</span> <span class="tab-close" onclick=\'closeTab('+JSON.stringify(c)+',event)\'>×</span></button>').join("");
+}
+function home(){
+ const descFr={
+  "Communications":"Modèles et messages corporate.","Portails":"Portails, sites officiels, outils et favoris.",
+  "Système":"Windows, diagnostic poste, performances et actions système.","Réseau & Accès distant":"IP, DNS, DHCP, VPN, RDP et connectivité.",
+  "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive et Office.","Navigateurs":"Edge, Chrome, Firefox : diagnostic, profils, cache et actions.",
+  "Applications":"Applications installées, Winget, réparation et maintenance.","Périphériques & Pilotes":"Imprimantes, périphériques, pilotes, BIOS et matériel.",
+  "Sécurité Windows":"Defender, BitLocker, TPM et sécurité locale.","Intune / Entra / SCCM":"Enrôlement, MDM, Entra, SCCM et accès Microsoft.",
+  "Windows Update":"Mises à jour, KB et maintenance Windows.","Outils Support":"Assistance distante et outils utiles au support."
+ };
+ const descEn={
+  "Communications":"Corporate messages and communication templates.","Portails":"Official portals, trusted tools and useful resources.",
+  "Système":"Windows, workstation diagnostics, performance and system actions.","Réseau & Accès distant":"IP, DNS, DHCP, VPN, RDP and connectivity.",
+  "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive and Office.","Navigateurs":"Edge, Chrome and Firefox diagnostics, profiles, cache and actions.",
+  "Applications":"Installed applications, Winget, repair and maintenance.","Périphériques & Pilotes":"Printers, devices, drivers, BIOS and hardware.",
+  "Sécurité Windows":"Defender, BitLocker, TPM and local security.","Intune / Entra / SCCM":"Enrollment, MDM, Entra, SCCM and Microsoft access.",
+  "Windows Update":"Updates, KBs and Windows maintenance.","Outils Support":"Remote assistance and useful support tools."
+ };
+ const sections=cats.filter(c=>c!=="Accueil").map(c=>({
+  cat:c,
+  count:c==="Communications"?allTemplates().length:c==="Portails"?allPortals().length:pocketActions().filter(x=>x.webCategory===c).length,
+  desc:(state.lang==="en"?descEn[c]:descFr[c])||""
+ }));
+ return '<div class="home-summary all-menu-home">'+sections.map(s=>
+  '<article class="card home-kpi itp-home-card">'+
+   '<div class="itp-home-heading">'+itpCategoryIcon(s.cat,"home")+'<h3>'+esc(catLabel(s.cat))+'</h3></div>'+
+   '<div class="big-number">'+s.count+'</div><p class="desc">'+esc(s.desc)+'</p>'+
+   '<button class="btn primary" onclick=\'openCat('+JSON.stringify(s.cat)+')\'>'+ui("Ouvrir")+'</button>'+
+  '</article>'
+ ).join("")+'</div>';
+}
+function actionCard(a){
+ const x=localizeDataItem(a),s=x.script||x.command||"",p=executionProfile(x),m=cleanMethod(x),r=resourceType(x),id="detail_"+Math.random().toString(36).slice(2);
+ const usefulText=p.standalone&&s?s:(m||x.description||""),shareBody=buildSupportShare(x);
+ return '<article class="card compact-card itp-action-card">'+typeBadge(x)+
+ '<h3 class="itp-card-title">'+itpIconForItem(x)+'<span>'+esc(x.name)+'</span></h3>'+
+ '<div class="meta">'+esc(x.category)+' • '+esc(r.label)+'</div><p class="desc">'+esc(x.description||m||"")+'</p>'+
+ '<div class="card-badges">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions">'+(usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+inlineArg(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
+ '<button class="btn" onclick=\'shareText('+inlineArg(x.name||"IT Support")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(x.name||"Support"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>'+ui("Voir plus")+'</button></div>'+detailHtml(x,id)+'</article>';
+}
+function commandCard(c){
+ const x=localizeDataItem(c),id="detail_"+Math.random().toString(36).slice(2),r=resourceType(x),shareBody=buildSupportShare(x);
+ return '<article class="card compact-card itp-action-card">'+typeBadge(x)+
+ '<h3 class="itp-card-title">'+itpIconForItem(x)+'<span>'+esc(x.name)+'</span></h3>'+
+ '<div class="meta">'+esc(x.category)+' • '+esc(r.label)+'</div><p class="desc">'+esc(x.description||"")+'</p>'+
+ '<div class="card-badges">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+inlineArg(x.command)+')\'>'+esc(r.copy)+'</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(x.name||"IT Support")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(x.name||"Support"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>'+ui("Voir plus")+'</button></div>'+detailHtml(x,id)+'</article>';
+}
+function renderActions(c){
+ let a=filterItems(pocketActions().filter(x=>x.webCategory===c).map(localizeDataItem),["name","description","command","script","category","webCategory"]);
+ if(!a.length)return '<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
+ const groups=new Map();
+ a.forEach(x=>{const k=itpTechKey(x,c);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)});
+ const entries=[...groups.entries()].sort((A,B)=>itpOrder(A[0])-itpOrder(B[0])||itpTechLabel(A[0]).localeCompare(itpTechLabel(B[0])));
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span></div>'+
+ entries.map(([k,items])=>'<div class="section-title tech-section-title">'+itpIconForItem(items[0])+'<span>'+esc(itpTechLabel(k))+'</span><span class="tech-count">'+items.length+'</span></div><div class="grid">'+items.map(actionCard).join("")+'</div>').join("");
+}
+function portalCard(p){
+ const v=localizePortal(p),r=JSON.stringify(p._id),f=isFavoriteLink(p._id);
+ const shareBody=(v.name||"IT Link")+"\n"+(v.description?String(v.description)+"\n":"")+(v.url||"");
+ return '<article class="card itp-portal-card"><h3 class="itp-card-title">'+itpIconForItem(v)+'<span>'+(f?'★ ':'')+esc(v.name)+'</span></h3>'+
+ '<div class="meta">'+esc(v.category||"")+' '+(p.builtin?'• '+(state.lang==="en"?"Built-in":"Intégré"):'• '+(state.lang==="en"?"Personal":"Personnel"))+'</div>'+
+ (v.description?'<p class="desc">'+esc(v.description)+'</p>':'')+'<pre class="code">'+esc(v.url)+'</pre><div class="actions">'+
+ '<button class="btn primary" onclick=\'window.open('+inlineArg(v.url)+',"_blank","noopener")\'>'+ui("Ouvrir")+'</button>'+
+ '<button class="btn" onclick=\'copy('+inlineArg(v.url)+')\'>'+ui("Copier le lien")+'</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(v.name||"IT Link")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(v.name||"Link"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" onclick=\'toggleFavoriteLink('+r+')\'>'+(f?ui("★ Favori"):ui("☆ Favori"))+'</button>'+
+ '<button class="btn" onclick=\'editLink('+r+')\'>'+ui("Modifier")+'</button><button class="btn red" onclick=\'deleteLink('+r+')\'>'+ui("Supprimer")+'</button></div></article>';
+}
+function portals(){
+ const raw=allPortals().map(p=>({...p,_categoryKey:p.category}));
+ let ps=filterItems(raw.map(localizePortal),["name","url","category","description"]);
+ if(portalFilter==="Favoris")ps=ps.filter(p=>isFavoriteLink(p._id));
+ else if(portalFilter!=="Tous")ps=ps.filter(p=>(p._categoryKey||p.category)===portalFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category||"Divers"))].sort();
+ return '<div class="toolbar"><button class="btn primary" onclick="newLink()">'+ui("+ Ajouter un lien")+'</button>'+
+ '<button class="btn" onclick=\'setPortalFilter("Tous")\'>'+ui("Tous")+'</button><button class="btn" onclick=\'setPortalFilter("Favoris")\'>'+ui("★ Favoris")+'</button>'+
+ '<span class="badge">'+ps.length+' '+(state.lang==="en"?"link(s)":"lien(s)")+'</span></div>'+
+ '<div class="toolbar portal-tech-filters">'+cs.map(c=>'<button class="btn itp-tech-filter" onclick=\'setPortalFilter('+JSON.stringify(c)+')\'>'+itpIconForItem({name:c,category:c})+'<span>'+esc(state.lang==="en"?(PORTAL_CAT_EN[c]||c):c)+'</span></button>').join("")+'</div>'+
+ '<div class="grid">'+(ps.map(portalCard).join("")||'<div class="empty">'+ui("Aucun lien trouvé.")+'</div>')+'</div>';
+}
+function render(){
+ try{
+   document.body.classList.toggle("light",state.theme==="light");
+   nav();
+   const title=$("#title"),stats=$("#stats"),content=$("#content");
+   if(title)title.innerHTML=itpCategoryIcon(state.cat,"header")+'<span>'+esc(catLabel(state.cat))+'</span>';
+   if(stats)stats.textContent=pocketActions().length+(state.lang==="en"?" scripts/actions • ":" scripts/actions • ")+allTemplates().length+(state.lang==="en"?" templates":" modèles");
+   let c=state.cat,h=
+     c==="Accueil"?home():
+     c==="Communications"?communications():
+     c==="Portails"?portals():
+     c==="Journal & Statistiques"?renderJournal():
+     renderActions(c);
+   if(content)content.innerHTML=h;
+   applyUiLanguage();
+ }catch(e){
+   console.error("IT Pocket render error",e);
+   state={cat:"Accueil",tabs:["Accueil"],theme:"dark",lang:"fr"};
+   try{localStorage.setItem("ssitState",JSON.stringify(state))}catch(_){}
+   const content=$("#content");if(content)content.innerHTML=home();
+   nav();applyUiLanguage();
+ }
+}
+/* === /IT Pocket iconography v1 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
