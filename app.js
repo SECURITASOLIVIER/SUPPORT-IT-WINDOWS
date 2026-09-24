@@ -3894,6 +3894,49 @@ function templateCard(t){
 Object.assign(window,{itpToggleTemplateContent});
 /* === /IT Pocket communication compact v4.8 === */
 
+/* === IT Pocket communication cleanup v4.9 === */
+function itpEscapeRegExp(s){
+ return String(s||"").replace(/[.*+?^$()|[\]\\{}]/g,"\\$&");
+}
+function itpTemplateBodyOnly(v){
+ const subject=String(v&&v.subject||"").trim();
+ let body=String(v&&v.content||"").trim();
+
+ if(subject){
+   const escRe=itpEscapeRegExp(subject);
+   const patterns=[
+     new RegExp("^\\s*(?:Objet|Subject)\\s*:\\s*"+escRe+"\\s*(?:\\r?\\n)+","i"),
+     new RegExp("^\\s*"+escRe+"\\s*(?:\\r?\\n)+","i")
+   ];
+   for(const re of patterns)body=body.replace(re,"");
+ }
+ body=body.replace(/^\s*(?:Objet|Subject)\s*:\s*[^\r\n]+(?:\r?\n)+/i,"");
+ return body.trim();
+}
+
+function templateCard(t){
+ const v=localizeTemplate(t),ref=JSON.stringify(t._id);
+ const id="tplfull_"+Math.random().toString(36).slice(2);
+ const body=itpTemplateBodyOnly(v);
+
+ return '<article class="card itp-template-card">'+
+  '<h3 class="itp-card-title">'+itpTemplateIcon(v)+'<span>'+esc(v.name)+'</span></h3>'+
+  '<div class="meta">'+esc(v.category)+'</div>'+
+  (v.subject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+  '<div class="actions template-actions">'+
+    '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+    '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+    '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+    '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+    '<button class="btn" onclick=\'itpToggleTemplateContent("'+id+'",this)\'>'+(state.lang==="en"?"Show more":"Voir plus")+'</button>'+
+  '</div>'+
+  '<div id="'+id+'" class="itp-template-full">'+
+    (body?'<div class="template-preview">'+formatTemplatePreview(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+  '</div>'+
+ '</article>';
+}
+/* === /IT Pocket communication cleanup v4.9 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
