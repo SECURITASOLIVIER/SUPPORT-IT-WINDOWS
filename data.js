@@ -8811,54 +8811,54 @@ window.SSIT_DATA = {
       "name": "Logiciel - Installation terminée",
       "subject": "Installation terminée - [Application]",
       "content": "Bonjour,\n\nL’installation de [Application] est terminée.\n\nMerci de lancer l’application et de confirmer que l’accès est fonctionnel.\n\nCordialement,\nSupport informatique",
-      "name_en": "Logiciel - Installation terminée",
-      "subject_en": "Installation terminée - [application]",
-      "content_en": "Hello,\n\nthe installation de [application] is complete.\n\nPlease launch l’application et de confirmer que l’access est fonctionnel.\n\nKind regards,\nIT Support"
+      "name_en": "Software - Installation completed",
+      "subject_en": "Installation completed - [Application]",
+      "content_en": "Hello [First name],\n\nThe installation of [Application] has been completed.\n\nPlease launch the application and confirm that access is working correctly.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Maintenance & Changement",
       "name": "Mise à jour - Intervention planifiée",
       "subject": "Mise à jour planifiée sur votre poste",
       "content": "Bonjour,\n\nUne mise à jour est prévue sur votre poste le [Date / heure].\n\nMerci d’enregistrer vos travaux avant l’intervention. Un redémarrage peut être nécessaire.\n\nCordialement,\nSupport informatique",
-      "name_en": "update - Intervention planifiée",
-      "subject_en": "update planifiée sur your computer",
-      "content_en": "Hello,\n\nAn update est prévue sur your computer le [Date / heure].\n\nMerci d’enregistrer vos travaux avant l’intervention. A restart peut être nécessaire.\n\nKind regards,\nIT Support"
+      "name_en": "Update - Scheduled intervention",
+      "subject_en": "Scheduled update on your computer",
+      "content_en": "Hello [First name],\n\nAn update is scheduled on your computer for [Date / time].\n\nPlease save your work before the intervention. A restart may be required.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Réseau & VPN",
       "name": "Réseau - Incident pris en charge",
       "subject": "Prise en charge de l’incident réseau",
       "content": "Bonjour,\n\nNous avons pris en charge votre incident réseau / Wi-Fi / VPN.\n\nPérimètre : [poste / site / Wi-Fi / VPN].\nSymptôme : [Description].\n\nLes vérifications sont en cours et nous vous tiendrons informé.\n\nCordialement,\nSupport informatique",
-      "name_en": "Network - Incident Taken into support",
-      "subject_en": "taken into support de the Incident Network",
-      "content_en": "Hello,\n\nNous avons Taken into support your Incident Network / Wi-Fi / VPN.\n\nPérimètre : [Computer / site / Wi-Fi / VPN].\nSymptom : [Description].\n\nChecks sont en cours et nous vous tiendrons informé.\n\nKind regards,\nIT Support"
+      "name_en": "Network - Incident assigned",
+      "subject_en": "Network incident assigned",
+      "content_en": "Hello [First name],\n\nWe have taken ownership of your network / Wi-Fi / VPN incident.\n\nScope: [computer / site / Wi-Fi / VPN].\nSymptom: [Description].\n\nChecks are in progress and we will keep you informed.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Microsoft 365",
       "name": "Microsoft 365 - Incident pris en charge",
       "subject": "Prise en charge de votre incident Microsoft 365",
       "content": "Bonjour,\n\nNous avons pris en charge votre incident concernant [Outlook / Teams / OneDrive / Office].\n\nSymptôme : [Description].\n\nLes vérifications sont en cours.\n\nCordialement,\nSupport informatique",
-      "name_en": "Microsoft 365 - Incident Taken into support",
-      "subject_en": "taken into support de your Incident Microsoft 365",
-      "content_en": "Hello,\n\nNous avons Taken into support your Incident concernant [Outlook / Teams / OneDrive / Office].\n\nSymptom : [Description].\n\nChecks sont en cours.\n\nKind regards,\nIT Support"
+      "name_en": "Microsoft 365 - Incident assigned",
+      "subject_en": "Microsoft 365 incident assigned",
+      "content_en": "Hello [First name],\n\nWe have taken ownership of your incident affecting [Outlook / Teams / OneDrive / Office].\n\nSymptom: [Description].\n\nChecks are in progress.\n\nKind regards,\nIT Support"
     },
     {
       "category": "Tickets",
       "name": "Incident - prise en charge",
       "subject": "Prise en charge de votre incident",
       "content": "Bonjour,\n\nVotre incident a bien été pris en charge. Nous analysons actuellement les éléments disponibles et reviendrons vers vous dès que possible.\n\nCordialement,",
-      "name_en": "Incident - taken into support",
-      "subject_en": "taken into support de your Incident",
-      "content_en": "Hello,\n\nyour Incident a bien été Taken into support. Nous analysons actuellement les éléments disponibles et reviendrons vers vous dès que possible.\n\nKind regards,"
+      "name_en": "Incident - Assigned",
+      "subject_en": "Your incident has been assigned",
+      "content_en": "Hello,\n\nYour incident has been assigned. We are currently reviewing the available information and will get back to you as soon as possible.\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Incident - informations complémentaires",
       "subject": "Informations nécessaires pour poursuivre le diagnostic",
       "content": "Bonjour,\n\nAfin de poursuivre le diagnostic, pourriez-vous nous transmettre:\n• le message d’erreur exact;\n• une capture d’écran si possible;\n• les étapes permettant de reproduire le problème;\n• vos prochaines disponibilités.\n\nMerci d’avance.\n\nCordialement,",
-      "name_en": "Incident - informations complémentaires",
-      "subject_en": "Informations nécessaires pour poursuivre le diagnostic",
-      "content_en": "Hello,\n\nTo poursuivre le diagnostic, pourriez-vous nous transmettre:\n• le message d’erreur exact;\n• une capture d’écran si possible;\n• les étapes permettant de reproduire The issue;\n• vos prochaines availability.\n\nThank you in advance.\n\nKind regards,"
+      "name_en": "Incident - Additional information required",
+      "subject_en": "Information required to continue troubleshooting",
+      "content_en": "Hello,\n\nTo continue troubleshooting, could you please provide:\n\n• The exact error message;\n• A screenshot, if possible;\n• The steps required to reproduce the issue;\n• Your next available time slots.\n\nThank you in advance.\n\nKind regards"
     },
     {
       "category": "Tickets",
@@ -8866,125 +8866,125 @@ window.SSIT_DATA = {
       "subject": "Résolution de votre incident",
       "content": "Bonjour,\n\nL’incident a été traité. Les actions réalisées ont permis de rétablir le fonctionnement.\n\nMerci de nous confirmer que tout est désormais opérationnel. Sans anomalie complémentaire, le ticket pourra être clôturé.\n\nCordialement,",
       "name_en": "Incident - Closure",
-      "subject_en": "Résolution de your Incident",
-      "content_en": "Hello,\n\nthe Incident a été traité. Actions performed ont permis de rétablir le fonctionnement.\n\nPlease confirm que tout est désormais opérationnel. Sans issue complémentaire, The ticket pourra être clôturé.\n\nKind regards,"
+      "subject_en": "Resolution of your incident",
+      "content_en": "Hello,\n\nThe incident has been resolved. The actions performed have restored normal operation.\n\nPlease confirm that everything is now working correctly. If there is no further issue, the ticket can be closed.\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Demande - prise en charge",
       "subject": "Prise en charge de votre demande",
       "content": "Bonjour,\n\nVotre demande a bien été prise en charge. Nous revenons vers vous dès que les éléments nécessaires auront été vérifiés.\n\nCordialement,",
-      "name_en": "Request - taken into support",
-      "subject_en": "taken into support de your request",
-      "content_en": "Hello,\n\nyour request a bien été taken into support. Nous revenons vers vous dès que les éléments nécessaires auront été vérifiés.\n\nKind regards,"
+      "name_en": "Request - Assigned",
+      "subject_en": "Your request has been assigned",
+      "content_en": "Hello,\n\nYour request has been assigned. We will get back to you once the required checks have been completed.\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Relance utilisateur",
       "subject": "Relance concernant votre ticket",
       "content": "Bonjour,\n\nNous revenons vers vous concernant votre ticket. Sans retour de votre part, nous ne pouvons pas poursuivre le traitement.\n\nPourriez-vous nous transmettre votre retour ou vos prochaines disponibilités?\n\nCordialement,",
-      "name_en": "Follow-up User",
-      "subject_en": "Follow-up concernant your ticket",
-      "content_en": "Hello,\n\nNous revenons vers vous concernant your ticket. Without a response from you, nous ne pouvons pas poursuivre le processing.\n\nPourriez-vous nous transmettre votre feedback ou vos prochaines availability?\n\nKind regards,"
+      "name_en": "User follow-up",
+      "subject_en": "Follow-up regarding your ticket",
+      "content_en": "Hello,\n\nWe are following up regarding your ticket. Without your feedback, we cannot continue processing it.\n\nCould you please send us your feedback or your next available time slots?\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Utilisateur injoignable",
       "subject": "Tentative de contact",
       "content": "Bonjour,\n\nNous avons tenté de vous joindre concernant votre ticket, sans succès.\n\nMerci de nous indiquer un créneau de disponibilité afin de poursuivre le traitement.\n\nCordialement,",
-      "name_en": "User injoignable",
-      "subject_en": "Tentative de contact",
-      "content_en": "Hello,\n\nWe tried to contact you concernant your ticket, sans succès.\n\nMerci de nous indiquer un créneau de disponibilité To poursuivre le processing.\n\nKind regards,"
+      "name_en": "User unreachable",
+      "subject_en": "Contact attempt",
+      "content_en": "Hello,\n\nWe tried to contact you regarding your ticket but were unable to reach you.\n\nPlease send us an available time slot so that we can continue processing the case.\n\nKind regards"
     },
     {
       "category": "Tickets",
       "name": "Dernière relance avant clôture",
       "subject": "Dernière relance concernant votre ticket",
       "content": "Bonjour,\n\nMalgré plusieurs tentatives de contact, nous n’avons pas reçu de retour. Sans réponse, le ticket pourra être clôturé administrativement.\n\nSi le besoin est toujours d’actualité, merci de nous transmettre vos disponibilités.\n\nCordialement,",
-      "name_en": "Dernière Follow-up avant Closure",
-      "subject_en": "Dernière Follow-up concernant your ticket",
-      "content_en": "Hello,\n\nMalgré plusieurs tentatives de contact, nous n’avons pas reçu de feedback. Sans réponse, The ticket pourra être clôturé administrativement.\n\nSi le besoin est toujours d’actualité, merci de nous transmettre your availability.\n\nKind regards,"
+      "name_en": "Final follow-up before closure",
+      "subject_en": "Final follow-up regarding your ticket",
+      "content_en": "Hello,\n\nDespite several attempts to contact you, we have not received a response. Without a reply, the ticket may be administratively closed.\n\nIf the request is still relevant, please send us your availability.\n\nKind regards"
     },
     {
       "category": "Rendez-vous",
       "name": "Prise de rendez-vous",
       "subject": "Proposition de rendez-vous support",
       "content": "Bonjour,\n\nAfin de poursuivre le traitement, je vous propose une intervention le [DATE] à [HEURE], pour une durée estimée de [DURÉE].\n\nMerci de me confirmer si ce créneau vous convient.\n\nCordialement,",
-      "name_en": "Prise de rendez-vous",
-      "subject_en": "Proposition de rendez-vous support",
-      "content_en": "Hello,\n\nTo poursuivre le processing, je vous propose An intervention le [Date] à [HEURE], pour une durée estimée de [DURÉE].\n\nPlease confirm si ce créneau vous convient.\n\nKind regards,"
+      "name_en": "Schedule an appointment",
+      "subject_en": "Proposed support appointment",
+      "content_en": "Hello,\n\nTo continue processing the case, I would like to propose an intervention on [DATE] at [TIME], with an estimated duration of [DURATION].\n\nPlease confirm whether this time works for you.\n\nKind regards"
     },
     {
       "category": "Rendez-vous",
       "name": "Confirmation de rendez-vous",
       "subject": "Confirmation de rendez-vous support",
       "content": "Bonjour,\n\nVotre rendez-vous est confirmé pour le [DATE] à [HEURE].\n\nMotif: [MOTIF]\nDurée estimée: [DURÉE]\n\nCordialement,",
-      "name_en": "Confirmation de rendez-vous",
-      "subject_en": "Confirmation de rendez-vous support",
-      "content_en": "Hello,\n\nVotre rendez-vous est confirmé pour le [Date] à [HEURE].\n\nMotif: [MOTIF]\nDurée estimée: [DURÉE]\n\nKind regards,"
+      "name_en": "Appointment confirmation",
+      "subject_en": "Support appointment confirmation",
+      "content_en": "Hello,\n\nYour appointment is confirmed for [DATE] at [TIME].\n\nReason: [REASON]\nEstimated duration: [DURATION]\n\nKind regards"
     },
     {
       "category": "Rapports",
       "name": "Escalade N2/N3",
       "subject": "Escalade technique",
       "content": "Bonjour,\n\nEscalade technique.\nContexte : [CONTEXTE]\nSymptôme : [SYMPTÔME]\nActions déjà réalisées : [ACTIONS]\nRésultat : [RÉSULTAT]\nÉléments collectés : [LOGS / CAPTURES / COMMANDES]\n\nMerci pour votre analyse.",
-      "name_en": "Escalade N2/N3",
-      "subject_en": "Escalade technique",
-      "content_en": "Hello,\n\nEscalade technique.\nContexte : [CONTEXTE]\nSymptom : [Symptom]\nActions déjà réalisées : [ACTIONS]\nResult : [Result]\nÉléments collectés : [LOGS / CAPTURES / COMMANDES]\n\nMerci pour votre analyse."
+      "name_en": "N2/N3 escalation",
+      "subject_en": "Technical escalation",
+      "content_en": "Hello,\n\nEscalation of ticket [Ticket #].\n\nContext: [CONTEXT]\nSymptom: [SYMPTOM]\nActions already performed: [ACTIONS]\nResult: [RESULT]\nEvidence collected: [LOGS / SCREENSHOTS / COMMANDS]\n\nThank you for your analysis."
     },
     {
       "category": "Rapports",
       "name": "Résolution temporaire / contournement",
       "subject": "Contournement temporaire",
       "content": "Bonjour,\n\nUn contournement temporaire a été mis en place afin de permettre la continuité d’activité.\n\nContournement : [DÉTAIL]\nLimite connue : [LIMITE]\nSuite prévue : [ACTION]\n\nCordialement,",
-      "name_en": "Résolution temporaire / contournement",
-      "subject_en": "Contournement temporaire",
-      "content_en": "Hello,\n\nUn contournement temporaire a été mis en place To permettre la continuité d’activité.\n\nContournement : [DÉTAIL]\nLimite connue : [LIMITE]\nSuite prévue : [ACTION]\n\nKind regards,"
+      "name_en": "Temporary fix / workaround",
+      "subject_en": "Temporary workaround",
+      "content_en": "Hello,\n\nA temporary workaround has been implemented to maintain business continuity.\n\nWorkaround: [DETAIL]\nKnown limitation: [LIMITATION]\nNext step: [ACTION]\n\nKind regards"
     },
     {
       "category": "Matériel",
       "name": "Mise à disposition matériel",
       "subject": "Mise à disposition de matériel",
       "content": "Bonjour,\n\nLe matériel suivant est prêt à être mis à disposition :\n• Équipement : [PC / CASQUE / CHARGEUR / AUTRE]\n• Référence / numéro de série : [RÉFÉRENCE]\n• Date : [DATE]\n• Modalité de remise : [DÉTAIL]\n\nCordialement,",
-      "name_en": "availability Equipment",
-      "subject_en": "availability de Equipment",
-      "content_en": "Hello,\n\nLe Equipment suivant is ready à être mis à disposition :\n• Équipement : [PC / headset / charger / AUTRE]\n• Référence / numéro de série : [RÉFÉRENCE]\n• Date : [Date]\n• Modalité de handover : [DÉTAIL]\n\nKind regards,"
+      "name_en": "Equipment handover",
+      "subject_en": "Equipment handover",
+      "content_en": "Hello,\n\nThe following equipment is ready for handover:\n\n• Equipment: [PC / HEADSET / CHARGER / OTHER]\n• Reference / serial number: [REFERENCE]\n• Date: [DATE]\n• Handover method: [DETAIL]\n\nKind regards"
     },
     {
       "category": "Matériel",
       "name": "Restitution matériel",
       "subject": "Restitution de matériel",
       "content": "Bonjour,\n\nMerci de prévoir la restitution du matériel suivant : [MATÉRIEL].\n\nRéférence : [RÉFÉRENCE]\nDate / créneau : [DATE]\nLieu / modalité : [DÉTAIL]\n\nCordialement,",
-      "name_en": "return Equipment",
-      "subject_en": "return de Equipment",
-      "content_en": "Hello,\n\nPlease plan to la return du Equipment suivant : [Equipment].\n\nRéférence : [RÉFÉRENCE]\nDate / créneau : [Date]\nLieu / modalité : [DÉTAIL]\n\nKind regards,"
+      "name_en": "Equipment return",
+      "subject_en": "Equipment return",
+      "content_en": "Hello,\n\nPlease arrange the return of the following equipment: [EQUIPMENT].\n\nReference: [REFERENCE]\nDate / time slot: [DATE]\nLocation / method: [DETAIL]\n\nKind regards"
     },
     {
       "category": "Sécurité",
       "name": "Alerte sécurité utilisateur",
       "subject": "Action de sécurité requise",
       "content": "Bonjour,\n\nUne action de sécurité est nécessaire concernant votre poste ou votre compte.\n\nMerci de ne pas communiquer vos mots de passe et de suivre uniquement les instructions transmises par votre support informatique.\n\nAction demandée : [ACTION]\n\nCordialement,",
-      "name_en": "Alerte sécurité User",
-      "subject_en": "Action de sécurité requise",
-      "content_en": "Hello,\n\nUne action de sécurité est nécessaire concernant your computer ou your account.\n\nMerci de ne pas communiquer vos mots de passe et de suivre uniquement les instructions transmises par votre IT Support.\n\nAction demandée : [ACTION]\n\nKind regards,"
+      "name_en": "User security alert",
+      "subject_en": "Security action required",
+      "content_en": "Hello,\n\nA security action is required for your computer or account.\n\nPlease do not share your passwords and follow only the instructions provided by your IT Support team.\n\nRequired action: [ACTION]\n\nKind regards"
     },
     {
       "category": "Communication",
       "name": "Interruption de service",
       "subject": "Information - interruption de service",
       "content": "Bonjour,\n\nUne interruption de service est actuellement en cours sur [SERVICE]. Les équipes techniques sont mobilisées.\n\nImpact : [IMPACT]\nDébut : [HEURE]\nProchaine information : [HEURE / DÈS ÉVOLUTION]\n\nMerci de votre compréhension.",
-      "name_en": "service outage",
-      "subject_en": "Information - service outage",
-      "content_en": "Hello,\n\nUne service outage est actuellement en cours sur [SERVICE]. Les équipes techniques sont mobilisées.\n\nImpact : [Impact]\nDébut : [HEURE]\nProchaine information : [HEURE / DÈS ÉVOLUTION]\n\nThank you for your understanding."
+      "name_en": "Service interruption",
+      "subject_en": "Information - service interruption",
+      "content_en": "Hello,\n\nA service interruption is currently affecting [SERVICE]. The technical teams are working on the issue.\n\nImpact: [IMPACT]\nStart time: [TIME]\nNext update: [TIME / WHEN NEW INFORMATION IS AVAILABLE]\n\nThank you for your understanding."
     },
     {
       "category": "Communication",
       "name": "Retour à la normale",
       "subject": "Retour à la normale",
       "content": "Bonjour,\n\nLe service [SERVICE] est de nouveau opérationnel.\n\nNous vous invitons à reprendre votre activité normalement et à signaler toute anomalie persistante via un ticket.\n\nCordialement,",
-      "name_en": "feedback à la normale",
-      "subject_en": "feedback à la normale",
-      "content_en": "Hello,\n\nLe service [SERVICE] est de nouveau opérationnel.\n\nNous vous invitons à reprendre votre activité normalement et à signaler toute issue persistante via un ticket.\n\nKind regards,"
+      "name_en": "Service restored",
+      "subject_en": "Service restored",
+      "content_en": "Hello,\n\n[SERVICE] is operational again.\n\nYou can resume normal activity. Please report any remaining issue through a ticket.\n\nKind regards"
     }
   ],
   "portals": [
