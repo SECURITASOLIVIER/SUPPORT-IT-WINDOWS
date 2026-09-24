@@ -3582,12 +3582,7 @@ function itpShortcutCard(x){
    '</div>'+
  '</article>';
 }
-function itpShortcutIntro(){
- return '<div class="itp-shortcut-intro">'+
-   itpOfficialFluent("keyboard","Raccourcis clavier","itp-icon-card")+
-   '<span>'+(state.lang==="en"?"Use these shortcuts in the indicated application.":"Utiliser ces raccourcis dans l’application indiquée.")+'</span>'+
- '</div>';
-}
+function itpShortcutIntro(){return ""}
 const oldRenderActionsV42=renderActions;
 renderActions=function(c){
  if(c!=="Raccourcis clavier")return oldRenderActionsV42(c);
@@ -3608,7 +3603,6 @@ renderActions=function(c){
    '<button class="btn itp-back-themes" onclick=\'itpSelectTheme('+JSON.stringify(c)+',"__themes__")\'>← '+(state.lang==="en"?"Themes":"Thèmes")+'</button>'+
    '<span class="itp-theme-current">'+itpThemeMark(selected,items[0])+'<strong>'+esc(itpTopicLabel(selected))+'</strong><small>'+items.length+'</small></span>'+
  '</div>'+
- itpShortcutIntro()+
  '<div class="grid itp-shortcut-grid">'+items.map(itpShortcutCard).join("")+'</div>';
 };
 /* === /IT Pocket shortcut compact cards v4.2 === */
