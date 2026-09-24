@@ -508,3 +508,195 @@ body.light .tpl-image{
   .ticket-ref-label{width:100%;justify-content:space-between}
   .ticket-ref-input{width:min(55vw,190px)}
 }
+
+
+/* === IT Pocket iconography v1 === */
+.navbtn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.itp-tech-title{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  min-width:0;
+}
+.itp-nav-title{width:100%}
+.itp-nav-title>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.itp-glyph{
+  font-family:"Segoe Fluent Icons","Segoe MDL2 Assets","Segoe UI Symbol",sans-serif;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  flex:0 0 24px;
+  font-size:19px;
+  line-height:1;
+  color:#8fc5ff;
+  font-style:normal;
+  font-weight:400;
+}
+.itp-icon-home{
+  width:38px;
+  height:38px;
+  flex-basis:38px;
+  font-size:29px;
+}
+.itp-icon-header{
+  width:34px;
+  height:34px;
+  flex-basis:34px;
+  font-size:25px;
+}
+.itp-icon-card{
+  width:26px;
+  height:26px;
+  flex-basis:26px;
+  font-size:20px;
+}
+.itp-brand-wrap{
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:7px;
+  padding:4px;
+  background:#f8fbff;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 2px 8px rgba(0,0,0,.16);
+  vertical-align:middle;
+}
+.itp-brand-logo{
+  display:block;
+  width:20px;
+  height:20px;
+  object-fit:contain;
+}
+.itp-brand-fallback{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  font-family:"Segoe Fluent Icons","Segoe MDL2 Assets","Segoe UI Symbol",sans-serif;
+  color:#245f96;
+  font-size:18px;
+}
+.itp-card-title{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  line-height:1.3;
+}
+.itp-card-title>span:last-child{
+  min-width:0;
+  overflow-wrap:anywhere;
+}
+.tech-section-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:38px;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
+}
+.tech-section-title .tech-count{
+  margin-left:auto;
+  min-width:25px;
+  height:22px;
+  padding:0 7px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  background:var(--panel2);
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+.itp-home-card{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+.itp-home-heading{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  width:100%;
+  min-height:42px;
+}
+.itp-home-heading h3{
+  margin:0;
+  line-height:1.2;
+}
+.itp-home-card .big-number{margin-top:13px}
+#title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+#title .itp-brand-wrap{
+  width:34px;
+  height:34px;
+  flex-basis:34px;
+}
+#title .itp-brand-logo{width:25px;height:25px}
+.tab{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.tab .itp-brand-wrap{
+  width:23px;
+  height:23px;
+  flex-basis:23px;
+  padding:3px;
+}
+.tab .itp-brand-logo{width:17px;height:17px}
+.tab .itp-glyph{width:21px;height:21px;flex-basis:21px;font-size:17px}
+.tab-close{margin-left:2px}
+.portal-tech-filters .itp-tech-filter{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+.portal-tech-filters .itp-brand-wrap{
+  width:23px;
+  height:23px;
+  flex-basis:23px;
+  padding:3px;
+}
+.portal-tech-filters .itp-brand-logo{width:17px;height:17px}
+.portal-tech-filters .itp-glyph{width:21px;height:21px;flex-basis:21px;font-size:17px}
+.itp-action-card,
+.itp-portal-card{
+  transition:border-color .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.itp-action-card:hover,
+.itp-portal-card:hover{
+  border-color:#37678f;
+  box-shadow:0 10px 28px rgba(0,0,0,.2);
+}
+body.light .itp-glyph{color:#246fb7}
+body.light .itp-brand-wrap{
+  background:#fff;
+  border-color:#d7e0ea;
+  box-shadow:0 2px 7px rgba(16,42,69,.08);
+}
+body.light .tech-section-title{background:#f7fbff}
+body.light .itp-action-card:hover,
+body.light .itp-portal-card:hover{border-color:#8eb5d8}
+@media(max-width:800px){
+  .itp-brand-wrap{width:27px;height:27px;flex-basis:27px}
+  .itp-card-title{gap:8px}
+  .tech-section-title{position:sticky;top:0;z-index:4}
+  #title{font-size:24px}
+}
+/* === /IT Pocket iconography v1 === */
