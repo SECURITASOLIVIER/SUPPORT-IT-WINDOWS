@@ -1826,7 +1826,6 @@ let ticketRef=String(localStorage.getItem("itpTicketRef")||"").trim();
 function setTicketRef(v){
  ticketRef=String(v||"").trim();
  localStorage.setItem("itpTicketRef",ticketRef);
- render();
 }
 function applyTemplateContext(text){
  let s=String(text||"");
