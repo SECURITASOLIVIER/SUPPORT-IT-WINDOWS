@@ -123,6 +123,10 @@ Object.assign(UI_EN,{
  "Supprimer ce template ?":"Delete this template?",
  "Nom obligatoire et URL http/https valide.":"A name and a valid http/https URL are required."
 });
+Object.assign(UI_EN,{
+ "N° ticket (optionnel)":"Ticket # (optional)",
+ "Appliquer le N° ticket aux modèles":"Apply ticket number to templates"
+});
 const TEMPLATE_CAT_EN={
  "Accès & MFA":"Access & MFA",
  "Applications":"Applications",
@@ -149,6 +153,10 @@ Object.assign(PORTAL_CAT_EN,{
  "IA & Numérique France":"AI & Digital France",
  "Veille IT & Cyber":"IT & Cyber Monitoring",
  "Documentation & Communauté":"Documentation & Community"
+,
+ "Actualité Microsoft":"Microsoft News",
+ "Actualité IT France":"French IT News",
+ "Sécurité Microsoft":"Microsoft Security"
 });
 const TECH_EN_EXACT={
  "Utilisateur":"User",
@@ -1800,6 +1808,7 @@ function applyUiLanguage(){
  const search=$("#search");if(search)search.placeholder=state.lang==="en"?"Search everywhere...":"Rechercher partout...";
  const theme=$("#theme");if(theme)theme.textContent="☀/☾ "+(state.lang==="en"?"Theme":"Thème");
  const lang=$("#lang");if(lang)lang.textContent=state.lang==="en"?"English • FR":"Français • EN";
+ const ticket=$("#ticketRefInput");if(ticket)ticket.placeholder=ui("N° ticket (optionnel)");
  const top=$("#scrollTopBtn");if(top&&top.setAttribute)top.setAttribute("aria-label",state.lang==="en"?"Back to top":"Remonter en haut");
  document.querySelectorAll("button,.btn,label.btn,.section-title,.template-subject span").forEach(el=>{
    const raw=(el.textContent||"").trim();
@@ -1822,10 +1831,21 @@ function newLink(ref=null){
 
 
 /* ===== IT POCKET BILINGUAL TEMPLATE SAFETY + TICKET CONTEXT ===== */
-let ticketRef="";
-try{localStorage.removeItem("itpTicketRef")}catch(_){}
-function setTicketRef(v){ ticketRef=""; }
-function applyTemplateContext(text){ return String(text||""); }
+let ticketRef=String(localStorage.getItem("itpTicketRef")||"").trim();
+function setTicketRef(v){
+ ticketRef=String(v||"").trim();
+ try{localStorage.setItem("itpTicketRef",ticketRef)}catch(_){}
+}
+function applyTemplateContext(text){
+ let s=String(text||"");
+ if(!ticketRef)return s;
+ const ref=ticketRef;
+ s=s.replace(/\[(?:N[°ºo]\s*)?(?:ticket|Ticket)\s*#?\]/g,ref);
+ s=s.replace(/\[(?:RÉFÉRENCE|REFERENCE|Référence|Reference)\]/g,ref);
+ s=s.replace(/\[(?:N[°ºo]|N° ticket|Ticket #)\]/g,ref);
+ s=s.replace(/\b(ticket|demande|incident|request)\s+XX\b/gi,(m,k)=>k+" "+ref);
+ return s;
+}
 function looksFrenchTemplateText(v){
  const s=String(v||"");
  return /[àâäçéèêëîïôöùûüÿœ]|\b(?:bonjour|merci|votre|vous|nous|pourriez|afin|concernant|retour|disponibilit|traitement|demande|incident|sujet|cordialement|clôture|problème|équipe|informatique|poursuivre|réinitial|connexion|compte|mot de passe|matériel|expédition|restitution|disponible|réseau|sécurité|collaborateur|application|poste|ordinateur|téléphone|rendez-vous|intervention|résolution|relance)\b/i.test(s);
@@ -2154,7 +2174,9 @@ function communications(){
  const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
  let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
  return '<div class="toolbar communication-topbar">'+
- '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+ '<input id="ticketRefInput" class="ticket-ref-input" value="'+esc(ticketRef)+'" placeholder="'+ui("N° ticket (optionnel)")+'" oninput="setTicketRef(this.value)" aria-label="'+ui("Appliquer le N° ticket aux modèles")+'">'+
+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
  '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
  cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
  (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
