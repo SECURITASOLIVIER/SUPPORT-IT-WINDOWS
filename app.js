@@ -1847,56 +1847,230 @@ function englishTemplateNameFromFrench(name){
  const rules=[
   [/Dernière relance avant clôture/gi,"Final follow-up before closure"],
   [/Clôture administrative/gi,"Administrative closure"],
+  [/Clôture sans retour/gi,"Closure without response"],
   [/Premier contact/gi,"First contact"],
   [/Prise en charge/gi,"Acknowledgement"],
   [/Demande d'informations diagnostic/gi,"Diagnostic information request"],
+  [/Demande d’informations incident/gi,"Incident information request"],
   [/Demande d'informations/gi,"Information request"],
+  [/Informations complémentaires/gi,"Additional information"],
+  [/Informations nécessaires/gi,"Required information"],
   [/Demande de disponibilité/gi,"Availability request"],
   [/Intervention à distance/gi,"Remote intervention"],
   [/En attente utilisateur/gi,"Waiting for user"],
   [/En attente équipe tierce/gi,"Waiting for third party"],
+  [/En attente de traitement externe/gi,"Waiting for external processing"],
+  [/Résolution temporaire \/ contournement/gi,"Temporary resolution / workaround"],
   [/Résolution proposée/gi,"Proposed resolution"],
   [/Résolution confirmée/gi,"Resolution confirmed"],
-  [/Clôture sans retour/gi,"Closure without response"],
+  [/Résolu \?/gi,"Resolved?"],
   [/Mauvaise catégorie/gi,"Wrong category"],
-  [/Hors périmètre/gi,"Out of scope"],
-  [/Relance/gi,"Follow-up"],
   [/Mauvais type de ticket/gi,"Wrong ticket type"],
+  [/Doublon/gi,"Duplicate"],
+  [/Hors périmètre/gi,"Out of scope"],
+  [/Réinitialisation collaborateur \+ procédure/gi,"Employee reset + procedure"],
+  [/Réinitialisation \+ méthodes d'authentification/gi,"Reset + authentication methods"],
+  [/Réinitialisation effectuée/gi,"Reset completed"],
+  [/Nouvelle méthode/gi,"New method"],
+  [/Mot de passe \+ MFA réinitialisés/gi,"Password + MFA reset"],
+  [/Mot de passe/gi,"Password"],
+  [/Compte professionnel à régulariser/gi,"Work account correction required"],
+  [/Compte environnement professionnel au lieu de compte professionnel/gi,"Work account correction required"],
+  [/Déploiement de/gi,"Deployment of"],
+  [/Déploiement/gi,"Deployment"],
+  [/Préparation terminée/gi,"Preparation completed"],
+  [/Préparation en cours/gi,"Preparation in progress"],
+  [/PC prêt avant expédition \/ appel/gi,"PC ready before shipping / call"],
+  [/PC prêt pour expédition/gi,"PC ready for shipping"],
+  [/PC prêt et disponible/gi,"PC ready and available"],
+  [/Colis prêt pour expédition/gi,"Parcel ready for shipping"],
+  [/Expédition et suivi/gi,"Shipping and tracking"],
+  [/Confirmation expédition/gi,"Shipping confirmation"],
+  [/Expédition effectuée/gi,"Shipped"],
+  [/Informations expédition/gi,"Shipping information"],
+  [/Bonne réception à confirmer/gi,"Receipt confirmation"],
+  [/Retrait au service informatique/gi,"Collection from IT Support"],
+  [/Retrait disponible/gi,"Available for collection"],
+  [/Mise à disposition complète/gi,"Full equipment availability"],
+  [/Mise à disposition/gi,"Availability"],
+  [/Accessoires disponibles/gi,"Accessories available"],
+  [/Casque disponible/gi,"Headset available"],
+  [/Chargeur disponible/gi,"Charger available"],
+  [/Écran - Mise à disposition/gi,"Monitor - Availability"],
+  [/Dock - Mise à disposition/gi,"Dock - Availability"],
+  [/Casque - Mise à disposition/gi,"Headset - Availability"],
+  [/Chargeur - Mise à disposition/gi,"Charger - Availability"],
+  [/Retour ancien matériel/gi,"Return old equipment"],
+  [/Retour ancien PC/gi,"Return old PC"],
+  [/Restitution à organiser/gi,"Return to arrange"],
+  [/Restitution matériel/gi,"Equipment return"],
+  [/Rendez-vous première connexion/gi,"First sign-in appointment"],
+  [/Proposition de créneau/gi,"Time slot proposal"],
+  [/Prise de rendez-vous/gi,"Support appointment"],
+  [/Confirmation de rendez-vous/gi,"Appointment confirmation"],
+  [/Téléphone professionnel prêt/gi,"Work phone ready"],
+  [/Rendez-vous préparation \/ remise/gi,"Preparation / handover appointment"],
+  [/Remise Android terminée/gi,"Android handover completed"],
+  [/iOS problème d'accès Microsoft/gi,"iOS Microsoft access issue"],
+  [/Intune iOS accompagnement/gi,"Intune iOS assistance"],
+  [/Intune Android accompagnement/gi,"Intune Android assistance"],
+  [/Installation application terminée/gi,"Application installation completed"],
+  [/Demande installation application/gi,"Application installation request"],
+  [/Demande désinstallation application/gi,"Application uninstall request"],
+  [/Désinstallation terminée/gi,"Uninstallation completed"],
+  [/Installation planifiée/gi,"Scheduled installation"],
+  [/Installation terminée/gi,"Installation completed"],
+  [/Installation non autorisée/gi,"Installation not authorized"],
+  [/Mise à jour requise/gi,"Update required"],
+  [/Réinstallation proposée/gi,"Reinstallation proposed"],
+  [/Licence manquante/gi,"Missing license"],
+  [/Test Web demandé/gi,"Web test requested"],
+  [/Nouveau profil proposé/gi,"New profile proposed"],
+  [/Synchronisation/gi,"Synchronization"],
+  [/Cache \/ redémarrage/gi,"Cache / restart"],
+  [/Réparation/gi,"Repair"],
+  [/Boîte partagée - Accès ajouté/gi,"Shared mailbox - Access added"],
+  [/Premier diagnostic/gi,"Initial diagnosis"],
+  [/Test autre réseau/gi,"Test another network"],
+  [/Incident local ou général/gi,"Local or general incident"],
+  [/Préparation compte et poste/gi,"Account and device preparation"],
+  [/Matériel prêt/gi,"Equipment ready"],
+  [/Checklist IT/gi,"IT checklist"],
+  [/Retour matériel/gi,"Equipment return"],
+  [/Utilisateur indisponible/gi,"User unavailable"],
+  [/Test attendu/gi,"Awaiting test"],
+  [/Équipe infrastructure/gi,"Infrastructure team"],
+  [/Équipe sécurité/gi,"Security team"],
+  [/N3 avec chronologie/gi,"N3 with timeline"],
+  [/Accusé utilisateur/gi,"User notification"],
+  [/Service rétabli/gi,"Service restored"],
+  [/Information préalable/gi,"Advance notice"],
+  [/Terminée/gi,"Completed"],
+  [/Redémarrage requis/gi,"Restart required"],
+  [/Fenêtre d'intervention/gi,"Maintenance window"],
+  [/Je regarde/gi,"I am checking"],
+  [/Besoin du poste/gi,"Device needed"],
+  [/Test demandé/gi,"Test requested"],
+  [/Redémarrage demandé/gi,"Restart requested"],
+  [/Merci clôture/gi,"Closure confirmation"],
+  [/Incident salle pris en charge/gi,"Meeting room incident acknowledged"],
+  [/Salle de nouveau opérationnelle/gi,"Meeting room operational again"],
+  [/Maintenance planifiée/gi,"Scheduled maintenance"],
+  [/Test avant réunion importante/gi,"Pre-meeting technical test"],
+  [/Configuration terminée/gi,"Configuration completed"],
+  [/Poste prêt/gi,"Device ready"],
+  [/Restitution et fermeture/gi,"Return and account closure"],
+  [/Incident pris en charge/gi,"Incident acknowledged"],
+  [/Relance utilisateur/gi,"User follow-up"],
+  [/Escalade technique/gi,"Technical escalation"],
+  [/Interruption de service/gi,"Service interruption"],
+  [/Retour à la normale/gi,"Service restored"],
+  [/Diagnostic synthétique/gi,"Diagnostic summary"],
+  [/Incident récurrent/gi,"Recurring incident"],
+  [/Intervention poste/gi,"Device intervention"],
+  [/Rapport/gi,"Report"],
+  [/Matériel/gi,"Hardware"],
+  [/Réseau/gi,"Network"],
+  [/Sécurité/gi,"Security"],
+  [/Accès/gi,"Access"],
+  [/Arrivée/gi,"Onboarding"],
+  [/Départ/gi,"Offboarding"],
+  [/Logiciel/gi,"Software"],
+  [/Salle/gi,"Meeting room"],
+  [/Téléphone/gi,"Phone"],
+  [/Maintenance/gi,"Maintenance"],
+  [/Changement/gi,"Change"],
+  [/Mise à jour/gi,"Update"],
+  [/Rendez-vous/gi,"Appointment"],
   [/Réinitialisation/gi,"Reset"],
   [/Procédure/gi,"Procedure"],
-  [/Déploiement/gi,"Deployment"],
   [/Préparation/gi,"Preparation"],
   [/Expédition/gi,"Shipping"],
   [/Restitution/gi,"Return"],
-  [/Mise à disposition/gi,"Availability"],
-  [/Installation terminée/gi,"Installation completed"],
   [/Installation/gi,"Installation"],
   [/Désinstallation/gi,"Uninstallation"],
-  [/Rendez-vous/gi,"Appointment"],
-  [/Matériel/gi,"Hardware"],
-  [/Sécurité/gi,"Security"],
-  [/Accès/gi,"Access"],
-  [/Réseau/gi,"Network"],
-  [/Incident majeur/gi,"Major incident"],
-  [/Mise à jour/gi,"Update"],
-  [/Maintenance/gi,"Maintenance"],
-  [/Changement/gi,"Change"],
-  [/Arrivée/gi,"Onboarding"],
-  [/Départ/gi,"Offboarding"],
-  [/Rapport/gi,"Report"],
-  [/Demande/gi,"Request"]
+  [/Relance/gi,"Follow-up"],
+  [/Clôture/gi,"Closure"],
+  [/Demande/gi,"Request"],
+  [/problème/gi,"issue"],
+  [/nécessaire/gi,"required"],
+  [/disponible/gi,"available"],
+  [/effectuée/gi,"completed"],
+  [/ajouté/gi,"added"],
+  [/général/gi,"general"],
+  [/planifiée/gi,"scheduled"],
+  [/organiser/gi,"arrange"],
+  [/suivi/gi,"tracking"],
+  [/compatibilité/gi,"compatibility"],
+  [/adresse agence/gi,"office address"],
+  [/remplacement/gi,"replacement"],
+  [/validé/gi,"approved"],
+  [/compte/gi,"account"],
+  [/professionnel/gi,"work"],
+  [/réception/gi,"receipt"],
+  [/casque/gi,"headset"],
+  [/chargeur/gi,"charger"],
+  [/écran/gi,"monitor"]
  ];
  for(const [re,to] of rules)s=s.replace(re,to);
- return s;
+ return s.replace(/\s{2,}/g," ").trim();
 }
 function fallbackEnglishTemplate(t){
  const n=String(t&&t.name||"").toLowerCase();
  const subject=englishTemplateNameFromFrench(t&&t.subject||t&&t.name||"IT Support");
  const hello="Hello [First name],\n\n", close="\n\nKind regards,\nIT Support";
 
+ if(/mauvais type de ticket|wrong ticket type/.test(n))return {subject,content:hello+"This request was submitted under the wrong ticket type.\n\nPlease create an INCIDENT ticket through the support portal so it can be routed to the appropriate team.\n\n[Support portal]"+close};
+ if(/en attente utilisateur|waiting for user/.test(n))return {subject,content:hello+"Your ticket is currently waiting for your reply.\n\nPlease send the requested information or your availability so that we can continue processing the ticket."+close};
+ if(/en attente équipe tierce|en attente de traitement externe|waiting for third party|waiting for external/.test(n))return {subject,content:hello+"Your ticket requires action from another team or provider.\n\nThe available diagnostic information has been forwarded and we will keep you informed of progress."+close};
+ if(/mauvaise catégorie|wrong category/.test(n))return {subject,content:hello+"The request was submitted in a category that does not match the identified need.\n\nThe ticket will be redirected to the appropriate category or team."+close};
+ if(/doublon|duplicate/.test(n))return {subject,content:hello+"This ticket duplicates an existing request.\n\nTo avoid parallel processing, follow-up will continue on ticket [Ticket #]."+close};
+ if(/hors périmètre|out of scope/.test(n))return {subject,content:hello+"After review, this request is outside the scope of this IT Support team.\n\nPlease contact [Team / provider / service] for further assistance."+close};
+
  if(/phishing/.test(n))return {subject,content:hello+"Thank you for reporting this suspicious message.\n\n• Do not click any link or open any additional attachment.\n• In Outlook, use Report Message > Phishing when available.\n• If you entered a password or approved an MFA request, contact IT Support immediately."+close};
+ if(/suspicion de compromission|security.*compromise|compromission/.test(n))return {subject,content:hello+"A security verification is required for your account.\n\nAs a precaution, active sessions or authentication methods may be reset. Please remain available to verify your identity and sign in again."+close};
+ if(/blocage fichier|file.*url|url.*block/.test(n))return {subject,content:hello+"Access to [File / URL / application] is being blocked by a security control.\n\nPlease provide:\n• the exact file name or URL;\n• a screenshot of the block message;\n• the related business need.\n\nThe request can then be reviewed."+close};
+ if(/alerte antivirus|antivirus alert/.test(n))return {subject,content:hello+"A security alert has been detected on [Device].\n\nPlease limit use of the device and do not power it off unless instructed by IT Support while checks are in progress."+close};
+ if(/exception sécurité|security exception/.test(n))return {subject,content:hello+"To review a security exception, please provide:\n• the application or URL;\n• the business justification;\n• the affected users;\n• the required duration;\n• the impact if the exception is not approved.\n\nThe request can then be submitted for validation."+close};
+
  if(/mfa|authenticator/.test(n))return {subject,content:hello+"Your multi-factor authentication (MFA) settings have been reset or require reconfiguration.\n\n1. Open https://aka.ms/mfasetup\n2. Add an authentication method.\n3. Select Microsoft Authenticator if required.\n4. Scan the QR code with the mobile application.\n5. Complete the validation test.\n\n⚠️ If the registration fails, contact IT Support."+close};
  if(/mot de passe|password/.test(n))return {subject,content:hello+"Your password has been reset.\n\nUse the temporary password provided through the approved secure channel, then set a new password that complies with your organization's security policy.\n\nIf you experience any issue, contact IT Support."+close};
+
+ if(/accès - demande de justification|access.*justification/.test(n))return {subject,content:hello+"To process your access request for [Resource], please provide:\n• the business need;\n• the required access level;\n• the duration if access is temporary;\n• the relevant manager or approver."+close};
+ if(/accord requis|approval required/.test(n))return {subject,content:hello+"Access to [Resource] requires prior approval from [Manager / owner].\n\nProcessing will continue once the approval is received."+close};
+ if(/accès - ajout effectué|access.*added/.test(n))return {subject,content:hello+"Access to [Resource] has been added.\n\nA short propagation delay may be required. Please sign out and sign back in before testing."+close};
+ if(/boîte partagée|shared mailbox/.test(n))return {subject,content:hello+"Access to the shared mailbox [Mailbox name] has been added or corrected.\n\nPlease restart Outlook and allow time for the change to propagate before testing."+close};
+
+ if(/mobile - téléphone professionnel prêt|work phone ready/.test(n))return {subject,content:hello+"Your work phone is ready.\n\nPlease send us your availability so that we can arrange the handover and initial configuration."+close};
+ if(/mobile - rendez-vous préparation|handover appointment/.test(n))return {subject,content:hello+"Your new mobile device is available.\n\nPlease send us your availability so that we can schedule the handover and configuration. Allow approximately 30 minutes."+close};
+ if(/remise android terminée|android handover completed/.test(n))return {subject,content:hello+"Your Android work phone has been handed over with the planned accessories.\n\nPlease verify Company Portal, the work profile and access to your work applications."+close};
+ if(/ios.*accès microsoft|ios microsoft access/.test(n))return {subject,content:hello+"We will check your Microsoft access on iOS.\n\nPlease make sure the affected Microsoft applications are up to date. IT Support may need to remove the previous registration and reconnect the work account."+close};
+ if(/intune ios|intune android/.test(n))return {subject,content:hello+"IT Support can assist with enrolling your mobile device in Intune.\n\nPlease have your phone, work password and MFA method available. We will verify Company Portal, device management and access to work applications."+close};
+
+ if(/mail - confirmation de prise en compte|confirmation of receipt/.test(n))return {subject,content:hello+"Your request regarding [Subject] has been received.\n\nWe will contact you again as soon as the analysis progresses."+close};
+ if(/mail - proposition de créneau|time slot proposal/.test(n))return {subject,content:hello+"We propose an intervention on [Date] at [Time] regarding [Subject].\n\nPlease confirm whether this time slot works for you."+close};
+ if(/mail - intervention terminée|intervention completed/.test(n))return {subject,content:hello+"The intervention regarding [Subject] is complete.\n\nActions performed:\n• [Action 1]\n• [Action 2]\n• [Action 3]\n\nPlease confirm that everything is working correctly."+close};
+ if(/mail - information utilisateur|user information/.test(n))return {subject,content:hello+"For your information: [Message / change / instruction].\n\nNo action is required unless you notice an issue."+close};
+ if(/mail - demande de test utilisateur|user test request/.test(n))return {subject,content:hello+"An action has been performed on [Application / device / account].\n\nPlease perform the following test: [Requested test] and send us the result."+close};
+
+ if(/proxy|accès web|web access/.test(n))return {subject,content:hello+"For the web access issue, please send the exact website address and a screenshot of the message displayed.\n\nPlease also confirm whether other websites are working normally."+close};
+
+ if(/maintenance - information préalable|advance notice/.test(n))return {subject,content:"Hello,\n\nMaintenance is scheduled for [Service / application / equipment].\n\nPeriod: [Date / window]\nPossible impact: [Impact]\nUser action: [Action if required]\n\nA confirmation will be sent once the work is complete.\n\nKind regards,\nIT Support"};
+ if(/maintenance - terminée|maintenance.*completed/.test(n))return {subject,content:"Hello,\n\nMaintenance on [Service] has been completed.\n\nValidation checks are successful and the service is available. Please report any remaining issue.\n\nKind regards,\nIT Support"};
+ if(/changement - redémarrage requis|restart required/.test(n))return {subject,content:hello+"A change has been applied to your device or account and a restart is required to complete it.\n\nPlease save your work and restart the computer."+close};
+ if(/changement - fenêtre d'intervention|maintenance window/.test(n))return {subject,content:hello+"An intervention is required on [Device / service].\n\nEstimated duration: [Duration]\nImpact: [Impact]\nPreparation: [Close applications / save work / other]\n\nPlease confirm the selected time slot."+close};
+
+ if(/mtr - incident salle|meeting room incident/.test(n))return {subject,content:hello+"The incident reported in meeting room [Room / floor] has been acknowledged.\n\nAffected equipment: [MTR / display / camera / microphone / speakers / console]\nSymptom: [Description]\n\nChecks are in progress and we will keep you informed."+close};
+ if(/mtr - salle de nouveau opérationnelle|meeting room operational/.test(n))return {subject,content:"Hello,\n\nMeeting room [Room / floor] is operational again.\n\nChecks completed:\n• display and sharing;\n• camera;\n• microphones and audio;\n• Teams Rooms console;\n• test call.\n\nPlease report any new issue.\n\nKind regards,\nIT Support"};
+ if(/mtr - maintenance planifiée|meeting room.*maintenance/.test(n))return {subject,content:"Hello,\n\nMaintenance is scheduled in meeting room [Room] on [Date] at [Time].\n\nThe room may be unavailable for approximately [Duration].\n\nPurpose: [update / equipment replacement / diagnosis / configuration].\n\nKind regards,\nIT Support"};
+ if(/test avant réunion importante|pre-meeting technical test/.test(n))return {subject,content:hello+"A technical check has been completed for meeting room [Room] before your meeting.\n\nTests:\n• display / sharing;\n• camera;\n• microphones and audio;\n• Teams Rooms console;\n• test call.\n\nStatus: [OK / item to correct]."+close};
+ if(/salle - demande d’informations incident|meeting room.*information request/.test(n))return {subject,content:hello+"To troubleshoot meeting room [Room], please provide:\n• the affected equipment;\n• the exact error message;\n• the approximate incident time;\n• whether all meetings are affected;\n• a photo of the display or console when possible."+close};
+
+ if(/mise à jour - intervention planifiée|update.*scheduled/.test(n))return {subject,content:hello+"An update is scheduled on your computer on [Date / time].\n\nPlease save your work before the intervention. A restart may be required."+close};
+ if(/utilisateur injoignable|user unavailable/.test(n))return {subject,content:hello+"We tried to contact you regarding your ticket but could not reach you.\n\nPlease send us a time slot when you are available so that processing can continue."+close};
+ if(/alerte sécurité utilisateur|user security alert/.test(n))return {subject,content:"Hello,\n\nA security action is required for your device or account.\n\nDo not share your password and follow only the instructions provided by IT Support.\n\nRequested action: [Action]\n\nKind regards,\nIT Support"};
+ if(/retour à la normale|service restored/.test(n))return {subject,content:"Hello,\n\n[Service] is operational again.\n\nYou can resume normal activity. Please report any persistent issue through the support portal.\n\nKind regards,\nIT Support"};
+
  if(/demande d'informations|information request|diagnostic/.test(n))return {subject,content:hello+"To continue the diagnosis, please provide the following information:\n\n• the exact error message;\n• a screenshot when possible;\n• the affected device name;\n• the steps required to reproduce the issue;\n• your availability if a remote session is required."+close};
  if(/dernière relance|final follow-up/.test(n))return {subject,content:hello+"We are following up again regarding your request.\n\nWithout a response, the ticket may be administratively closed. If assistance is still required, please reply with your availability or the requested information."+close};
  if(/relance|follow-up/.test(n))return {subject,content:hello+"We are following up regarding your request.\n\nPlease send us your feedback or your next available time slot so that we can continue the investigation."+close};
@@ -1904,9 +2078,9 @@ function fallbackEnglishTemplate(t){
  if(/prise en charge|acknowledgement|premier contact|first contact/.test(n))return {subject,content:hello+"Your request has been received and is now being handled by IT Support.\n\nWe will contact you if additional information is required and will keep you informed of progress."+close};
  if(/disponibil|availability|rendez-vous|appointment/.test(n))return {subject,content:hello+"To continue with this request, please send us a time slot when you are available in front of the affected device.\n\nWe will confirm the intervention time once the slot is agreed."+close};
  if(/intervention à distance|remote intervention/.test(n))return {subject,content:hello+"We can continue the diagnosis remotely on the affected device.\n\nPlease save your current work and confirm when you are available for the remote intervention."+close};
- if(/expédition|shipping/.test(n))return {subject,content:hello+"Your equipment is ready for shipping / has been shipped.\n\nEquipment: [Equipment]\nCarrier: [Carrier]\nTracking number: [Tracking number]\n\nPlease confirm the delivery address when required and acknowledge receipt of the parcel."+close};
+ if(/expédition|shipping/.test(n))return {subject,content:hello+"Your equipment is ready for shipping or has been shipped.\n\nEquipment: [Equipment]\nCarrier: [Carrier]\nTracking number: [Tracking number]\n\nPlease confirm the delivery address when required and acknowledge receipt of the parcel."+close};
  if(/restitution|return/.test(n))return {subject,content:hello+"Please arrange the return of the following company equipment:\n\n• [PC]\n• [Charger]\n• [Dock / accessories]\n• [Phone if applicable]\n\nPlease confirm the planned return method and date."+close};
- if(/matériel|hardware|pc |casque|chargeur|dock|écran/.test(n))return {subject,content:hello+"Your requested equipment is being prepared or is now available.\n\nPlease confirm the required delivery / collection method and any relevant accessories."+close};
+ if(/matériel|hardware|pc |casque|chargeur|dock|écran/.test(n))return {subject,content:hello+"Your requested equipment is being prepared or is now available.\n\nPlease confirm the required delivery or collection method and any relevant accessories."+close};
  if(/installation|déploiement|deployment|logiciel|application/.test(n))return {subject,content:hello+"The requested application action has been processed.\n\nApplication: [Application]\nDevice: [Device]\n\nPlease launch the application and confirm that it works correctly. A restart may be required."+close};
  if(/vpn|wi-fi|wifi|réseau|network/.test(n))return {subject,content:hello+"To continue the network diagnosis, please provide:\n\n• the network or VPN being used;\n• the exact error message;\n• whether Internet access works outside the VPN;\n• whether other nearby users are affected."+close};
  if(/outlook|teams|onedrive|office|microsoft 365/.test(n))return {subject,content:hello+"We are investigating the Microsoft 365 issue.\n\nPlease describe the exact symptom and confirm whether the issue also occurs in the web version when applicable. Save your work before any repair or restart action."+close};
@@ -1914,7 +2088,8 @@ function fallbackEnglishTemplate(t){
  if(/offboarding|départ/.test(n))return {subject,content:"OFFBOARDING\n\nEmployee: [Name]\nDeparture date: [Date]\n\nTo process:\n• disable account;\n• revoke sessions;\n• handle MFA and licenses;\n• manage mailbox / OneDrive delegation;\n• recover PC, charger, dock, headset and phone."};
  if(/rapport|report|escalade|escalation/.test(n))return {subject,content:"IT SUPPORT REPORT\n\nTicket: [Ticket #]\nUser: [User]\nDevice: [Device]\nImpact: [Impact]\n\nIssue / observation:\n[Details]\n\nTests performed:\n• [Test 1]\n• [Test 2]\n\nActions performed:\n• [Action 1]\n• [Action 2]\n\nResult / next step:\n[Result]"};
  if(/incident majeur|major incident|interruption de service/.test(n))return {subject,content:"Hello,\n\nA general incident is currently affecting [Service]. The technical teams are investigating.\n\nImpact: [Impact]\nStart time: [Time]\nCurrent status: [Status]\nNext update: [Time / when new information is available]\n\nThank you for your understanding."};
- return {subject,content:hello+"This message concerns: "+englishTemplateNameFromFrench(t&&t.name||"IT support request")+".\n\nPlease review the information above and reply with any details required to continue processing the request."+close};
+
+ return {subject,content:hello+"This message concerns: "+englishTemplateNameFromFrench(t&&t.name||"IT support request")+".\n\nPlease reply with any information required to continue processing the request."+close};
 }
 function safeEnglishTemplate(t){
  const candidate={subject:String(t&&t.subject_en||""),content:String(t&&t.content_en||""),name:String(t&&t.name_en||"")};
@@ -1933,6 +2108,11 @@ function preparedTemplate(t){
  const v=localizeTemplate(t);
  let subject=formalizeTemplateText(applyTemplateContext(v&&v.subject||""));
  let body=formalizeTemplateText(applyTemplateContext(v&&v.content||""));
+ const sourceName=String(t&&t.name||"");
+ const sourceCategory=String(t&&t.category||"");
+ if(ticketRef && /ticket|incident/i.test(sourceName+" "+sourceCategory) && !subject.includes(ticketRef)){
+   subject="["+ticketRef+"] "+subject;
+ }
  const shareBody=decorateTemplatePlainText(body);
  const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
  return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
