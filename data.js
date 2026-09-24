@@ -7460,7 +7460,7 @@ window.SSIT_DATA = {
       "name": "Teams - Message automatique support",
       "category": "Tickets",
       "subject": "Teams - Message automatique support",
-      "content": "Bonjour,\n\nMerci pour votre message.\n\nCeci est un message automatique. Je suis actuellement occupé et ne pourrai malheureusement pas traiter votre demande via Teams.\n\nPour toute demande de support ou tout incident, merci d’ouvrir un ticket via le portail support :\n\n[Portail support]\n\nEn cas d’urgence uniquement, la hotline est joignable au [Hotline support], pendant les horaires du service informatique.\n\nMerci de votre compréhension.",
+      "content": "Bonjour,\n\nMerci pour votre message.\n\nCeci est un message automatique. Je suis actuellement indisponible et ne pourrai pas traiter votre demande directement via Teams.\n\nPour toute demande de support ou tout incident, merci d'ouvrir un ticket via :\n[Portail support]\n\nEn cas d'urgence uniquement, la hotline est joignable au [Hotline support] pendant les horaires d'ouverture du service informatique.\n\nMerci de votre compréhension.",
       "name_en": "Teams - Automatic support message",
       "subject_en": "Teams - Automatic support message",
       "content_en": "Hello,\n\nThank you for your message.\n\nThis is an automatic message. I am currently busy and unfortunately cannot process your request through Teams.\n\nFor any support request or incident, please open a ticket through the support portal:\n\n[Support portal]\n\nFor urgent matters only, the hotline can be reached at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding."
@@ -7496,7 +7496,7 @@ window.SSIT_DATA = {
       "name": "Ticket - DEMANDE - Clôture administrative",
       "category": "Tickets",
       "subject": "Ticket - DEMANDE - Clôture administrative",
-      "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à sa clôture administrative.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail support:\n\n[Portail support]\n\nPour toute urgence uniquement, notre hotline est joignable au [Hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
+      "content": "DEMANDE - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre demande, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à sa clôture administrative.\n\nSi votre besoin est toujours d'actualité, nous vous invitons à créer une nouvelle demande via le portail support:\n\n[Portail support]\n\nPour toute urgence uniquement, notre hotline est joignable au [hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
       "name_en": "Ticket - REQUEST - Administrative closure",
       "subject_en": "Ticket - REQUEST - Administrative closure",
       "content_en": "Hello,\n\nDespite several attempts to contact you regarding your request XX, we have not received any response.\n\nWe are therefore proceeding with the administrative closure of your request.\n\nIf your request is still relevant, please create a new request through the support portal:\n\n[Support portal]\n\nFor urgent matters only, our hotline can be reached at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding.\n\nKind regards"
@@ -7541,7 +7541,7 @@ window.SSIT_DATA = {
       "name": "Ticket - INCIDENT - Clôture administrative",
       "category": "Tickets",
       "subject": "Ticket - INCIDENT - Clôture administrative",
-      "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de la demande.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail support:\n\n[Portail support]\n\nPour toute urgence uniquement, notre hotline est joignable au [Hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
+      "content": "INCIDENT - Clôture administrative\n\nBonjour,\n\nMalgré nos différentes tentatives de contact concernant votre incident, nous n'avons reçu aucun retour de votre part.\n\nNous procédons donc à la clôture administrative de la demande.\n\nSi le problème persiste, nous vous invitons à créer une nouvelle demande via le portail support:\n\n[Portail support]\n\nPour toute urgence uniquement, notre hotline est joignable au [hotline support] pendant les horaires du service informatique.\n\nMerci de votre compréhension.\n\nCordialement,",
       "name_en": "Ticket - INCIDENT - Administrative closure",
       "subject_en": "Ticket - INCIDENT - Administrative closure",
       "content_en": "Hello,\n\nDespite several attempts to contact you regarding your incident XX, we have not received any response.\n\nWe are therefore proceeding with the administrative closure of your ticket.\n\nIf the issue is still present, please create a new request through the support portal:\n\n[Support portal]\n\nFor urgent matters only, our hotline can be reached at [Support hotline] during IT Support opening hours.\n\nThank you for your understanding.\n\nKind regards"
@@ -7550,7 +7550,7 @@ window.SSIT_DATA = {
       "name": "Ticket - Mauvais type de ticket REQ / Incident",
       "category": "Tickets",
       "subject": "Ticket - Mauvais type de ticket REQ / Incident",
-      "content": "Bonjour,\n\nVotre demande correspond à un incident et non à une demande de service.\n\nMerci de créer un ticket de type INCIDENT depuis le portail support afin qu’il soit orienté vers l’équipe adaptée :\n\n[Portail support]\n\nMerci de votre compréhension.\n\nCordialement",
+      "content": "Bonjour,\n\nVotre ticket correspond à un incident et non à une demande de service.\n\nAfin qu'il soit pris en charge par l'équipe de support appropriée, nous vous invitons à créer un ticket de type INCIDENT depuis [Portail support], dans la rubrique correspondante.\n\nMerci de votre compréhension.\n\nCordialement,",
       "name_en": "Ticket - Wrong request type: Request / Incident",
       "subject_en": "Ticket - Wrong request type: Request / Incident",
       "content_en": "Hello,\n\nYour request corresponds to an incident rather than a service request.\n\nPlease create an INCIDENT ticket through the support portal so that it can be routed to the appropriate team:\n\n[Support portal]\n\nThank you for your understanding.\n\nKind regards"
@@ -7559,7 +7559,7 @@ window.SSIT_DATA = {
       "name": "MFA - Réinitialisation collaborateur + procédure",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation collaborateur + procédure",
-      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,",
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\nLors de sa prochaine connexion, il pourra reconfigurer sa double authentification en renseignant une adresse e‑mail et un numéro de téléphone.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte.\n\nN'hésitez pas à nous contacter si vous avez besoin d'informations complémentaires.\n\n>>Reconfigurer votre application Microsoft Authenticator afin de sécuriser vos accès via l'authentification multifacteur (MFA).\n\n📱 Étapes à suivre :\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA depuis\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché sur votre écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important :\n\nCette configuration est essentielle pour garantir la sécurité de vos accès.\n\nEn cas de difficulté, n'hésitez pas à contacter le support informatique.\n\nMerci pour votre collaboration,",
       "name_en": "MFA - User reset + procedure",
       "subject_en": "MFA - User reset + procedure",
       "content_en": "Hello,\n\nMulti-factor authentication (MFA) has been reset for the user.\n\nAt the next sign-in, the user will be able to configure MFA again by registering the methods allowed by the organization.\n\nIf Microsoft Authenticator is required, please follow the procedure below.\n\nMicrosoft Authenticator setup:\n\n1. Install the Microsoft Authenticator app.\n• Available from the App Store (iOS) or Google Play (Android).\n\n2. Open the MFA setup page:\nhttps://aka.ms/mfasetup\n\n3. Add an authentication method.\n• Select Add sign-in method.\n• Choose Authenticator app.\n• Select Microsoft Authenticator.\n\n4. Link the work account to the mobile app.\n• Open Microsoft Authenticator on the phone.\n• Add a work or school account.\n• Scan the QR code displayed on the screen.\n\n5. Complete the setup.\n• Approve the test notification sent to the phone.\n• Follow the on-screen instructions to finish registration.\n\nImportant:\nThis configuration helps protect access to the account.\n\nIf you encounter any issue, please contact IT Support.\n\nThank you for your cooperation."
@@ -7595,16 +7595,16 @@ window.SSIT_DATA = {
       "name": "Sécurité - PHISHING",
       "category": "Sécurité",
       "subject": "Sécurité - PHISHING",
-      "content": "PHISHING\n\nObjet : 🚨 Rappel – Comment signaler un e-mail suspect dans Outlook\n\nBonjour,\n\nSi vous recevez un e-mail suspect (phishing / hameçonnage) :\n\n1. Ne cliquez sur aucun lien et n’ouvrez aucune pièce jointe.\n2. Dans Outlook, utilisez « Signaler un message » puis « Phishing ».\n3. Si l’option n’est pas disponible, transférez le message en pièce jointe à [Adresse sécurité].\n\n⚠️ Si vous avez saisi un mot de passe ou validé une demande MFA, contactez immédiatement le support informatique.\n\nMerci pour votre vigilance.\n\nCordialement",
+      "content": "PHISHING\n\nObjet : Rappel – Comment signaler un e-mail suspect dans Outlook\n\nBonjour,\n\nSi vous recevez un e-mail suspect (phishing / hameçonnage) :\n\n• Ne cliquez sur aucun lien et n'ouvrez aucune pièce jointe.\n• Dans Outlook, utilisez « Signaler un message » puis « Phishing ».\n• Si cette option n'est pas disponible, transférez le message en pièce jointe à [Adresse sécurité].\n\n⚠️ Chaque signalement contribue à protéger l'ensemble des utilisateurs.\n\nMerci pour votre vigilance.\n\nCordialement,\n[Votre prénom]",
       "name_en": "Security - PHISHING",
       "subject_en": "Security - PHISHING",
       "content_en": "PHISHING\n\nSubject: Reminder - How to report a suspicious email in Outlook\n\nHello,\n\nIf you receive a suspicious email (phishing):\n\n1. Do not click any link or open any attachment.\n2. In Outlook, use Report Message and select Phishing.\n3. If the option is not available, forward the message as an attachment to [Security address].\n\nImportant:\nIf you entered a password or approved an MFA request, contact IT Support immediately.\n\nThank you for your vigilance.\n\nKind regards"
     },
     {
-      "name": "Applications - Déploiement de [Application]",
+      "name": "Applications - Déploiement [Application] dans le catalogue applicatif",
       "category": "Applications",
-      "subject": "Applications - Déploiement de [Application]",
-      "content": "Bonjour,\n\nL’application [Application] a bien été déployée dans le catalogue applicatif.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d’être connecté au réseau professionnel ou d’utiliser le VPN lorsque vous êtes en télétravail.\n\nSi l’application n’apparaît pas immédiatement, redémarrez votre poste puis effectuez un nouveau test.\n\nMerci de nous confirmer que l’installation s’est correctement déroulée afin que nous puissions clôturer la demande.\n\nBien cordialement",
+      "subject": "Applications - Déploiement [Application] dans le catalogue applicatif",
+      "content": "Bonjour,\n\nL'application [Application] a bien été déployée dans le catalogue applicatif et est disponible sur votre ordinateur.\n\nAfin de garantir son bon fonctionnement et la réception des mises à jour, il est recommandé d'être connecté au réseau professionnel ou d'utiliser le VPN si vous êtes en télétravail.\n\n• Si l'application n'apparaît pas immédiatement, redémarrez votre poste afin de finaliser l'installation.\n\nMerci de nous confirmer que l'installation s'est bien déroulée afin que nous puissions clôturer votre demande.\n\nBien cordialement,",
       "name_en": "Applications - Deploy [Application]",
       "subject_en": "Applications - Deploy [Application]",
       "content_en": "Hello,\n\n[Application] has been successfully deployed to the application catalog.\n\nTo ensure proper operation and receive updates, please connect to the corporate network or use the VPN when working remotely.\n\nIf the application does not appear immediately, restart your computer and test again.\n\nPlease confirm that the installation completed successfully so that we can close the request.\n\nKind regards"
@@ -7622,15 +7622,15 @@ window.SSIT_DATA = {
       "name": "MFA - Réinitialisation + méthodes d'authentification",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation + méthodes d'authentification",
-      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas si vous avez besoin d'informations complémentaires.\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le QR code affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique.",
+      "content": "Bonjour,\n\nLa réinitialisation de l'authentification multifacteur (MFA) a été effectuée pour le collaborateur.\n\n👉 Lors de sa prochaine connexion, il pourra reconfigurer sa double authentification en choisissant parmi trois méthodes :\n\n• une application d'authentification (Microsoft Authenticator),\n\n• une adresse e‑mail,\n\n• ou un numéro de téléphone (SMS ou appel).\n\nIl est recommandé d'ajouter plusieurs méthodes afin de sécuriser davantage l'accès et éviter tout blocage en cas de perte du téléphone ou d'indisponibilité d'un moyen d'authentification.\n\nS'il souhaite utiliser Microsoft Authenticator, il pourra suivre la procédure détaillée ci‑dessous pour finaliser l'association de son compte avec un appareil.\n\nN'hésitez pas à nous contacter si vous avez besoin d'informations complémentaires.\n\n📱 Reconfigurer votre application Microsoft Authenticator (MFA)\n\n1. Téléchargez l'application Microsoft Authenticator\n\n• Disponible sur l'App Store (iOS) ou Google Play (Android)\n\n2. Accédez à la page de configuration MFA\n\n👉 https://aka.ms/mfasetup\n\n3. Ajoutez une méthode d'authentification\n\n• Cliquez sur + Ajouter une méthode\n\n• Sélectionnez Application d'authentification\n\n• Choisissez Microsoft Authenticator\n\n4. Associez votre compte à l'application mobile\n\n• Ouvrez l'application sur votre téléphone\n\n• Ajoutez un compte professionnel ou scolaire\n\n• Scannez le code QR affiché à l'écran\n\n5. Validez la configuration\n\n• Une notification sera envoyée sur votre téléphone\n\n• Suivez les instructions pour confirmer l'association\n\n⚠️ Important : Cette configuration est essentielle pour garantir la sécurité de vos accès. En cas de difficulté, n'hésitez pas à contacter le support informatique.",
       "name_en": "MFA - Reset + authentication methods",
       "subject_en": "MFA - Reset + authentication methods",
       "content_en": "Hello,\n\nMulti-factor authentication (MFA) has been reset for the user.\n\nAt the next sign-in, the user will be able to configure MFA again using the methods allowed by the organization, such as Microsoft Authenticator, email or phone.\n\nWhere possible, registering more than one recovery method is recommended to reduce the risk of being locked out.\n\nMicrosoft Authenticator setup:\n\n1. Install Microsoft Authenticator.\n• Available from the App Store (iOS) or Google Play (Android).\n\n2. Open the MFA setup page:\nhttps://aka.ms/mfasetup\n\n3. Add an authentication method.\n• Select Add sign-in method.\n• Choose Authenticator app.\n• Select Microsoft Authenticator.\n\n4. Link the account to the mobile app.\n• Open Microsoft Authenticator.\n• Add a work or school account.\n• Scan the QR code displayed on screen.\n\n5. Complete the setup.\n• Approve the notification sent to the phone.\n• Follow the instructions to confirm registration.\n\nImportant:\nIf you encounter any issue, please contact IT Support."
     },
     {
-      "name": "Matériel - Retrait au service informatique",
+      "name": "Matériel - Retrait auprès du service informatique",
       "category": "Matériel",
-      "subject": "Matériel - Retrait au service informatique",
+      "subject": "Matériel - Retrait auprès du service informatique",
       "content": "Bonjour,\n\nVotre matériel est disponible auprès du service informatique.\n\nVous pouvez venir le récupérer pendant les horaires d’ouverture du service.\n\nPour toute question ou besoin d’assistance, nous restons à votre disposition.\n\nBien cordialement",
       "name_en": "Hardware - Collection from IT Support",
       "subject_en": "Hardware - Collection from IT Support",
@@ -7640,7 +7640,7 @@ window.SSIT_DATA = {
       "name": "Matériel - Compte professionnel à régulariser",
       "category": "Matériel",
       "subject": "Matériel - Compte professionnel à régulariser",
-      "content": "Bonjour,\n\nJe vous contacte au sujet de la demande de PC pour [Nom du collaborateur].\n\n⚠️ Le compte du collaborateur doit être régularisé avant la mise à disposition du poste.\n\nMerci de contacter les RH afin que les informations nécessaires soient corrigées dans [Application / portail]. Cette étape permettra ensuite la création des accès Microsoft et l’attribution des licences nécessaires.\n\nSans cette régularisation, le poste ne pourra pas être utilisé.\n\nBien cordialement",
+      "content": "Bonjour,\n\nJe vous contacte au sujet de votre demande de PC pour [Nom du collaborateur].\n\n⚠️ Le collaborateur dispose actuellement d'un type de compte qui ne permet pas l'attribution du compte professionnel attendu.\n\nMerci de contacter les RH afin qu'elles effectuent la modification dans [Application / portail]. Une fois la mise à jour réalisée, le collaborateur pourra bénéficier de son compte Microsoft et des licences associées.\n\nSans cette modification, le PC ne pourra pas être utilisé dans les conditions prévues.\n\nBien à vous,",
       "name_en": "Hardware - Work account must be corrected",
       "subject_en": "Hardware - Work account must be corrected",
       "content_en": "Hello,\n\nI am contacting you regarding the PC request for [Employee name].\n\nImportant:\nThe employee's account information must be corrected before the computer can be issued.\n\nPlease contact HR so that the required information can be updated in [Application / portal]. This will allow the Microsoft account and required licenses to be provisioned.\n\nUntil this information is corrected, the computer cannot be used.\n\nKind regards"
@@ -7649,7 +7649,7 @@ window.SSIT_DATA = {
       "name": "Applications - [Application] hors périmètre service informatique",
       "category": "Applications",
       "subject": "Applications - [Application] hors périmètre service informatique",
-      "content": "Bonjour,\n\nLe service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, merci de contacter directement le support de l’éditeur via :\n\n[URL du support éditeur]\n\nMerci de votre compréhension.\n\nCordialement",
+      "content": "Bonjour,\n\nLe service informatique ne prend pas en charge les incidents liés à [Application].\n\nPour toute demande concernant cette application, merci de contacter directement le support de l'éditeur via :\n[URL du support éditeur]\n\nMerci de votre compréhension.",
       "name_en": "Applications - [Application] outside IT Support scope",
       "subject_en": "Applications - [Application] outside IT Support scope",
       "content_en": "Hello,\n\nIT Support does not handle incidents related to [Application].\n\nFor any request concerning this application, please contact the software vendor's support team directly:\n\n[Vendor support URL]\n\nThank you for your understanding.\n\nKind regards"
@@ -7658,7 +7658,7 @@ window.SSIT_DATA = {
       "name": "Accès - Mot de passe + MFA réinitialisés",
       "category": "Accès & MFA",
       "subject": "Accès - Mot de passe + MFA réinitialisés",
-      "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nVous pouvez définir un nouveau mot de passe en utilisant le lien sécurisé temporaire communiqué par le support :\n\n[Lien sécurisé temporaire]\n\nUne fois le nouveau mot de passe créé, vous pouvez vous rendre sur votre espace Microsoft My Account afin de vérifier ou mettre à jour vos informations de sécurité :\n\nhttps://myaccount.microsoft.com/\n\nVotre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion en choisissant la méthode autorisée par votre organisation.\n\nEn cas de difficulté, merci de contacter le support informatique.\n\nCordialement",
+      "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nVous pouvez définir un nouveau mot de passe à l'aide du lien sécurisé qui vous sera communiqué via le canal prévu :\n[Lien sécurisé temporaire]\n\nUne fois le nouveau mot de passe défini, vous pouvez accéder à votre espace Microsoft My Account pour gérer vos informations de sécurité :\nhttps://myaccount.microsoft.com/\n\nVotre authentification multifacteur (MFA) a également été réinitialisée. Vous pourrez la reconfigurer lors de votre prochaine connexion avec la méthode autorisée dans votre environnement.\n\nN'hésitez pas à nous contacter si vous rencontrez une difficulté.\n\nCordialement.",
       "name_en": "Access - Password + MFA reset",
       "subject_en": "Access - Password + MFA reset",
       "content_en": "Hello,\n\nYour password has been reset.\n\nYou can set a new password using the temporary secure link provided by IT Support:\n\n[Temporary secure link]\n\nOnce your new password has been created, you can open Microsoft My Account to review or update your security information:\n\nhttps://myaccount.microsoft.com/\n\nYour multi-factor authentication (MFA) methods have also been reset. You will be able to configure them again at your next sign-in using the methods allowed by your organization.\n\nIf you encounter any issue, please contact IT Support.\n\nKind regards"
@@ -7820,7 +7820,7 @@ window.SSIT_DATA = {
       "name": "Mobile - Téléphone professionnel prêt",
       "category": "Matériel",
       "subject": "Mobile - Téléphone professionnel prêt",
-      "content": "Bonjour,\n\nVotre téléphone professionnel est prêt à être remis.\n\nMerci de nous communiquer vos disponibilités afin d’organiser un rendez-vous avec le service informatique.\n\nBien cordialement,",
+      "content": "Bonjour,\n\nVotre téléphone professionnel est prêt à être remis.\n\nMerci de nous communiquer vos disponibilités afin d'organiser un rendez-vous avec le service informatique.\n\nHoraires : [Horaires du service informatique].\n\nBien cordialement,",
       "name_en": "Mobile - Work phone ready",
       "subject_en": "Mobile - Work phone ready",
       "content_en": "Hello,\n\nYour work phone is ready for handover.\n\nPlease send us your availability so that we can arrange an appointment with IT Support.\n\nKind regards"
@@ -7829,7 +7829,7 @@ window.SSIT_DATA = {
       "name": "Mobile - Rendez-vous préparation / remise",
       "category": "Matériel",
       "subject": "Mobile - Rendez-vous préparation / remise",
-      "content": "Bonjour,\n\nVotre nouveau mobile est disponible auprès du service informatique.\n\nMerci de nous communiquer vos disponibilités afin de planifier la remise et la configuration du téléphone. Prévoir environ 30 minutes.\n\nBien cordialement,",
+      "content": "Bonjour,\n\nVotre nouveau mobile est disponible auprès du service informatique.\n\nMerci de nous communiquer vos disponibilités afin de planifier la remise et la configuration du téléphone. Prévoir environ 30 minutes.\n\nHoraires : [Horaires du service informatique].\n\nBien cordialement,",
       "name_en": "Mobile - Preparation / handover appointment",
       "subject_en": "Mobile - Preparation / handover appointment",
       "content_en": "Hello,\n\nYour new mobile phone is available from IT Support.\n\nPlease send us your availability so that we can schedule the handover and phone configuration. Allow approximately 30 minutes.\n\nKind regards"
@@ -8639,7 +8639,7 @@ window.SSIT_DATA = {
       "name": "Teams - Je regarde",
       "category": "Messages rapides",
       "subject": "Teams - Je regarde",
-      "content": "Bonjour, je prends le sujet en charge et je reviens vers vous dès que j’ai un premier résultat.",
+      "content": "Bonjour [Prénom], je prends le sujet en charge et je reviens vers vous dès que j'ai un premier résultat.",
       "name_en": "Teams - I am looking into it",
       "subject_en": "Teams - I am looking into it",
       "content_en": "Hello, I am taking ownership of the issue and will get back to you as soon as I have an initial result."
@@ -8648,7 +8648,7 @@ window.SSIT_DATA = {
       "name": "Teams - Besoin du poste",
       "category": "Messages rapides",
       "subject": "Teams - Besoin du poste",
-      "content": "Bonjour, pouvez-vous rester disponible devant le poste quelques minutes afin que je poursuive le diagnostic ?",
+      "content": "Bonjour [Prénom], pouvez-vous rester disponible devant le poste quelques minutes afin que je poursuive le diagnostic ?",
       "name_en": "Teams - Need access to the computer",
       "subject_en": "Teams - Need access to the computer",
       "content_en": "Hello, could you please remain available in front of the computer for a few minutes so that I can continue troubleshooting?"
@@ -8657,7 +8657,7 @@ window.SSIT_DATA = {
       "name": "Teams - Test demandé",
       "category": "Messages rapides",
       "subject": "Teams - Test demandé",
-      "content": "Pouvez-vous refaire le test maintenant et me préciser exactement ce qui s’affiche ?",
+      "content": "Pouvez-vous refaire le test maintenant et me préciser exactement ce qui s'affiche ?",
       "name_en": "Teams - Test requested",
       "subject_en": "Teams - Test requested",
       "content_en": "Could you please run the test again now and tell me exactly what is displayed?"
@@ -8684,7 +8684,7 @@ window.SSIT_DATA = {
       "name": "Teams - Merci clôture",
       "category": "Messages rapides",
       "subject": "Teams - Merci clôture",
-      "content": "Merci pour votre retour. Je clôture le ticket comme résolu. Si le problème revient, merci d’ouvrir une nouvelle demande.",
+      "content": "Merci pour votre retour. Je clôture le ticket comme résolu. N'hésitez pas à ouvrir une nouvelle demande si le problème réapparaît.",
       "name_en": "Teams - Thank you / closure",
       "subject_en": "Teams - Thank you / closure",
       "content_en": "Thank you for your feedback. I am closing the ticket as resolved. If the issue occurs again, please open a new request."
@@ -9004,7 +9004,7 @@ window.SSIT_DATA = {
       "category_en": "Microsoft 365",
       "name_en": "Microsoft 365 - Service health",
       "description_en": "",
-      "description": ""
+      "description": "Incidents et état de santé des services Microsoft 365 du tenant."
     },
     {
       "name": "Exchange Admin Center",
@@ -9274,7 +9274,7 @@ window.SSIT_DATA = {
       "category_en": "Windows",
       "name_en": "Windows Release Health",
       "description_en": "",
-      "description": ""
+      "description": "Problèmes connus, résolutions et informations officielles sur les versions Windows."
     },
     {
       "name": "Microsoft Update Catalog",
@@ -9283,7 +9283,7 @@ window.SSIT_DATA = {
       "category_en": "Windows",
       "name_en": "Microsoft Update Catalog",
       "description_en": "",
-      "description": ""
+      "description": "Recherche et téléchargement manuel des mises à jour Microsoft."
     },
     {
       "name": "Microsoft Support",
@@ -9382,7 +9382,7 @@ window.SSIT_DATA = {
       "category_en": "Security / Network",
       "name_en": "Zscaler Trust",
       "description_en": "",
-      "description": ""
+      "description": "État de disponibilité des services Zscaler."
     },
     {
       "name": "CrowdStrike Status",
@@ -9391,7 +9391,7 @@ window.SSIT_DATA = {
       "category_en": "Security / Network",
       "name_en": "CrowdStrike Status",
       "description_en": "",
-      "description": ""
+      "description": "État des services cloud CrowdStrike."
     },
     {
       "name": "MXToolbox",
@@ -9400,7 +9400,7 @@ window.SSIT_DATA = {
       "category_en": "IT Tools",
       "name_en": "MXToolbox",
       "description_en": "",
-      "description": ""
+      "description": "Diagnostic DNS, mail, MX, SPF, DKIM, DMARC et listes de blocage."
     },
     {
       "name": "DNS Checker",
@@ -9418,7 +9418,7 @@ window.SSIT_DATA = {
       "category_en": "IT Tools",
       "name_en": "SSL Labs",
       "description_en": "",
-      "description": ""
+      "description": "Analyse de la configuration TLS/SSL d'un site."
     },
     {
       "name": "VirusTotal",
@@ -9427,7 +9427,7 @@ window.SSIT_DATA = {
       "category_en": "IT Tools",
       "name_en": "VirusTotal",
       "description_en": "",
-      "description": ""
+      "description": "Analyse d'URL, domaines et fichiers avec plusieurs moteurs de sécurité."
     },
     {
       "name": "GitHub Status",
@@ -10049,6 +10049,42 @@ window.SSIT_DATA = {
       "url": "https://next.ink/",
       "description": "Actualité numérique et technologique française.",
       "description_en": "French digital and technology news."
+    },
+    {
+      "name": "CERT-FR",
+      "category": "Cybersécurité France",
+      "url": "https://www.cert.ssi.gouv.fr/",
+      "description": "Alertes, avis de sécurité et bulletins du CERT-FR."
+    },
+    {
+      "name": "CNIL - Cybersécurité",
+      "category": "Cybersécurité France",
+      "url": "https://www.cnil.fr/fr/technologies/cybersecurite",
+      "description": "Guides et bonnes pratiques sur la sécurité des données personnelles."
+    },
+    {
+      "name": "Microsoft Tech Community",
+      "category": "Actualité Microsoft",
+      "url": "https://techcommunity.microsoft.com/",
+      "description": "Annonces et échanges techniques autour des produits Microsoft."
+    },
+    {
+      "name": "OpenAI Help Center",
+      "category": "IA",
+      "url": "https://help.openai.com/",
+      "description": "Documentation d'aide officielle sur ChatGPT et les services OpenAI."
+    },
+    {
+      "name": "Silicon.fr",
+      "category": "Actualité IT France",
+      "url": "https://www.silicon.fr/",
+      "description": "Actualité IT, cloud, cybersécurité et transformation numérique."
+    },
+    {
+      "name": "Mozilla Observatory",
+      "category": "Outils IT",
+      "url": "https://developer.mozilla.org/en-US/observatory",
+      "description": "Analyse des en-têtes et bonnes pratiques de sécurité Web."
     }
   ]
 };
