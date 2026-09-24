@@ -1403,36 +1403,11 @@ function deleteLink(r){
 }
 
 
-function templateUsesTicketNumber(t){
- const ctx=[t&&t.category,t&&t.name,t&&t.name_en,t&&t.subject,t&&t.subject_en].filter(Boolean).join(" ");
- return /ticket|incident|demande|request|escalade|escalation/i.test(ctx);
-}
-function injectTicketReference(t,subject,body){
- const n=String(ticketNumber||"").trim();
- if(!n||!templateUsesTicketNumber(t))return {subject,body};
- let s=String(subject||""),b=String(body||"");
- if(!s.includes(n))s="["+n+"] "+s;
- if(!b.includes(n)){
-   const label=state.lang==="en"?"Ticket: ":"Ticket : ";
-   const lines=b.split("\n");
-   const greetingIndex=lines.findIndex(x=>/^(bonjour|bonsoir|hello|hi)(\s|,|$)/i.test(String(x).trim()));
-   if(greetingIndex>=0){
-     let insertAt=greetingIndex+1;
-     while(insertAt<lines.length && !String(lines[insertAt]).trim())insertAt++;
-     lines.splice(insertAt,0,"",label+n,"");
-     b=lines.join("\n").replace(/\n{3,}/g,"\n\n");
-   }else{
-     b=label+n+"\n\n"+b;
-   }
- }
- return {subject:s,body:b};
-}
 function preparedTemplate(t){
  const v=localizeTemplate(t);
  let subject=formalizeTemplateText(v&&v.subject||"");
  let body=formalizeTemplateText(v&&v.content||"");
- ({subject,body}=injectTicketReference(t,subject,body));
- const shareBody=decorateTemplatePlainText(body);
+const shareBody=decorateTemplatePlainText(body);
  const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
  return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
 }
