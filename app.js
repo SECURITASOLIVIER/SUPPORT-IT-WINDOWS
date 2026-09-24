@@ -869,6 +869,387 @@ function tools(){
  return '<div class="toolbar slimbar"><span class="badge">'+c.length+' commande(s)</span></div>'+
  '<div class="grid">'+(c.map(commandCard).join("")||'<div class="empty">Aucune commande trouvée.</div>')+'</div>';
 }
+
+/* ===== IT POCKET FULL FR/EN LAYER ===== */
+Object.assign(UI_EN,{
+ "Copié":"Copied",
+ "Partage natif indisponible : contenu copié":"Native sharing unavailable: content copied",
+ "Lien enregistré":"Link saved",
+ "Template enregistré":"Template saved",
+ "Templates importés":"Templates imported",
+ "Ajouté au rapport":"Added to report",
+ "Catégorie":"Category",
+ "Nom":"Name",
+ "Nom du template":"Template name",
+ "Texte":"Text",
+ "URL":"URL",
+ "Modifier le lien":"Edit link",
+ "Ajouter un lien favori":"Add favorite link",
+ "Modifier le template":"Edit template",
+ "Créer un template":"Create template",
+ "Personnel":"Personal",
+ "Intégré":"Built-in",
+ "Objectif":"Objective",
+ "À comprendre":"What to know",
+ "Prérequis / impact":"Requirements / impact",
+ "Procédure":"Procedure",
+ "Vérification":"Verification",
+ "Escalade":"Escalation",
+ "Droits":"Rights",
+ "Impact":"Impact",
+ "Lien":"Link",
+ "Commande":"Command",
+ "Script":"Script",
+ "Raccourci Windows":"Windows shortcut",
+ "Lien • Navigateur":"Link • Browser",
+ "Commande • CMD":"Command • CMD",
+ "Script • PowerShell":"Script • PowerShell",
+ "Action":"Action",
+ "Diagnostic":"Diagnostic",
+ "Information":"Information",
+ "Lecture":"Read-only",
+ "Lecture seule":"Read-only",
+ "Utilisateur":"User",
+ "Administrateur":"Administrator",
+ "Administrateur recommandé":"Administrator recommended",
+ "Faible":"Low",
+ "Moyen":"Medium",
+ "Élevé":"High",
+ "Aucun script, commande ou lien autonome dans cette rubrique.":"No standalone script, command or link in this section.",
+ "Aucune commande trouvée.":"No command found.",
+ "Enregistrer":"Save",
+ "Annuler":"Cancel",
+ "Supprimer ce template ?":"Delete this template?",
+ "Supprimer ce lien ?":"Delete this link?",
+ "Nom obligatoire et URL http/https valide.":"A name and a valid http/https URL are required.",
+ "Catégorie":"Category",
+ "Nom du template":"Template name",
+ "Objet du mail / message":"Email / message subject",
+ "Texte du template":"Template text",
+ "Tickets, Matériel, Sécurité…":"Tickets, Hardware, Security…"
+});
+Object.assign(PORTAL_CAT_EN,{
+ "Veille & Actualité IT":"IT Watch & News",
+ "Documentation & Diagnostic":"Documentation & Diagnostics",
+ "Tests Web & Réseau":"Web & Network Tests",
+ "IA & Numérique France":"AI & French Digital Services",
+ "Veille IT & Cyber":"IT & Cyber Watch",
+ "Documentation & Communauté":"Documentation & Community"
+});
+const TEMPLATE_CAT_EN_V2={
+ "Accès & MFA":"Access & MFA",
+ "Applications":"Applications",
+ "Communication":"Communication",
+ "Incident majeur":"Major Incident",
+ "Mails":"Emails",
+ "Maintenance & Changement":"Maintenance & Change",
+ "Matériel":"Hardware",
+ "Messages rapides":"Quick Messages",
+ "Microsoft 365":"Microsoft 365",
+ "Onboarding / Offboarding":"Onboarding / Offboarding",
+ "Rapports":"Reports",
+ "Relances & Escalades":"Follow-ups & Escalations",
+ "Rendez-vous":"Appointments",
+ "Réseau & VPN":"Network & VPN",
+ "Salles & MTR":"Rooms & MTR",
+ "Sécurité":"Security",
+ "Tickets":"Tickets"
+};
+function templateCategoryLabel(c){return state.lang==="en"?(TEMPLATE_CAT_EN_V2[c]||c):c}
+function localizeTemplate(t){
+ if(!t)return t;
+ if(state.lang!=="en")return {...t,_categoryKey:t._categoryKey||t.category};
+ return {
+   ...t,
+   name:t.name_en||t.name,
+   subject:t.subject_en||t.subject,
+   content:t.content_en||t.content,
+   _categoryKey:t._categoryKey||t.category,
+   category:templateCategoryLabel(t._categoryKey||t.category)
+ };
+}
+function localizeDataItem(x){
+ if(!x||state.lang!=="en")return x;
+ const y={...x};
+ for(const k of ["name","description","category","rights","risk","method","expected","validation","check","escalation","actionType"]){
+   if(x[k+"_en"])y[k]=x[k+"_en"];
+ }
+ return y;
+}
+function localizePortal(p){
+ if(!p||state.lang!=="en")return p;
+ return {
+   ...p,
+   name:p.name_en||p.name,
+   category:p.category_en||portalCategoryLabel(p.category||"Divers"),
+   description:p.description_en||p.description||"",
+   _categoryKey:p._categoryKey||p.category
+ };
+}
+function toast(t){
+ const x=$("#toast"); if(!x)return;
+ x.textContent=ui(String(t||""));
+ x.classList.add("show");
+ setTimeout(()=>x.classList.remove("show"),1300);
+}
+async function copy(t){
+ try{await navigator.clipboard.writeText(t);toast("Copié")}
+ catch{
+   let a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();
+   document.execCommand("copy");a.remove();toast("Copié");
+ }
+}
+function applyTicketNumberToText(t,text){
+ let out=String(text||"");
+ const n=String(ticketNumber||"").trim();
+ if(!n)return out;
+ out=out
+   .replace(/\[N[°ºo]\s*(?:de\s+)?ticket\]/gi,n)
+   .replace(/\[Ticket\s*#\]/gi,n)
+   .replace(/\[(?:référence ticket|reference ticket|ticket)\]/gi,n);
+ const ctx=[t&&t.name,t&&t.name_en,t&&t.subject,t&&t.subject_en,t&&t.category].filter(Boolean).join(" ");
+ if(/ticket|incident|demande|request|escalade|escalation|support/i.test(ctx)){
+   out=out
+     .replace(/\[(?:RÉFÉRENCE|REFERENCE)\]/g,n)
+     .replace(/\[(?:N°|NO)\]/gi,n)
+     .replace(/\b(ticket|demande|incident|request)\s+XX\b/gi,(m,k)=>k+" "+n);
+ }
+ return out;
+}
+function preparedTemplate(t){
+ const v=localizeTemplate(t);
+ const subject=applyTicketNumberToText(t,formalizeTemplateText(v&&v.subject||""));
+ const body=applyTicketNumberToText(t,formalizeTemplateText(v&&v.content||""));
+ const shareBody=decorateTemplatePlainText(body);
+ const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
+ return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
+}
+async function copyTemplate(ref){
+ const t=getTemplateByRef(ref);if(!t)return;
+ const p=preparedTemplate(t);await copy(p.full);
+}
+async function shareTemplate(ref){
+ const t=getTemplateByRef(ref);if(!t)return;
+ const p=preparedTemplate(t);await shareText(p.name||"IT Pocket",p.full);
+}
+function openTemplateOutlook(ref){
+ const t=getTemplateByRef(ref);if(!t)return;
+ const p=preparedTemplate(t);
+ openOutlookText(p.subject||p.name||"IT Pocket",decorateTemplatePlainText(p.body));
+}
+function templateHeadingEmoji(line){
+ const s=String(line||"").trim().toLowerCase();
+ if(/^(important|attention|alerte|à retenir|a retenir|urgent|urgence)\b/.test(s))return "⚠️ ";
+ if(/^(information|info|contexte|à noter|a noter)\b/.test(s))return "ℹ️ ";
+ if(/^(validation|résultat|resultat|confirmation|résolu|resolu|result|resolved|status)\b/.test(s))return "✅ ";
+ return "";
+}
+function formatTemplateHtml(text){
+ const clean=formalizeTemplateText(text);
+ if(!clean)return '<div class="template-empty">'+ui("Aucun contenu.")+'</div>';
+ return clean.split("\n").map(line=>{
+   const trimmed=String(line||"").trim();
+   if(!trimmed)return '<div class="tpl-space" aria-hidden="true"></div>';
+   const marker=templateHeadingEmoji(trimmed);
+   if(marker){
+     const already=/[\u2600-\u27BF]|[\uD83C-\uDBFF][\uDC00-\uDFFF]/.test(trimmed);
+     return '<div class="tpl-callout"><span class="tpl-callout-icon">'+esc(already?"":marker.trim())+'</span><div>'+templateSafeLinkify(trimmed)+'</div></div>';
+   }
+   if(/^(bonjour|bonsoir|hello|hi)(\s|,|$)/i.test(trimmed))return '<div class="tpl-line tpl-greeting">'+templateSafeLinkify(trimmed)+'</div>';
+   if(/^(cordialement|bien cordialement|bonne journée|bonne journee|merci|merci d'avance|merci par avance|kind regards|thank you)(\s|,|\.|$)/i.test(trimmed))return '<div class="tpl-line tpl-closing">'+templateSafeLinkify(trimmed)+'</div>';
+   if(/^\d+[\).\-]?\s+/.test(trimmed)||/^\d+[️⃣]\s*/u.test(trimmed))return '<div class="tpl-line tpl-step">'+templateSafeLinkify(trimmed)+'</div>';
+   if(/^[-•▪◦]\s*/.test(trimmed))return '<div class="tpl-line tpl-bullet">'+templateSafeLinkify(trimmed.replace(/^[-•▪◦]\s*/,""))+'</div>';
+   if(/^(objet|subject)\s*:/i.test(trimmed))return '<div class="tpl-line tpl-object">'+templateSafeLinkify(trimmed)+'</div>';
+   return '<div class="tpl-line">'+templateSafeLinkify(trimmed)+'</div>';
+ }).join("");
+}
+function allTemplates(){
+ return D.templates.map((t,i)=>({...t,builtin:true,_id:"b"+i,_categoryKey:t.category}))
+   .filter(t=>!hiddenTemplates.includes(t._id))
+   .concat(custom.map((t,i)=>({...t,custom:true,_id:"c"+i,_categoryKey:t.category})));
+}
+function templateCard(t){
+ const v=localizeTemplate(t);
+ const r=JSON.stringify(t._id);
+ const p=preparedTemplate(t);
+ const id="tpl_"+Math.random().toString(36).slice(2);
+ return '<article class="card template-card">'+
+ '<h3>'+esc(v.name)+'</h3>'+
+ '<div class="meta">'+esc(templateCategoryLabel(t._categoryKey||t.category))+' '+(t.builtin?'• '+(state.lang==="en"?"Built-in":"Intégré"):'• '+(state.lang==="en"?"Personal":"Personnel"))+'</div>'+
+ (p.subject?'<div class="template-subject"><span>'+ui("Objet")+'</span>'+esc(p.subject)+'</div>':'')+
+ '<div id="'+id+'" class="template-preview template-preview-collapsed">'+formatTemplateHtml(p.body)+'</div>'+
+ '<div class="actions template-actions">'+
+ '<button class="btn primary" onclick=\'copyTemplate('+r+')\'>'+ui("Copier")+'</button>'+
+ '<button class="btn" onclick=\'shareTemplate('+r+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openTemplateOutlook('+r+')\'>Outlook</button>'+
+ '<button class="btn" data-template-btn="'+id+'" onclick=\'toggleTemplatePreview("'+id+'")\'>'+ui("Voir plus")+'</button>'+
+ '<button class="btn" onclick=\'editTemplate('+r+')\'>'+ui("Modifier")+'</button>'+
+ '<button class="btn red" onclick=\'deleteTemplate('+r+')\'>'+ui("Supprimer")+'</button>'+
+ '</div></article>';
+}
+function communications(){
+ const raw=allTemplates();
+ let all=raw.map(localizeTemplate);
+ let ts=filterItems(all,["name","category","subject","content"]);
+ if(templateFilter!=="Tous")ts=ts.filter(t=>(t._categoryKey||t.category)===templateFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
+ let actionCards=filterItems(pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),["name","description","method","command","script","category"]);
+ return '<div class="toolbar communication-topbar">'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+ '<button class="btn" onclick="exportTemplates()">'+ui("Exporter")+'</button>'+
+ '<label class="btn">'+ui("Importer")+' <input type="file" accept=".json" onchange="importTemplates(this)" style="display:none"></label>'+
+ '<label class="ticket-ref"><span>'+ui("N° ticket")+'</span><input id="ticketNumber" value="'+esc(ticketNumber)+'" placeholder="'+esc(ui("Numéro de ticket"))+'" onchange="setTicketNumber(this.value)"></label>'+
+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
+ '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+ cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
+ (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">'+ui("Modèles corporate")+'</div><div class="grid">'+(ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+'</div>';
+}
+function newTemplate(ref=null){
+ let source=ref?getTemplateByRef(ref):null;
+ let t=source?localizeTemplate({...source,_categoryKey:source.category}):{category:"Tickets",name:"",subject:"",content:""};
+ t.subject=formalizeTemplateText(t.subject||"");t.content=formalizeTemplateText(t.content||"");
+ $("#content").innerHTML='<div class="card"><h3>'+ui(ref?"Modifier le template":"Créer un template")+'</h3><div class="editor">'+
+ '<div><div class="meta">'+ui("Catégorie")+'</div><input id="ecat" value="'+esc(t.category||"")+'"></div>'+
+ '<div><div class="meta">'+ui("Nom")+'</div><input id="ename" value="'+esc(t.name||"")+'"></div>'+
+ '<div class="full"><div class="meta">'+ui("Objet")+'</div><input id="esub" value="'+esc(t.subject||"")+'"></div>'+
+ '<div class="full"><div class="meta">'+ui("Texte")+'</div><textarea id="ebody">'+esc(t.content||"")+'</textarea></div>'+
+ '<div class="full actions"><button class="btn primary" onclick=\'saveTemplateRef('+JSON.stringify(ref||"")+')\'>'+ui("Enregistrer")+'</button>'+
+ '<button class="btn" onclick="render()">'+ui("Annuler")+'</button></div></div></div>';
+}
+function resourceType(item){
+ const s=String(item.script||item.command||"").trim();
+ const shell=String(item.shell||item.language||"").toLowerCase();
+ if(/^https?:\/\//i.test(s))return {kind:"link",label:ui("Lien"),detail:ui("Lien • Navigateur"),copy:ui("Copier le lien")};
+ if(/^(?:ms-settings:|ms-quick-assist:|companyportal:|edge:\/\/|chrome:\/\/)/i.test(s))return {kind:"uri",label:ui("Action"),detail:ui("Raccourci Windows"),copy:ui("Copier le raccourci")};
+ if(/cmd|invite de commandes/i.test(shell)||/^(?:ipconfig|ping|tracert|nslookup|netsh|route|arp|hostname|whoami|query\s+user|cmdkey|gpupdate|sfc|dism|chkdsk|pnputil|mstsc\.exe)\b/i.test(s))
+  return {kind:"cmd",label:ui("Commande"),detail:ui("Commande • CMD"),copy:ui("Copier la commande")};
+ return {kind:"powershell",label:ui("Script"),detail:ui("Script • PowerShell"),copy:ui("Copier le script")};
+}
+function contentSectionTitle(item){
+ const r=resourceType(item);
+ return r.kind==="link"?(state.lang==="en"?"LINK":"LIEN"):r.kind==="uri"?(state.lang==="en"?"WINDOWS SHORTCUT":"RACCOURCI WINDOWS"):r.kind==="cmd"?(state.lang==="en"?"COMMAND":"COMMANDE"):(state.lang==="en"?"POWERSHELL SCRIPT":"SCRIPT POWERSHELL");
+}
+function supportSteps(item){
+ const p=executionProfile(item),r=resourceType(item);
+ const rights=String(item.rights||"");
+ const admin=/admin|administrator/i.test(rights);
+ if(!p.standalone)return [];
+ const steps=[];
+ if(state.lang==="en"){
+   if(r.kind==="link"){steps.push("Open the link in a browser.");if(/account|compte|microsoft|intune|entra|mfa|sign/i.test(String(item.name||"")+" "+String(item.description||"")))steps.push("Sign in with the work account if prompted.");}
+   else if(r.kind==="uri"){steps.push("On the Windows PC, press Windows + R.");steps.push("Paste the shortcut and press Enter.");}
+   else if(r.kind==="cmd"){steps.push("Open Command Prompt"+(admin?" as administrator":"")+".");steps.push("Paste the command and press Enter.");}
+   else{steps.push("Open PowerShell or Windows Terminal"+(admin?" as administrator":"")+".");steps.push("Paste the script and run it.");}
+   if(/medium|high|modify|delete|interrupt|resync|restart|reboot/i.test(String(item.risk||"")))steps.push("Check the stated impact before running the action.");
+ }else{
+   if(r.kind==="link"){steps.push("Ouvrir le lien dans un navigateur.");if(/compte|microsoft|intune|entra|mfa|sign/i.test(String(item.name||"")+" "+String(item.description||"")))steps.push("Se connecter avec le compte professionnel si demandé.");}
+   else if(r.kind==="uri"){steps.push("Sur le PC Windows, appuyer sur Windows + R.");steps.push("Coller le raccourci puis valider.");}
+   else if(r.kind==="cmd"){steps.push("Ouvrir Invite de commandes"+(admin?" en administrateur":"")+".");steps.push("Coller la commande puis valider.");}
+   else{steps.push("Ouvrir PowerShell ou Terminal Windows"+(admin?" en administrateur":"")+".");steps.push("Coller le script puis valider.");}
+   if(/moyen|élevé|modifie|supprim|interrompt|resynchron|redémarr|reboot/i.test(String(item.risk||"")))steps.push("Vérifier l’impact indiqué avant l’action.");
+ }
+ return steps;
+}
+function buildSupportShare(item){
+ const x=localizeDataItem(item),p=executionProfile(x),s=String(x.script||x.command||"").trim(),m=cleanMethod(x),steps=supportSteps(x);
+ const objective=String(x.description||m||x.name||(state.lang==="en"?"Support action":"Action de support")).trim();
+ const check=specificCheck(x),lines=[];
+ if(state.lang==="en"){
+   lines.push("IT SUPPORT SHEET","",String(x.name||"Support"),String(x.category||x.webCategory||"Support")+" • "+actionKind(x),"","OBJECTIVE",objective);
+   if(m&&m!==objective)lines.push("","WHAT TO KNOW",m);
+   if(x.rights||x.risk){lines.push("","REQUIREMENTS / IMPACT");if(x.rights)lines.push("Rights: "+x.rights);if(x.risk)lines.push("Impact: "+x.risk);}
+   if(steps.length){lines.push("","PROCEDURE");steps.forEach((v,i)=>lines.push((i+1)+". "+v));}
+   if(p.standalone&&s)lines.push("",contentSectionTitle(x),s);
+   if(check)lines.push("","VERIFICATION",check);
+   if(x.escalation)lines.push("","ESCALATION",String(x.escalation));
+ }else{
+   lines.push("FICHE SUPPORT IT","",String(x.name||"Support"),String(x.category||x.webCategory||"Support")+" • "+actionKind(x),"","OBJECTIF",objective);
+   if(m&&m!==objective)lines.push("","À COMPRENDRE",m);
+   if(x.rights||x.risk){lines.push("","PRÉREQUIS / IMPACT");if(x.rights)lines.push("Droits : "+x.rights);if(x.risk)lines.push("Impact : "+x.risk);}
+   if(steps.length){lines.push("","PROCÉDURE");steps.forEach((v,i)=>lines.push((i+1)+". "+v));}
+   if(p.standalone&&s)lines.push("",contentSectionTitle(x),s);
+   if(check)lines.push("","VÉRIFICATION",check);
+   if(x.escalation)lines.push("","ESCALADE",String(x.escalation));
+ }
+ return lines.join("\n");
+}
+function detailHtml(item,id){
+ const x=localizeDataItem(item),s=x.script||x.command||"",p=executionProfile(x),m=cleanMethod(x),r=resourceType(x);
+ const objective=String(x.description||m||x.name||(state.lang==="en"?"Support action":"Action de support")),check=specificCheck(x);
+ return '<div id="'+id+'" class="inline-detail">'+
+ '<div class="detail-section objective-section"><div class="more-label">'+ui("Objectif")+'</div><div class="more-text">'+esc(objective)+'</div></div>'+
+ (m&&m!==objective?'<div class="detail-section"><div class="more-label">'+ui("À comprendre")+'</div><div class="more-text">'+esc(m)+'</div></div>':'')+
+ ((x.rights||x.risk)?'<div class="detail-section"><div class="more-label">'+ui("Prérequis / impact")+'</div><div class="detail-meta">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div></div>':'')+
+ (supportSteps(x).length?'<div class="detail-section"><div class="more-label">'+ui("Procédure")+'</div>'+launchTutorial(x)+'</div>':'')+
+ (p.standalone&&s?'<div class="detail-section"><div class="more-label">'+esc(r.detail)+'</div><pre class="code scriptfull">'+esc(s)+'</pre></div>':'')+
+ (check?'<div class="detail-section"><div class="more-label">'+ui("Vérification")+'</div><div class="more-text">'+esc(check)+'</div></div>':'')+
+ (x.escalation?'<div class="detail-section"><div class="more-label">'+ui("Escalade")+'</div><div class="more-text">'+esc(x.escalation)+'</div></div>':'')+
+ '</div>';
+}
+function actionCard(a){
+ const x=localizeDataItem(a),s=x.script||x.command||"",p=executionProfile(x),m=cleanMethod(x),r=resourceType(x),id="detail_"+Math.random().toString(36).slice(2);
+ const usefulText=p.standalone&&s?s:(m||x.description||""),shareBody=buildSupportShare(x);
+ return '<article class="card compact-card">'+typeBadge(x)+'<h3>'+esc(x.name)+'</h3>'+
+ '<div class="meta">'+esc(x.category)+' • '+esc(r.label)+'</div><p class="desc">'+esc(x.description||m||"")+'</p>'+
+ '<div class="card-badges">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions">'+(usefulText?'<button class="btn '+(p.standalone?'primary':'')+'" onclick=\'copy('+inlineArg(usefulText)+')\'>'+esc(r.copy)+'</button>':'')+
+ '<button class="btn" onclick=\'shareText('+inlineArg(x.name||"IT Support")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(x.name||"Support"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>'+ui("Voir plus")+'</button></div>'+detailHtml(x,id)+'</article>';
+}
+function commandCard(c){
+ const x=localizeDataItem(c),id="detail_"+Math.random().toString(36).slice(2),r=resourceType(x),shareBody=buildSupportShare(x);
+ return '<article class="card compact-card">'+typeBadge(x)+'<h3>'+esc(x.name)+'</h3><div class="meta">'+esc(x.category)+' • '+esc(r.label)+'</div>'+
+ '<p class="desc">'+esc(x.description||"")+'</p><div class="card-badges">'+(x.rights?'<span class="badge">'+esc(x.rights)+'</span>':'')+(x.risk?'<span class="badge warn">'+esc(x.risk)+'</span>':'')+'</div>'+
+ '<div class="actions compact-actions"><button class="btn primary" onclick=\'copy('+inlineArg(x.command)+')\'>'+esc(r.copy)+'</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(x.name||"IT Support")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(x.name||"Support"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" data-detail-btn="'+id+'" onclick=\'toggleInlineDetail("'+id+'")\'>'+ui("Voir plus")+'</button></div>'+detailHtml(x,id)+'</article>';
+}
+function renderActions(c){
+ let a=filterItems(pocketActions().filter(x=>x.webCategory===c).map(localizeDataItem),["name","description","command","script","category","webCategory"]);
+ if(!a.length)return '<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
+ const groups=new Map();a.forEach(x=>{const k=x.category||catLabel(c);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)});
+ return '<div class="toolbar slimbar"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span></div>'+
+ [...groups.entries()].map(([k,items])=>'<div class="section-title">'+esc(k)+'</div><div class="grid">'+items.map(actionCard).join("")+'</div>').join("");
+}
+function portalCard(p){
+ const v=localizePortal(p),r=JSON.stringify(p._id),f=isFavoriteLink(p._id);
+ const shareBody=(v.name||"IT Link")+"\n"+(v.description?String(v.description)+"\n":"")+(v.url||"");
+ return '<article class="card"><h3>'+(f?'★ ':'')+esc(v.name)+'</h3><div class="meta">'+esc(v.category||"")+' '+(p.builtin?'• '+(state.lang==="en"?"Built-in":"Intégré"):'• '+(state.lang==="en"?"Personal":"Personnel"))+'</div>'+
+ (v.description?'<p class="desc">'+esc(v.description)+'</p>':'')+'<pre class="code">'+esc(v.url)+'</pre><div class="actions">'+
+ '<button class="btn primary" onclick=\'window.open('+inlineArg(v.url)+',"_blank","noopener")\'>'+ui("Ouvrir")+'</button>'+
+ '<button class="btn" onclick=\'copy('+inlineArg(v.url)+')\'>'+ui("Copier le lien")+'</button>'+
+ '<button class="btn" onclick=\'shareText('+inlineArg(v.name||"IT Link")+','+inlineArg(shareBody)+')\'>'+ui("Partager")+'</button>'+
+ '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Support] "+(v.name||"Link"))+','+inlineArg(shareBody)+')\'>Outlook</button>'+
+ '<button class="btn" onclick=\'toggleFavoriteLink('+r+')\'>'+(f?ui("★ Favori"):ui("☆ Favori"))+'</button>'+
+ '<button class="btn" onclick=\'editLink('+r+')\'>'+ui("Modifier")+'</button><button class="btn red" onclick=\'deleteLink('+r+')\'>'+ui("Supprimer")+'</button></div></article>';
+}
+function portals(){
+ const raw=allPortals().map(p=>({...p,_categoryKey:p.category}));
+ let ps=filterItems(raw.map(localizePortal),["name","url","category","description"]);
+ if(portalFilter==="Favoris")ps=ps.filter(p=>isFavoriteLink(p._id));
+ else if(portalFilter!=="Tous")ps=ps.filter(p=>(p._categoryKey||p.category)===portalFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category||"Divers"))].sort();
+ return '<div class="toolbar"><button class="btn primary" onclick="newLink()">'+ui("+ Ajouter un lien")+'</button>'+
+ '<button class="btn" onclick=\'setPortalFilter("Tous")\'>'+ui("Tous")+'</button><button class="btn" onclick=\'setPortalFilter("Favoris")\'>'+ui("★ Favoris")+'</button>'+
+ '<span class="badge">'+ps.length+' '+(state.lang==="en"?"link(s)":"lien(s)")+'</span></div>'+
+ '<div class="toolbar">'+cs.map(c=>'<button class="btn" onclick=\'setPortalFilter('+JSON.stringify(c)+')\'>'+esc(state.lang==="en"?(PORTAL_CAT_EN[c]||c):c)+'</button>').join("")+'</div>'+
+ '<div class="grid">'+(ps.map(portalCard).join("")||'<div class="empty">'+ui("Aucun lien trouvé.")+'</div>')+'</div>';
+}
+function newLink(ref=null){
+ let p=ref?{...getLinkByRef(ref)}:{name:"",category:"Favoris",url:"https://"};
+ if(ref&&state.lang==="en")p=localizePortal({...p,_categoryKey:p.category});
+ $("#content").innerHTML='<div class="card"><h3>'+ui(ref?"Modifier le lien":"Ajouter un lien favori")+'</h3><div class="editor">'+
+ '<div><div class="meta">'+ui("Nom")+'</div><input id="lname" value="'+esc(p.name||"")+'"></div>'+
+ '<div><div class="meta">'+ui("Catégorie")+'</div><input id="lcat" value="'+esc(p.category||ui("Favoris"))+'"></div>'+
+ '<div class="full"><div class="meta">URL</div><input id="lurl" value="'+esc(p.url||"https://")+'"></div>'+
+ '<div class="full actions"><button class="btn primary" onclick=\'saveLink('+JSON.stringify(ref||"")+')\'>'+ui("Enregistrer")+'</button>'+
+ '<button class="btn" onclick="render()">'+ui("Annuler")+'</button></div></div></div>';
+}
+function tabs(){ $("#tabs").innerHTML=state.tabs.map(c=>'<button class="tab '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\'>'+icon(c)+' '+esc(catLabel(c))+' <span onclick=\'closeTab('+JSON.stringify(c)+',event)\'>×</span></button>').join("")}
+
 Object.assign(window,{shareTemplate,copyTemplate,setTicketNumber,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
