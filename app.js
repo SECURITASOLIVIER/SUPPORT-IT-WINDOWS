@@ -1473,7 +1473,219 @@ function preparedTemplate(t){
  return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
 }
 
-Object.assign(window,{shareTemplate,copyTemplate,setTicketNumber,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
+
+/* === IT Pocket final UI localization / simple communications === */
+Object.assign(UI_EN,{
+ "Copié":"Copied",
+ "Partage natif indisponible : contenu copié":"Native sharing unavailable: content copied",
+ "Partage indisponible : contenu copié":"Sharing unavailable: content copied",
+ "Ajouté au rapport":"Added to report",
+ "Rapport vide.":"Report is empty.",
+ "Copier rapport":"Copy report",
+ "Vider":"Clear",
+ "Personnel":"Personal",
+ "Intégré":"Built-in",
+ "élément(s)":"item(s)",
+ "lien(s)":"link(s)",
+ "modèle(s)":"template(s)",
+ "Droits :":"Permissions:",
+ "Impact :":"Impact:",
+ "Nom du template":"Template name",
+ "Texte du template":"Template text",
+ "Portail support":"Support portal",
+ "Support informatique":"IT Support"
+});
+
+const TECH_CAT_EN_FINAL={
+ "Réseau":"Network",
+ "Système":"System",
+ "Processus & Services":"Processes & Services",
+ "Disque & Stockage":"Disk & Storage",
+ "Applications & Winget":"Applications & Winget",
+ "Office / M365":"Office / M365",
+ "OneDrive":"OneDrive",
+ "Navigateurs":"Browsers",
+ "Intune / Entra":"Intune / Entra",
+ "SCCM":"SCCM",
+ "Sécurité":"Security",
+ "Impression":"Printing",
+ "Matériel":"Hardware",
+ "Profil & Comptes":"Profiles & Accounts",
+ "Assistance distante":"Remote Assistance",
+ "Périphériques":"Devices",
+ "Poste Windows":"Windows Device",
+ "Microsoft 365 • Word":"Microsoft 365 • Word",
+ "Microsoft 365 • Excel":"Microsoft 365 • Excel",
+ "Microsoft 365 • PowerPoint":"Microsoft 365 • PowerPoint",
+ "Microsoft 365 • Teams":"Microsoft 365 • Teams",
+ "Microsoft 365 • OneDrive":"Microsoft 365 • OneDrive",
+ "Microsoft 365 • Office":"Microsoft 365 • Office",
+ "Navigateurs • Général":"Browsers • General",
+ "Navigateurs • Edge":"Browsers • Edge",
+ "Navigateurs • Chrome":"Browsers • Chrome",
+ "Navigateurs • Firefox":"Browsers • Firefox"
+};
+
+function autoEnFinal(text){
+ let s=String(text==null?"":text);
+ if(state.lang!=="en"||!s)return s;
+ if(UI_EN[s])return UI_EN[s];
+ if(PORTAL_CAT_EN[s])return PORTAL_CAT_EN[s];
+ if(TEMPLATE_CAT_EN[s])return TEMPLATE_CAT_EN[s];
+ if(TECH_CAT_EN_FINAL[s])return TECH_CAT_EN_FINAL[s];
+ if(TECH_EN_EXACT[s])return TECH_EN_EXACT[s];
+
+ const exact={
+  "Administrateur recommandé":"Administrator recommended",
+  "Compte professionnel":"Work account",
+  "Droits Intune requis":"Intune permissions required",
+  "Modification du mot de passe":"Password change",
+  "Modification des méthodes MFA":"MFA method changes",
+  "Administration":"Administration",
+  "Lecture locale":"Local read-only",
+  "Selon droits":"Depends on permissions"
+ };
+ if(exact[s])return exact[s];
+
+ const reps=[
+  [/\bdiagnostic complet\b/gi,"full diagnostic"],
+  [/\bdiagnostic technicien\b/gi,"technician diagnostic"],
+  [/\bmode sans échec\b/gi,"safe mode"],
+  [/\bforcer fermeture\b/gi,"force close"],
+  [/\bredémarrer\b/gi,"restart"],
+  [/\bredémarrage\b/gi,"restart"],
+  [/\bnettoyer cache\b/gi,"clear cache"],
+  [/\bnettoyer caches tous profils\b/gi,"clear cache for all profiles"],
+  [/\bgestionnaire mots de passe\b/gi,"password manager"],
+  [/\beffacer données navigateur\b/gi,"clear browsing data"],
+  [/\bversion et canal\b/gi,"version and channel"],
+  [/\bdemander mise à jour\b/gi,"check for updates"],
+  [/\bouvrir réparation Windows\b/gi,"open Windows repair"],
+  [/\bversions\b/gi,"versions"],
+  [/\bprocessus\b/gi,"processes"],
+  [/\bprofils\b/gi,"profiles"],
+  [/\bcompléments\b/gi,"add-ins"],
+  [/\bcomptes\b/gi,"accounts"],
+  [/\berreurs\b/gi,"errors"],
+  [/\binstallées\b/gi,"installed"],
+  [/\binstallés\b/gi,"installed"],
+  [/\bconfigurés\b/gi,"configured"],
+  [/\bphysiques\b/gi,"physical"],
+  [/\bautomatiques\b/gi,"automatic"],
+  [/\barrêtés\b/gi,"stopped"],
+  [/\ben attente\b/gi,"pending"],
+  [/\bfiabilité\b/gi,"reliability"],
+  [/\brésolution\b/gi,"resolution"],
+  [/\bpasserelle\b/gi,"gateway"],
+  [/\butilisateur\b/gi,"user"],
+  [/\blocales\b/gi,"local"],
+  [/\blocaux\b/gi,"local"],
+  [/\blocale\b/gi,"local"],
+  [/\blocal\b/gi,"local"],
+  [/\bsignés\b/gi,"signed"],
+  [/\bcertificats\b/gi,"certificates"],
+  [/\benregistrements\b/gi,"enrollment records"],
+  [/\bmenaces\b/gi,"threats"],
+  [/\bimprimantes\b/gi,"printers"],
+  [/\bfile d'attente\b/gi,"print queue"],
+  [/\bfiles d'attente\b/gi,"print queues"],
+  [/\bcorrectifs\b/gi,"updates"],
+  [/\bhistorique\b/gi,"history"],
+  [/\bdéclencher\b/gi,"trigger"],
+  [/\bbatterie\b/gi,"battery"],
+  [/\blecteurs mappés\b/gi,"mapped drives"],
+  [/\bidentifiants enregistrés\b/gi,"saved credentials"],
+  [/\bnom machine\b/gi,"computer name"],
+  [/\bcartes actives\b/gi,"active adapters"],
+  [/\bcartes réseau\b/gi,"network adapters"],
+  [/\brenouveler DHCP\b/gi,"renew DHCP lease"],
+  [/\bvoisins IPv4\b/gi,"IPv4 neighbors"],
+  [/\bespace libre\b/gi,"free space"],
+  [/\brequis\b/gi,"required"],
+  [/\bétat\b/gi,"status"],
+  [/\bpériphériques\b/gi,"devices"],
+  [/\bmatériel\b/gi,"hardware"],
+  [/\brapide\b/gi,"quick"],
+  [/\bassistance\b/gi,"assistance"],
+  [/\bsauvegarder favoris\b/gi,"back up bookmarks"],
+  [/\btaille des caches\b/gi,"cache sizes"],
+  [/\bnavigateurs\b/gi,"browsers"],
+  [/\bréseau\b/gi,"network"],
+  [/\bsystème\b/gi,"system"],
+  [/\bsécurité\b/gi,"security"],
+  [/\blecture\b/gi,"read-only"],
+  [/\bfaible\b/gi,"low"],
+  [/\bmoyen\b/gi,"medium"],
+  [/\bélevé\b/gi,"high"]
+ ];
+ for(const [re,to] of reps)s=s.replace(re,to);
+ return s.replace(/\s{2,}/g," ").trim();
+}
+
+function localizeDataItem(x){
+ if(!x||state.lang!=="en")return x;
+ const y={...x};
+ for(const k of ["name","description","category","rights","risk","method","expected","validation","check","escalation","actionType"]){
+   const en=x[k+"_en"];
+   y[k]=(en!=null&&String(en).trim()!=="")?String(en):autoEnFinal(x[k]);
+ }
+ if(x.webCategory)y.webCategory=catLabel(x.webCategory);
+ return y;
+}
+
+// Safe formal wording: do not use ASCII word-boundary replacements that can corrupt "êtes".
+function formalizeTemplateText(text){
+ let t=normalizeTemplateText(text);
+ const rules=[
+  [/(^|[\s(])Peux-tu(?=$|[\s,.;:!?])/g,"$1Pouvez-vous"],
+  [/(^|[\s(])peux-tu(?=$|[\s,.;:!?])/g,"$1pouvez-vous"],
+  [/(^|[\s(])Tu peux(?=$|[\s,.;:!?])/g,"$1Vous pouvez"],
+  [/(^|[\s(])tu peux(?=$|[\s,.;:!?])/g,"$1vous pouvez"],
+  [/(^|[\s(])ton(?=$|[\s,.;:!?])/g,"$1votre"],
+  [/(^|[\s(])Ton(?=$|[\s,.;:!?])/g,"$1Votre"],
+  [/(^|[\s(])ta(?=$|[\s,.;:!?])/g,"$1votre"],
+  [/(^|[\s(])Ta(?=$|[\s,.;:!?])/g,"$1Votre"],
+  [/(^|[\s(])tes(?=$|[\s,.;:!?])/g,"$1vos"],
+  [/(^|[\s(])Tes(?=$|[\s,.;:!?])/g,"$1Vos"],
+  [/(^|[\s(])toi(?=$|[\s,.;:!?])/g,"$1vous"],
+  [/(^|[\s(])N['’]hésite pas(?=$|[\s,.;:!?])/g,"$1N’hésitez pas"],
+  [/(^|[\s(])n['’]hésite pas(?=$|[\s,.;:!?])/g,"$1n’hésitez pas"]
+ ];
+ for(const [re,to] of rules)t=t.replace(re,to);
+ return t;
+}
+
+// Communications stay generic: no ticket number field, no import/export.
+function preparedTemplate(t){
+ const v=localizeTemplate(t);
+ const subject=formalizeTemplateText(v&&v.subject||"");
+ const body=formalizeTemplateText(v&&v.content||"");
+ const shareBody=decorateTemplatePlainText(body);
+ const subjectPrefix=state.lang==="en"?"Subject: ":"Objet : ";
+ return {subject,body,full:(subject?subjectPrefix+subject+"\n\n":"")+shareBody,name:v&&v.name||""};
+}
+
+function communications(){
+ const raw=allTemplates();
+ let all=raw.map(localizeTemplate);
+ let ts=filterItems(all,["name","category","subject","content"]);
+ if(templateFilter!=="Tous")ts=ts.filter(t=>(t._categoryKey||t.category)===templateFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category))].sort();
+ let actionCards=filterItems(
+   pocketActions().filter(x=>x.webCategory==="Communications").map(localizeDataItem),
+   ["name","description","method","command","script","category"]
+ );
+ return '<div class="toolbar communication-topbar">'+
+ '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+ '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span></div>'+
+ '<div class="toolbar"><button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+ cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(templateCategoryLabel(c))+'</button>').join("")+'</div>'+
+ (actionCards.length?'<div class="section-title">'+ui("Actions Communication")+'</div><div class="grid">'+actionCards.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">'+ui("Modèles corporate")+'</div><div class="grid">'+
+ (ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+ '</div>';
+}
+Object.assign(window,{shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
  const b=document.getElementById("scrollTopBtn");
