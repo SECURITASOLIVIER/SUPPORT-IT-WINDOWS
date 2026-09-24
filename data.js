@@ -7911,27 +7911,27 @@ window.SSIT_DATA = {
       "category": "Tickets",
       "subject": "Ticket - En attente utilisateur",
       "content": "Bonjour,\n\nVotre demande est actuellement en attente de votre retour concernant [information attendue].\n\nDès réception, nous pourrons reprendre l’analyse.\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - En attente User",
-      "subject_en": "Ticket - En attente User",
-      "content_en": "Hello,\n\nyour request est actuellement en attente de votre feedback concernant [information attendue].\n\nDès réception, nous pourrons reprendre l’analyse.\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Waiting for user",
+      "subject_en": "Ticket - Waiting for user",
+      "content_en": "Hello [First name],\n\nTicket [Ticket #] is currently waiting for your feedback regarding [information required].\n\nAs soon as we receive it, we will be able to resume the analysis.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - En attente de traitement externe",
       "category": "Tickets",
       "subject": "Ticket - En attente de traitement externe",
       "content": "Bonjour,\n\nVotre demande nécessite une intervention complémentaire.\n\nLe dossier a été transmis avec les éléments de diagnostic disponibles. Nous vous tiendrons informé de l’avancement.\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - En attente de processing externe",
-      "subject_en": "Ticket - En attente de processing externe",
-      "content_en": "Hello,\n\nyour request nécessite An intervention complémentaire.\n\nLe dossier a été transmis avec les éléments de diagnostic disponibles. Nous vous tiendrons informé de l’avancement.\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Waiting for third-party team",
+      "subject_en": "Ticket - Waiting for third-party team",
+      "content_en": "Hello [First name],\n\nYour ticket [Ticket #] requires intervention from [Team / vendor].\n\nThe case has been forwarded with the available diagnostic information. We will keep you informed of progress.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Résolution proposée",
       "category": "Tickets",
       "subject": "Ticket - Résolution proposée",
       "content": "Bonjour,\n\nUne correction a été appliquée.\n\nPouvez-vous effectuer un nouveau test et me confirmer si le fonctionnement est revenu à la normale?\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - Proposed resolution",
-      "subject_en": "Ticket - Proposed resolution",
-      "content_en": "Hello,\n\nUne correction a été appliquée.\n\nCould you effectuer un nouveau test et me confirmer si le fonctionnement est revenu à la normale?\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Fix applied / confirmation required",
+      "subject_en": "Ticket - Fix applied / confirmation required",
+      "content_en": "Hello [First name],\n\nA fix has been applied to ticket [Ticket #].\n\nCould you please test again and confirm whether the service is now working normally?\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Résolution confirmée",
@@ -7940,25 +7940,25 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nMerci pour votre confirmation.\n\nLa demande est résolue et peut être clôturée.\n\nCordialement,\nSupport informatique",
       "name_en": "Ticket - Resolution confirmed",
       "subject_en": "Ticket - Resolution confirmed",
-      "content_en": "Hello,\n\nMerci pour votre confirmation.\n\nThe request est résolue et peut être closede.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nThank you for your confirmation.\n\nTicket [Ticket #] is resolved and can now be closed.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Clôture sans retour",
       "category": "Tickets",
       "subject": "Ticket - Clôture sans retour",
       "content": "Bonjour,\n\nSans retour après nos précédentes sollicitations, la demande va être clôturée administrativement.\n\nSi le problème est toujours présent, vous pourrez créer une nouvelle demande en précisant le contexte et les symptômes rencontrés.\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - Closure sans feedback",
-      "subject_en": "Ticket - Closure sans feedback",
-      "content_en": "Hello,\n\nSans feedback après nos précédentes sollicitations, The request va être closede administrativement.\n\nSi The issue est toujours présent, vous pourrez créer une nouvelle Request en précisant le contexte et les Symptoms rencontrés.\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Closure without response",
+      "subject_en": "Ticket - Closure without response",
+      "content_en": "Hello [First name],\n\nAs we have not received a response after our previous follow-ups, ticket [Ticket #] will be administratively closed.\n\nIf the issue is still present, please open a new request and include the original ticket number.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Mauvaise catégorie",
       "category": "Tickets",
       "subject": "Ticket - Mauvaise catégorie",
       "content": "Bonjour,\n\nLa demande a été enregistrée dans une catégorie qui ne correspond pas au besoin identifié.\n\nLe ticket va être réorienté vers la catégorie / équipe adaptée afin de faciliter son traitement.\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - Wrong category",
-      "subject_en": "Ticket - Wrong category",
-      "content_en": "Hello,\n\nThe request a été enregistrée dans une catégorie qui ne correspond pas au besoin identifié.\n\nThe ticket va être réorienté vers la catégorie / équipe adaptée To faciliter son processing.\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Incorrect category",
+      "subject_en": "Ticket - Incorrect category",
+      "content_en": "Hello [First name],\n\nThe request was logged under a category that does not match the identified need.\n\nThe ticket will be redirected to the appropriate category or team to facilitate processing.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Doublon",
@@ -7967,394 +7967,394 @@ window.SSIT_DATA = {
       "content": "Bonjour,\n\nCette demande fait doublon avec une demande déjà en cours de traitement.\n\nAfin d’éviter les traitements parallèles, le suivi sera poursuivi sur la demande principale.\n\nCordialement,\nSupport informatique",
       "name_en": "Ticket - Duplicate",
       "subject_en": "Ticket - Duplicate",
-      "content_en": "Hello,\n\nCette Request fait Duplicate avec une Request déjà en cours de processing.\n\nAfin d’éviter les traitements parallèles, le suivi sera poursuivi sur The request principale.\n\nKind regards,\nIT Support"
+      "content_en": "Hello [First name],\n\nTicket [Ticket #] is a duplicate of ticket [Main ticket #].\n\nTo avoid parallel processing, we will continue tracking the issue only through the main ticket.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Ticket - Hors périmètre",
       "category": "Tickets",
       "subject": "Ticket - Hors périmètre",
       "content": "Bonjour,\n\nAprès analyse, cette demande ne relève pas du périmètre du support informatique.\n\nMerci de vous rapprocher du service concerné pour la suite du traitement.\n\nCordialement,\nSupport informatique",
-      "name_en": "Ticket - Out of scope",
-      "subject_en": "Ticket - Out of scope",
-      "content_en": "Hello,\n\nAprès analyse, cette Request ne relève pas du périmètre du IT Support.\n\nMerci de vous rapprocher du service concerné pour la suite du processing.\n\nKind regards,\nIT Support"
+      "name_en": "Ticket - Outside support scope",
+      "subject_en": "Ticket - Outside support scope",
+      "content_en": "Hello [First name],\n\nAfter review, this request is outside the scope of the relevant IT Support team.\n\nPlease contact [Team / vendor / service] for further assistance.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Premier contact support",
       "category": "Mails",
       "subject": "Mail - Premier contact support",
       "content": "Bonjour,\n\nJe vous contacte concernant votre demande relative à [Sujet].\n\nPouvez-vous me confirmer si le problème est toujours présent et, si oui, me transmettre les éléments disponibles ?\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - First contact support",
-      "subject_en": "Mail - First contact support",
-      "content_en": "Hello,\n\nI am contacting you regarding your request relative à [Subject].\n\nCould you me confirmer si The issue est toujours présent et, si oui, me transmettre les éléments disponibles ?\n\nKind regards,\nIT Support"
+      "name_en": "Email - Initial support contact",
+      "subject_en": "Email - Initial support contact",
+      "content_en": "Hello [First name],\n\nI am contacting you regarding your request about [Subject].\n\nCould you please confirm whether the issue is still present and, if so, send me the information currently available?\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Confirmation de prise en compte",
       "category": "Mails",
       "subject": "Mail - Confirmation de prise en compte",
       "content": "Bonjour,\n\nVotre demande concernant [Sujet] est bien prise en compte.\n\nNous reviendrons vers vous dès que l'analyse aura progressé.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Confirmation de prise en compte",
-      "subject_en": "Mail - Confirmation de prise en compte",
-      "content_en": "Hello,\n\nyour request concernant [Subject] est bien prise en compte.\n\nWe will get back to you dès que l'analyse aura progressé.\n\nKind regards,\nIT Support"
+      "name_en": "Email - Request acknowledgement",
+      "subject_en": "Email - Request acknowledgement",
+      "content_en": "Hello [First name],\n\nYour request regarding [Subject] has been received.\n\nWe will get back to you as soon as the analysis progresses.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Proposition de créneau",
       "category": "Mails",
       "subject": "Mail - Proposition de créneau",
       "content": "Bonjour,\n\nJe vous propose une intervention le [Date] à [Heure] pour traiter [Sujet].\n\nMerci de me confirmer si ce créneau vous convient.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Proposition de créneau",
-      "subject_en": "Mail - Proposition de créneau",
-      "content_en": "Hello,\n\nJe vous propose An intervention le [Date] à [Heure] pour traiter [Subject].\n\nPlease confirm si ce créneau vous convient.\n\nKind regards,\nIT Support"
+      "name_en": "Email - Proposed appointment",
+      "subject_en": "Email - Proposed appointment",
+      "content_en": "Hello [First name],\n\nI would like to propose an intervention on [Date] at [Time] to address [Subject].\n\nPlease confirm whether this time works for you.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Intervention terminée",
       "category": "Mails",
       "subject": "Mail - Intervention terminée",
       "content": "Bonjour,\n\nL'intervention concernant [Sujet] est terminée.\n\nActions réalisées :\n- [Action 1]\n- [Action 2]\n- [Action 3]\n\nMerci de me confirmer que tout fonctionne correctement de votre côté.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Intervention terminée",
-      "subject_en": "Mail - Intervention terminée",
-      "content_en": "Hello,\n\nthe intervention concernant [Subject] is complete.\n\nActions performed :\n- [Action 1]\n- [Action 2]\n- [Action 3]\n\nPlease confirm que tout works correctly de votre côté.\n\nKind regards,\nIT Support"
+      "name_en": "Email - Intervention completed",
+      "subject_en": "Email - Intervention completed",
+      "content_en": "Hello [First name],\n\nThe intervention regarding [Subject] has been completed.\n\nActions performed:\n• [Action 1]\n• [Action 2]\n• [Action 3]\n\nPlease confirm that everything is working correctly on your side.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Information utilisateur",
       "category": "Mails",
       "subject": "Mail - Information utilisateur",
       "content": "Bonjour,\n\nPour information, [Message / changement / consigne].\n\nAucune action n'est requise de votre part sauf si vous constatez une anomalie.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Information User",
-      "subject_en": "Mail - Information User",
-      "content_en": "Hello,\n\nPour information, [Message / changement / consigne].\n\nAucune action n'est requise de votre part sauf si vous constatez une issue.\n\nKind regards,\nIT Support"
+      "name_en": "Email - User information",
+      "subject_en": "Email - User information",
+      "content_en": "Hello [First name],\n\nFor your information: [Message / change / instruction].\n\nNo action is required from you unless you notice an issue.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Demande de test utilisateur",
       "category": "Mails",
       "subject": "Mail - Demande de test utilisateur",
       "content": "Bonjour,\n\nUne action a été réalisée sur [Application / poste / compte].\n\nPouvez-vous effectuer le test suivant : [Test demandé] et me communiquer le résultat ?\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Request de test User",
-      "subject_en": "Mail - Request de test User",
-      "content_en": "Hello,\n\nUne action has been completed sur [application / Computer / compte].\n\nCould you effectuer le test suivant : [Test demandé] et me communiquer le Result ?\n\nKind regards,\nIT Support"
+      "name_en": "Email - User test request",
+      "subject_en": "Email - User test request",
+      "content_en": "Hello [First name],\n\nAn action has been performed on [Application / computer / account].\n\nCould you please carry out the following test: [Requested test], and send me the result?\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Relance simple",
       "category": "Mails",
       "subject": "Mail - Relance simple",
       "content": "Bonjour,\n\nJe reviens vers vous concernant [Sujet].\n\nAvez-vous eu l'occasion d'effectuer le test demandé / de vérifier si le problème est toujours présent ?\n\nMerci d'avance pour votre retour.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Follow-up simple",
-      "subject_en": "Mail - Follow-up simple",
-      "content_en": "Hello,\n\nJe reviens vers vous concernant [Subject].\n\nAvez-vous eu l'occasion d'effectuer le test demandé / de vérifier si The issue est toujours présent ?\n\nMerci d'avance pour votre feedback.\n\nKind regards,\nIT Support"
+      "name_en": "Email - Follow-up",
+      "subject_en": "Email - Follow-up",
+      "content_en": "Hello [First name],\n\nI am following up regarding [Subject].\n\nHave you had a chance to perform the requested test or check whether the issue is still present?\n\nThank you in advance for your reply.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mail - Dernière relance",
       "category": "Mails",
       "subject": "Mail - Dernière relance",
       "content": "Bonjour,\n\nDernière relance concernant [Sujet].\n\nSans retour de votre part, nous considérerons que la situation ne nécessite plus d'action immédiate et le dossier pourra être clôturé.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mail - Dernière Follow-up",
-      "subject_en": "Mail - Dernière Follow-up",
-      "content_en": "Hello,\n\nDernière Follow-up concernant [Subject].\n\nWithout a response from you, nous considérerons que la situation ne nécessite plus d'action immédiate et le dossier pourra être clôturé.\n\nKind regards,\nIT Support"
+      "name_en": "Email - Final follow-up",
+      "subject_en": "Email - Final follow-up",
+      "content_en": "Hello [First name],\n\nThis is a final follow-up regarding [Subject].\n\nIf we do not hear back from you, we will consider that no immediate action is required and the case may be closed.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Rapport - Diagnostic synthétique",
       "category": "Rapports",
       "subject": "Rapport - Diagnostic synthétique",
       "content": "RAPPORT DE DIAGNOSTIC\n\nUtilisateur : [Utilisateur]\nPoste : [Nom du poste]\nDate : [Date]\nSujet : [Incident]\n\nConstat :\n[Constat]\n\nTests réalisés :\n- [Test 1] : [Résultat]\n- [Test 2] : [Résultat]\n- [Test 3] : [Résultat]\n\nActions réalisées :\n- [Action 1]\n- [Action 2]\n\nRésultat final :\n[Résultat]\n\nSuite / escalade :\n[Suite]",
-      "name_en": "Rapport - Diagnostic synthétique",
-      "subject_en": "Rapport - Diagnostic synthétique",
-      "content_en": "RAPPORT DE DIAGNOSTIC\n\nUser : [User]\nComputer : [Nom du Computer]\nDate : [Date]\nSubject : [Incident]\n\nFinding :\n[Finding]\n\nTests performed :\n- [Test 1] : [Result]\n- [Test 2] : [Result]\n- [Test 3] : [Result]\n\nActions performed :\n- [Action 1]\n- [Action 2]\n\nFinal result :\n[Result]\n\nSuite / escalade :\n[Suite]"
+      "name_en": "Report - Diagnostic summary",
+      "subject_en": "Report - Diagnostic summary",
+      "content_en": "DIAGNOSTIC REPORT\n\nUser: [User]\nComputer: [Computer name]\nDate: [Date]\nSubject: [Incident]\n\nFinding:\n[Finding]\n\nTests performed:\n• [Test 1]: [Result]\n• [Test 2]: [Result]\n• [Test 3]: [Result]\n\nActions performed:\n• [Action 1]\n• [Action 2]\n\nFinal result:\n[Result]\n\nNext step / escalation:\n[Next step]"
     },
     {
       "name": "Rapport - Escalade N2/N3",
       "category": "Rapports",
       "subject": "Rapport - Escalade N2/N3",
       "content": "ESCALADE SUPPORT\n\nUtilisateur : [Utilisateur]\nPoste : [Poste]\nImpact : [Impact]\nDébut incident : [Date / heure]\n\nSymptôme :\n[Description]\n\nReproduction :\n[Étapes]\n\nDéjà testé :\n- [Test 1]\n- [Test 2]\n- [Test 3]\n\nRésultats / logs :\n[Informations utiles]\n\nBesoin attendu :\n[Expertise / action demandée]",
-      "name_en": "Rapport - Escalade N2/N3",
-      "subject_en": "Rapport - Escalade N2/N3",
-      "content_en": "ESCALADE SUPPORT\n\nUser : [User]\nComputer : [Computer]\nImpact : [Impact]\nDébut Incident : [Date / heure]\n\nSymptom :\n[Description]\n\nReproduction :\n[Étapes]\n\nDéjà testé :\n- [Test 1]\n- [Test 2]\n- [Test 3]\n\nRésultats / logs :\n[Informations utiles]\n\nBesoin attendu :\n[Expertise / action demandée]"
+      "name_en": "Report - N2/N3 escalation",
+      "subject_en": "Report - N2/N3 escalation",
+      "content_en": "SUPPORT ESCALATION\n\nTicket: [Ticket #]\nUser: [User]\nComputer: [Computer]\nImpact: [Impact]\nIncident start: [Date / time]\n\nSymptom:\n[Description]\n\nReproduction:\n[Steps]\n\nAlready tested:\n• [Test 1]\n• [Test 2]\n• [Test 3]\n\nResults / logs:\n[Useful information]\n\nExpected support:\n[Expertise / action required]"
     },
     {
       "name": "Rapport - Incident récurrent",
       "category": "Rapports",
       "subject": "Rapport - Incident récurrent",
       "content": "INCIDENT RÉCURRENT\n\nSujet : [Sujet]\nPérimètre : [Utilisateurs / postes concernés]\nFréquence : [Fréquence]\nPremier cas connu : [Date]\n\nSymptômes communs :\n[Symptômes]\n\nÉléments identiques :\n[Version / application / réseau / matériel]\n\nContournement actuel :\n[Contournement]\n\nAnalyse demandée :\n[Besoin]",
-      "name_en": "Rapport - Incident récurrent",
-      "subject_en": "Rapport - Incident récurrent",
-      "content_en": "Incident RÉCURRENT\n\nSubject : [Subject]\nPérimètre : [Utilisateurs / postes concernés]\nFréquence : [Fréquence]\nPremier cas connu : [Date]\n\nSymptoms communs :\n[Symptoms]\n\nÉléments identiques :\n[Version / application / Network / Equipment]\n\nContournement actuel :\n[Contournement]\n\nAnalyse demandée :\n[Besoin]"
+      "name_en": "Report - Recurring incident",
+      "subject_en": "Report - Recurring incident",
+      "content_en": "RECURRING INCIDENT\n\nSubject: [Subject]\nScope: [Affected users / computers]\nFrequency: [Frequency]\nFirst known occurrence: [Date]\n\nCommon symptoms:\n[Symptoms]\n\nCommon factors:\n[Version / application / network / hardware]\n\nCurrent workaround:\n[Workaround]\n\nRequested analysis:\n[Requirement]"
     },
     {
       "name": "Rapport - Intervention poste",
       "category": "Rapports",
       "subject": "Rapport - Intervention poste",
       "content": "COMPTE RENDU D'INTERVENTION\n\nPoste : [Nom]\nUtilisateur : [Nom]\nMotif : [Motif]\n\nAvant intervention :\n[État]\n\nActions :\n- [Action]\n- [Action]\n- [Action]\n\nAprès intervention :\n[État]\n\nTests de validation :\n[Tests]\n\nStatut : [Résolu / À surveiller / Escaladé]",
-      "name_en": "Rapport - Intervention Computer",
-      "subject_en": "Rapport - Intervention Computer",
-      "content_en": "COMPTE RENDU D'INTERVENTION\n\nComputer : [Nom]\nUser : [Nom]\nMotif : [Motif]\n\nAvant intervention :\n[État]\n\nActions :\n- [Action]\n- [Action]\n- [Action]\n\nAprès intervention :\n[État]\n\nTests de validation :\n[Tests]\n\nStatus : [Résolu / À surveiller / Escaladé]"
+      "name_en": "Report - Workstation intervention",
+      "subject_en": "Report - Workstation intervention",
+      "content_en": "INTERVENTION REPORT\n\nComputer: [Name]\nUser: [Name]\nReason: [Reason]\n\nBefore intervention:\n[Status]\n\nActions:\n• [Action]\n• [Action]\n• [Action]\n\nAfter intervention:\n[Status]\n\nValidation tests:\n[Tests]\n\nStatus: [Resolved / Monitor / Escalated]"
     },
     {
       "name": "Rapport - Matériel",
       "category": "Rapports",
       "subject": "Rapport - Matériel",
       "content": "RAPPORT MATÉRIEL\n\nUtilisateur : [Nom]\nType : [PC / écran / dock / casque / mobile]\nMarque / modèle : [Référence]\nN° série : [Numéro]\nÉtat constaté : [État]\n\nTests :\n[Tests]\n\nConclusion :\n[Réparation / remplacement / retour fournisseur / aucun défaut]",
-      "name_en": "Rapport - Equipment",
-      "subject_en": "Rapport - Equipment",
-      "content_en": "RAPPORT Equipment\n\nUser : [Nom]\nType : [PC / écran / dock / headset / mobile]\nMarque / modèle : [Référence]\nN° série : [Numéro]\nÉtat Findingé : [État]\n\nTests :\n[Tests]\n\nConclusion :\n[Réparation / remplacement / feedback fournisseur / aucun défaut]"
+      "name_en": "Report - Hardware",
+      "subject_en": "Report - Hardware",
+      "content_en": "HARDWARE REPORT\n\nUser: [Name]\nType: [PC / monitor / dock / headset / mobile]\nBrand / model: [Reference]\nSerial number: [Serial number]\nObserved condition: [Status]\n\nTests:\n[Tests]\n\nConclusion:\n[Repair / replacement / vendor return / no fault found]"
     },
     {
       "name": "Rapport - Réseau",
       "category": "Rapports",
       "subject": "Rapport - Réseau",
       "content": "RAPPORT RÉSEAU\n\nPoste : [Nom]\nInterface : [Ethernet / Wi-Fi]\nIPv4 : [IP]\nPasserelle : [Passerelle]\nDNS : [DNS]\nVPN : [État]\n\nTests :\n- Ping passerelle : [Résultat]\n- DNS : [Résultat]\n- HTTPS : [Résultat]\n- VPN : [Résultat]\n\nConclusion :\n[Conclusion]",
-      "name_en": "Rapport - Network",
-      "subject_en": "Rapport - Network",
-      "content_en": "RAPPORT Network\n\nComputer : [Nom]\nInterface : [Ethernet / Wi-Fi]\nIPv4 : [IP]\nPasserelle : [Passerelle]\nDNS : [DNS]\nVPN : [État]\n\nTests :\n- Ping passerelle : [Result]\n- DNS : [Result]\n- HTTPS : [Result]\n- VPN : [Result]\n\nConclusion :\n[Conclusion]"
+      "name_en": "Report - Network",
+      "subject_en": "Report - Network",
+      "content_en": "NETWORK REPORT\n\nComputer: [Name]\nInterface: [Ethernet / Wi-Fi]\nIPv4: [IP]\nGateway: [Gateway]\nDNS: [DNS]\nVPN: [Status]\n\nTests:\n• Gateway ping: [Result]\n• DNS: [Result]\n• HTTPS: [Result]\n• VPN: [Result]\n\nConclusion:\n[Conclusion]"
     },
     {
       "name": "Rapport - M365",
       "category": "Rapports",
       "subject": "Rapport - M365",
       "content": "RAPPORT MICROSOFT 365\n\nUtilisateur : [Compte]\nApplication : [Outlook / Teams / OneDrive / Office]\nVersion : [Version]\n\nSymptôme :\n[Symptôme]\n\nTests :\n- Web : [Résultat]\n- Client local : [Résultat]\n- Autre poste / profil : [Résultat]\n\nActions :\n[Actions]\n\nConclusion :\n[Conclusion]",
-      "name_en": "Rapport - M365",
-      "subject_en": "Rapport - M365",
-      "content_en": "RAPPORT MICROSOFT 365\n\nUser : [Compte]\napplication : [Outlook / Teams / OneDrive / Office]\nVersion : [Version]\n\nSymptom :\n[Symptom]\n\nTests :\n- Web : [Result]\n- Client local : [Result]\n- Autre Computer / profil : [Result]\n\nActions :\n[Actions]\n\nConclusion :\n[Conclusion]"
+      "name_en": "Report - Microsoft 365",
+      "subject_en": "Report - Microsoft 365",
+      "content_en": "MICROSOFT 365 REPORT\n\nUser: [Account]\nApplication: [Outlook / Teams / OneDrive / Office]\nVersion: [Version]\n\nSymptom:\n[Symptom]\n\nTests:\n• Web: [Result]\n• Local client: [Result]\n• Another computer / profile: [Result]\n\nActions:\n[Actions]\n\nConclusion:\n[Conclusion]"
     },
     {
       "name": "Rapport - Sécurité",
       "category": "Rapports",
       "subject": "Rapport - Sécurité",
       "content": "RAPPORT SÉCURITÉ\n\nUtilisateur / poste : [Informations]\nType : [Phishing / malware / compte / accès / autre]\n\nConstat :\n[Constat]\n\nActions immédiates :\n- [Action]\n- [Action]\n\nÉléments transmis :\n[Logs / captures / message / URL]\n\nEscalade :\n[Équipe sécurité / SOC / autre]",
-      "name_en": "Rapport - Sécurité",
-      "subject_en": "Rapport - Sécurité",
-      "content_en": "RAPPORT SÉCURITÉ\n\nUser / Computer : [Informations]\nType : [Phishing / malware / compte / access / autre]\n\nFinding :\n[Finding]\n\nActions immédiates :\n- [Action]\n- [Action]\n\nÉléments transmis :\n[Logs / captures / message / URL]\n\nEscalade :\n[Équipe sécurité / SOC / autre]"
+      "name_en": "Report - Security",
+      "subject_en": "Report - Security",
+      "content_en": "SECURITY REPORT\n\nTicket: [Ticket #]\nUser / computer: [Information]\nType: [Phishing / malware / account / access / other]\n\nFinding:\n[Finding]\n\nImmediate actions:\n• [Action]\n• [Action]\n\nEvidence provided:\n[Logs / screenshots / message / URL]\n\nEscalation:\n[Security team / SOC / other]"
     },
     {
       "name": "PC - Préparation terminée",
       "category": "Matériel",
       "subject": "PC - Préparation terminée",
       "content": "Bonjour,\n\nVotre poste est préparé et prêt.\n\nÉléments préparés :\n- PC : [Modèle]\n- Chargeur\n- [Dock / casque / accessoires]\n- Configuration professionnelle\n\nMerci de me confirmer le mode de remise souhaité : retrait ou expédition.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - preparation terminée",
-      "subject_en": "PC - preparation terminée",
-      "content_en": "Hello,\n\nyour computer est préparé et prêt.\n\nÉléments préparés :\n- PC : [Modèle]\n- charger\n- [Dock / headset / accessoires]\n- configuration professionnelle\n\nPlease confirm le mode de handover souhaité : retrait ou shipment.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Preparation completed",
+      "subject_en": "PC - Preparation completed",
+      "content_en": "Hello [First name],\n\nYour computer has been prepared and is ready.\n\nPrepared items:\n• PC: [Model]\n• Charger\n• [Dock / headset / accessories]\n• Corporate configuration\n\nPlease confirm the preferred handover method: collection or shipment.\n\nKind regards,\nIT Support"
     },
     {
       "name": "PC - Expédition effectuée",
       "category": "Matériel",
       "subject": "PC - Expédition effectuée",
       "content": "Bonjour,\n\nVotre matériel a été expédié.\n\nContenu :\n- [Matériel]\n- [Accessoires]\n\nTransporteur : [Transporteur]\nSuivi : [N° de suivi]\n\nMerci de confirmer la bonne réception du colis.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - shipment effectuée",
-      "subject_en": "PC - shipment effectuée",
-      "content_en": "Hello,\n\nyour equipment a été expédié.\n\nContenu :\n- [Equipment]\n- [Accessoires]\n\nTransporteur : [Transporteur]\nSuivi : [N° de suivi]\n\nMerci de confirmer la bonne réception du colis.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Shipped",
+      "subject_en": "PC - Shipped",
+      "content_en": "Hello [First name],\n\nYour equipment has been shipped.\n\nContents:\n• [Equipment]\n• [Accessories]\n\nCarrier: [Carrier]\nTracking number: [Tracking number]\n\nPlease confirm receipt of the parcel.\n\nKind regards,\nIT Support"
     },
     {
       "name": "PC - Retrait disponible",
       "category": "Matériel",
       "subject": "PC - Retrait disponible",
       "content": "Bonjour,\n\nVotre matériel est disponible auprès du service informatique.\n\nMerci de convenir d'un créneau avant votre passage afin de garantir sa disponibilité.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - Retrait disponible",
-      "subject_en": "PC - Retrait disponible",
-      "content_en": "Hello,\n\nyour equipment is available auprès du IT Support.\n\nMerci de convenir d'un créneau avant votre passage To garantir sa disponibilité.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Available for collection",
+      "subject_en": "PC - Available for collection",
+      "content_en": "Hello [First name],\n\nYour equipment is available from IT Support.\n\nPlease arrange a time before coming to collect it so that we can ensure it is ready for you.\n\nKind regards,\nIT Support"
     },
     {
       "name": "PC - Retour ancien matériel",
       "category": "Matériel",
       "subject": "PC - Retour ancien matériel",
       "content": "Bonjour,\n\nSuite à la mise à disposition de votre nouveau matériel, merci de prévoir le retour des équipements remplacés :\n\n- [Ancien PC]\n- [Chargeur]\n- [Dock / accessoires]\n\nMerci de me confirmer lorsque le matériel est prêt à être retourné.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - feedback ancien Equipment",
-      "subject_en": "PC - feedback ancien Equipment",
-      "content_en": "Hello,\n\nSuite à la availability de votre nouveau Equipment, Please plan to le feedback des équipements remplacés :\n\n- [Ancien PC]\n- [charger]\n- [Dock / accessoires]\n\nPlease confirm lorsque le Equipment is ready à être retourné.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Return previous equipment",
+      "subject_en": "PC - Return previous equipment",
+      "content_en": "Hello [First name],\n\nFollowing the delivery of your new equipment, please arrange the return of the replaced items:\n\n• [Previous PC]\n• [Charger]\n• [Dock / accessories]\n\nPlease confirm when the equipment is ready to be returned.\n\nKind regards,\nIT Support"
     },
     {
       "name": "PC - Remplacement validé",
       "category": "Matériel",
       "subject": "PC - Remplacement validé",
       "content": "Bonjour,\n\nLe remplacement de votre poste a été validé.\n\nNous lançons la préparation du nouvel équipement et vous informerons dès qu'il sera prêt.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - Remplacement validé",
-      "subject_en": "PC - Remplacement validé",
-      "content_en": "Hello,\n\nLe remplacement de your computer a été validé.\n\nNous lançons la preparation du nouvel équipement et vous informerons dès qu'il sera prêt.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Replacement approved",
+      "subject_en": "PC - Replacement approved",
+      "content_en": "Hello [First name],\n\nThe replacement of your computer has been approved.\n\nWe are preparing the new equipment and will let you know as soon as it is ready.\n\nKind regards,\nIT Support"
     },
     {
       "name": "PC - Diagnostic matériel nécessaire",
       "category": "Matériel",
       "subject": "PC - Diagnostic matériel nécessaire",
       "content": "Bonjour,\n\nLes premiers tests orientent le diagnostic vers un problème matériel.\n\nMerci de laisser le poste disponible pour les tests complémentaires / la prise en charge.\n\nCordialement,\nSupport informatique",
-      "name_en": "PC - Diagnostic Equipment nécessaire",
-      "subject_en": "PC - Diagnostic Equipment nécessaire",
-      "content_en": "Hello,\n\nLes premiers tests orientent le diagnostic vers un issue Equipment.\n\nMerci de laisser le Computer disponible pour les tests complémentaires / la taken into support.\n\nKind regards,\nIT Support"
+      "name_en": "PC - Hardware diagnostics required",
+      "subject_en": "PC - Hardware diagnostics required",
+      "content_en": "Hello [First name],\n\nInitial checks indicate that the issue may be hardware-related.\n\nPlease keep the computer available for additional testing and further handling.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Écran - Mise à disposition",
       "category": "Matériel",
       "subject": "Écran - Mise à disposition",
       "content": "Bonjour,\n\nUn écran [Modèle / taille] est disponible pour vous.\n\nMerci de confirmer si vous avez également besoin d'un câble [HDMI / DisplayPort / USB-C] ou d'un adaptateur.\n\nCordialement,\nSupport informatique",
-      "name_en": "Écran - availability",
-      "subject_en": "Écran - availability",
-      "content_en": "Hello,\n\nUn écran [Modèle / taille] is available pour vous.\n\nMerci de confirmer si vous avez également besoin d'un câble [HDMI / DisplayPort / USB-C] ou d'un adaptateur.\n\nKind regards,\nIT Support"
+      "name_en": "Monitor - Available",
+      "subject_en": "Monitor - Available",
+      "content_en": "Hello [First name],\n\nA [Model / size] monitor is available for you.\n\nPlease confirm whether you also need an [HDMI / DisplayPort / USB-C] cable or an adapter.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Dock - Mise à disposition",
       "category": "Matériel",
       "subject": "Dock - Mise à disposition",
       "content": "Bonjour,\n\nUne station d'accueil compatible est disponible.\n\nAvant remise, merci de me confirmer le modèle exact du PC afin de vérifier la compatibilité alimentation / vidéo / USB-C.\n\nCordialement,\nSupport informatique",
-      "name_en": "Dock - availability",
-      "subject_en": "Dock - availability",
-      "content_en": "Hello,\n\nUne station d'accueil compatible is available.\n\nAvant handover, Please confirm le modèle exact du PC To vérifier la compatibilité alimentation / vidéo / USB-C.\n\nKind regards,\nIT Support"
+      "name_en": "Dock - Available",
+      "subject_en": "Dock - Available",
+      "content_en": "Hello [First name],\n\nA compatible docking station is available.\n\nBefore handover, please confirm the exact computer model so that we can verify power, video and USB-C compatibility.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Casque - Mise à disposition",
       "category": "Matériel",
       "subject": "Casque - Mise à disposition",
       "content": "Bonjour,\n\nUn casque est disponible pour vous.\n\nMerci de me confirmer si vous souhaitez un retrait ou un envoi avec votre prochain matériel.\n\nCordialement,\nSupport informatique",
-      "name_en": "headset - availability",
-      "subject_en": "headset - availability",
-      "content_en": "Hello,\n\nUn headset is available pour vous.\n\nPlease confirm si vous souhaitez un retrait ou un envoi avec votre prochain Equipment.\n\nKind regards,\nIT Support"
+      "name_en": "Headset - Available",
+      "subject_en": "Headset - Available",
+      "content_en": "Hello [First name],\n\nA headset is available for you.\n\nPlease confirm whether you would prefer collection or shipment with your next equipment delivery.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Chargeur - Mise à disposition",
       "category": "Matériel",
       "subject": "Chargeur - Mise à disposition",
       "content": "Bonjour,\n\nUn chargeur compatible est disponible.\n\nMerci de confirmer le modèle du poste ainsi que le mode de remise souhaité.\n\nCordialement,\nSupport informatique",
-      "name_en": "charger - availability",
-      "subject_en": "charger - availability",
-      "content_en": "Hello,\n\nUn charger compatible is available.\n\nMerci de confirmer le modèle du Computer ainsi que le mode de handover souhaité.\n\nKind regards,\nIT Support"
+      "name_en": "Charger - Available",
+      "subject_en": "Charger - Available",
+      "content_en": "Hello [First name],\n\nA compatible charger is available.\n\nPlease confirm the computer model and the preferred handover method.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Phishing - Accusé de réception",
       "category": "Sécurité",
       "subject": "Phishing - Accusé de réception",
       "content": "Bonjour,\n\nMerci pour votre signalement.\n\nNe cliquez plus sur les liens du message et n'ouvrez aucune pièce jointe supplémentaire.\n\nLe message va être analysé. Si vous avez saisi un mot de passe ou validé une demande d'authentification, merci de le signaler immédiatement.\n\nCordialement,\nSupport informatique",
-      "name_en": "Phishing - Accusé de réception",
-      "subject_en": "Phishing - Accusé de réception",
-      "content_en": "Hello,\n\nMerci pour votre signalement.\n\nNe cliquez plus sur les liens du message et n'ouvrez aucune pièce jointe supplémentaire.\n\nLe message va être analysé. Si vous avez saisi un mot de passe ou validé une Request d'authentification, merci de le signaler immédiatement.\n\nKind regards,\nIT Support"
+      "name_en": "Phishing - Acknowledgement",
+      "subject_en": "Phishing - Acknowledgement",
+      "content_en": "Hello [First name],\n\nThank you for reporting the message.\n\nDo not click any further links or open any additional attachments.\n\nThe message will be analysed. If you entered a password or approved an authentication request, please report this immediately.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Phishing - Utilisateur a cliqué",
       "category": "Sécurité",
       "subject": "Phishing - Utilisateur a cliqué",
       "content": "Bonjour,\n\nSuite au clic sur le lien suspect, merci de :\n1. ne plus interagir avec le message ;\n2. nous préciser si un identifiant ou mot de passe a été saisi ;\n3. indiquer si une validation MFA a été effectuée ;\n4. rester disponible pour les actions de sécurisation du compte.\n\nLe dossier est traité en priorité.\n\nCordialement,\nSupport informatique",
-      "name_en": "Phishing - User a cliqué",
-      "subject_en": "Phishing - User a cliqué",
-      "content_en": "Hello,\n\nSuite au clic sur le lien suspect, merci de :\n1. ne plus interagir avec le message ;\n2. nous préciser si un identifiant ou mot de passe a été saisi ;\n3. indiquer si une validation MFA a été effectuée ;\n4. rester disponible pour Actions de sécurisation du compte.\n\nLe dossier est traité en priorité.\n\nKind regards,\nIT Support"
+      "name_en": "Phishing - User clicked the link",
+      "subject_en": "Phishing - User clicked the link",
+      "content_en": "Hello [First name],\n\nFollowing the click on the suspicious link, please:\n\n1. Stop interacting with the message;\n2. Confirm whether a username or password was entered;\n3. Confirm whether an MFA approval was performed;\n4. Remain available for account security actions.\n\nThe case is being handled as a priority.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Compte - Suspicion de compromission",
       "category": "Sécurité",
       "subject": "Compte - Suspicion de compromission",
       "content": "Bonjour,\n\nUne vérification de sécurité est nécessaire sur votre compte.\n\nPar précaution, certaines sessions ou méthodes d'authentification peuvent être réinitialisées. Merci de rester disponible pour confirmer votre identité et effectuer une nouvelle connexion.\n\nCordialement,\nSupport informatique",
-      "name_en": "Compte - Suspicion de compromission",
-      "subject_en": "Compte - Suspicion de compromission",
-      "content_en": "Hello,\n\nUne vérification de sécurité est nécessaire sur your account.\n\nPar précaution, certaines sessions ou authentication methods peuvent être réinitialisées. Merci de rester disponible pour confirmer votre identité et effectuer une nouvelle connection.\n\nKind regards,\nIT Support"
+      "name_en": "Account - Suspected compromise",
+      "subject_en": "Account - Suspected compromise",
+      "content_en": "Hello [First name],\n\nA security check is required on your account.\n\nAs a precaution, some sessions or authentication methods may be reset. Please remain available to confirm your identity and sign in again.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Blocage fichier / URL",
       "category": "Sécurité",
       "subject": "Blocage fichier / URL",
       "content": "Bonjour,\n\nL'accès à [fichier / URL / application] est bloqué par un mécanisme de sécurité.\n\nMerci de transmettre :\n- le nom ou l'adresse complète ;\n- une capture du blocage ;\n- le besoin métier associé.\n\nUne analyse pourra ensuite être réalisée.\n\nCordialement,\nSupport informatique",
-      "name_en": "Blocage fichier / URL",
-      "subject_en": "Blocage fichier / URL",
-      "content_en": "Hello,\n\nL'access à [fichier / URL / application] est bloqué par un mécanisme de sécurité.\n\nPlease provide :\n- le nom ou l'adresse complète ;\n- une capture du blocage ;\n- le besoin métier associé.\n\nUne analyse pourra ensuite être réalisée.\n\nKind regards,\nIT Support"
+      "name_en": "Blocked file / URL",
+      "subject_en": "Blocked file / URL",
+      "content_en": "Hello [First name],\n\nAccess to [file / URL / application] is blocked by a security control.\n\nPlease provide:\n• The exact file name or address;\n• A screenshot of the block message;\n• The related business need.\n\nThe case can then be reviewed.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Alerte antivirus",
       "category": "Sécurité",
       "subject": "Alerte antivirus",
       "content": "Bonjour,\n\nUne alerte de sécurité a été détectée sur le poste [Nom du poste].\n\nMerci de ne pas éteindre le poste sauf consigne contraire et de limiter son utilisation jusqu'à la fin des vérifications.\n\nCordialement,\nSupport informatique",
-      "name_en": "Alerte antivirus",
-      "subject_en": "Alerte antivirus",
-      "content_en": "Hello,\n\nUne alerte de sécurité a été détectée sur le Computer [Nom du Computer].\n\nMerci de ne pas éteindre le Computer sauf consigne contraire et de limiter son utilisation jusqu'à la fin des checks.\n\nKind regards,\nIT Support"
+      "name_en": "Antivirus alert",
+      "subject_en": "Antivirus alert",
+      "content_en": "Hello [First name],\n\nA security alert has been detected on computer [Computer name].\n\nPlease do not shut down the computer unless instructed otherwise, and limit its use until the checks are complete.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Demande d'exception sécurité",
       "category": "Sécurité",
       "subject": "Demande d'exception sécurité",
       "content": "Bonjour,\n\nPour étudier une exception de sécurité, merci de préciser:\n- l'application / URL concernée;\n- la justification métier;\n- la population concernée;\n- la durée souhaitée;\n- l'impact en cas de refus.\n\nLa demande pourra ensuite être soumise à validation.\n\nCordialement,\nSupport informatique",
-      "name_en": "Request d'exception sécurité",
-      "subject_en": "Request d'exception sécurité",
-      "content_en": "Hello,\n\nPour étudier une exception de sécurité, Please specify:\n- l'application / URL concernée;\n- la justification métier;\n- la population concernée;\n- la durée souhaitée;\n- l'Impact en cas de refus.\n\nThe request pourra ensuite être soumise à validation.\n\nKind regards,\nIT Support"
+      "name_en": "Security exception request",
+      "subject_en": "Security exception request",
+      "content_en": "Hello [First name],\n\nTo review a security exception, please provide:\n• The application / URL concerned;\n• The business justification;\n• The affected population;\n• The requested duration;\n• The impact if the request is declined.\n\nThe request can then be submitted for approval.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Mot de passe - Réinitialisé",
       "category": "Accès & MFA",
       "subject": "Mot de passe - Réinitialisé",
       "content": "Bonjour,\n\nVotre mot de passe a été réinitialisé.\n\nLors de la prochaine connexion, utilisez le mot de passe temporaire communiqué via le canal prévu, puis définissez un nouveau mot de passe conforme à la politique de sécurité.\n\nCordialement,\nSupport informatique",
-      "name_en": "Mot de passe - Réinitialisé",
-      "subject_en": "Mot de passe - Réinitialisé",
-      "content_en": "Hello,\n\nyour password a été réinitialisé.\n\nLors de la next sign-in, utilisez le temporary password communiqué via le canal prévu, puis définissez un nouveau mot de passe conforme à la politique de sécurité.\n\nKind regards,\nIT Support"
+      "name_en": "Password - Reset completed",
+      "subject_en": "Password - Reset completed",
+      "content_en": "Hello [First name],\n\nYour password has been reset.\n\nAt the next sign-in, use the temporary password provided through the approved channel, then set a new password that complies with the security policy.\n\nKind regards,\nIT Support"
     },
     {
       "name": "MFA - Réinitialisation effectuée",
       "category": "Accès & MFA",
       "subject": "MFA - Réinitialisation effectuée",
       "content": "Bonjour,\n\nVos méthodes d'authentification multifacteur ont été réinitialisées.\n\nLors de votre prochaine connexion, l'enregistrement d'une nouvelle méthode vous sera demandé.\n\nCordialement,\nSupport informatique",
-      "name_en": "MFA - Réinitialisation effectuée",
-      "subject_en": "MFA - Réinitialisation effectuée",
-      "content_en": "Hello,\n\nVos authentication methods multifacteur ont été réinitialisées.\n\nLors de votre next sign-in, l'enregistrement d'une nouvelle méthode vous sera demandé.\n\nKind regards,\nIT Support"
+      "name_en": "MFA - Reset completed",
+      "subject_en": "MFA - Reset completed",
+      "content_en": "Hello [First name],\n\nYour multi-factor authentication methods have been reset.\n\nAt your next sign-in, you will be prompted to register a new authentication method.\n\nKind regards,\nIT Support"
     },
     {
       "name": "MFA - Nouvelle méthode",
       "category": "Accès & MFA",
       "subject": "MFA - Nouvelle méthode",
       "content": "Bonjour,\n\nPour ajouter une nouvelle méthode MFA :\n1. ouvrez la page de sécurité de votre compte ;\n2. ajoutez la méthode souhaitée ;\n3. suivez la validation demandée ;\n4. effectuez un test de connexion.\n\nContactez le support si l'enregistrement échoue.\n\nCordialement,\nSupport informatique",
-      "name_en": "MFA - Nouvelle méthode",
-      "subject_en": "MFA - Nouvelle méthode",
-      "content_en": "Hello,\n\nPour ajouter une nouvelle méthode MFA :\n1. ouvrez la page de sécurité de your account ;\n2. ajoutez la méthode souhaitée ;\n3. suivez la validation demandée ;\n4. effectuez un test de connection.\n\nContactez le support si l'enregistrement échoue.\n\nKind regards,\nIT Support"
+      "name_en": "MFA - Add a new method",
+      "subject_en": "MFA - Add a new method",
+      "content_en": "Hello [First name],\n\nTo add a new MFA method:\n\n1. Open your account security page;\n2. Add the required method;\n3. Complete the requested verification;\n4. Test sign-in.\n\nContact IT Support if registration fails.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Demande de justification",
       "category": "Accès & MFA",
       "subject": "Accès - Demande de justification",
       "content": "Bonjour,\n\nPour traiter votre demande d'accès à [Ressource], merci de préciser :\n- le besoin métier ;\n- le niveau d'accès attendu ;\n- la durée si l'accès est temporaire ;\n- le responsable / valideur concerné.\n\nCordialement,\nSupport informatique",
-      "name_en": "access - Request de justification",
-      "subject_en": "access - Request de justification",
-      "content_en": "Hello,\n\nPour traiter your request d'access à [Ressource], Please specify :\n- le besoin métier ;\n- le niveau d'access attendu ;\n- la durée si l'access est temporaire ;\n- le responsable / valideur concerné.\n\nKind regards,\nIT Support"
+      "name_en": "Access - Business justification required",
+      "subject_en": "Access - Business justification required",
+      "content_en": "Hello [First name],\n\nTo process your access request for [Resource], please provide:\n\n• The business need;\n• The required access level;\n• The duration if the access is temporary;\n• The relevant manager / approver.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Accord requis",
       "category": "Accès & MFA",
       "subject": "Accès - Accord requis",
       "content": "Bonjour,\n\nLa demande d'accès à [Ressource] nécessite une validation préalable de [Responsable / propriétaire].\n\nDès validation, le traitement pourra se poursuivre.\n\nCordialement,\nSupport informatique",
-      "name_en": "access - Accord requis",
-      "subject_en": "access - Accord requis",
-      "content_en": "Hello,\n\nThe request d'access à [Ressource] nécessite une validation préalable de [Responsable / propriétaire].\n\nDès validation, le processing pourra se poursuivre.\n\nKind regards,\nIT Support"
+      "name_en": "Access - Approval required",
+      "subject_en": "Access - Approval required",
+      "content_en": "Hello [First name],\n\nThe access request for [Resource] requires prior approval from [Manager / owner].\n\nOnce approval is received, processing can continue.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Accès - Ajout effectué",
       "category": "Accès & MFA",
       "subject": "Accès - Ajout effectué",
       "content": "Bonjour,\n\nL'accès à [Ressource] a été ajouté.\n\nUn délai de propagation peut être nécessaire. Merci de vous déconnecter / reconnecter avant de tester.\n\nCordialement,\nSupport informatique",
-      "name_en": "access - Ajout effectué",
-      "subject_en": "access - Ajout effectué",
-      "content_en": "Hello,\n\nL'access à [Ressource] a été ajouté.\n\nUn délai de propagation peut être nécessaire. Merci de vous déconnecter / reconnecter avant de tester.\n\nKind regards,\nIT Support"
+      "name_en": "Access - Access granted",
+      "subject_en": "Access - Access granted",
+      "content_en": "Hello [First name],\n\nAccess to [Resource] has been granted.\n\nA propagation delay may apply. Please sign out and sign back in before testing.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Demande d'installation",
       "category": "Applications",
       "subject": "Application - Demande d'installation",
       "content": "Bonjour,\n\nVotre demande d'installation de [Application] est bien prise en compte.\n\nMerci de préciser si nécessaire :\n- la version souhaitée ;\n- le besoin métier ;\n- le nombre d'utilisateurs ;\n- l'urgence éventuelle.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - Request d'installation",
-      "subject_en": "application - Request d'installation",
-      "content_en": "Hello,\n\nyour request d'installation de [application] est bien prise en compte.\n\nPlease specify if needed :\n- la version souhaitée ;\n- le besoin métier ;\n- le nombre d'utilisateurs ;\n- l'urgence éventuelle.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Installation request",
+      "subject_en": "Application - Installation request",
+      "content_en": "Hello [First name],\n\nYour request to install [Application] has been received.\n\nIf necessary, please provide:\n• The required version;\n• The business need;\n• The number of users;\n• Any urgency.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Installation terminée",
       "category": "Applications",
       "subject": "Application - Installation terminée",
       "content": "Bonjour,\n\nL'installation de [Application] est terminée sur [Poste].\n\nMerci de lancer l'application et de confirmer son bon fonctionnement.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - Installation terminée",
-      "subject_en": "application - Installation terminée",
-      "content_en": "Hello,\n\nThe installation de [application] is complete sur [Computer].\n\nPlease launch l'application et de confirmer son proper operation.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Installation completed",
+      "subject_en": "Application - Installation completed",
+      "content_en": "Hello [First name],\n\n[Application] has been installed on [Computer].\n\nPlease launch the application and confirm that it is working correctly.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Installation non autorisée",
       "category": "Applications",
       "subject": "Application - Installation non autorisée",
       "content": "Bonjour,\n\nL'application [Application] n'est pas actuellement disponible dans le catalogue autorisé.\n\nUne validation / étude complémentaire est nécessaire avant installation.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - Installation non autorisée",
-      "subject_en": "application - Installation non autorisée",
-      "content_en": "Hello,\n\nL'application [application] n'est pas actuellement disponible dans le catalogue autorisé.\n\nUne validation / étude complémentaire est nécessaire avant installation.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Installation not authorised",
+      "subject_en": "Application - Installation not authorised",
+      "content_en": "Hello [First name],\n\n[Application] is not currently available in the authorised application catalog.\n\nAdditional review or approval is required before installation.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Mise à jour requise",
       "category": "Applications",
       "subject": "Application - Mise à jour requise",
       "content": "Bonjour,\n\nUne mise à jour de [Application] est nécessaire afin de corriger le problème rencontré / maintenir la compatibilité.\n\nMerci d'enregistrer votre travail avant l'intervention.\n\nCordialement,\nSupport informatique",
-      "name_en": "application - update requise",
-      "subject_en": "application - update requise",
-      "content_en": "Hello,\n\nAn update de [application] est nécessaire To corriger The issue rencontré / maintenir la compatibilité.\n\nPlease save votre travail avant the intervention.\n\nKind regards,\nIT Support"
+      "name_en": "Application - Update required",
+      "subject_en": "Application - Update required",
+      "content_en": "Hello [First name],\n\nAn update to [Application] is required to resolve the issue or maintain compatibility.\n\nPlease save your work before the intervention.\n\nKind regards,\nIT Support"
     },
     {
       "name": "Application - Réinstallation proposée",
