@@ -2477,73 +2477,341 @@ function render(){
 /* === /IT Pocket iconography v1 === */
 
 /* === IT Pocket accordion navigation v1 === */
+/* Hierarchie fonctionnelle v2 : famille > sous-theme > action */
+const ITP_TREE_VERSION=2;
+if(state.itpTreeVersion!==ITP_TREE_VERSION){
+ state.itpTreeVersion=ITP_TREE_VERSION;
+ state.techFilters={};
+ try{localStorage.setItem("ssitState",JSON.stringify(state))}catch(_){}
+}
 if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
-function itpGetTechFilter(cat){return state.techFilters&&state.techFilters[cat]?state.techFilters[cat]:"Tous"}
+
+function itpNorm(v){
+ return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+}
+function itpItemText(item){
+ return itpNorm([item&&item.name,item&&item.category,item&&item.webCategory,item&&item.description,item&&item.method,item&&item.shell,item&&item.command,item&&item.script].filter(Boolean).join(" "));
+}
+function itpEffectiveMenu(item){
+ const s=itpItemText(item), n=itpNorm(item&&item.name), cat=itpNorm(item&&item.category);
+ const original=String(item&&item.webCategory||"Outils Support");
+
+ /* Collectes spécialisées : priorité au domaine cible. */
+ if(/collecte reseau|inventaire reseau|commandes reseau/.test(s))return "Réseau & Accès distant";
+ if(/collecte web/.test(s))return "Navigateurs";
+ if(/collecte applicatif/.test(s))return "Applications";
+ if(/collecte systeme|commandes systeme/.test(s))return "Système";
+ if(/collecte complete ticket/.test(s))return "Outils Support";
+
+ /* Microsoft 365 */
+ if(/\boutlook\b|\bwinword\b|\bword\b|\bexcel\b|\bpowerpoint\b|\bpowerpnt\b|\bteams\b|\bmsteams\b|\bonedrive\b|office \/ m365|microsoft 365|office add-?in|complements office/.test(s))return "Microsoft 365";
+
+ /* Navigateurs */
+ if(/\bedge\b|\bchrome\b|\bfirefox\b|navigateur|browser|collecte web/.test(s))return "Navigateurs";
+
+ /* Gestion Microsoft */
+ if(/\bintune\b|\bentra\b|\bsccm\b|configuration manager|\bautopilot\b|microsoft graph|\bpim\b|company portal|portail d.?entreprise|dsregcmd|enterprisemgmt|ccmexec/.test(s))return "Intune / Entra / SCCM";
+
+ /* Sécurité locale Windows */
+ if(/\bdefender\b|\bbitlocker\b|\btpm\b|secure boot|windows hello|pare.?feu|firewall|etat securite windows/.test(s))return "Sécurité Windows";
+
+ /* Périphériques / matériel */
+ if(/imprim|printer|spooler|pilote|driver|\bbios\b|firmware|bluetooth|peripher|device manager|\bpnp\b|audio|camera|webcam|microphone|haut.?parleur|casque|affichage|display|materiel|hardware/.test(s))return "Périphériques & Pilotes";
+
+ /* Réseau / accès distant */
+ if(/\bvpn\b|\bcitrix\b|forticlient|fortinet|\bivanti\b|pulse secure|\brdp\b|bureau a distance|remote desktop|quick assist|assistance distante|\bdns\b|\bdhcp\b|\bping\b|tracert|ipconfig|\broute\b|winsock|ethernet|wi-?fi|carte reseau|proxy|passerelle|gateway/.test(s))return "Réseau & Accès distant";
+
+ /* Winget est de la gestion applicative, pas Windows Update. */
+ if(/\bwinget\b|cat==="winget"/.test(s)||cat==="winget")return "Applications";
+
+ /* Windows Update */
+ if(/windows update|windowsupdateclient|derniere?s? kb|\bkb\d{4,}\b|reboot pending|redemarrage requis|services wu|\bbits\b.*cryptsvc/.test(s))return "Windows Update";
+
+ /* Applications */
+ if(/application|logiciel|software|apps installees|inventaire applications|processus applications|desinstallation|desinstaller|reparer \/ modifier \/ reset|centre applications|lanceur applications/.test(s))return "Applications";
+
+ /* Outils support explicites */
+ if(/powershell admin|cmd admin|bibliotheque complete|outil windows|service.?now|controler le classement|rapport local it pocket|journal it pocket/.test(s))return "Outils Support";
+
+ return original;
+}
+
+const ITP_TOPIC_LABELS={
+ "sys.overview":{fr:"Diagnostic du poste",en:"Workstation diagnostics"},
+ "sys.performance":{fr:"Performances",en:"Performance"},
+ "sys.process":{fr:"Processus & services",en:"Processes & services"},
+ "sys.storage":{fr:"Stockage & nettoyage",en:"Storage & cleanup"},
+ "sys.integrity":{fr:"Intégrité Windows",en:"Windows integrity"},
+ "sys.bootlogs":{fr:"Démarrage & journaux",en:"Boot & logs"},
+ "sys.reports":{fr:"Rapports & escalade",en:"Reports & escalation"},
+ "net.connect":{fr:"IP & connectivité",en:"IP & connectivity"},
+ "net.dns":{fr:"DNS / DHCP / proxy",en:"DNS / DHCP / proxy"},
+ "net.wifi":{fr:"Wi‑Fi & Ethernet",en:"Wi‑Fi & Ethernet"},
+ "net.vpn":{fr:"VPN & clients",en:"VPN & clients"},
+ "net.remote":{fr:"Accès distant",en:"Remote access"},
+ "net.diag":{fr:"Diagnostic & collecte",en:"Diagnostics & collection"},
+ "m365.outlook":{fr:"Outlook",en:"Outlook"},
+ "m365.word":{fr:"Word",en:"Word"},
+ "m365.excel":{fr:"Excel",en:"Excel"},
+ "m365.powerpoint":{fr:"PowerPoint",en:"PowerPoint"},
+ "m365.teams":{fr:"Teams",en:"Teams"},
+ "m365.onedrive":{fr:"OneDrive",en:"OneDrive"},
+ "m365.office":{fr:"Office / Microsoft 365",en:"Office / Microsoft 365"},
+ "browser.edge":{fr:"Microsoft Edge",en:"Microsoft Edge"},
+ "browser.chrome":{fr:"Google Chrome",en:"Google Chrome"},
+ "browser.firefox":{fr:"Mozilla Firefox",en:"Mozilla Firefox"},
+ "browser.general":{fr:"Navigateurs — général",en:"Browsers — general"},
+ "app.center":{fr:"Centre applications",en:"Application center"},
+ "app.inventory":{fr:"Inventaire applications",en:"Application inventory"},
+ "app.maintenance":{fr:"Maintenance & réparation",en:"Maintenance & repair"},
+ "app.process":{fr:"Processus applicatifs",en:"Application processes"},
+ "app.winget":{fr:"Winget & mises à jour apps",en:"Winget & app updates"},
+ "dev.print":{fr:"Imprimantes",en:"Printers"},
+ "dev.audio":{fr:"Audio & vidéo",en:"Audio & video"},
+ "dev.bluetooth":{fr:"Bluetooth & USB",en:"Bluetooth & USB"},
+ "dev.drivers":{fr:"Pilotes",en:"Drivers"},
+ "dev.bios":{fr:"BIOS & firmware",en:"BIOS & firmware"},
+ "dev.hardware":{fr:"Matériel & périphériques",en:"Hardware & devices"},
+ "sec.summary":{fr:"Vue sécurité",en:"Security overview"},
+ "sec.defender":{fr:"Microsoft Defender",en:"Microsoft Defender"},
+ "sec.bitlocker":{fr:"BitLocker",en:"BitLocker"},
+ "sec.tpm":{fr:"TPM / Secure Boot / Hello",en:"TPM / Secure Boot / Hello"},
+ "sec.firewall":{fr:"Pare-feu",en:"Firewall"},
+ "mgmt.intune":{fr:"Intune",en:"Intune"},
+ "mgmt.entra":{fr:"Entra ID & PIM",en:"Entra ID & PIM"},
+ "mgmt.sccm":{fr:"SCCM / Configuration Manager",en:"SCCM / Configuration Manager"},
+ "mgmt.autopilot":{fr:"Windows Autopilot",en:"Windows Autopilot"},
+ "mgmt.graph":{fr:"Microsoft Graph",en:"Microsoft Graph"},
+ "mgmt.portal":{fr:"Company Portal",en:"Company Portal"},
+ "wu.status":{fr:"État & recherche de mises à jour",en:"Update status & scan"},
+ "wu.kb":{fr:"KB, historique & journaux",en:"KBs, history & logs"},
+ "wu.services":{fr:"Services Windows Update",en:"Windows Update services"},
+ "wu.reboot":{fr:"Redémarrage requis",en:"Restart required"},
+ "support.terminal":{fr:"Terminal & administration",en:"Terminal & administration"},
+ "support.inventory":{fr:"Inventaires & exports",en:"Inventories & exports"},
+ "support.ticket":{fr:"Ticket, rapport & escalade",en:"Ticket, report & escalation"},
+ "support.links":{fr:"Liens & outils",en:"Links & tools"},
+ "support.general":{fr:"Outils technicien",en:"Technician tools"}
+};
+function itpTopicLabel(k){const v=ITP_TOPIC_LABELS[k];return v?(state.lang==="en"?v.en:v.fr):k}
+
+function itpTopicKey(item,menu){
+ const s=itpItemText(item), n=itpNorm(item&&item.name), cat=itpNorm(item&&item.category);
+
+ if(menu==="Système"){
+   if(/disque|disk|stockage|storage|nettoy|cleanup|\btemp\b|corbeille|crash dump|chkdsk|treesize|espace libre|winsxs/.test(s))return "sys.storage";
+   if(/\bsfc\b|\bdism\b|integrite|corruption/.test(s))return "sys.integrity";
+   if(/cpu|ram|performance|poste lent/.test(s))return "sys.performance";
+   if(/processus|process|service/.test(s))return "sys.process";
+   if(/demarrage|arret|boot|uptime|evenement|event|journal|log/.test(s))return "sys.bootlogs";
+   if(/rapport|escalade|collecte systeme|centre d.?incident/.test(s))return "sys.reports";
+   return "sys.overview";
+ }
+ if(menu==="Réseau & Accès distant"){
+   if(/\bvpn\b|\bcitrix\b|forticlient|fortinet|\bivanti\b|pulse secure/.test(s))return "net.vpn";
+   if(/\brdp\b|bureau a distance|remote desktop|quick assist|assistance distante/.test(s))return "net.remote";
+   if(/\bdns\b|\bdhcp\b|proxy|\bwinsock\b/.test(s))return "net.dns";
+   if(/wi-?fi|ethernet|carte reseau|adapter/.test(s))return "net.wifi";
+   if(/collecte reseau|inventaire reseau|diagnostic reseau/.test(s))return "net.diag";
+   return "net.connect";
+ }
+ if(menu==="Microsoft 365"){
+   if(/\boutlook\b/.test(s))return "m365.outlook";
+   if(/\bonedrive\b/.test(s))return "m365.onedrive";
+   if(/\bexcel\b/.test(s))return "m365.excel";
+   if(/\bpowerpoint\b|\bpowerpnt\b/.test(s))return "m365.powerpoint";
+   if(/\bteams\b|\bmsteams\b/.test(s))return "m365.teams";
+   if(/\bword\b|\bwinword\b/.test(s))return "m365.word";
+   return "m365.office";
+ }
+ if(menu==="Navigateurs"){
+   if(/\bedge\b/.test(s))return "browser.edge";
+   if(/\bchrome\b/.test(s))return "browser.chrome";
+   if(/\bfirefox\b/.test(s))return "browser.firefox";
+   return "browser.general";
+ }
+ if(menu==="Applications"){
+   if(/\bwinget\b/.test(s))return "app.winget";
+   if(/inventaire|liste logiciels|apps installees/.test(s))return "app.inventory";
+   if(/processus application/.test(s))return "app.process";
+   if(/reparer|modifier|reset|desinstall|fermer une application|forcer fermeture/.test(s))return "app.maintenance";
+   return "app.center";
+ }
+ if(menu==="Périphériques & Pilotes"){
+   if(/imprim|printer|spooler/.test(s))return "dev.print";
+   if(/audio|camera|webcam|microphone|haut.?parleur|casque|affichage|display/.test(s))return "dev.audio";
+   if(/bluetooth|\busb\b/.test(s))return "dev.bluetooth";
+   if(/\bbios\b|firmware/.test(s))return "dev.bios";
+   if(/pilote|driver/.test(s))return "dev.drivers";
+   return "dev.hardware";
+ }
+ if(menu==="Sécurité Windows"){
+   if(/\bdefender\b/.test(s))return "sec.defender";
+   if(/\bbitlocker\b/.test(s))return "sec.bitlocker";
+   if(/\btpm\b|secure boot|windows hello/.test(s))return "sec.tpm";
+   if(/pare.?feu|firewall/.test(s))return "sec.firewall";
+   return "sec.summary";
+ }
+ if(menu==="Intune / Entra / SCCM"){
+   if(/\bautopilot\b/.test(s))return "mgmt.autopilot";
+   if(/microsoft graph|\bgraph\b/.test(s))return "mgmt.graph";
+   if(/company portal|portail d.?entreprise/.test(s))return "mgmt.portal";
+   if(/\bsccm\b|configuration manager|ccmexec/.test(s))return "mgmt.sccm";
+   if(/\bentra\b|\bpim\b|dsregcmd|identit/.test(s))return "mgmt.entra";
+   return "mgmt.intune";
+ }
+ if(menu==="Windows Update"){
+   if(/redemarrage requis|reboot pending/.test(s))return "wu.reboot";
+   if(/service|\bbits\b|cryptsvc/.test(s))return "wu.services";
+   if(/\bkb\b|windowsupdateclient|historique|journal|log/.test(s))return "wu.kb";
+   return "wu.status";
+ }
+ if(menu==="Outils Support"){
+   if(/powershell|cmd|terminal|admin/.test(s))return "support.terminal";
+   if(/inventaire|export/.test(s))return "support.inventory";
+   if(/ticket|rapport|escalade|collecte complete/.test(s))return "support.ticket";
+   if(/lien|navigateur|service.?now|portail/.test(s))return "support.links";
+   return "support.general";
+ }
+ return "support.general";
+}
+
+function itpTopicIcon(item,key){
+ if(/^sys\.storage/.test(key))return itpSvgIcon("Storage","itp-icon-card");
+ if(/^sys\.integrity/.test(key))return itpSvgIcon("Security","itp-icon-card");
+ if(/^sys\.performance/.test(key))return itpSvgIcon("Statistics","itp-icon-card");
+ if(/^sys\.process/.test(key))return itpSvgIcon("Processes & services","itp-icon-card");
+ if(/^sys\.bootlogs/.test(key))return itpSvgIcon("Journal","itp-icon-card");
+ if(/^net\./.test(key))return itpIconForItem(item);
+ if(/^dev\.print/.test(key))return itpSvgIcon("Printer","itp-icon-card");
+ if(/^dev\.audio/.test(key))return itpSvgIcon("Audio / Video","itp-icon-card");
+ if(/^dev\./.test(key))return itpSvgIcon("Devices","itp-icon-card");
+ if(/^sec\./.test(key))return itpIconForItem(item);
+ if(/^wu\./.test(key))return itpSvgIcon("Windows Update","itp-icon-card");
+ return itpIconForItem(item);
+}
+function itpActionsForMenu(cat){
+ return pocketActions().filter(x=>itpEffectiveMenu(x)===cat).map(localizeDataItem);
+}
+function itpGetTechFilter(cat){
+ const v=state.techFilters&&state.techFilters[cat];
+ return v||"__overview__";
+}
 function itpSetTechFilter(cat,key){
  if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
- state.techFilters[cat]=key||"Tous";
+ state.techFilters[cat]=key||"__overview__";
  save();
  render();
- requestAnimationFrame(()=>{const el=document.querySelector(".itp-subnav-active");if(el)el.scrollIntoView({block:"nearest",inline:"nearest",behavior:"smooth"})});
+ if(window.matchMedia&&window.matchMedia("(max-width:800px)").matches){
+   requestAnimationFrame(()=>{const m=document.querySelector("main");if(m)m.scrollIntoView({block:"start",behavior:"smooth"})});
+ }
 }
 function itpTechGroupsForCat(cat){
- const items=pocketActions().filter(x=>x.webCategory===cat).map(localizeDataItem);
- const seen=new Map();
+ const items=itpActionsForMenu(cat),seen=new Map();
  for(const item of items){
-   const k=itpTechKey(item,cat);
-   if(!seen.has(k))seen.set(k,{key:k,label:itpTechLabel(k),count:0,item});
+   const k=itpTopicKey(item,cat);
+   if(!seen.has(k))seen.set(k,{key:k,label:itpTopicLabel(k),count:0,item});
    seen.get(k).count++;
  }
- return [...seen.values()].sort((a,b)=>itpOrder(a.key)-itpOrder(b.key)||a.label.localeCompare(b.label));
+ return [...seen.values()].sort((a,b)=>a.label.localeCompare(b.label,state.lang==="en"?"en":"fr"));
 }
 function itpHasTechSubnav(cat){
  return !["Accueil","Communications","Portails"].includes(cat) && itpTechGroupsForCat(cat).length>1;
 }
 function openCat(c){
+ const changed=state.cat!==c;
  state.cat=c;
  if(!state.tabs.includes(c))state.tabs.push(c);
  if(!state.techFilters || typeof state.techFilters!=="object")state.techFilters={};
- if(!state.techFilters[c])state.techFilters[c]="Tous";
+ if(changed || !state.techFilters[c])state.techFilters[c]="__overview__";
  save();
  render();
 }
 function itpSubnavHtml(cat){
  if(!itpHasTechSubnav(cat))return "";
- const groups=itpTechGroupsForCat(cat),active=itpGetTechFilter(cat);
- const allLabel=state.lang==="en"?"All":"Tous";
+ const groups=itpTechGroupsForCat(cat),active=itpGetTechFilter(cat),items=itpActionsForMenu(cat);
  return '<div class="itp-subnav-wrap">'+
-   '<div class="itp-subnav-head"><span>'+itpCategoryIcon(cat,"nav")+'</span><strong>'+esc(catLabel(cat))+'</strong><span class="itp-subnav-hint">'+(state.lang==="en"?"Choose a technology":"Choisir une technologie")+'</span></div>'+
+   '<div class="itp-subnav-head"><strong>'+(state.lang==="en"?"Submenus":"Sous-menus")+'</strong><span class="itp-subnav-hint">'+groups.length+' '+(state.lang==="en"?"themes":"thèmes")+'</span></div>'+
    '<div class="itp-subnav">'+
-     '<button class="itp-subnav-btn '+(active==="Tous"?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+',"Tous")\'>'+
-       '<span class="itp-subnav-all">≡</span><span>'+allLabel+'</span><small>'+pocketActions().filter(x=>x.webCategory===cat).length+'</small></button>'+
+     '<button class="itp-subnav-btn '+(active==="__overview__"?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+',"__overview__")\'>'+
+       '<span class="itp-subnav-all">⌂</span><span>'+(state.lang==="en"?"Overview":"Vue des thèmes")+'</span><small>'+groups.length+'</small></button>'+
+     '<button class="itp-subnav-btn '+(active==="__all__"?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+',"__all__")\'>'+
+       '<span class="itp-subnav-all">≡</span><span>'+(state.lang==="en"?"All actions":"Toutes les actions")+'</span><small>'+items.length+'</small></button>'+
      groups.map(g=>'<button class="itp-subnav-btn '+(active===g.key?"itp-subnav-active":"")+'" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+','+JSON.stringify(g.key)+')\'>'+
-       itpIconForItem(g.item)+'<span>'+esc(g.label)+'</span><small>'+g.count+'</small></button>').join("")+
+       itpTopicIcon(g.item,g.key)+'<span>'+esc(g.label)+'</span><small>'+g.count+'</small></button>').join("")+
    '</div></div>';
 }
 function nav(){
- const buttons=cats.map(c=>'<button class="navbtn '+(state.cat===c?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\' aria-expanded="'+(state.cat===c&&itpHasTechSubnav(c)?"true":"false")+'">'+
-   itpTitle(itpCategoryIcon(c,"nav"),catLabel(c),"itp-nav-title")+
-   (itpHasTechSubnav(c)?'<span class="itp-nav-chevron">'+(state.cat===c?"⌃":"⌄")+'</span>':'')+
- '</button>').join("");
- $("#nav").innerHTML=buttons+itpSubnavHtml(state.cat);
+ $("#nav").innerHTML=cats.map(c=>{
+   const active=state.cat===c;
+   return '<div class="itp-nav-node">'+
+     '<button class="navbtn '+(active?"active":"")+'" onclick=\'openCat('+JSON.stringify(c)+')\' aria-expanded="'+(active&&itpHasTechSubnav(c)?"true":"false")+'">'+
+       itpTitle(itpCategoryIcon(c,"nav"),catLabel(c),"itp-nav-title")+
+       (itpHasTechSubnav(c)?'<span class="itp-nav-chevron">'+(active?"⌃":"⌄")+'</span>':'')+
+     '</button>'+
+     (active?itpSubnavHtml(c):"")+
+   '</div>';
+ }).join("");
+}
+function itpTopicOverview(cat,groups){
+ const prompt=state.lang==="en"?"Choose a theme to display only the relevant actions.":"Choisis un thème pour n’afficher que les actions utiles.";
+ return '<div class="itp-tree-intro"><strong>'+esc(catLabel(cat))+'</strong><span>'+prompt+'</span></div>'+
+ '<div class="itp-topic-grid">'+groups.map(g=>
+   '<button class="itp-topic-card" onclick=\'itpSetTechFilter('+JSON.stringify(cat)+','+JSON.stringify(g.key)+')\'>'+
+     itpTopicIcon(g.item,g.key)+'<span class="itp-topic-card-text"><strong>'+esc(g.label)+'</strong><small>'+g.count+' '+(state.lang==="en"?"action(s)":"action(s)")+'</small></span><span class="itp-topic-arrow">›</span>'+
+   '</button>').join("")+'</div>';
 }
 function renderActions(c){
- let a=filterItems(pocketActions().filter(x=>x.webCategory===c).map(localizeDataItem),["name","description","command","script","category","webCategory"]);
- const active=itpGetTechFilter(c);
- if(active!=="Tous")a=a.filter(x=>itpTechKey(x,c)===active);
- if(!a.length)return itpSubnavHtml(c)+'<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
+ let a=filterItems(itpActionsForMenu(c),["name","description","command","script","category","webCategory"]);
+ if(!a.length)return '<div class="empty">'+ui("Aucun script, commande ou lien autonome dans cette rubrique.")+'</div>';
 
+ const allGroups=itpTechGroupsForCat(c);
+ if(allGroups.length<=1){
+   return '<div class="toolbar slimbar"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span></div>'+
+          '<div class="grid">'+a.map(actionCard).join("")+'</div>';
+ }
+
+ const active=itpGetTechFilter(c);
+ if(active==="__overview__")return itpTopicOverview(c,allGroups);
+
+ if(active!=="__all__")a=a.filter(x=>itpTopicKey(x,c)===active);
  const groups=new Map();
- a.forEach(x=>{const k=itpTechKey(x,c);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)});
- const entries=[...groups.entries()].sort((A,B)=>itpOrder(A[0])-itpOrder(B[0])||itpTechLabel(A[0]).localeCompare(itpTechLabel(B[0])));
- const sub=itpSubnavHtml(c);
- const activeLabel=active==="Tous"?(state.lang==="en"?"All technologies":"Toutes les technologies"):itpTechLabel(active);
- return sub+
-   '<div class="toolbar slimbar itp-filter-summary"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span>'+
-   '<span class="badge itp-current-tech">'+esc(activeLabel)+'</span></div>'+
-   entries.map(([k,items])=>'<div class="section-title tech-section-title">'+itpIconForItem(items[0])+'<span>'+esc(itpTechLabel(k))+'</span><span class="tech-count">'+items.length+'</span></div><div class="grid">'+items.map(actionCard).join("")+'</div>').join("");
+ a.forEach(x=>{const k=itpTopicKey(x,c);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(x)});
+ const entries=[...groups.entries()].sort((A,B)=>itpTopicLabel(A[0]).localeCompare(itpTopicLabel(B[0]),state.lang==="en"?"en":"fr"));
+ const activeLabel=active==="__all__"?(state.lang==="en"?"All actions":"Toutes les actions"):itpTopicLabel(active);
+ return '<div class="toolbar slimbar itp-filter-summary"><span class="badge">'+a.length+' '+(state.lang==="en"?"item(s)":"élément(s)")+'</span>'+
+   '<span class="badge itp-current-tech">'+esc(activeLabel)+'</span>'+
+   '<button class="btn itp-back-topics" onclick=\'itpSetTechFilter('+JSON.stringify(c)+',"__overview__")\'>'+(state.lang==="en"?"Themes":"Thèmes")+'</button></div>'+
+   entries.map(([k,items])=>'<div class="section-title tech-section-title">'+itpTopicIcon(items[0],k)+'<span>'+esc(itpTopicLabel(k))+'</span><span class="tech-count">'+items.length+'</span></div><div class="grid">'+items.map(actionCard).join("")+'</div>').join("");
 }
-Object.assign(window,{itpSetTechFilter,itpGetTechFilter});
+function home(){
+ const descFr={
+  "Communications":"Modèles et messages corporate.","Portails":"Portails, sites officiels, outils et favoris.",
+  "Système":"Diagnostic Windows, performances, stockage, intégrité et journaux.","Réseau & Accès distant":"IP, DNS, Wi‑Fi, VPN et accès distant.",
+  "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive et Office.","Navigateurs":"Edge, Chrome, Firefox et diagnostic Web.",
+  "Applications":"Applications, maintenance, inventaire et Winget.","Périphériques & Pilotes":"Imprimantes, audio/vidéo, Bluetooth, pilotes et BIOS.",
+  "Sécurité Windows":"Defender, BitLocker, TPM, Secure Boot et pare-feu.","Intune / Entra / SCCM":"Intune, Entra ID, SCCM, Autopilot et Graph.",
+  "Windows Update":"État, KB, historique, services et redémarrage requis.","Outils Support":"Terminal, inventaires, rapports et outils technicien."
+ };
+ const descEn={
+  "Communications":"Corporate messages and communication templates.","Portails":"Official portals, trusted tools and useful resources.",
+  "Système":"Windows diagnostics, performance, storage, integrity and logs.","Réseau & Accès distant":"IP, DNS, Wi‑Fi, VPN and remote access.",
+  "Microsoft 365":"Outlook, Word, Excel, PowerPoint, Teams, OneDrive and Office.","Navigateurs":"Edge, Chrome, Firefox and web diagnostics.",
+  "Applications":"Applications, maintenance, inventory and Winget.","Périphériques & Pilotes":"Printers, audio/video, Bluetooth, drivers and BIOS.",
+  "Sécurité Windows":"Defender, BitLocker, TPM, Secure Boot and firewall.","Intune / Entra / SCCM":"Intune, Entra ID, SCCM, Autopilot and Graph.",
+  "Windows Update":"Status, KBs, history, services and restart requirements.","Outils Support":"Terminal, inventories, reports and technician tools."
+ };
+ const sections=cats.filter(c=>c!=="Accueil").map(c=>({
+   cat:c,
+   count:c==="Communications"?allTemplates().length:c==="Portails"?allPortals().length:itpActionsForMenu(c).length,
+   desc:(state.lang==="en"?descEn[c]:descFr[c])||""
+ }));
+ return '<div class="home-summary all-menu-home">'+sections.map(s=>
+  '<article class="card home-kpi itp-home-card"><div class="itp-home-heading">'+itpCategoryIcon(s.cat,"home")+'<h3>'+esc(catLabel(s.cat))+'</h3></div>'+
+  '<div class="big-number">'+s.count+'</div><p class="desc">'+esc(s.desc)+'</p>'+
+  '<button class="btn primary" onclick=\'openCat('+JSON.stringify(s.cat)+')\'>'+ui("Ouvrir")+'</button></article>').join("")+'</div>';
+}
+Object.assign(window,{itpSetTechFilter,itpGetTechFilter,itpEffectiveMenu,itpTopicKey});
 /* === /IT Pocket accordion navigation v1 === */
 
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
