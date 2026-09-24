@@ -1685,6 +1685,189 @@ function communications(){
  (ts.map(templateCard).join("")||'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
  '</div>';
 }
+
+/* ===== FINAL COMPLETE ENGLISH UI COVERAGE ===== */
+Object.assign(UI_EN,{
+ "Copier rapport":"Copy report",
+ "Vider":"Clear",
+ "Rapport vide.":"Empty report.",
+ "Rapport local IT Pocket":"Local IT Pocket report",
+ "Template dupliqué":"Template duplicated",
+ "Supprimer ce template personnel ?":"Delete this personal template?",
+ "Partage indisponible sur ce navigateur. Le contenu n’a pas pu être copié.":"Sharing is unavailable in this browser. The content could not be copied.",
+ "Fichier de templates invalide.":"Invalid template file.",
+ "Copier commande / méthode":"Copy command / method",
+ "Copier la fiche":"Copy sheet",
+ "Aucune action trouvée.":"No action found.",
+ "Exécution Windows : copier la commande":"Windows execution: copy the command"
+});
+
+const TECH_CATEGORY_EN_FINAL={
+ "Accueil":"Home","Communications":"Communications","Portails":"Portals","Système":"System",
+ "Réseau & Accès distant":"Network & Remote Access","Microsoft 365":"Microsoft 365","Navigateurs":"Browsers",
+ "Applications":"Applications","Périphériques & Pilotes":"Devices & Drivers","Sécurité Windows":"Windows Security",
+ "Intune / Entra / SCCM":"Intune / Entra / SCCM","Windows Update":"Windows Update","Outils Support":"Support Tools",
+ "Office / M365":"Office / M365","OneDrive":"OneDrive","Poste Windows":"Windows Device",
+ "Processus & Services":"Processes & Services","Profil & Comptes":"Profiles & Accounts","Périphériques":"Devices",
+ "Réseau":"Network","Sécurité":"Security","Matériel":"Hardware","Impression":"Printing",
+ "Assistance distante":"Remote Assistance","Disque & Stockage":"Disk & Storage","Intune / Entra":"Intune / Entra",
+ "Applications & Winget":"Applications & Winget","Navigateurs • Général":"Browsers • General",
+ "Navigateurs • Edge":"Browsers • Edge","Navigateurs • Chrome":"Browsers • Chrome","Navigateurs • Firefox":"Browsers • Firefox"
+};
+function looksFrenchTechnicalText(v){
+ const s=String(v||"");
+ return /[àâäçéèêëîïôöùûüÿœ]|\b(?:sans|avec|puis|lorsque|afin|bloqué|compléments|volet|fichiers|dossier|poste|réseau|sécurité|registre|nettoie|démarre|termine|supprime|réinitialise|sélectionne|génère|déclenche|sauvegarde|détecte|renouvelle|filtre|disponible|avant|après|uniquement|certains|certaines|ancien|ancienne|locaux|ciblés|documents|classeurs|présentation|impressions|ressources|éléments|gestionnaire|officiel|professionnel|résumé|fiabilité|identité|matériel|événements|capacité|récupère|analyse|configurées|élévation|icône|éditeur|chemin|collecte|équipe|navigateurs|rôle|bibliothèque|personnalisés|serveurs|routeurs|switchs|anomalies|proposées|impression|détaillées|stratégies|niveau|modèle|rechercher|copier|créer|dupliquer|nouveau|isoler|relance)\b/i.test(s);
+}
+function technicalProductName(x){
+ const s=[x&&x.name,x&&x.name_en,x&&x.category,x&&x.category_en].filter(Boolean).join(" ");
+ const hits=s.match(/Outlook|OneDrive|Teams|Word|Excel|PowerPoint|Edge|Chrome|Firefox|Office|Windows|Intune|Entra|SCCM|BitLocker|Defender|TPM|Winget|VPN|RDP|DNS|DHCP|BIOS|Graph|MFA|Bluetooth|Citrix/gi)||[];
+ return [...new Set(hits)].join(" / ");
+}
+function fallbackEnglishTechnical(x,field,value){
+ const src=String(value||"");
+ if(field==="category"||field==="webCategory") return TECH_CATEGORY_EN_FINAL[src]||src;
+ if(field==="rights"){
+   if(/admin/i.test(src))return "Administrator";
+   if(/compte professionnel/i.test(src))return "Work account";
+   return "User";
+ }
+ if(field==="risk"){
+   if(/élev|high/i.test(src))return "High impact. Review the action carefully before running it.";
+   if(/moyen|medium/i.test(src))return "Medium impact. Save current work before running the action.";
+   if(/lecture/i.test(src))return "Read-only";
+   return "Low impact.";
+ }
+ const product=technicalProductName(x)||TECH_CATEGORY_EN_FINAL[x&&x.category]||"IT";
+ const original=[x&&x.name,x&&x.description,x&&x.method].filter(Boolean).join(" ");
+ if(field==="name"){
+   if(/mode sans échec/i.test(original))return product+" - Safe mode";
+   if(/forcer fermeture|fin de tâche/i.test(original))return product+" - Force close";
+   if(/redémarr/i.test(original))return product+" - Restart";
+   if(/réinitial|reset/i.test(original))return product+" - Reset";
+   if(/répar/i.test(original))return product+" - Repair";
+   if(/netto|cache|purge/i.test(original))return product+" - Cleanup";
+   if(/diagnostic|état|inventaire|résumé|info|version|liste|affiche|contrôle|test/i.test(original))return product+" - Diagnostic";
+   if(/ouvrir|lancer/i.test(original))return product+" - Open";
+   return product+" - Support action";
+ }
+ if(field==="description"){
+   if(/mode sans échec/i.test(original))return "Starts "+product+" in safe mode to isolate add-in or profile issues.";
+   if(/forcer fermeture|fin de tâche|bloqué/i.test(original))return "Stops "+product+" when it is unresponsive.";
+   if(/redémarr/i.test(original))return "Closes and restarts "+product+".";
+   if(/réinitial|reset/i.test(original))return "Resets the relevant "+product+" configuration.";
+   if(/répar/i.test(original))return "Runs the available repair action for "+product+".";
+   if(/netto|cache|purge/i.test(original))return "Performs a targeted cleanup for "+product+".";
+   if(/diagnostic|état|inventaire|résumé|info|version|liste|affiche|contrôle|test/i.test(original))return "Displays or checks technical information for "+product+".";
+   if(/ouvrir|lancer/i.test(original))return "Opens or starts "+product+".";
+   return "Technical support action for "+product+".";
+ }
+ if(field==="method")return "Support procedure for "+product+".";
+ if(field==="expected"||field==="validation"||field==="check")return "Verify the result after running the action.";
+ if(field==="escalation")return "Escalate with the available technical context and collected results.";
+ return src;
+}
+function localizeDataItem(x){
+ if(!x||state.lang!=="en")return x;
+ const y={...x};
+ for(const k of ["name","description","category","rights","risk","method","expected","validation","check","escalation","actionType"]){
+   let v=x[k+"_en"]!=null?String(x[k+"_en"]):String(x[k]||"");
+   if(!v)continue;
+   if(looksFrenchTechnicalText(v))v=fallbackEnglishTechnical(x,k,v);
+   else if(k==="category")v=TECH_CATEGORY_EN_FINAL[v]||v;
+   y[k]=v;
+ }
+ return y;
+}
+function copyReportPocket(){copy(report.join("\n"))}
+function clearReportPocket(){report=[];localStorage.setItem("ssitReport","[]");render()}
+function renderReport(){
+ const empty=state.lang==="en"?"Empty report.":"Rapport vide.";
+ return '<div class="toolbar"><button class="btn primary" onclick="copyReportPocket()">'+ui("Copier rapport")+'</button>'+
+ '<button class="btn red" onclick="clearReportPocket()">'+ui("Vider")+'</button></div>'+
+ '<pre class="code" style="max-height:none">'+esc(report.join("\n\n")||empty)+'</pre>';
+}
+function renderJournal(){
+ const items=filterItems(pocketActions().filter(x=>x.webCategory==="Journal & Statistiques").map(localizeDataItem),["name","description","method","command","script","category"]);
+ return (items.length?'<div class="section-title">Actions</div><div class="grid">'+items.map(actionCard).join("")+'</div>':'')+
+ '<div class="section-title">'+(state.lang==="en"?"Local IT Pocket report":"Rapport local IT Pocket")+'</div>'+renderReport();
+}
+function typeToolbar(){
+ return '<div class="type-filter"><button class="btn" onclick="setTypeFilter(&quot;Tous&quot;)">'+ui("Tous")+'</button>'+
+ '<button class="btn" onclick="setTypeFilter(&quot;Diagnostic&quot;)">🩺 Diagnostic</button>'+
+ '<button class="btn" onclick="setTypeFilter(&quot;Information&quot;)">ℹ Information</button>'+
+ '<button class="btn" onclick="setTypeFilter(&quot;Action&quot;)">⚡ Action</button></div>';
+}
+function renderAllActions(){
+ const items=filterItems(pocketActions().map(localizeDataItem),["name","description","command","script","category","webCategory"]);
+ return '<div class="toolbar slimbar"><span class="badge">'+items.length+' '+(state.lang==="en"?"script(s) / action(s)":"script(s) / action(s)")+'</span></div>'+
+ '<div class="grid">'+(items.map(actionCard).join("")||'<div class="empty">'+(state.lang==="en"?"No script found.":"Aucun script trouvé.")+'</div>')+'</div>';
+}
+function tools(){
+ const items=filterItems((D.commands||[]).map(localizeDataItem),["name","description","command","category","shell"]);
+ return '<div class="toolbar slimbar"><span class="badge">'+items.length+' '+(state.lang==="en"?"command(s)":"commande(s)")+'</span></div>'+
+ '<div class="grid">'+(items.map(commandCard).join("")||'<div class="empty">'+(state.lang==="en"?"No command found.":"Aucune commande trouvée.")+'</div>')+'</div>';
+}
+function duplicateTemplate(ref){
+ const t=getTemplateByRef(ref);if(!t)return;
+ const v=localizeTemplate({...t,_categoryKey:t.category});
+ custom.push({...t,name:(v.name||"Template")+(state.lang==="en"?" - copy":" - copie"),custom:true});
+ save();toast(state.lang==="en"?"Template duplicated":"Template dupliqué");render();
+}
+async function shareText(title,text){
+ const subject=String(title||"IT Pocket"),full=String(text||"");
+ let nativeError=null;
+ if(typeof navigator!=="undefined"&&typeof navigator.share==="function"){
+   try{
+     if(full.length<=12000){await navigator.share({title:subject,text:full});return}
+     const f=makeTextShareFile(subject,full);
+     if(f&&typeof navigator.canShare==="function"){
+       const payload={title:subject,text:state.lang==="en"?"Full IT Pocket content attached.":"Contenu complet IT Pocket en pièce jointe.",files:[f]};
+       if(navigator.canShare(payload)){await navigator.share(payload);return}
+     }
+     await navigator.share({title:subject,text:full});return;
+   }catch(e){if(e&&e.name==="AbortError")return;nativeError=e}
+ }
+ try{
+   await copy(full);
+   toast(state.lang==="en"?"Native sharing unavailable: content copied":"Partage natif indisponible : contenu copié");
+   if(nativeError)console.warn("IT Pocket share fallback",nativeError);
+ }catch(e){
+   console.error("IT Pocket share failed",e);
+   alert(state.lang==="en"?"Sharing is unavailable in this browser. The content could not be copied.":"Partage indisponible sur ce navigateur. Le contenu n’a pas pu être copié.");
+ }
+}
+async function openOutlookText(title,text){
+ const subject=String(title||"IT Pocket"),body=String(text||"");
+ const encSubject=encodeURIComponent(subject),encBody=encodeURIComponent(body);
+ const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent||"");
+ if(encBody.length>14000&&navigator.share){
+   const f=makeTextShareFile(subject,body);
+   if(f&&navigator.canShare){
+     const payload={title:subject,text:state.lang==="en"?"Full IT Pocket sheet attached. Choose Outlook.":"Fiche IT Pocket complète en pièce jointe. Choisir Outlook.",files:[f]};
+     try{if(navigator.canShare(payload)){await navigator.share(payload);return}}catch(e){if(e&&e.name==="AbortError")return}
+   }
+ }
+ const mailto="mailto:?subject="+encSubject+"&body="+encBody;
+ if(isMobile){
+   const outlook="ms-outlook://compose?subject="+encSubject+"&body="+encBody,before=Date.now();
+   window.location.href=outlook;
+   setTimeout(()=>{if(!document.hidden&&Date.now()-before<2500)window.location.href=mailto},900);
+ }else{
+   window.location.href=mailto;
+ }
+}
+function applyUiLanguage(){
+ document.documentElement.lang=state.lang==="en"?"en":"fr";
+ const search=$("#search");if(search)search.placeholder=state.lang==="en"?"Search everywhere...":"Rechercher partout...";
+ const theme=$("#theme");if(theme)theme.textContent="☀/☾ "+(state.lang==="en"?"Theme":"Thème");
+ const lang=$("#lang");if(lang)lang.textContent=state.lang==="en"?"EN / FR":"FR / EN";
+ const top=$("#scrollTopBtn");if(top&&top.setAttribute)top.setAttribute("aria-label",state.lang==="en"?"Back to top":"Remonter en haut");
+ document.querySelectorAll("button,.btn,label.btn,.section-title,.template-subject span").forEach(el=>{
+   const raw=(el.textContent||"").trim();
+   if(state.lang==="en"&&UI_EN[raw])el.textContent=UI_EN[raw];
+ });
+}
+
 Object.assign(window,{shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,deleteTemplate,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
