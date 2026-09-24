@@ -3675,6 +3675,174 @@ itpThemeMark=function(key,item){
 };
 /* === /IT Pocket shortcut product logos v4.5 === */
 
+/* === IT Pocket shortcuts expansion v4.6 === */
+Object.assign(ITP_TOPIC_LABELS,{
+ "short.firefox":{fr:"Mozilla Firefox",en:"Mozilla Firefox"}
+});
+
+const ITP_MORE_SHORTCUTS=[
+ itpShortcut("short.windows","Windows","Afficher le Bureau","Win + D","Affiche ou masque le Bureau."),
+ itpShortcut("short.windows","Windows","Vue des tâches","Win + Tab","Ouvre la vue des tâches et des bureaux virtuels."),
+ itpShortcut("short.windows","Windows","Changer de fenêtre","Alt + Tab","Passe d’une application ouverte à une autre."),
+ itpShortcut("short.windows","Windows","Recherche Windows","Win + S","Ouvre la recherche Windows."),
+ itpShortcut("short.windows","Windows","Paramètres rapides","Win + A","Ouvre les paramètres rapides."),
+ itpShortcut("short.windows","Windows","Notifications","Win + N","Ouvre le centre de notifications."),
+ itpShortcut("short.windows","Windows","Ancrage des fenêtres","Win + Z","Affiche les dispositions d’ancrage Windows 11."),
+ itpShortcut("short.windows","Windows","Réinitialiser le pilote graphique","Win + Ctrl + Maj + B","Redémarre la pile graphique lorsque l’affichage se bloque."),
+ itpShortcut("short.windows","Windows","Saisie vocale","Win + H","Ouvre la saisie vocale Windows."),
+ itpShortcut("short.windows","Windows","Fermer la fenêtre active","Alt + F4","Ferme l’application ou la fenêtre active."),
+ itpShortcut("short.windows","Windows","Propriétés système / À propos","Win + Pause","Ouvre les informations système / À propos."),
+ itpShortcut("short.windows","Windows","Enregistrer l’écran","Win + Alt + R","Démarre ou arrête l’enregistrement de l’écran via Xbox Game Bar lorsque disponible."),
+
+ itpShortcut("short.word","Word","Saut de page","Ctrl + Entrée","Insère un saut de page."),
+ itpShortcut("short.word","Word","Afficher les marques de mise en forme","Ctrl + Maj + 8","Affiche ou masque les marques de paragraphe et de mise en forme."),
+ itpShortcut("short.word","Word","Début du document","Ctrl + Début","Place le curseur au début du document."),
+ itpShortcut("short.word","Word","Fin du document","Ctrl + Fin","Place le curseur à la fin du document."),
+ itpShortcut("short.word","Word","Ajouter un commentaire","Ctrl + Alt + M","Ajoute un nouveau commentaire."),
+ itpShortcut("short.word","Word","Activer le suivi des modifications","Ctrl + Maj + E","Active ou désactive le suivi des modifications."),
+ itpShortcut("short.word","Word","Titre 1","Ctrl + Alt + 1","Applique le style Titre 1."),
+ itpShortcut("short.word","Word","Titre 2","Ctrl + Alt + 2","Applique le style Titre 2."),
+ itpShortcut("short.word","Word","Déplacer un paragraphe vers le haut","Alt + Maj + ↑","Déplace le paragraphe sélectionné vers le haut."),
+ itpShortcut("short.word","Word","Déplacer un paragraphe vers le bas","Alt + Maj + ↓","Déplace le paragraphe sélectionné vers le bas."),
+
+ itpShortcut("short.excel","Excel","Changer de feuille suivante","Ctrl + Page suivante","Passe à la feuille suivante du classeur."),
+ itpShortcut("short.excel","Excel","Changer de feuille précédente","Ctrl + Page précédente","Passe à la feuille précédente du classeur."),
+ itpShortcut("short.excel","Excel","Afficher les formules","Ctrl + touche accent grave","Affiche ou masque les formules dans les cellules."),
+ itpShortcut("short.excel","Excel","Collage spécial","Ctrl + Alt + V","Ouvre la boîte Collage spécial."),
+ itpShortcut("short.excel","Excel","Retour à la ligne dans une cellule","Alt + Entrée","Insère un saut de ligne dans la cellule active."),
+ itpShortcut("short.excel","Excel","Remplir vers le bas","Ctrl + D","Recopie le contenu de la cellule du haut vers la sélection."),
+ itpShortcut("short.excel","Excel","Remplir vers la droite","Ctrl + R","Recopie le contenu de la cellule de gauche vers la sélection."),
+ itpShortcut("short.excel","Excel","Insérer cellules / lignes / colonnes","Ctrl + Maj + +","Ouvre l’insertion de cellules, lignes ou colonnes."),
+ itpShortcut("short.excel","Excel","Supprimer cellules / lignes / colonnes","Ctrl + -","Ouvre la suppression de cellules, lignes ou colonnes."),
+ itpShortcut("short.excel","Excel","Début de la feuille","Ctrl + Début","Va à la première cellule utilisée de la feuille."),
+ itpShortcut("short.excel","Excel","Dernière cellule utilisée","Ctrl + Fin","Va à la dernière cellule utilisée de la feuille."),
+
+ itpShortcut("short.powerpoint","PowerPoint","Fin du diaporama","Échap","Quitte le diaporama."),
+ itpShortcut("short.powerpoint","PowerPoint","Écran noir pendant le diaporama","B","Affiche un écran noir pendant la présentation."),
+ itpShortcut("short.powerpoint","PowerPoint","Écran blanc pendant le diaporama","W","Affiche un écran blanc pendant la présentation."),
+ itpShortcut("short.powerpoint","PowerPoint","Ajouter un commentaire","Ctrl + Alt + M","Ajoute un commentaire."),
+ itpShortcut("short.powerpoint","PowerPoint","Mettre au premier plan","Ctrl + Maj + ]","Place l’objet sélectionné au premier plan."),
+ itpShortcut("short.powerpoint","PowerPoint","Mettre à l’arrière-plan","Ctrl + Maj + [","Place l’objet sélectionné à l’arrière-plan."),
+ itpShortcut("short.powerpoint","PowerPoint","Augmenter la taille de police","Ctrl + Maj + >","Augmente la taille de la police."),
+ itpShortcut("short.powerpoint","PowerPoint","Réduire la taille de police","Ctrl + Maj + <","Réduit la taille de la police."),
+
+ itpShortcut("short.outlook","Outlook","Nouveau message — Outlook classique","Ctrl + Maj + M","Crée un nouveau message depuis n’importe quelle vue dans Outlook classique."),
+ itpShortcut("short.outlook","Outlook","Envoyer — Outlook classique","Alt + S","Envoie le message actif dans Outlook classique."),
+ itpShortcut("short.outlook","Outlook","Courrier","Ctrl + 1","Passe à la vue Courrier."),
+ itpShortcut("short.outlook","Outlook","Personnes / Contacts","Ctrl + 3","Passe à la vue Personnes / Contacts dans Outlook classique."),
+ itpShortcut("short.outlook","Outlook","Tâches — Outlook classique","Ctrl + 4","Passe à la vue Tâches dans Outlook classique."),
+ itpShortcut("short.outlook","Outlook","Nouvelle demande de réunion — Outlook classique","Ctrl + Maj + Q","Crée une nouvelle demande de réunion."),
+ itpShortcut("short.outlook","Outlook","Nouveau rendez-vous — Outlook classique","Ctrl + Maj + A","Crée un nouveau rendez-vous."),
+ itpShortcut("short.outlook","Outlook","Nouveau contact — Outlook classique","Ctrl + Maj + C","Crée un nouveau contact."),
+ itpShortcut("short.outlook","Outlook","Nouvelle tâche — Outlook classique","Ctrl + Maj + K","Crée une nouvelle tâche."),
+ itpShortcut("short.outlook","Outlook","Recherche avancée — Outlook classique","Ctrl + Maj + F","Ouvre la recherche avancée."),
+ itpShortcut("short.outlook","Outlook","Déplacer vers un dossier","Ctrl + Maj + V","Ouvre la boîte permettant de déplacer l’élément vers un autre dossier."),
+ itpShortcut("short.outlook","Outlook","Imprimer","Ctrl + P","Ouvre l’impression de l’élément actif."),
+ itpShortcut("short.outlook","Outlook","Enregistrer","Ctrl + S","Enregistre le brouillon ou l’élément actif."),
+ itpShortcut("short.outlook","Outlook","Supprimer","Suppr","Supprime le message ou l’élément sélectionné."),
+
+ itpShortcut("short.teams","Teams","Lever / baisser la main","Ctrl + Maj + K","Lève ou baisse la main pendant une réunion Teams lorsque le raccourci est disponible."),
+ itpShortcut("short.teams","Teams","Accepter un appel audio","Ctrl + Maj + S","Accepte un appel entrant en audio dans l’application de bureau."),
+ itpShortcut("short.teams","Teams","Accepter un appel vidéo","Ctrl + Maj + A","Accepte un appel entrant en vidéo dans l’application de bureau."),
+ itpShortcut("short.teams","Teams","Refuser un appel","Ctrl + Maj + D","Refuse un appel entrant dans l’application de bureau."),
+
+ itpShortcut("short.edge","Microsoft Edge","Onglet suivant","Ctrl + Tab","Passe à l’onglet suivant."),
+ itpShortcut("short.edge","Microsoft Edge","Onglet précédent","Ctrl + Maj + Tab","Passe à l’onglet précédent."),
+ itpShortcut("short.edge","Microsoft Edge","Ouvrir un onglet par numéro","Ctrl + 1 à 8","Passe directement à l’un des huit premiers onglets."),
+ itpShortcut("short.edge","Microsoft Edge","Dernier onglet","Ctrl + 9","Passe au dernier onglet."),
+ itpShortcut("short.edge","Microsoft Edge","Actualiser","Ctrl + R","Actualise la page active."),
+ itpShortcut("short.edge","Microsoft Edge","Actualisation forcée","Ctrl + Maj + R","Recharge la page en ignorant le cache lorsque pris en charge."),
+ itpShortcut("short.edge","Microsoft Edge","Retour","Alt + ←","Revient à la page précédente."),
+ itpShortcut("short.edge","Microsoft Edge","Suivant","Alt + →","Retourne à la page suivante."),
+ itpShortcut("short.edge","Microsoft Edge","Rechercher dans la page","Ctrl + F","Recherche du texte dans la page active."),
+ itpShortcut("short.edge","Microsoft Edge","Ajouter aux favoris","Ctrl + D","Ajoute la page active aux favoris."),
+ itpShortcut("short.edge","Microsoft Edge","Afficher / masquer la barre des favoris","Ctrl + Maj + B","Affiche ou masque la barre des favoris."),
+ itpShortcut("short.edge","Microsoft Edge","Imprimer la page","Ctrl + P","Ouvre l’impression de la page active."),
+ itpShortcut("short.edge","Microsoft Edge","Enregistrer la page","Ctrl + S","Enregistre la page active."),
+ itpShortcut("short.edge","Microsoft Edge","Zoom avant","Ctrl + +","Augmente le zoom."),
+ itpShortcut("short.edge","Microsoft Edge","Zoom arrière","Ctrl + -","Réduit le zoom."),
+ itpShortcut("short.edge","Microsoft Edge","Réinitialiser le zoom","Ctrl + 0","Remet le zoom à 100 %."),
+ itpShortcut("short.edge","Microsoft Edge","Plein écran","F11","Active ou quitte le plein écran."),
+ itpShortcut("short.edge","Microsoft Edge","Gestionnaire des tâches du navigateur","Maj + Échap","Ouvre le gestionnaire des tâches du navigateur."),
+ itpShortcut("short.edge","Microsoft Edge","Afficher le code source","Ctrl + U","Affiche le code source de la page active."),
+
+ itpShortcut("short.chrome","Google Chrome","Onglet suivant","Ctrl + Tab","Passe à l’onglet suivant."),
+ itpShortcut("short.chrome","Google Chrome","Onglet précédent","Ctrl + Maj + Tab","Passe à l’onglet précédent."),
+ itpShortcut("short.chrome","Google Chrome","Ouvrir un onglet par numéro","Ctrl + 1 à 8","Passe directement à l’un des huit premiers onglets."),
+ itpShortcut("short.chrome","Google Chrome","Dernier onglet","Ctrl + 9","Passe au dernier onglet."),
+ itpShortcut("short.chrome","Google Chrome","Actualiser","Ctrl + R","Actualise la page active."),
+ itpShortcut("short.chrome","Google Chrome","Actualisation forcée","Ctrl + Maj + R","Recharge la page en ignorant le cache."),
+ itpShortcut("short.chrome","Google Chrome","Retour","Alt + ←","Revient à la page précédente."),
+ itpShortcut("short.chrome","Google Chrome","Suivant","Alt + →","Retourne à la page suivante."),
+ itpShortcut("short.chrome","Google Chrome","Rechercher dans la page","Ctrl + F","Recherche du texte dans la page active."),
+ itpShortcut("short.chrome","Google Chrome","Ajouter aux favoris","Ctrl + D","Ajoute la page active aux favoris."),
+ itpShortcut("short.chrome","Google Chrome","Afficher / masquer la barre des favoris","Ctrl + Maj + B","Affiche ou masque la barre des favoris."),
+ itpShortcut("short.chrome","Google Chrome","Gestionnaire des favoris","Ctrl + Maj + O","Ouvre le gestionnaire des favoris."),
+ itpShortcut("short.chrome","Google Chrome","Imprimer la page","Ctrl + P","Ouvre l’impression de la page active."),
+ itpShortcut("short.chrome","Google Chrome","Enregistrer la page","Ctrl + S","Enregistre la page active."),
+ itpShortcut("short.chrome","Google Chrome","Zoom avant","Ctrl + +","Augmente le zoom."),
+ itpShortcut("short.chrome","Google Chrome","Zoom arrière","Ctrl + -","Réduit le zoom."),
+ itpShortcut("short.chrome","Google Chrome","Réinitialiser le zoom","Ctrl + 0","Remet le zoom à 100 %."),
+ itpShortcut("short.chrome","Google Chrome","Plein écran","F11","Active ou quitte le plein écran."),
+ itpShortcut("short.chrome","Google Chrome","Gestionnaire des tâches Chrome","Maj + Échap","Ouvre le gestionnaire des tâches de Chrome."),
+ itpShortcut("short.chrome","Google Chrome","Afficher le code source","Ctrl + U","Affiche le code source de la page active."),
+
+ itpShortcut("short.firefox","Mozilla Firefox","Nouvel onglet","Ctrl + T","Ouvre un nouvel onglet."),
+ itpShortcut("short.firefox","Mozilla Firefox","Fermer l’onglet","Ctrl + W","Ferme l’onglet actif."),
+ itpShortcut("short.firefox","Mozilla Firefox","Rouvrir l’onglet fermé","Ctrl + Maj + T","Rouvre le dernier onglet fermé."),
+ itpShortcut("short.firefox","Mozilla Firefox","Onglet suivant","Ctrl + Tab","Passe à l’onglet suivant."),
+ itpShortcut("short.firefox","Mozilla Firefox","Onglet précédent","Ctrl + Maj + Tab","Passe à l’onglet précédent."),
+ itpShortcut("short.firefox","Mozilla Firefox","Barre d’adresse","Ctrl + L","Place le focus dans la barre d’adresse."),
+ itpShortcut("short.firefox","Mozilla Firefox","Rechercher dans la page","Ctrl + F","Recherche du texte dans la page active."),
+ itpShortcut("short.firefox","Mozilla Firefox","Actualiser","Ctrl + R","Actualise la page active."),
+ itpShortcut("short.firefox","Mozilla Firefox","Actualisation forcée","Ctrl + Maj + R","Recharge la page en ignorant le cache."),
+ itpShortcut("short.firefox","Mozilla Firefox","Retour","Alt + ←","Revient à la page précédente."),
+ itpShortcut("short.firefox","Mozilla Firefox","Suivant","Alt + →","Retourne à la page suivante."),
+ itpShortcut("short.firefox","Mozilla Firefox","Nouvelle fenêtre privée","Ctrl + Maj + P","Ouvre une nouvelle fenêtre de navigation privée."),
+ itpShortcut("short.firefox","Mozilla Firefox","Historique","Ctrl + H","Ouvre l’historique."),
+ itpShortcut("short.firefox","Mozilla Firefox","Téléchargements","Ctrl + J","Ouvre les téléchargements."),
+ itpShortcut("short.firefox","Mozilla Firefox","Bibliothèque de marque-pages","Ctrl + Maj + O","Ouvre la bibliothèque des marque-pages."),
+ itpShortcut("short.firefox","Mozilla Firefox","Ajouter aux marque-pages","Ctrl + D","Ajoute la page active aux marque-pages."),
+ itpShortcut("short.firefox","Mozilla Firefox","Effacer l’historique récent","Ctrl + Maj + Suppr","Ouvre la suppression de l’historique récent."),
+ itpShortcut("short.firefox","Mozilla Firefox","Zoom avant","Ctrl + +","Augmente le zoom."),
+ itpShortcut("short.firefox","Mozilla Firefox","Zoom arrière","Ctrl + -","Réduit le zoom."),
+ itpShortcut("short.firefox","Mozilla Firefox","Réinitialiser le zoom","Ctrl + 0","Remet le zoom à 100 %."),
+ itpShortcut("short.firefox","Mozilla Firefox","Plein écran","F11","Active ou quitte le plein écran."),
+ itpShortcut("short.firefox","Mozilla Firefox","Outils de développement","F12","Ouvre les outils de développement.")
+];
+
+ITP_EXTRA_ACTIONS.push(...ITP_MORE_SHORTCUTS);
+
+const oldTopicKeyV46=itpTopicKey;
+itpTopicKey=function(item,menu){
+ if(item&&item.topic)return item.topic;
+ if(menu==="Raccourcis clavier" && /firefox/.test(itpClassText(item)))return "short.firefox";
+ return oldTopicKeyV46(item,menu);
+};
+
+const oldGroupsV46=itpGroupsForCat;
+itpGroupsForCat=function(cat){
+ if(cat!=="Raccourcis clavier")return oldGroupsV46(cat);
+ const items=itpActionsForMenu(cat),seen=new Map();
+ for(const item of items){
+   const key=item._itpTopic||itpTopicKey(item,cat);
+   if(!seen.has(key))seen.set(key,{key,label:itpTopicLabel(key),count:0,item});
+   seen.get(key).count++;
+ }
+ const order=["short.windows","short.word","short.excel","short.powerpoint","short.outlook","short.teams","short.edge","short.chrome","short.firefox"];
+ return [...seen.values()].sort((a,b)=>{
+   const ia=order.indexOf(a.key), ib=order.indexOf(b.key);
+   return (ia<0?999:ia)-(ib<0?999:ib);
+ });
+};
+
+const oldShortcutProductLogoV46=itpShortcutProductLogo;
+itpShortcutProductLogo=function(key){
+ if(key==="short.firefox")return itpBrowserProduct("firefox","itp-icon-card");
+ return oldShortcutProductLogoV46(key);
+};
+/* === /IT Pocket shortcuts expansion v4.6 === */
+
 Object.assign(window,{setTicketRef,shareTemplate,copyTemplate,applyUiLanguage,ui,catLabel,portalCategoryLabel,toggleTemplatePreview,actionCard,commandCard,toggleInlineDetail,launchTutorial,resourceType,contentSectionTitle,supportSteps,buildSupportShare,cleanMethod,specificCheck,executionProfile,isContainerAction,actionKind,setTypeFilter,pocketActions,isPocketCenterWrapper,shareText,openOutlookText,setTemplateFilter,setActionFilter,renderAllActions,renderJournal,communications,newTemplate,editTemplate,saveTemplateRef,openTemplateOutlook,portals,newLink,editLink,saveLink,deleteLink,toggleFavoriteLink,setPortalFilter,renderActions,tools});
 function scrollToTopPocket(){window.scrollTo({top:0,behavior:"smooth"})}
 function syncScrollTopButton(){
