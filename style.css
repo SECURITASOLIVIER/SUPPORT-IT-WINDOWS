@@ -482,37 +482,3 @@ body.light .tpl-image{
     padding-left:31px;
   }
 }
-
-/* Ticket reference control */
-.communication-topbar{
-  align-items:center;
-}
-.ticket-ref{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 9px;
-  border:1px solid var(--line);
-  border-radius:8px;
-  background:var(--panel2);
-  color:var(--text);
-  font-size:12px;
-  font-weight:600;
-}
-.ticket-ref input{
-  width:150px;
-  min-width:120px;
-  padding:7px 9px;
-  border-radius:7px;
-  margin:0;
-}
-@media(max-width:800px){
-  .ticket-ref{
-    width:100%;
-    justify-content:space-between;
-  }
-  .ticket-ref input{
-    flex:1;
-    max-width:220px;
-  }
-}
