@@ -84,6 +84,134 @@ const PORTAL_CAT_EN={
  "IA":"AI",
  "Favoris":"Favorites"
 };
+
+Object.assign(UI_EN,{
+ "Objectif":"Objective",
+ "À comprendre":"What to know",
+ "Prérequis / impact":"Prerequisites / impact",
+ "Procédure":"Procedure",
+ "Vérification":"Verification",
+ "Escalade":"Escalation",
+ "Droits":"Permissions",
+ "Impact":"Impact",
+ "Information":"Information",
+ "Lien":"Link",
+ "Commande":"Command",
+ "Raccourci Windows":"Windows shortcut",
+ "Script":"Script",
+ "Lien • Navigateur":"Link • Browser",
+ "Commande • CMD":"Command • CMD",
+ "Script • PowerShell":"Script • PowerShell",
+ "Aucun script, commande ou lien autonome dans cette rubrique.":"No standalone script, command or link in this section.",
+ "Aucune commande trouvée.":"No command found.",
+ "Créer un template":"Create template",
+ "Modifier le template":"Edit template",
+ "Ajouter un lien favori":"Add favorite link",
+ "Modifier le lien":"Edit link",
+ "Catégorie":"Category",
+ "Nom":"Name",
+ "Texte":"Text",
+ "URL":"URL",
+ "Sans nom":"Untitled",
+ "Lien enregistré":"Link saved",
+ "Template enregistré":"Template saved",
+ "Template dupliqué":"Template duplicated",
+ "Templates importés":"Templates imported",
+ "Supprimer ce lien ?":"Delete this link?",
+ "Supprimer ce template ?":"Delete this template?",
+ "Nom obligatoire et URL http/https valide.":"A name and a valid http/https URL are required."
+});
+const TEMPLATE_CAT_EN={
+ "Accès & MFA":"Access & MFA",
+ "Applications":"Applications",
+ "Communication":"Communication",
+ "Incident majeur":"Major Incident",
+ "Mails":"Emails",
+ "Maintenance & Changement":"Maintenance & Change",
+ "Matériel":"Equipment",
+ "Messages rapides":"Quick Messages",
+ "Microsoft 365":"Microsoft 365",
+ "Onboarding / Offboarding":"Onboarding / Offboarding",
+ "Rapports":"Reports",
+ "Relances & Escalades":"Follow-ups & Escalations",
+ "Rendez-vous":"Appointments",
+ "Réseau & VPN":"Network & VPN",
+ "Salles & MTR":"Meeting Rooms & MTR",
+ "Sécurité":"Security",
+ "Tickets":"Tickets"
+};
+Object.assign(PORTAL_CAT_EN,{
+ "Veille & Actualité IT":"IT Monitoring & News",
+ "Documentation & Diagnostic":"Documentation & Diagnostics",
+ "Tests Web & Réseau":"Web & Network Tests",
+ "IA & Numérique France":"AI & Digital France",
+ "Veille IT & Cyber":"IT & Cyber Monitoring",
+ "Documentation & Communauté":"Documentation & Community"
+});
+const TECH_EN_EXACT={
+ "Utilisateur":"User",
+ "Administrateur":"Administrator",
+ "Utilisateur/Admin selon ACL":"User/Admin depending on ACL",
+ "Utilisateur/Admin selon processus":"User/Admin depending on process",
+ "Utilisateur/Admin selon tâche":"User/Admin depending on task",
+ "Lecture":"Read-only",
+ "Lecture / diagnostic":"Read-only / diagnostic",
+ "Faible":"Low",
+ "Moyen":"Medium",
+ "Élevé":"High",
+ "Selon contrôle":"Depends on check",
+ "Action de support":"Support action",
+ "État":"Status",
+ "Outils":"Tools",
+ "Réseau":"Network",
+ "Sécurité":"Security",
+ "Applications":"Applications",
+ "Navigateurs":"Browsers",
+ "Périphériques":"Devices",
+ "Matériel":"Equipment",
+ "Système":"System",
+ "Diagnostic":"Diagnostic",
+ "Information":"Information",
+ "Action":"Action",
+ "Portails":"Portals"
+};
+function autoEn(text){
+ let s=String(text==null?"":text);
+ if(state.lang!=="en" || !s)return s;
+ if(TECH_EN_EXACT[s])return TECH_EN_EXACT[s];
+ const reps=[
+  [/\bÉtat\b/gi,"Status"],[/\bprocessus\b/gi,"process"],[/\bMode sans échec\b/gi,"Safe mode"],
+  [/\bForcer fermeture\b/gi,"Force close"],[/\bRedémarrer\b/gi,"Restart"],[/\bRedémarrage\b/gi,"Restart"],
+  [/\bRéinitialiser\b/gi,"Reset"],[/\bRéinitialisation\b/gi,"Reset"],[/\bOuvrir\b/gi,"Open"],[/\bFermer\b/gi,"Close"],
+  [/\bProfils\b/gi,"Profiles"],[/\bDossier\b/gi,"Folder"],[/\bMise à jour\b/gi,"Update"],[/\bMises à jour\b/gi,"Updates"],
+  [/\bDerniers correctifs installés\b/gi,"Latest installed updates"],[/\bPériphériques\b/gi,"Devices"],[/\bPilotes\b/gi,"Drivers"],
+  [/\bImprimantes\b/gi,"Printers"],[/\bApplications installées\b/gi,"Installed applications"],[/\bRéparer\b/gi,"Repair"],
+  [/\bDésinstaller\b/gi,"Uninstall"],[/\bRéseau\b/gi,"Network"],[/\bAccès distant\b/gi,"Remote Access"],
+  [/\bSécurité\b/gi,"Security"],[/\bCompte\b/gi,"Account"],[/\bMot de passe\b/gi,"Password"],
+  [/\bMes connexions\b/gi,"My sign-ins"],[/\bConfigurer les méthodes\b/gi,"Configure methods"],
+  [/\bTous les appareils\b/gi,"All devices"],[/\bAppareils Windows\b/gi,"Windows devices"],
+  [/\bUtilisateur\b/gi,"User"],[/\bAdministrateur\b/gi,"Administrator"],[/\bLecture\b/gi,"Read-only"],
+  [/\bFaible\b/gi,"Low"],[/\bMoyen\b/gi,"Medium"],[/\bÉlevé\b/gi,"High"],
+  [/\bAfficher\b/gi,"Display"],[/\bAffiche\b/gi,"Displays"],[/\bVérifier\b/gi,"Check"],[/\bVérifie\b/gi,"Checks"],
+  [/\bTester\b/gi,"Test"],[/\bLancer\b/gi,"Launch"],[/\bTerminer\b/gi,"Terminate"],[/\bNettoyer\b/gi,"Clean"],
+  [/\bNettoyage\b/gi,"Cleanup"],[/\bRéparation\b/gi,"Repair"],[/\bGestionnaire de périphériques\b/gi,"Device Manager"],
+  [/\bTâches planifiées\b/gi,"Scheduled tasks"],[/\bHistorique\b/gi,"History"],[/\bErreur\b/gi,"Error"],[/\bErreurs\b/gi,"Errors"]
+ ];
+ for(const [re,to] of reps)s=s.replace(re,to);
+ return s.replace(/\s{2,}/g," ").trim();
+}
+function localField(obj,field){
+ const raw=obj&&obj[field]!=null?String(obj[field]):"";
+ if(state.lang!=="en")return raw;
+ const en=obj&&obj[field+"_en"];
+ return en!=null&&String(en).trim()!==""?String(en):autoEn(raw);
+}
+function templateCategoryLabel(c){return state.lang==="en"?(TEMPLATE_CAT_EN[c]||autoEn(c)):c}
+function localizedTemplate(t){
+ if(state.lang!=="en")return t;
+ return {...t,name:localField(t,"name"),subject:localField(t,"subject"),content:localField(t,"content"),category:templateCategoryLabel(t.category)};
+}
+
 function ui(s){return state.lang==="en"?(UI_EN[s]||s):s}
 function catLabel(c){return ui(c)}
 function portalCategoryLabel(c){return state.lang==="en"?(PORTAL_CAT_EN[c]||c):c}
