@@ -4328,4 +4328,81 @@ function communications(){
 Object.assign(window,{communications,templateCard,itpCommSafeTemplate,itpCommBodyOnly});
 /* === /IT Pocket Communications FAILSAFE v5.3 === */
 
+/* === IT Pocket Communications compact final v5.4 === */
+function itpCommNorm(v){
+ return String(v||"").trim().replace(/\s+/g," ").replace(/[–—]/g,"-").toLowerCase();
+}
+function itpCommSubjectUseful(v){
+ const s=String(v&&v.subject||"").trim();
+ if(!s)return false;
+ return itpCommNorm(s)!==itpCommNorm(v&&v.name||"");
+}
+function itpToggleCommDetail(id,btn){
+ const box=document.getElementById(id);
+ if(!box)return;
+ const open=box.classList.toggle("open");
+ if(btn)btn.textContent=open?(state.lang==="en"?"Collapse":"Réduire"):(state.lang==="en"?"Show more":"Voir plus");
+}
+function templateCard(t){
+ const v=itpCommSafeTemplate(t);
+ const ref=JSON.stringify(v._id||"");
+ const body=itpCommBodyOnly(v);
+ const id="comm_"+Math.random().toString(36).slice(2);
+ const icon=(typeof itpTemplateIcon==="function")?itpTemplateIcon(v):"";
+ const showSubject=itpCommSubjectUseful(v);
+
+ return '<article class="card itp-template-card itp-template-compact">'+
+   '<div class="itp-template-head">'+icon+
+     '<div class="itp-template-head-copy"><h3>'+esc(v.name)+'</h3><div class="meta">'+esc(v.category||"")+'</div></div>'+
+   '</div>'+
+   '<div class="actions template-actions itp-template-actions-compact">'+
+     '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+     '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+     '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+     '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+     '<button class="btn" onclick=\'itpToggleCommDetail("'+id+'",this)\'>'+(state.lang==="en"?"Show more":"Voir plus")+'</button>'+
+   '</div>'+
+   '<div id="'+id+'" class="itp-comm-detail">'+
+     (showSubject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+     (body?'<div class="itp-template-body itp-template-plain">'+esc(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+   '</div>'+
+ '</article>';
+}
+function communications(){
+ try{
+   const raw=(typeof allTemplates==="function"?allTemplates():[])||[];
+   const normalized=raw.map(itpCommSafeTemplate);
+   const q=String($("#search")&&$("#search").value||"").trim().toLowerCase();
+   let ts=normalized.filter(x=>{
+     if(!q)return true;
+     return [x.name,x.category,x.subject,x.content].some(v=>String(v||"").toLowerCase().includes(q));
+   });
+   if(templateFilter!=="Tous"){
+     ts=ts.filter(x=>String(x._categoryKey||x.category)===String(templateFilter));
+   }
+   const cs=[...new Set(normalized.map(x=>x._categoryKey||x.category).filter(Boolean))]
+     .sort((a,b)=>String(a).localeCompare(String(b),state.lang==="en"?"en":"fr"));
+
+   return '<div class="toolbar communication-topbar">'+
+     '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+     '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span>'+
+     '</div>'+
+     '<div class="toolbar itp-comm-filters">'+
+       '<button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+       cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(state.lang==="en"?templateCategoryLabel(c):c)+'</button>').join("")+
+     '</div>'+
+     '<div class="grid itp-communications-grid">'+
+       (ts.length?ts.map(x=>{try{return templateCard(x)}catch(e){console.error("Template render failed",x&&x.name,e);return ""}}).join(""):'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+     '</div>';
+ }catch(e){
+   console.error("Communications rendering failed",e);
+   return '<div class="card"><h3>Communications</h3><p class="desc">'+
+     (state.lang==="en"?"The communications module could not load.":"Le module Communications n’a pas pu se charger.")+
+     '</p><div class="actions"><button class="btn primary" onclick="location.reload()">'+
+     (state.lang==="en"?"Reload":"Recharger")+'</button></div></div>';
+ }
+}
+Object.assign(window,{communications,templateCard,itpToggleCommDetail});
+/* === /IT Pocket Communications compact final v5.4 === */
+
 render();
