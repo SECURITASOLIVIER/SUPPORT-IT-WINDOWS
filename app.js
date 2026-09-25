@@ -4192,4 +4192,45 @@ Object.assign(window,{loadMicrosoftWeather,setMicrosoftWeatherFilter,microsoftWe
 loadMicrosoftWeather(false);
 /* === /IT Pocket Microsoft Weather v5.1 === */
 
+/* === IT Pocket Communications stable v5.1 ===
+   Final behavior: direct template list, no preview/expand mode,
+   no Built-in/Intégré label, subject shown once, full message visible.
+*/
+function templateCard(t){
+ const v=localizeTemplate(t),ref=JSON.stringify(t._id);
+ const body=itpTemplateBodyOnly(v);
+ return '<article class="card itp-template-card itp-template-card-full">'+
+   '<h3 class="itp-card-title">'+itpTemplateIcon(v)+'<span>'+esc(v.name)+'</span></h3>'+
+   '<div class="meta">'+esc(v.category||"")+'</div>'+
+   (v.subject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+   (body?'<div class="itp-template-body">'+formatTemplatePreview(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+   '<div class="actions template-actions">'+
+     '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+     '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+     '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+     '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+   '</div>'+
+ '</article>';
+}
+function communications(){
+ const raw=allTemplates();
+ let ts=filterItems(raw.map(localizeTemplate),["name","category","subject","content"]);
+ if(templateFilter!=="Tous")ts=ts.filter(t=>(t._categoryKey||t.category)===templateFilter);
+ const cs=[...new Set(raw.map(x=>x._categoryKey||x.category).filter(Boolean))].sort();
+
+ return '<div class="toolbar communication-topbar">'+
+   '<button class="btn primary itp-icon-btn" onclick="newTemplate()">'+itpOfficialFluent("document","Nouveau template","itp-icon-mini")+ui("+ Créer un template")+'</button>'+
+   '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span>'+
+   '</div>'+
+   '<div class="toolbar itp-comm-filters">'+
+     '<button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+     cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'><span>'+esc(templateCategoryLabel(c))+'</span></button>').join("")+
+   '</div>'+
+   '<div class="grid itp-communications-grid">'+
+     (ts.length?ts.map(templateCard).join(""):'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+   '</div>';
+}
+Object.assign(window,{communications,templateCard});
+/* === /IT Pocket Communications stable v5.1 === */
+
 render();
