@@ -1554,3 +1554,26 @@ body.light .editor textarea{
  .msw-public-grid,.msw-release-grid{grid-template-columns:1fr}
 }
 /* === /IT Pocket Public IT Weather v6.0 === */
+
+/* === IT Pocket Weather richer previews v6.1 === */
+.msw-service-products{margin:10px 0 6px;font-weight:650}
+.msw-status-preview{
+ margin:8px 0 10px;padding:9px 10px;border:1px solid var(--line);border-radius:10px;
+ background:var(--panel2);color:var(--muted);font-size:12px;line-height:1.45
+}
+.msw-preview-grid{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0
+}
+.msw-preview-grid.compact{margin:10px 0}
+.msw-preview-grid>div{
+ min-width:0;padding:8px 9px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)
+}
+.msw-preview-grid span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px}
+.msw-preview-grid b{display:block;color:var(--text);font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.msw-preview-text{
+ display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;margin:9px 0 12px
+}
+@media(max-width:460px){
+ .msw-preview-grid{grid-template-columns:1fr}
+}
+/* === /IT Pocket Weather richer previews v6.1 === */
