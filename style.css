@@ -1688,3 +1688,106 @@ body.light .editor textarea{
   .all-menu-home .itp-home-card > .btn{min-height:32px !important;padding:6px 10px !important}
 }
 /* === /IT Pocket compact mobile + brand restore v6.2 === */
+
+
+/* === IT Pocket communications icons + brand header v6.3 === */
+/* Restore the complete IT Pocket header: rocket + title. */
+.brand{
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:auto !important;
+}
+.brand .rocketLogo{
+  width:58px !important;
+  height:58px !important;
+  object-fit:contain;
+  flex:0 0 58px;
+}
+.brand .brandText{
+  display:block !important;
+  min-width:0;
+}
+.brand .brandText h1{
+  display:block !important;
+  margin:0 !important;
+  font-family:"Orbitron","Segoe UI Variable Display","Aptos Display","Segoe UI",sans-serif !important;
+  font-size:21px !important;
+  font-weight:800 !important;
+  letter-spacing:.10em !important;
+  line-height:1 !important;
+  text-transform:uppercase !important;
+  font-style:italic !important;
+  color:var(--text) !important;
+  white-space:nowrap;
+}
+
+/* Communications: visible, consistent icons on cards, filters and actions. */
+.itp-template-head{
+  display:flex !important;
+  align-items:flex-start !important;
+  gap:10px !important;
+}
+.itp-template-head > .itp-official-icon,
+.itp-template-head > .itp-product-icon,
+.itp-template-head > .itp-brand-wrap{
+  width:28px !important;
+  height:28px !important;
+  flex:0 0 28px !important;
+}
+.itp-template-head > .itp-product-icon img{
+  width:27px !important;
+  height:27px !important;
+}
+.itp-template-head > .itp-brand-wrap{
+  padding:2px !important;
+}
+.itp-template-head > .itp-brand-wrap .itp-brand-logo{
+  width:23px !important;
+  height:23px !important;
+}
+.itp-icon-btn,
+.itp-comm-filters .btn{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+.itp-icon-btn .itp-official-icon,
+.itp-icon-btn .itp-product-icon,
+.itp-icon-btn .itp-brand-wrap,
+.itp-comm-filters .itp-official-icon,
+.itp-comm-filters .itp-product-icon,
+.itp-comm-filters .itp-brand-wrap{
+  width:18px !important;
+  height:18px !important;
+  flex:0 0 18px !important;
+}
+.itp-icon-btn .itp-product-icon img,
+.itp-comm-filters .itp-product-icon img{
+  width:18px !important;
+  height:18px !important;
+}
+.itp-icon-btn .itp-brand-wrap,
+.itp-comm-filters .itp-brand-wrap{
+  padding:1px !important;
+  border-radius:5px;
+}
+.itp-icon-btn .itp-brand-wrap .itp-brand-logo,
+.itp-comm-filters .itp-brand-wrap .itp-brand-logo{
+  width:15px !important;
+  height:15px !important;
+}
+
+@media(max-width:800px){
+  .brand{gap:9px !important}
+  .brand .rocketLogo{
+    width:48px !important;
+    height:48px !important;
+    flex-basis:48px !important;
+  }
+  .brand .brandText h1{
+    font-size:18px !important;
+    letter-spacing:.09em !important;
+  }
+}
+/* === /IT Pocket communications icons + brand header v6.3 === */
