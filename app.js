@@ -4599,4 +4599,177 @@ itpPortalLogo=function(p){
 /* === /IT Pocket brand identity restore v6.2 === */
 
 
+
+/* === IT Pocket communication identity v6.3 === */
+/* Final icon layer: product logo when a real technology is named, Fluent icon for generic Windows/support concepts. */
+const _itpBrandFromTextV63=itpBrandFromText;
+itpBrandFromText=function(text){
+  const s=itpNorm(text||"");
+  const brands=[
+    [/\bdell\b/,"dell","0672CE","Dell"],
+    [/\blenovo\b/,"lenovo","E2231A","Lenovo"],
+    [/\bhp\b|hewlett[ -]?packard/,"hp","0096D6","HP"],
+    [/\bcisco\b/,"cisco","1BA0D7","Cisco"],
+    [/\bvmware\b/,"vmware","607078","VMware"],
+    [/\badobe\b|acrobat/,"adobe","FF0000","Adobe"],
+    [/\bnvidia\b/,"nvidia","76B900","NVIDIA"],
+    [/\bintel\b/,"intel","0071C5","Intel"],
+    [/\bamd\b/,"amd","ED1C24","AMD"],
+    [/\bandroid\b/,"android","3DDC84","Android"],
+    [/\bapple\b|\bios\b|\biphone\b|\bipad\b/,"apple","555555","Apple"],
+    [/\bservicenow\b/,"servicenow","81B5A1","ServiceNow"]
+  ];
+  for(const b of brands){
+    if(b[0].test(s))return itpBrandV62(b[1],b[2],b[3],"itp-icon-card");
+  }
+  return _itpBrandFromTextV63(text);
+};
+
+function itpCommunicationIcon(t,extra){
+  const cls=extra||"itp-icon-card";
+  const s=itpNorm([
+    t&&t.category,t&&t.name,t&&t.subject,t&&t.description,t&&t.content
+  ].filter(Boolean).join(" "));
+
+  if(/\boutlook\b|\bmail\b|\be-?mail\b|courriel|boite mail|messagerie/.test(s))
+    return itpM365Product("outlook","Outlook",cls);
+  if(/\bteams\b|mtr|teams rooms?|salle de reunion|meeting room/.test(s))
+    return itpM365Product("teams","Microsoft Teams",cls);
+  if(/\bonedrive\b/.test(s))
+    return itpM365Product("onedrive","OneDrive",cls);
+  if(/\bword\b/.test(s))
+    return itpM365Product("word","Word",cls);
+  if(/\bexcel\b/.test(s))
+    return itpM365Product("excel","Excel",cls);
+  if(/powerpoint|power point/.test(s))
+    return itpM365Product("powerpoint","PowerPoint",cls);
+  if(/microsoft 365|office 365|\boffice\b/.test(s))
+    return itpMicrosoftAdminLogo("m365",cls);
+  if(/\bintune\b|\bmdm\b|company portal|portail d.?entreprise/.test(s))
+    return itpMicrosoftAdminLogo("intune",cls);
+  if(/\bentra\b|azure ad|identity|identite/.test(s))
+    return itpMicrosoftAdminLogo("entra",cls);
+  if(/\bazure\b/.test(s))
+    return itpMicrosoftAdminLogo("azure",cls);
+  if(/\bedge\b/.test(s))
+    return itpBrowserProduct("edge",cls);
+  if(/\bchrome\b/.test(s))
+    return itpBrowserProduct("chrome",cls);
+  if(/\bfirefox\b/.test(s))
+    return itpBrowserProduct("firefox",cls);
+
+  const brand=itpBrandFromText(s);
+  if(brand){
+    if(cls==="itp-icon-card")return brand;
+    return brand.replace(/itp-icon-card/g,cls);
+  }
+
+  if(/mfa|mot de passe|password|securite|security|acces|habilitation|compte/.test(s))
+    return itpOfficialFluent("shield","Sécurité / accès",cls);
+  if(/vpn|reseau|network|wifi|connexion|connectivite/.test(s))
+    return itpOfficialFluent("connected","Réseau / connexion",cls);
+  if(/expedition|livraison|restitution|mise a disposition|materiel|chargeur|casque|ecran|pc|ordinateur|poste/.test(s))
+    return itpOfficialFluent("laptop","Matériel / poste",cls);
+  if(/onboarding|offboarding|arrivee|depart|utilisateur|collaborateur/.test(s))
+    return itpOfficialFluent("person","Utilisateur",cls);
+  if(/ticket|incident|escalade|rapport|compte rendu|cloture/.test(s))
+    return itpOfficialFluent("document","Ticket / incident",cls);
+  if(/message|communication|notification|information/.test(s))
+    return itpOfficialFluent("chat","Communication",cls);
+
+  return itpOfficialFluent("mail","Communication",cls);
+}
+
+/* Communications use the same semantic icon everywhere: filters, cards and actions. */
+itpTemplateIcon=function(t){
+  return itpCommunicationIcon(t,"itp-icon-card");
+};
+
+itpToggleCommDetail=function(id,btn){
+  const box=document.getElementById(id);
+  if(!box)return;
+  const open=box.classList.toggle("open");
+  if(btn){
+    const label=open?(state.lang==="en"?"Collapse":"Réduire"):(state.lang==="en"?"Show more":"Voir plus");
+    btn.innerHTML=itpOfficialFluent("document",label,"itp-icon-mini")+'<span>'+esc(label)+'</span>';
+  }
+};
+
+templateCard=function(t){
+  const v=itpCommSafeTemplate(t);
+  const ref=JSON.stringify(v._id||"");
+  const body=itpCommBodyOnly(v);
+  const id="comm_"+Math.random().toString(36).slice(2);
+  const showSubject=itpCommSubjectUseful(v);
+
+  return '<article class="card itp-template-card itp-template-compact">'+
+    '<div class="itp-template-head">'+itpTemplateIcon(v)+
+      '<div class="itp-template-head-copy"><h3>'+esc(v.name)+'</h3><div class="meta">'+esc(v.category||"")+'</div></div>'+
+    '</div>'+
+    '<div class="actions template-actions itp-template-actions-compact">'+
+      '<button class="btn primary itp-icon-btn" onclick=\'copyTemplate('+ref+')\'>'+
+        itpOfficialFluent("document","Copier","itp-icon-mini")+'<span>'+ui("Copier")+'</span></button>'+
+      '<button class="btn outlook itp-icon-btn" onclick=\'openTemplateOutlook('+ref+')\'>'+
+        itpM365Product("outlook","Outlook","itp-icon-mini")+'<span>Outlook</span></button>'+
+      '<button class="btn itp-icon-btn" onclick=\'shareTemplate('+ref+')\'>'+
+        itpOfficialFluent("chat","Partager","itp-icon-mini")+'<span>'+ui("Partager")+'</span></button>'+
+      '<button class="btn itp-icon-btn" onclick=\'editTemplate('+ref+')\'>'+
+        itpOfficialFluent("settings","Modifier","itp-icon-mini")+'<span>'+ui("Modifier")+'</span></button>'+
+      '<button class="btn itp-icon-btn" onclick=\'itpToggleCommDetail("'+id+'",this)\'>'+
+        itpOfficialFluent("document","Voir plus","itp-icon-mini")+'<span>'+(state.lang==="en"?"Show more":"Voir plus")+'</span></button>'+
+    '</div>'+
+    '<div id="'+id+'" class="itp-comm-detail">'+
+      (showSubject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+      (body?'<div class="itp-template-body itp-template-plain">'+esc(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+    '</div>'+
+  '</article>';
+};
+
+communications=function(){
+  try{
+    const raw=(typeof allTemplates==="function"?allTemplates():[])||[];
+    const normalized=raw.map(itpCommSafeTemplate);
+    const q=String($("#search")&&$("#search").value||"").trim().toLowerCase();
+
+    let ts=normalized.filter(x=>{
+      if(!q)return true;
+      return [x.name,x.category,x.subject,x.content].some(v=>String(v||"").toLowerCase().includes(q));
+    });
+    if(templateFilter!=="Tous"){
+      ts=ts.filter(x=>String(x._categoryKey||x.category)===String(templateFilter));
+    }
+
+    const cs=[...new Set(normalized.map(x=>x._categoryKey||x.category).filter(Boolean))]
+      .sort((a,b)=>String(a).localeCompare(String(b),state.lang==="en"?"en":"fr"));
+
+    return '<div class="toolbar communication-topbar">'+
+      '<button class="btn primary itp-icon-btn" onclick="newTemplate()">'+
+        itpOfficialFluent("document","Nouveau template","itp-icon-mini")+
+        '<span>'+ui("+ Créer un template")+'</span></button>'+
+      '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span>'+
+    '</div>'+
+    '<div class="toolbar itp-comm-filters">'+
+      '<button class="btn itp-icon-btn" onclick=\'setTemplateFilter("Tous")\'>'+
+        itpOfficialFluent("mail","Tous","itp-icon-mini")+'<span>'+ui("Tous")+'</span></button>'+
+      cs.map(c=>'<button class="btn itp-icon-btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+
+        itpCommunicationIcon({category:c,name:c},"itp-icon-mini")+
+        '<span>'+esc(state.lang==="en"?templateCategoryLabel(c):c)+'</span></button>').join("")+
+    '</div>'+
+    '<div class="grid itp-communications-grid">'+
+      (ts.length?ts.map(x=>{try{return templateCard(x)}catch(e){console.error("Template render failed",x&&x.name,e);return ""}}).join(""):'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+    '</div>';
+  }catch(e){
+    console.error("Communications rendering failed",e);
+    return '<div class="card"><h3>Communications</h3><p class="desc">'+
+      (state.lang==="en"?"The communications module could not load.":"Le module Communications n’a pas pu se charger.")+
+      '</p><div class="actions"><button class="btn primary" onclick="location.reload()">'+
+      (state.lang==="en"?"Reload":"Recharger")+'</button></div></div>';
+  }
+};
+
+Object.assign(window,{
+  communications,templateCard,itpTemplateIcon,itpCommunicationIcon,itpToggleCommDetail
+});
+/* === /IT Pocket communication identity v6.3 === */
+
 render();
