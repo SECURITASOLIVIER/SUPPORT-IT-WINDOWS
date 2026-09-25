@@ -1521,3 +1521,36 @@ body.light .editor textarea{
   }
 }
 /* === /IT Pocket Communications + editor readability v5.4 === */
+
+
+/* === IT Pocket Public IT Weather v6.0 === */
+.msw-brand-row{display:flex;align-items:flex-start;gap:12px}
+.msw-brand-row>.itp-brand-wrap,.msw-brand-row>.itp-official-icon,.msw-brand-row>.itp-product-icon{
+ width:34px!important;height:34px!important;flex:0 0 34px!important
+}
+.msw-brand-copy{min-width:0;flex:1}
+.msw-brand-copy h3{margin:0 0 4px}
+.msw-service-status{display:flex;align-items:center;gap:7px;margin-top:5px}
+.msw-dot{
+ width:10px;height:10px;border-radius:50%;display:inline-block;flex:0 0 auto;
+ box-shadow:0 0 0 3px rgba(128,128,128,.10),0 0 9px rgba(128,128,128,.35)
+}
+.msw-dot.operational{background:#29b36a;box-shadow:0 0 0 3px rgba(41,179,106,.12),0 0 11px rgba(41,179,106,.85)}
+.msw-dot.mitigated{background:#e7a73f;box-shadow:0 0 0 3px rgba(231,167,63,.12),0 0 11px rgba(231,167,63,.85)}
+.msw-dot.active{background:#e34a54;box-shadow:0 0 0 3px rgba(227,74,84,.12),0 0 11px rgba(227,74,84,.9)}
+.msw-dot.info{background:#2f8cff;box-shadow:0 0 0 3px rgba(47,140,255,.12),0 0 10px rgba(47,140,255,.72)}
+.msw-dot.loading{background:#8394a7}
+.msw-status.info{color:#65a9ff}.msw-status.loading{color:var(--muted)}
+.msw-summary-leds{display:flex;gap:9px;flex-wrap:wrap;margin:11px 0 7px}
+.msw-summary-leds span{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel2);padding:7px 9px;border-radius:999px;font-size:11px;font-weight:800}
+.msw-public-grid,.msw-release-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.msw-service-card,.msw-release-card{min-height:0}
+.msw-release-lines{margin:12px 0;color:var(--muted);line-height:1.55;font-size:13px}
+.msw-release-lines b{color:var(--text)}
+.msw-release-strip{display:flex;gap:8px;overflow:auto;padding:1px 0 9px;scrollbar-width:none}
+.msw-release-strip::-webkit-scrollbar{display:none}
+.msw-release-strip span{white-space:nowrap;border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800}
+@media(max-width:800px){
+ .msw-public-grid,.msw-release-grid{grid-template-columns:1fr}
+}
+/* === /IT Pocket Public IT Weather v6.0 === */
