@@ -1353,3 +1353,61 @@ body.light .itp-shortcut-intro{background:#f7fbff}
   }
 }
 /* === /IT Pocket mobile nav equal buttons v5.0 === */
+
+
+/* === IT Pocket Microsoft Weather + stable Communications v5.1 === */
+.msw-hero{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  padding:18px;
+  margin-bottom:14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--card);
+  box-shadow:0 8px 24px #0002;
+}
+.msw-hero h3{margin:2px 0 7px;font-size:22px}
+.msw-hero p{margin:0 0 8px;color:var(--muted);line-height:1.45}
+.msw-eyebrow{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--blue)}
+.msw-hero-actions{margin-top:0;justify-content:flex-end}
+.msw-card-top{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.msw-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 auto}
+.msw-dot.operational,.msw-dot.resolved{background:#29b36a}
+.msw-dot.mitigated{background:#e7a73f}
+.msw-dot.active{background:#e34a54}
+.msw-status{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}
+.msw-status.operational,.msw-status.resolved{color:#55ca87}
+.msw-status.mitigated{color:#f0bd68}
+.msw-status.active{color:#f07179}
+.msw-card .desc{min-height:0;line-height:1.5}
+.msw-sources .card{min-height:auto}
+.msw-tenant-note{margin-top:14px}
+.msw-filters .btn{white-space:nowrap}
+body.light .msw-status.operational,body.light .msw-status.resolved{color:#167c46}
+body.light .msw-status.mitigated{color:#9b650d}
+body.light .msw-status.active{color:#b42431}
+
+.itp-template-card-full{align-self:start}
+.itp-template-body{
+  margin-top:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--panel2);
+  color:var(--text);
+  font-size:14px;
+  line-height:1.62;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+.itp-template-card-full .template-actions{margin-top:12px}
+.itp-communications-grid{align-items:start}
+
+@media(max-width:800px){
+  .msw-hero{align-items:flex-start;flex-direction:column}
+  .msw-hero-actions{justify-content:flex-start}
+  .msw-grid,.msw-sources,.itp-communications-grid{grid-template-columns:1fr}
+}
+/* === /IT Pocket Microsoft Weather + stable Communications v5.1 === */
