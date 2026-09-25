@@ -3979,19 +3979,19 @@ const ITP_IT_WEATHER_SOURCE_LINKS=[
 ];
 
 const ITP_PUBLIC_STATUS=[
- {id:"github",name:"GitHub",detail:"Code • Actions • API",url:"https://www.githubstatus.com/",api:"https://www.githubstatus.com/api/v2/status.json"},
- {id:"cloudflare",name:"Cloudflare",detail:"DNS • CDN • Zero Trust",url:"https://www.cloudflarestatus.com/",api:"https://www.cloudflarestatus.com/api/v2/status.json"},
- {id:"openai",name:"OpenAI",detail:"ChatGPT • API • services IA",url:"https://status.openai.com/",api:"https://status.openai.com/api/v2/status.json"},
- {id:"m365",name:"Microsoft 365",detail:"Outlook • Teams • OneDrive • SharePoint",url:"https://status.cloud.microsoft/m365",api:null},
- {id:"azure",name:"Microsoft Azure",detail:"Cloud • Entra • plateformes Microsoft",url:"https://azure.status.microsoft/en-us/status",api:null},
- {id:"google",name:"Google Workspace",detail:"Gmail • Drive • Meet • Calendar",url:"https://www.google.com/appsstatus/dashboard/",api:null}
+ {id:"github",name:"GitHub",detail:"Code • Actions • API",scope:"Développement, CI/CD et dépôts",url:"https://www.githubstatus.com/",api:"https://www.githubstatus.com/api/v2/status.json"},
+ {id:"cloudflare",name:"Cloudflare",detail:"DNS • CDN • Zero Trust",scope:"Accès web, DNS, CDN et sécurité réseau",url:"https://www.cloudflarestatus.com/",api:"https://www.cloudflarestatus.com/api/v2/status.json"},
+ {id:"openai",name:"OpenAI",detail:"ChatGPT • API • services IA",scope:"IA, API et assistants",url:"https://status.openai.com/",api:"https://status.openai.com/api/v2/status.json"},
+ {id:"m365",name:"Microsoft 365",detail:"Outlook • Teams • OneDrive • SharePoint",scope:"Messagerie, collaboration et fichiers",url:"https://status.cloud.microsoft/m365",api:null},
+ {id:"azure",name:"Microsoft Azure",detail:"Cloud • Entra • plateformes Microsoft",scope:"Cloud, identité et services Azure",url:"https://azure.status.microsoft/en-us/status",api:null},
+ {id:"google",name:"Google Workspace",detail:"Gmail • Drive • Meet • Calendar",scope:"Messagerie, fichiers et collaboration Google",url:"https://www.google.com/appsstatus/dashboard/",api:null}
 ];
 
 const ITP_RELEASES=[
- {name:"Windows 11",status:"Stable",date:"22/09/2026",version:"24H2 • Build 26100.9550",url:"https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information"},
- {name:"Microsoft Edge",status:"Stable",date:"24/09/2026",version:"154.0.4258.37",url:"https://learn.microsoft.com/en-us/deployedge/microsoft-edge-relnote-stable-channel"},
- {name:"Google Chrome",status:"Early Stable",date:"23/09/2026",version:"155.0.8059.12 / .13",url:"https://chromereleases.googleblog.com/"},
- {name:"Microsoft 365",status:"Current Channel",date:"22/09/2026",version:"2609 • Build 20430.20092",url:"https://learn.microsoft.com/en-us/officeupdates/update-history-microsoft365-apps-by-date"}
+ {name:"Windows 11",status:"Stable",date:"22/09/2026",version:"24H2 • Build 26100.9550",platform:"Windows 11 24H2",note:"À comparer en priorité si un incident poste apparaît juste après Windows Update.",url:"https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information"},
+ {name:"Microsoft Edge",status:"Stable",date:"24/09/2026",version:"154.0.4258.37",platform:"Windows • macOS",note:"Utile pour les incidents web, SSO, extensions et applications métiers.",url:"https://learn.microsoft.com/en-us/deployedge/microsoft-edge-relnote-stable-channel"},
+ {name:"Google Chrome",status:"Early Stable",date:"23/09/2026",version:"155.0.8059.12 / .13",platform:"Windows • macOS",note:"Early Stable : déploiement initial limité avant généralisation du canal Stable.",url:"https://chromereleases.googleblog.com/"},
+ {name:"Microsoft 365",status:"Current Channel",date:"22/09/2026",version:"2609 • Build 20430.20092",platform:"Office desktop",note:"À surveiller pour Outlook, Word, Excel, PowerPoint, Teams et composants Office.",url:"https://learn.microsoft.com/en-us/officeupdates/update-history-microsoft365-apps-by-date"}
 ];
 
 let microsoftWeatherData=null;
@@ -4038,6 +4038,29 @@ function itpWeatherDate(v){
  const d=new Date(v);
  if(Number.isNaN(d.getTime()))return String(v);
  return d.toLocaleString(state.lang==="en"?"en-GB":"fr-FR",{dateStyle:"medium",timeStyle:"short"});
+}
+function itpWeatherExcerpt(v,max){
+ const text=String(v||"").replace(/\s+/g," ").trim();
+ const limit=max||190;
+ return text.length>limit?text.slice(0,limit-1).trim()+"…":text;
+}
+function itpWeatherAge(dateStr){
+ const p=String(dateStr||"").split("/");
+ if(p.length!==3)return "";
+ const d=new Date(Number(p[2]),Number(p[1])-1,Number(p[0]));
+ if(Number.isNaN(d.getTime()))return "";
+ const days=Math.max(0,Math.floor((Date.now()-d.getTime())/86400000));
+ if(state.lang==="en")return days===0?"today":days===1?"1 day ago":days+" days ago";
+ return days===0?"aujourd’hui":days===1?"il y a 1 jour":"il y a "+days+" jours";
+}
+function itpWeatherStatusPreview(st){
+ const x=String(st||"");
+ if(x==="none"||itpWeatherIsOperational(x))return state.lang==="en"?"No public outage reported by the provider.":"Aucune panne publique signalée par le fournisseur.";
+ if(/minor/i.test(x))return state.lang==="en"?"The provider reports a degraded service.":"Le fournisseur signale une dégradation de service.";
+ if(/major|critical/i.test(x))return state.lang==="en"?"A major public incident is reported.":"Un incident public majeur est signalé.";
+ if(x==="loading")return state.lang==="en"?"Public status is being checked.":"Vérification du statut public en cours.";
+ if(x==="info")return state.lang==="en"?"Open the official status page for current detail.":"Consultez la page officielle pour le détail actuel.";
+ return state.lang==="en"?"Public status could not be confirmed.":"Le statut public n’a pas pu être confirmé.";
 }
 function itpWeatherBrand(name,extra){
  const cls=extra||"itp-icon-card";
@@ -4157,14 +4180,21 @@ function itpWeatherShareText(x){
 }
 function itpWeatherCard(x){
  const cls=itpWeatherStatusClass(x.status),share=itpWeatherShareText(x);
+ const preview=itpWeatherExcerpt(x.description,210);
+ const scope=x.scope||"";
  return '<article class="card msw-card">'+
    '<div class="msw-brand-row">'+itpWeatherBrand(x.service||x.title,"itp-icon-card")+
    '<div class="msw-brand-copy"><div class="msw-card-top"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(itpWeatherStatusLabel(x.status))+'</span></div>'+
    '<h3>'+esc(x.title||x.service||"IT")+'</h3></div></div>'+
-   '<div class="meta">'+esc(x.service||"IT")+(x.lastUpdated?' • '+esc(itpWeatherDate(x.lastUpdated)):'')+'</div>'+
-   (x.description?'<p class="desc">'+esc(x.description)+'</p>':'')+
+   '<div class="msw-preview-grid">'+
+     '<div><span>Service</span><b>'+esc(x.service||"IT")+'</b></div>'+
+     (x.lastUpdated?'<div><span>'+(state.lang==="en"?"Updated":"Mise à jour")+'</span><b>'+esc(itpWeatherDate(x.lastUpdated))+'</b></div>':'')+
+     (scope?'<div><span>'+(state.lang==="en"?"Scope":"Périmètre")+'</span><b>'+esc(scope)+'</b></div>':'')+
+     (x.source?'<div><span>Source</span><b>'+esc(x.source)+'</b></div>':'')+
+   '</div>'+
+   (preview?'<p class="desc msw-preview-text">'+esc(preview)+'</p>':'')+
    '<div class="actions">'+
-    (x.url?'<button class="btn primary" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+ui("Ouvrir Microsoft")+'</button>':'')+
+    (x.url?'<button class="btn primary" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Full detail":"Voir le détail")+'</button>':'')+
     '<button class="btn" onclick=\'copy('+inlineArg(share)+')\'>'+ui("Copier")+'</button>'+
     '<button class="btn" onclick=\'shareText('+inlineArg(x.title||"Météo IT")+','+inlineArg(share)+')\'>'+ui("Partager")+'</button>'+
     '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Météo IT] "+(x.title||"Incident"))+','+inlineArg(share)+')\'>Outlook</button>'+
@@ -4173,17 +4203,29 @@ function itpWeatherCard(x){
 function itpPublicStatusCard(x){
  const st=itpPublicStatusState[x.id]||"unknown",cls=itpWeatherStatusClass(st);
  const label=x.api?itpWeatherStatusLabel(st):(state.lang==="en"?"Official status":"Statut officiel");
+ const checked=x.api&&itpPublicStatusUpdated?itpWeatherDate(itpPublicStatusUpdated):"";
  return '<article class="card msw-service-card">'+
    '<div class="msw-brand-row">'+itpWeatherBrand(x.name,"itp-icon-card")+
    '<div class="msw-brand-copy"><h3>'+esc(x.name)+'</h3><div class="msw-service-status"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(label)+'</span></div></div></div>'+
-   '<p class="desc">'+esc(x.detail)+'</p>'+
+   '<p class="desc msw-service-products">'+esc(x.detail)+'</p>'+
+   '<p class="msw-status-preview">'+esc(itpWeatherStatusPreview(st))+'</p>'+
+   '<div class="msw-preview-grid compact">'+
+     '<div><span>'+(state.lang==="en"?"Scope":"Périmètre")+'</span><b>'+esc(x.scope||x.detail)+'</b></div>'+
+     '<div><span>'+(state.lang==="en"?"Check":"Contrôle")+'</span><b>'+esc(checked||(state.lang==="en"?"Official page":"Page officielle"))+'</b></div>'+
+   '</div>'+
    '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Official status":"Statut officiel")+'</button></div></article>';
 }
 function itpReleaseCard(x){
+ const age=itpWeatherAge(x.date);
  return '<article class="card msw-release-card">'+
   '<div class="msw-brand-row">'+itpWeatherBrand(x.name,"itp-icon-card")+
   '<div class="msw-brand-copy"><h3>'+esc(x.name)+'</h3><div class="meta">'+esc(x.status)+'</div></div></div>'+
-  '<div class="msw-release-lines"><div>📅 <b>'+esc(x.date)+'</b></div><div>'+esc(x.version)+'</div></div>'+
+  '<div class="msw-preview-grid compact">'+
+    '<div><span>'+(state.lang==="en"?"Version":"Version")+'</span><b>'+esc(x.version)+'</b></div>'+
+    '<div><span>'+(state.lang==="en"?"Release":"Sortie")+'</span><b>'+esc(x.date)+(age?' • '+esc(age):'')+'</b></div>'+
+    '<div><span>'+(state.lang==="en"?"Platform":"Plateforme")+'</span><b>'+esc(x.platform||"")+'</b></div>'+
+  '</div>'+
+  '<p class="msw-status-preview">'+esc(x.note||"")+'</p>'+
   '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Release notes":"Notes de version")+'</button></div></article>';
 }
 function itpWeatherSourceCard(s){
