@@ -4233,4 +4233,99 @@ function communications(){
 Object.assign(window,{communications,templateCard});
 /* === /IT Pocket Communications stable v5.1 === */
 
+/* === IT Pocket Communications FAILSAFE v5.3 ===
+   Simple rendering restored to the known-good behavior.
+   No preview engine, no rich formatter dependency, no Built-in label.
+*/
+function itpCommSafeTemplate(t){
+ try{
+   const x=(typeof localizeTemplate==="function" ? localizeTemplate(t) : t)||t||{};
+   return {
+     ...t,
+     ...x,
+     _id:(t&&t._id)||x._id||"",
+     _categoryKey:(t&&t._categoryKey)||(t&&t.category)||x._categoryKey||x.category||"Divers",
+     name:String(x.name||t&&t.name||"Template"),
+     category:String(x.category||t&&t.category||"Divers"),
+     subject:String(x.subject||t&&t.subject||""),
+     content:String(x.content||t&&t.content||"")
+   };
+ }catch(e){
+   return {
+     ...(t||{}),
+     _id:t&&t._id||"",
+     _categoryKey:t&&t.category||"Divers",
+     name:String(t&&t.name||"Template"),
+     category:String(t&&t.category||"Divers"),
+     subject:String(t&&t.subject||""),
+     content:String(t&&t.content||"")
+   };
+ }
+}
+function itpCommBodyOnly(v){
+ let body=String(v&&v.content||"").trim();
+ const subject=String(v&&v.subject||"").trim();
+ if(subject){
+   const first=body.split(/\r?\n/);
+   const head=String(first[0]||"").trim();
+   if(head===subject || head.toLowerCase()===("objet : "+subject).toLowerCase() || head.toLowerCase()===("subject: "+subject).toLowerCase()){
+     first.shift(); body=first.join("\n").trim();
+   }
+ }
+ body=body.replace(/^\s*(?:Objet|Subject)\s*:\s*[^\r\n]+(?:\r?\n)+/i,"").trim();
+ return body;
+}
+function templateCard(t){
+ const v=itpCommSafeTemplate(t);
+ const ref=JSON.stringify(v._id||"");
+ const body=itpCommBodyOnly(v);
+ return '<article class="card itp-template-card itp-template-card-full">'+
+   '<h3 class="itp-card-title"><span>'+esc(v.name)+'</span></h3>'+
+   '<div class="meta">'+esc(v.category||"")+'</div>'+
+   (v.subject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
+   (body?'<div class="itp-template-body itp-template-plain">'+esc(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+   '<div class="actions template-actions">'+
+     '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
+     '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
+     '<button class="btn" onclick=\'shareTemplate('+ref+')\'>'+ui("Partager")+'</button>'+
+     '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
+   '</div>'+
+ '</article>';
+}
+function communications(){
+ try{
+   const raw=(typeof allTemplates==="function"?allTemplates():[])||[];
+   const normalized=raw.map(itpCommSafeTemplate);
+   const q=String($("#search")&&$("#search").value||"").trim().toLowerCase();
+   let ts=normalized.filter(x=>{
+     if(!q)return true;
+     return [x.name,x.category,x.subject,x.content].some(v=>String(v||"").toLowerCase().includes(q));
+   });
+   if(templateFilter!=="Tous"){
+     ts=ts.filter(x=>String(x._categoryKey||x.category)===String(templateFilter));
+   }
+   const cs=[...new Set(normalized.map(x=>x._categoryKey||x.category).filter(Boolean))].sort((a,b)=>String(a).localeCompare(String(b),state.lang==="en"?"en":"fr"));
+
+   return '<div class="toolbar communication-topbar">'+
+     '<button class="btn primary" onclick="newTemplate()">'+ui("+ Créer un template")+'</button>'+
+     '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span>'+
+     '</div>'+
+     '<div class="toolbar itp-comm-filters">'+
+       '<button class="btn" onclick=\'setTemplateFilter("Tous")\'>'+ui("Tous")+'</button>'+
+       cs.map(c=>'<button class="btn" onclick=\'setTemplateFilter('+JSON.stringify(c)+')\'>'+esc(state.lang==="en"?templateCategoryLabel(c):c)+'</button>').join("")+
+     '</div>'+
+     '<div class="grid itp-communications-grid">'+
+       (ts.length?ts.map(x=>{try{return templateCard(x)}catch(e){console.error("Template render failed",x&&x.name,e);return ""}}).join(""):'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+     '</div>';
+ }catch(e){
+   console.error("Communications rendering failed",e);
+   return '<div class="card"><h3>Communications</h3><p class="desc">'+
+     (state.lang==="en"?"The communications module could not load.":"Le module Communications n’a pas pu se charger.")+
+     '</p><div class="actions"><button class="btn primary" onclick="location.reload()">'+
+     (state.lang==="en"?"Reload":"Recharger")+'</button></div></div>';
+ }
+}
+Object.assign(window,{communications,templateCard,itpCommSafeTemplate,itpCommBodyOnly});
+/* === /IT Pocket Communications FAILSAFE v5.3 === */
+
 render();
