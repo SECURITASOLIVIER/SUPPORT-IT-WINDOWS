@@ -3947,28 +3947,51 @@ function syncScrollTopButton(){
 window.addEventListener("scroll",syncScrollTopButton,{passive:true});
 window.scrollToTopPocket=scrollToTopPocket;
 syncScrollTopButton();
-/* === IT Pocket Microsoft Weather v5.1 === */
+/* === IT Pocket Public IT Weather v6.0 === */
 Object.assign(UI_EN,{
- "Météo Microsoft":"Microsoft Weather",
+ "Météo IT":"IT Weather",
  "Actualiser":"Refresh",
  "Incidents actifs":"Active incidents",
  "Résolus récemment":"Recently resolved",
  "Sources officielles":"Official sources",
- "Ouvrir Microsoft":"Open Microsoft",
  "Dernier changement":"Last change",
- "Aucun incident trouvé.":"No incident found."
+ "Aucun incident trouvé.":"No incident found.",
+ "Services publics":"Public services",
+ "Dernières releases":"Latest releases"
 });
 
-if(!cats.includes("Météo Microsoft")){
+const _itpOldWeatherIndex=cats.indexOf("Météo Microsoft");
+if(_itpOldWeatherIndex>=0)cats.splice(_itpOldWeatherIndex,1,"Météo IT");
+else if(!cats.includes("Météo IT")){
  const after=cats.indexOf("Portails");
- cats.splice(after>=0?after+1:2,0,"Météo Microsoft");
+ cats.splice(after>=0?after+1:2,0,"Météo IT");
 }
 
-const ITP_MS_WEATHER_SOURCE_LINKS=[
+const ITP_IT_WEATHER_SOURCE_LINKS=[
  {name:"Microsoft 365 Service Status",url:"https://status.cloud.microsoft/m365",category:"Microsoft 365"},
  {name:"Microsoft 365 Service Health",url:"https://admin.cloud.microsoft/?#/servicehealth",category:"Tenant"},
- {name:"Windows Release Health",url:"https://learn.microsoft.com/en-us/windows/release-health/status-windows-11-26h1",category:"Windows"},
- {name:"Azure Status",url:"https://azure.status.microsoft/en-us/status",category:"Azure"}
+ {name:"Windows Release Health",url:"https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information",category:"Windows"},
+ {name:"Azure Status",url:"https://azure.status.microsoft/en-us/status",category:"Azure"},
+ {name:"GitHub Status",url:"https://www.githubstatus.com/",category:"GitHub"},
+ {name:"Cloudflare Status",url:"https://www.cloudflarestatus.com/",category:"Cloudflare"},
+ {name:"OpenAI Status",url:"https://status.openai.com/",category:"OpenAI"},
+ {name:"Google Workspace Status",url:"https://www.google.com/appsstatus/dashboard/",category:"Google Workspace"}
+];
+
+const ITP_PUBLIC_STATUS=[
+ {id:"github",name:"GitHub",detail:"Code • Actions • API",url:"https://www.githubstatus.com/",api:"https://www.githubstatus.com/api/v2/status.json"},
+ {id:"cloudflare",name:"Cloudflare",detail:"DNS • CDN • Zero Trust",url:"https://www.cloudflarestatus.com/",api:"https://www.cloudflarestatus.com/api/v2/status.json"},
+ {id:"openai",name:"OpenAI",detail:"ChatGPT • API • services IA",url:"https://status.openai.com/",api:"https://status.openai.com/api/v2/status.json"},
+ {id:"m365",name:"Microsoft 365",detail:"Outlook • Teams • OneDrive • SharePoint",url:"https://status.cloud.microsoft/m365",api:null},
+ {id:"azure",name:"Microsoft Azure",detail:"Cloud • Entra • plateformes Microsoft",url:"https://azure.status.microsoft/en-us/status",api:null},
+ {id:"google",name:"Google Workspace",detail:"Gmail • Drive • Meet • Calendar",url:"https://www.google.com/appsstatus/dashboard/",api:null}
+];
+
+const ITP_RELEASES=[
+ {name:"Windows 11",status:"Stable",date:"22/09/2026",version:"24H2 • Build 26100.9550",url:"https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information"},
+ {name:"Microsoft Edge",status:"Stable",date:"24/09/2026",version:"154.0.4258.37",url:"https://learn.microsoft.com/en-us/deployedge/microsoft-edge-relnote-stable-channel"},
+ {name:"Google Chrome",status:"Early Stable",date:"23/09/2026",version:"155.0.8059.12 / .13",url:"https://chromereleases.googleblog.com/"},
+ {name:"Microsoft 365",status:"Current Channel",date:"22/09/2026",version:"2609 • Build 20430.20092",url:"https://learn.microsoft.com/en-us/officeupdates/update-history-microsoft365-apps-by-date"}
 ];
 
 let microsoftWeatherData=null;
@@ -3976,6 +3999,8 @@ let microsoftWeatherLiveM365=[];
 let microsoftWeatherLoading=false;
 let microsoftWeatherFilter="Tous";
 let microsoftWeatherLastError="";
+let itpPublicStatusState={github:"loading",cloudflare:"loading",openai:"loading",m365:"info",azure:"info",google:"info"};
+let itpPublicStatusUpdated=null;
 
 function itpWeatherIsResolved(status){
  return /resolved|restored|service.?restored|false.?positive/i.test(String(status||""));
@@ -3984,30 +4009,49 @@ function itpWeatherIsOperational(status){
  return /operational|service.?operational/i.test(String(status||""));
 }
 function itpWeatherStatusLabel(status){
- const s=String(status||"").trim();
+ const x=String(status||"").trim();
  if(state.lang!=="en"){
    const map={
     Operational:"Opérationnel",ServiceOperational:"Opérationnel",
     Resolved:"Résolu",ServiceRestored:"Résolu",Mitigated:"Atténué",
     Investigating:"Investigation",Confirmed:"Confirmé",Reported:"Signalé",
     ServiceDegradation:"Dégradation",ServiceInterruption:"Interruption",
-    RestoringService:"Rétablissement",VerifyingService:"Vérification"
+    RestoringService:"Rétablissement",VerifyingService:"Vérification",
+    none:"Opérationnel",minor:"Perturbation",major:"Incident majeur",critical:"Incident critique",
+    loading:"Vérification…",info:"Statut officiel"
    };
-   return map[s]||s||"Inconnu";
+   return map[x]||x||"Inconnu";
  }
- return s||"Unknown";
+ const en={none:"Operational",minor:"Degraded",major:"Major incident",critical:"Critical incident",loading:"Checking…",info:"Official status"};
+ return en[x]||x||"Unknown";
 }
 function itpWeatherStatusClass(status){
- if(itpWeatherIsOperational(status))return "operational";
- if(itpWeatherIsResolved(status))return "resolved";
- if(/mitigated|verifying|restoring/i.test(String(status||"")))return "mitigated";
- return "active";
+ const x=String(status||"");
+ if(itpWeatherIsOperational(x)||itpWeatherIsResolved(x)||x==="none")return "operational";
+ if(/mitigated|verifying|restoring|minor/i.test(x))return "mitigated";
+ if(/major|critical|interruption|degradation|investigating|confirmed|reported/i.test(x))return "active";
+ if(x==="info")return "info";
+ return "loading";
 }
 function itpWeatherDate(v){
  if(!v)return "";
  const d=new Date(v);
  if(Number.isNaN(d.getTime()))return String(v);
  return d.toLocaleString(state.lang==="en"?"en-GB":"fr-FR",{dateStyle:"medium",timeStyle:"short"});
+}
+function itpWeatherBrand(name,extra){
+ const cls=extra||"itp-icon-card";
+ const n=String(name||"");
+ if(/Microsoft 365/i.test(n))return itpBrand("microsoft365","D83B01","Microsoft 365",cls);
+ if(/Microsoft Edge/i.test(n))return itpBrand("microsoftedge","0C59A4","Microsoft Edge",cls);
+ if(/Windows/i.test(n))return itpBrand("windows11","0078D4","Windows",cls);
+ if(/Azure/i.test(n))return itpBrand("microsoftazure","0078D4","Microsoft Azure",cls);
+ if(/Chrome/i.test(n))return itpBrand("googlechrome","4285F4","Google Chrome",cls);
+ if(/GitHub/i.test(n))return itpBrand("github","6E7781","GitHub",cls);
+ if(/Cloudflare/i.test(n))return itpBrand("cloudflare","F38020","Cloudflare",cls);
+ if(/OpenAI/i.test(n))return itpBrand("openai","10A37F","OpenAI",cls);
+ if(/Google Workspace/i.test(n))return itpBrand("google","4285F4","Google",cls);
+ return itpBrandFromText(n)||itpOfficialFluent("cloud",n,cls);
 }
 function itpWeatherIncidentKey(x){
  return String(x.id||x.url||x.title||"").toLowerCase();
@@ -4042,6 +4086,20 @@ function itpWeatherNormalizePublicM365(rows){
    scope:"Public"
  }));
 }
+async function itpLoadPublicStatus(){
+ const live=ITP_PUBLIC_STATUS.filter(x=>x.api);
+ const settled=await Promise.allSettled(live.map(async x=>{
+   const r=await fetch(x.api,{cache:"no-store"});
+   if(!r.ok)throw new Error("HTTP "+r.status);
+   const j=await r.json();
+   return [x.id,String(j&&j.status&&j.status.indicator||"unknown")];
+ }));
+ settled.forEach((r,i)=>{
+   const id=live[i].id;
+   itpPublicStatusState[id]=r.status==="fulfilled"?r.value[1]:"unknown";
+ });
+ itpPublicStatusUpdated=Date.now();
+}
 async function loadMicrosoftWeather(force){
  if(microsoftWeatherLoading)return;
  microsoftWeatherLoading=true;
@@ -4053,7 +4111,7 @@ async function loadMicrosoftWeather(force){
    microsoftWeatherData=await r.json();
  }catch(e){
    microsoftWeatherLastError=String(e&&e.message||e);
-   if(!microsoftWeatherData)microsoftWeatherData={generatedAt:"",incidents:[],sources:ITP_MS_WEATHER_SOURCE_LINKS};
+   if(!microsoftWeatherData)microsoftWeatherData={generatedAt:"",incidents:[],sources:ITP_IT_WEATHER_SOURCE_LINKS};
  }
  try{
    const ctrl=new AbortController();
@@ -4062,8 +4120,9 @@ async function loadMicrosoftWeather(force){
    clearTimeout(tm);
    if(r.ok)microsoftWeatherLiveM365=itpWeatherNormalizePublicM365(await r.json());
  }catch(_){}
+ try{await itpLoadPublicStatus()}catch(_){}
  microsoftWeatherLoading=false;
- if(state.cat==="Météo Microsoft"||state.cat==="Accueil")render();
+ if(state.cat==="Météo IT"||state.cat==="Accueil")render();
 }
 function setMicrosoftWeatherFilter(v){
  microsoftWeatherFilter=v||"Tous";
@@ -4083,15 +4142,15 @@ function itpWeatherMatchesFilter(x){
 }
 function itpWeatherShareText(x){
  const lines=[
-   "⚠️ "+(state.lang==="en"?"Microsoft IT Weather":"Météo IT Microsoft"),
+   "🌤️ "+(state.lang==="en"?"IT Weather":"Météo IT"),
    "",
    (state.lang==="en"?"Incident: ":"Incident : ")+(x.title||""),
-   (state.lang==="en"?"Service: ":"Service : ")+(x.service||"Microsoft"),
+   (state.lang==="en"?"Service: ":"Service : ")+(x.service||"IT"),
    (state.lang==="en"?"Status: ":"Statut : ")+itpWeatherStatusLabel(x.status),
    x.description?(state.lang==="en"?"User impact: ":"Impact utilisateur : ")+x.description:"",
    x.lastUpdated?(state.lang==="en"?"Last update: ":"Dernière mise à jour : ")+itpWeatherDate(x.lastUpdated):"",
    "",
-   (state.lang==="en"?"Source: ":"Source : ")+(x.source||"Microsoft"),
+   (state.lang==="en"?"Source: ":"Source : ")+(x.source||"Source officielle"),
    x.url||""
  ].filter(v=>v!==null&&v!==undefined);
  return lines.join("\n");
@@ -4099,20 +4158,38 @@ function itpWeatherShareText(x){
 function itpWeatherCard(x){
  const cls=itpWeatherStatusClass(x.status),share=itpWeatherShareText(x);
  return '<article class="card msw-card">'+
-   '<div class="msw-card-top"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(itpWeatherStatusLabel(x.status))+'</span></div>'+
-   '<h3>'+esc(x.title||x.service||"Microsoft")+'</h3>'+
-   '<div class="meta">'+esc(x.service||"Microsoft")+(x.lastUpdated?' • '+esc(itpWeatherDate(x.lastUpdated)):'')+'</div>'+
+   '<div class="msw-brand-row">'+itpWeatherBrand(x.service||x.title,"itp-icon-card")+
+   '<div class="msw-brand-copy"><div class="msw-card-top"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(itpWeatherStatusLabel(x.status))+'</span></div>'+
+   '<h3>'+esc(x.title||x.service||"IT")+'</h3></div></div>'+
+   '<div class="meta">'+esc(x.service||"IT")+(x.lastUpdated?' • '+esc(itpWeatherDate(x.lastUpdated)):'')+'</div>'+
    (x.description?'<p class="desc">'+esc(x.description)+'</p>':'')+
    '<div class="actions">'+
     (x.url?'<button class="btn primary" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+ui("Ouvrir Microsoft")+'</button>':'')+
     '<button class="btn" onclick=\'copy('+inlineArg(share)+')\'>'+ui("Copier")+'</button>'+
-    '<button class="btn" onclick=\'shareText('+inlineArg(x.title||"Météo Microsoft")+','+inlineArg(share)+')\'>'+ui("Partager")+'</button>'+
-    '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Météo Microsoft] "+(x.title||"Incident"))+','+inlineArg(share)+')\'>Outlook</button>'+
+    '<button class="btn" onclick=\'shareText('+inlineArg(x.title||"Météo IT")+','+inlineArg(share)+')\'>'+ui("Partager")+'</button>'+
+    '<button class="btn outlook" onclick=\'openOutlookText('+inlineArg("[Météo IT] "+(x.title||"Incident"))+','+inlineArg(share)+')\'>Outlook</button>'+
    '</div></article>';
 }
+function itpPublicStatusCard(x){
+ const st=itpPublicStatusState[x.id]||"unknown",cls=itpWeatherStatusClass(st);
+ const label=x.api?itpWeatherStatusLabel(st):(state.lang==="en"?"Official status":"Statut officiel");
+ return '<article class="card msw-service-card">'+
+   '<div class="msw-brand-row">'+itpWeatherBrand(x.name,"itp-icon-card")+
+   '<div class="msw-brand-copy"><h3>'+esc(x.name)+'</h3><div class="msw-service-status"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(label)+'</span></div></div></div>'+
+   '<p class="desc">'+esc(x.detail)+'</p>'+
+   '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Official status":"Statut officiel")+'</button></div></article>';
+}
+function itpReleaseCard(x){
+ return '<article class="card msw-release-card">'+
+  '<div class="msw-brand-row">'+itpWeatherBrand(x.name,"itp-icon-card")+
+  '<div class="msw-brand-copy"><h3>'+esc(x.name)+'</h3><div class="meta">'+esc(x.status)+'</div></div></div>'+
+  '<div class="msw-release-lines"><div>📅 <b>'+esc(x.date)+'</b></div><div>'+esc(x.version)+'</div></div>'+
+  '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Release notes":"Notes de version")+'</button></div></article>';
+}
 function itpWeatherSourceCard(s){
- return '<article class="card msw-source"><h3>'+esc(s.name)+'</h3><div class="meta">'+esc(s.category||"Microsoft")+'</div>'+
-   '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(s.url)+',"_blank","noopener")\'>'+ui("Ouvrir Microsoft")+'</button>'+
+ return '<article class="card msw-source"><div class="msw-brand-row">'+itpWeatherBrand(s.name,"itp-icon-card")+
+   '<div class="msw-brand-copy"><h3>'+esc(s.name)+'</h3><div class="meta">'+esc(s.category||"IT")+'</div></div></div>'+
+   '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(s.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Open official source":"Ouvrir la source")+'</button>'+
    '<button class="btn" onclick=\'copy('+inlineArg(s.url)+')\'>'+ui("Copier le lien")+'</button></div></article>';
 }
 function microsoftWeather(){
@@ -4122,20 +4199,31 @@ function microsoftWeather(){
  items=items.filter(itpWeatherMatchesFilter);
  if(q)items=items.filter(x=>[x.title,x.description,x.service,x.status].some(v=>String(v||"").toLowerCase().includes(q)));
  const active=itpWeatherActiveCount();
+ const statusValues=Object.values(itpPublicStatusState);
+ const major=statusValues.filter(v=>/major|critical/i.test(v)).length;
+ const warn=statusValues.filter(v=>/minor/i.test(v)).length;
+ const ok=statusValues.filter(v=>v==="none").length;
+ const weather=major?"🌩️":warn||active?"🌦️":"🌤️";
+ const statusTitle=major
+   ?(state.lang==="en"?"Major public incident detected":"Incident public majeur détecté")
+   :warn||active
+     ?(state.lang==="en"?"IT services to watch":"Services IT à surveiller")
+     :(state.lang==="en"?"Public IT services look stable":"Services IT publics globalement stables");
  const last=microsoftWeatherData&&microsoftWeatherData.generatedAt?itpWeatherDate(microsoftWeatherData.generatedAt):"";
- const sources=Array.isArray(microsoftWeatherData&&microsoftWeatherData.sources)&&microsoftWeatherData.sources.length?microsoftWeatherData.sources:ITP_MS_WEATHER_SOURCE_LINKS;
- const statusTitle=microsoftWeatherLoading&&!microsoftWeatherData
-   ?(state.lang==="en"?"Loading Microsoft status…":"Chargement de la météo Microsoft…")
-   :active>0
-     ?active+" "+(state.lang==="en"?"active incident(s)":"incident(s) actif(s)")
-     :(state.lang==="en"?"No active incident in loaded sources":"Aucun incident actif dans les sources chargées");
+ const updated=itpPublicStatusUpdated?itpWeatherDate(itpPublicStatusUpdated):"";
  return '<section class="msw-hero">'+
-   '<div><div class="msw-eyebrow">MICROSOFT</div><h3>'+esc(statusTitle)+'</h3>'+
-   '<p>'+(state.lang==="en"?"Windows, Outlook, Teams, Microsoft 365 and Azure health for support teams.":"Windows, Outlook, Teams, Microsoft 365 et Azure : une vue support des incidents susceptibles d’impacter les utilisateurs.")+'</p>'+
-   (last?'<div class="meta">'+ui("Dernier changement")+' : '+esc(last)+'</div>':'')+
-   (microsoftWeatherLastError?'<div class="meta">'+(state.lang==="en"?"Local feed unavailable; official links remain accessible.":"Flux local indisponible ; les liens officiels restent accessibles.")+'</div>':'')+
-   '</div><div class="actions msw-hero-actions"><button class="btn primary" onclick="loadMicrosoftWeather(true)">'+ui("Actualiser")+'</button>'+
-   '<button class="btn" onclick=\'window.open("https://admin.cloud.microsoft/?#/servicehealth","_blank","noopener")\'>Service Health tenant</button></div></section>'+
+   '<div><div class="msw-eyebrow">IT POCKET • PUBLIC STATUS</div><h3>'+weather+' '+esc(statusTitle)+'</h3>'+
+   '<p>'+(state.lang==="en"?"Public status, major incidents and software releases for support teams.":"Statuts publics, incidents majeurs et releases logicielles pour les équipes support.")+'</p>'+
+   '<div class="msw-summary-leds"><span><i class="msw-dot operational"></i>'+ok+' OK</span><span><i class="msw-dot mitigated"></i>'+warn+' '+(state.lang==="en"?"watch":"à surveiller")+'</span><span><i class="msw-dot active"></i>'+major+' '+(state.lang==="en"?"major":"majeur")+'</span></div>'+
+   (updated?'<div class="meta">'+(state.lang==="en"?"Live status updated":"Voyants actualisés")+' : '+esc(updated)+'</div>':'')+
+   (last?'<div class="meta">'+ui("Dernier changement")+' Microsoft : '+esc(last)+'</div>':'')+
+   '</div><div class="actions msw-hero-actions"><button class="btn primary" onclick="loadMicrosoftWeather(true)">'+ui("Actualiser")+'</button></div></section>'+
+   '<div class="section-title">'+ui("Services publics")+'</div>'+
+   '<div class="grid msw-public-grid">'+ITP_PUBLIC_STATUS.map(itpPublicStatusCard).join("")+'</div>'+
+   '<div class="section-title">'+ui("Dernières releases")+'</div>'+
+   '<div class="msw-release-strip">'+ITP_RELEASES.map(x=>'<span>'+esc(x.date.slice(0,5))+' · '+esc(x.name)+'</span>').join("")+'</div>'+
+   '<div class="grid msw-release-grid">'+ITP_RELEASES.map(itpReleaseCard).join("")+'</div>'+
+   '<div class="section-title">'+ui("Incidents actifs")+' / Microsoft</div>'+
    '<div class="type-filter msw-filters">'+
     '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Tous")\'>'+ui("Tous")+'</button>'+
     '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Actifs")\'>'+ui("Incidents actifs")+'</button>'+
@@ -4147,17 +4235,17 @@ function microsoftWeather(){
     '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Azure")\'>Azure</button>'+
    '</div>'+
    '<div class="grid msw-grid">'+(items.length?items.map(itpWeatherCard).join(""):'<div class="empty">'+ui("Aucun incident trouvé.")+'</div>')+'</div>'+
-   '<div class="section-title">'+ui("Sources officielles")+'</div><div class="grid msw-sources">'+sources.map(itpWeatherSourceCard).join("")+'</div>'+
-   '<article class="card msw-tenant-note"><h3>'+(state.lang==="en"?"Microsoft 365 tenant incidents":"Incidents du tenant Microsoft 365")+'</h3>'+
-   '<p class="desc">'+(state.lang==="en"?"The public weather is complemented by the Microsoft 365 Service Health portal. Exact tenant incidents require Microsoft Graph ServiceHealth.Read.All permission; IT Pocket does not store a Graph token here.":"La météo publique est complétée par le portail Microsoft 365 Service Health. Les incidents exacts du tenant nécessitent l’autorisation Microsoft Graph ServiceHealth.Read.All ; IT Pocket ne stocke aucun jeton Graph ici.")+'</p>'+
+   '<div class="section-title">'+ui("Sources officielles")+'</div><div class="grid msw-sources">'+ITP_IT_WEATHER_SOURCE_LINKS.map(itpWeatherSourceCard).join("")+'</div>'+
+   '<article class="card msw-tenant-note"><div class="msw-brand-row">'+itpWeatherBrand("Microsoft 365","itp-icon-card")+'<div class="msw-brand-copy"><h3>'+(state.lang==="en"?"Microsoft 365 tenant incidents":"Incidents du tenant Microsoft 365")+'</h3></div></div>'+
+   '<p class="desc">'+(state.lang==="en"?"Public weather does not expose tenant-specific incidents. Use Microsoft 365 Service Health for your organization.":"La météo publique n’expose pas les incidents propres à votre tenant. Utilisez Microsoft 365 Service Health pour votre organisation.")+'</p>'+
    '<div class="actions"><button class="btn primary" onclick=\'window.open("https://admin.cloud.microsoft/?#/servicehealth","_blank","noopener")\'>Service Health</button></div></article>';
 }
 
 const _itpCategoryIconBeforeWeather=itpCategoryIcon;
 itpCategoryIcon=function(c,size){
- if(c!=="Météo Microsoft")return _itpCategoryIconBeforeWeather(c,size);
+ if(c!=="Météo IT")return _itpCategoryIconBeforeWeather(c,size);
  const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
- return itpOfficialFluent("cloud","Météo Microsoft",cls);
+ return itpOfficialFluent("cloud","Météo IT",cls);
 };
 
 const _itpHomeBeforeWeather=home;
@@ -4165,12 +4253,12 @@ home=function(){
  const wrap=document.createElement("div");
  wrap.innerHTML=_itpHomeBeforeWeather();
  const cards=[...wrap.querySelectorAll(".itp-home-card")];
- const label=catLabel("Météo Microsoft");
+ const label=catLabel("Météo IT");
  const card=cards.find(x=>(x.textContent||"").includes(label));
  if(card){
    const n=card.querySelector(".big-number"),d=card.querySelector(".desc");
    if(n)n.textContent=microsoftWeatherData?String(itpWeatherActiveCount()):"—";
-   if(d)d.textContent=state.lang==="en"?"Major Microsoft incidents, user impact, official links and sharing.":"Incidents Microsoft majeurs, impact utilisateurs, liens officiels et partage.";
+   if(d)d.textContent=state.lang==="en"?"Public IT status, major incidents and software releases.":"Statuts IT publics, incidents majeurs et releases logicielles.";
  }
  return wrap.innerHTML;
 };
@@ -4178,18 +4266,20 @@ home=function(){
 const _itpRenderBeforeWeather=render;
 render=function(){
  _itpRenderBeforeWeather();
- if(state.cat!=="Météo Microsoft")return;
+ if(state.cat!=="Météo IT")return;
  const title=$("#title"),stats=$("#stats"),content=$("#content");
- if(title)title.innerHTML=itpCategoryIcon("Météo Microsoft","header")+'<span>'+esc(catLabel("Météo Microsoft"))+'</span>';
+ if(title)title.innerHTML=itpCategoryIcon("Météo IT","header")+'<span>'+esc(catLabel("Météo IT"))+'</span>';
  if(stats)stats.textContent=itpWeatherActiveCount()+" "+(state.lang==="en"?"active incident(s)":"incident(s) actif(s)");
  if(content)content.innerHTML=microsoftWeather();
  applyUiLanguage();
 };
 
 const _itpSearchWeather=$("#search");
-if(_itpSearchWeather)_itpSearchWeather.addEventListener("input",()=>{if(state.cat==="Météo Microsoft")render()});
-Object.assign(window,{loadMicrosoftWeather,setMicrosoftWeatherFilter,microsoftWeather,itpWeatherShareText});
+if(_itpSearchWeather)_itpSearchWeather.addEventListener("input",()=>{if(state.cat==="Météo IT")render()});
+Object.assign(window,{loadMicrosoftWeather,setMicrosoftWeatherFilter,microsoftWeather,itpWeatherShareText,itpLoadPublicStatus});
 loadMicrosoftWeather(false);
+/* === /IT Pocket Public IT Weather v6.0 === */
+
 /* === /IT Pocket Microsoft Weather v5.1 === */
 
 /* === IT Pocket Communications stable v5.1 ===
