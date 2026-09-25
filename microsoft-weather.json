@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-09-25T02:00:00+02:00",
+  "statusSummary": {
+    "microsoft365": "Operational",
+    "note_fr": "Les services publics Microsoft 365 sont opérationnels. Des problèmes Windows connus peuvent néanmoins impacter les utilisateurs.",
+    "note_en": "Public Microsoft 365 services are operational. Known Windows issues may still affect users."
+  },
+  "incidents": [
+    {
+      "id": "win-domain-trust-kb5124012",
+      "service": "Windows 11 / Active Directory",
+      "title": "Les appareils joints à un domaine peuvent perdre leur relation d’approbation sécurisée avec le domaine",
+      "description": "Après KB5124012 ou une mise à jour ultérieure, certains comptes d’ordinateurs protégés par Credential Guard peuvent perdre leur canal sécurisé avec un domaine Active Directory local. Les utilisateurs peuvent ne plus pouvoir ouvrir une session avec leurs identifiants de domaine.",
+      "status": "Mitigated",
+      "lastUpdated": "2026-09-16T14:15:00-07:00",
+      "source": "Microsoft Windows Release Health",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/status-windows-11-26h1",
+      "scope": "Windows 11 24H2 / 25H2 / 26H1 et autres versions clientes affectées"
+    },
+    {
+      "id": "win-usb-audio-kb5124012",
+      "service": "Windows 11 / Audio USB",
+      "title": "Les périphériques audio USB peuvent ne pas démarrer ou ne pas produire de son",
+      "description": "Après la mise à jour de sécurité Windows de septembre 2026, certains périphériques audio USB classe 1.0 peuvent afficher un Code 10, ne plus produire de son ou présenter des paramètres audio bloqués. Microsoft indique une résolution partielle via la mise à jour hors bande du 14 septembre.",
+      "status": "Mitigated",
+      "lastUpdated": "2026-09-14T10:57:00-07:00",
+      "source": "Microsoft Windows Release Health",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/status-windows-11-26h1",
+      "scope": "Périphériques audio USB classe 1.0"
+    },
+    {
+      "id": "win-rds-sept-2026",
+      "service": "Windows / Remote Desktop Services",
+      "title": "Les services Bureau à distance pourraient cesser de répondre après la mise à jour de sécurité de septembre 2026",
+      "description": "Certaines organisations pouvaient rencontrer des connexions RDP instables, des blocages RDS et des outils liés qui ne répondaient plus. Microsoft indique que le problème est résolu par la mise à jour hors bande KB5129194 et les mises à jour ultérieures.",
+      "status": "Resolved",
+      "lastUpdated": "2026-09-17T18:22:00-07:00",
+      "source": "Microsoft Windows Release Health",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/resolved-issues-windows-11-26h1",
+      "scope": "Plusieurs versions Windows clientes et Windows Server"
+    },
+    {
+      "id": "win-defender-false-disabled-notice",
+      "service": "Microsoft Defender Antivirus",
+      "title": "Notifications incorrectes indiquant que Microsoft Defender Antivirus est désactivé",
+      "description": "Des notifications pouvaient indiquer à tort que Microsoft Defender Antivirus était désactivé alors que la protection restait active et fonctionnelle. Microsoft classe désormais le problème comme résolu.",
+      "status": "Resolved",
+      "lastUpdated": "2026-09-17T18:22:00-07:00",
+      "source": "Microsoft Windows Release Health",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/resolved-issues-windows-11-26h1",
+      "scope": "Windows 11"
+    },
+    {
+      "id": "arm-teams-new-outlook-launch",
+      "service": "Microsoft Teams / New Outlook / Windows on ARM",
+      "title": "Microsoft Teams et le nouvel Outlook pouvaient ne pas démarrer sur les appareils ARM",
+      "description": "Après certaines mises à jour d’août 2026, Teams et le nouvel Outlook pour Windows pouvaient ne pas démarrer ou se fermer de façon inattendue sur des appareils ARM. Microsoft indique que le problème est résolu par les mises à jour Windows publiées le 8 septembre 2026 et après.",
+      "status": "Resolved",
+      "lastUpdated": "2026-09-08T10:00:00-07:00",
+      "source": "Microsoft Windows Release Health",
+      "url": "https://learn.microsoft.com/en-us/windows/release-health/resolved-issues-windows-11-26h1",
+      "scope": "Windows 11 ARM — 24H2 / 25H2 / 26H1"
+    }
+  ],
+  "sources": [
+    {
+      "name": "Microsoft 365 Service Status",
+      "url": "https://status.cloud.microsoft/Office",
+      "category": "Microsoft 365"
+    },
+    {
+      "name": "Microsoft 365 Service Health",
+      "url": "https://admin.cloud.microsoft/?#/servicehealth",
+      "category": "Tenant"
+    },
+    {
+      "name": "Windows Release Health",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/status-windows-11-26h1",
+      "category": "Windows"
+    },
+    {
+      "name": "Windows 11 — Problèmes résolus",
+      "url": "https://learn.microsoft.com/fr-fr/windows/release-health/resolved-issues-windows-11-26h1",
+      "category": "Windows"
+    },
+    {
+      "name": "Azure Status",
+      "url": "https://azure.status.microsoft/fr-fr/status",
+      "category": "Azure"
+    }
+  ]
+}
