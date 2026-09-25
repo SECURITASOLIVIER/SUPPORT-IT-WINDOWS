@@ -1577,3 +1577,114 @@ body.light .editor textarea{
  .msw-preview-grid{grid-template-columns:1fr}
 }
 /* === /IT Pocket Weather richer previews v6.1 === */
+
+
+/* === IT Pocket compact mobile + brand restore v6.2 === */
+/* Branding: only the rocket is shown. */
+.brand-rocket-only{
+  display:flex;
+  align-items:center;
+  width:max-content;
+  gap:0 !important;
+}
+.brand-rocket-only .rocketLogo{
+  width:58px;
+  height:58px;
+}
+.brand-rocket-only + #search{margin-top:14px}
+
+/* Brand/product logos keep their visual weight in nav, home and headers. */
+.itp-brand-wrap.itp-icon-home,
+.itp-product-icon.itp-icon-home{
+  width:34px !important;height:34px !important;flex:0 0 34px !important;
+}
+.itp-brand-wrap.itp-icon-header,
+.itp-product-icon.itp-icon-header{
+  width:31px !important;height:31px !important;flex:0 0 31px !important;
+}
+.itp-brand-wrap.itp-icon-nav,
+.itp-product-icon.itp-icon-nav{
+  width:23px !important;height:23px !important;flex:0 0 23px !important;
+}
+.itp-brand-wrap.itp-icon-home{padding:3px}
+.itp-brand-wrap.itp-icon-home .itp-brand-logo{width:27px;height:27px}
+.itp-brand-wrap.itp-icon-header .itp-brand-logo{width:24px;height:24px}
+.itp-brand-wrap.itp-icon-nav .itp-brand-logo{width:18px;height:18px}
+.itp-product-icon.itp-icon-home img{width:32px;height:32px}
+.itp-product-icon.itp-icon-header img{width:29px;height:29px}
+.itp-product-icon.itp-icon-nav img{width:22px;height:22px}
+
+/* Mobile home: same width / two columns, but shorter and denser cards. */
+@media(max-width:800px){
+  .brand-rocket-only .rocketLogo{width:50px;height:50px}
+
+  .all-menu-home{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+    align-items:stretch !important;
+  }
+  .all-menu-home .itp-home-card{
+    grid-template-rows:56px 42px minmax(66px,1fr) 36px !important;
+    min-height:226px !important;
+    height:100% !important;
+    padding:12px !important;
+    border-radius:12px;
+  }
+  .all-menu-home .itp-home-heading{
+    grid-template-columns:30px minmax(0,1fr) !important;
+    height:56px !important;
+    min-height:56px !important;
+    gap:8px !important;
+    align-items:start !important;
+  }
+  .all-menu-home .itp-home-heading .itp-icon-home,
+  .all-menu-home .itp-home-heading .itp-official-icon.itp-icon-home,
+  .all-menu-home .itp-home-heading .itp-product-icon.itp-icon-home,
+  .all-menu-home .itp-home-heading .itp-brand-wrap.itp-icon-home{
+    width:28px !important;height:28px !important;flex:0 0 28px !important;
+  }
+  .all-menu-home .itp-home-heading .itp-brand-wrap.itp-icon-home{padding:2px}
+  .all-menu-home .itp-home-heading .itp-brand-wrap.itp-icon-home .itp-brand-logo{
+    width:23px;height:23px;
+  }
+  .all-menu-home .itp-home-heading .itp-product-icon.itp-icon-home img{
+    width:27px;height:27px;
+  }
+  .all-menu-home .itp-home-heading h3{
+    font-size:13.5px !important;
+    line-height:1.15 !important;
+    margin:0 !important;
+    overflow-wrap:anywhere !important;
+  }
+  .all-menu-home .big-number{
+    font-size:26px !important;
+    line-height:1 !important;
+    padding-top:2px !important;
+  }
+  .all-menu-home .itp-home-card .desc{
+    font-size:11.5px !important;
+    line-height:1.3 !important;
+    padding:5px 0 7px !important;
+    -webkit-line-clamp:4 !important;
+  }
+  .all-menu-home .itp-home-card > .btn{
+    min-width:70px !important;
+    min-height:34px !important;
+    padding:7px 11px !important;
+    font-size:12px !important;
+    border-radius:8px;
+  }
+}
+@media(max-width:390px){
+  .all-menu-home .itp-home-card{
+    grid-template-rows:58px 40px minmax(66px,1fr) 34px !important;
+    min-height:224px !important;
+    padding:11px !important;
+  }
+  .all-menu-home .itp-home-heading{height:58px !important;min-height:58px !important}
+  .all-menu-home .itp-home-heading h3{font-size:13px !important}
+  .all-menu-home .big-number{font-size:25px !important}
+  .all-menu-home .itp-home-card .desc{font-size:11px !important}
+  .all-menu-home .itp-home-card > .btn{min-height:32px !important;padding:6px 10px !important}
+}
+/* === /IT Pocket compact mobile + brand restore v6.2 === */
