@@ -3888,7 +3888,7 @@ function templateCard(t){
     '<button class="btn" onclick=\'editTemplate('+ref+')\'>'+ui("Modifier")+'</button>'+
     '<button class="btn" onclick=\'itpToggleTemplateContent("'+id+'",this)\'>'+(state.lang==="en"?"Show more":"Voir plus")+'</button>'+
   '</div>'+
-  '<div id="'+id+'" class="itp-template-full"><div class="template-preview">'+formatTemplatePreview(content)+'</div></div>'+
+  '<div id="'+id+'" class="itp-template-full"><div class="template-preview">'+formatTemplateHtml(content)+'</div></div>'+
  '</article>';
 }
 Object.assign(window,{itpToggleTemplateContent});
@@ -3931,7 +3931,7 @@ function templateCard(t){
     '<button class="btn" onclick=\'itpToggleTemplateContent("'+id+'",this)\'>'+(state.lang==="en"?"Show more":"Voir plus")+'</button>'+
   '</div>'+
   '<div id="'+id+'" class="itp-template-full">'+
-    (body?'<div class="template-preview">'+formatTemplatePreview(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+    (body?'<div class="template-preview">'+formatTemplateHtml(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
   '</div>'+
  '</article>';
 }
@@ -4203,7 +4203,7 @@ function templateCard(t){
    '<h3 class="itp-card-title">'+itpTemplateIcon(v)+'<span>'+esc(v.name)+'</span></h3>'+
    '<div class="meta">'+esc(v.category||"")+'</div>'+
    (v.subject?'<div class="template-subject"><span>'+(state.lang==="en"?"Subject":"Objet")+'</span>'+esc(v.subject)+'</div>':'')+
-   (body?'<div class="itp-template-body">'+formatTemplatePreview(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
+   (body?'<div class="itp-template-body">'+formatTemplateHtml(body)+'</div>':'<div class="empty">'+(state.lang==="en"?"No message body.":"Aucun corps de message.")+'</div>')+
    '<div class="actions template-actions">'+
      '<button class="btn primary" onclick=\'copyTemplate('+ref+')\'>'+ui("Copier")+'</button>'+
      '<button class="btn outlook" onclick=\'openTemplateOutlook('+ref+')\'>Outlook</button>'+
