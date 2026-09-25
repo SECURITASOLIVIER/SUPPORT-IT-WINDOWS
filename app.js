@@ -4537,4 +4537,66 @@ function communications(){
 Object.assign(window,{communications,templateCard,itpToggleCommDetail});
 /* === /IT Pocket Communications compact final v5.4 === */
 
+
+/* === IT Pocket brand identity restore v6.2 === */
+/* Keep real brand/product marks when a public brand exists; Fluent icons stay for generic Windows functions. */
+function itpBrandV62(slug,color,label,extra){
+  const src="https://cdn.simpleicons.org/"+slug+"/"+color;
+  const fb=(typeof itpBrandFallbackText==="function"?itpBrandFallbackText(label):String(label||"IT").slice(0,2).toUpperCase());
+  return '<span class="itp-brand-wrap itp-brand-official '+(extra||"")+'" title="'+esc(label||"")+'" aria-hidden="true">'+
+    '<img class="itp-brand-logo" src="'+src+'" alt="" loading="lazy" referrerpolicy="no-referrer" '+
+    'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'inline-flex\'">'+
+    '<span class="itp-brand-fallback">'+esc(fb)+'</span></span>';
+}
+
+const _itpCategoryIconV62=itpCategoryIcon;
+itpCategoryIcon=function(c,size){
+  const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
+  if(c==="Microsoft 365")return itpMicrosoftAdminLogo("m365",cls);
+  if(c==="Intune / Entra / SCCM")return itpMicrosoftAdminLogo("intune",cls);
+  if(c==="Système"||c==="Sécurité Windows"||c==="Windows Update"){
+    return itpBrandV62("windows11","0078D4","Windows",cls);
+  }
+  if(c==="Météo IT")return itpOfficialFluent("cloud","Météo IT",cls);
+  return _itpCategoryIconV62(c,size);
+};
+
+itpBrowserProduct=function(kind,extra){
+  const map={
+    edge:["microsoftedge","0C59A4","Microsoft Edge"],
+    chrome:["googlechrome","4285F4","Google Chrome"],
+    firefox:["firefox","FF7139","Mozilla Firefox"]
+  };
+  const x=map[kind];
+  return x?itpBrandV62(x[0],x[1],x[2],extra):itpOfficialFluent("globe",kind,extra);
+};
+
+const _itpBrandFromTextV62=itpBrandFromText;
+itpBrandFromText=function(text){
+  const s=itpNorm(text||"");
+  if(/\bgithub\b/.test(s))return itpBrandV62("github","6E7781","GitHub","itp-icon-card");
+  if(/\bcloudflare\b/.test(s))return itpBrandV62("cloudflare","F38020","Cloudflare","itp-icon-card");
+  if(/\bopenai\b|\bchatgpt\b/.test(s))return itpBrandV62("openai","10A37F","OpenAI","itp-icon-card");
+  if(/\bpowershell\b/.test(s))return itpBrandV62("powershell","5391FE","PowerShell","itp-icon-card");
+  if(/\bteamviewer\b/.test(s))return itpBrandV62("teamviewer","0E8EE9","TeamViewer","itp-icon-card");
+  if(/\bzscaler\b/.test(s))return itpBrandV62("zscaler","203A60","Zscaler","itp-icon-card");
+  if(/\bcrowdstrike\b/.test(s))return itpBrandV62("crowdstrike","E01F3D","CrowdStrike","itp-icon-card");
+  if(/\bcitrix\b/.test(s))return itpBrandV62("citrix","452170","Citrix","itp-icon-card");
+  const existing=_itpBrandFromTextV62(text);
+  if(existing)return existing;
+  if(/\bwindows(?:\s*11)?\b/.test(s))return itpBrandV62("windows11","0078D4","Windows","itp-icon-card");
+  if(/\bmicrosoft 365\b|\boffice 365\b/.test(s))return itpMicrosoftAdminLogo("m365","itp-icon-card");
+  if(/\bsccm\b|configuration manager/.test(s))return itpBrandV62("microsoft","5E5E5E","Microsoft","itp-icon-card");
+  return "";
+};
+
+const _itpPortalLogoV62=itpPortalLogo;
+itpPortalLogo=function(p){
+  const text=[p&&p.name,p&&p.url].filter(Boolean).join(" ");
+  const brand=itpBrandFromText(text);
+  return brand||_itpPortalLogoV62(p);
+};
+/* === /IT Pocket brand identity restore v6.2 === */
+
+
 render();
