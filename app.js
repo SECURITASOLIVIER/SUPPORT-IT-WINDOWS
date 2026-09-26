@@ -4772,4 +4772,235 @@ Object.assign(window,{
 });
 /* === /IT Pocket communication identity v6.3 === */
 
+
+/* === IT Pocket approved production logic v6.4 === */
+function itpWindowsLogo(version,extra){
+  const cls=extra||"itp-icon-card";
+  const is10=String(version||"").includes("10");
+  const path=is10
+    ?'M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801'
+    :'M0 0h11.377v11.372H0Zm12.623 0H24v11.372H12.623ZM0 12.623h11.377V24H0Zm12.623 0H24V24H12.623Z';
+  const label=is10?"Windows 10":"Windows 11";
+  return '<svg class="itp-win-logo '+esc(cls)+'" viewBox="0 0 24 24" role="img" aria-label="'+label+'"><path d="'+path+'"></path></svg>';
+}
+function itpSemanticIcon(kind,label,extra){
+  const cls=extra||"itp-icon-card";
+  const svgs={
+    calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3M13 14h3M8 17h3"/>',
+    phone:'<rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r=".7" fill="currentColor" stroke="none"/>',
+    vpn:'<rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15" r="1.2"/><path d="M13.2 15H19M17 13v4"/>',
+    mfa:'<path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/><rect x="9" y="10" width="6" height="5" rx="1"/><path d="M10.5 10V8.8a1.5 1.5 0 0 1 3 0V10"/>',
+    laptop:'<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'
+  };
+  if(!svgs[kind])return itpOfficialFluent(kind,label,cls);
+  return '<span class="itp-semantic-icon '+esc(cls)+'" title="'+esc(label||"")+'" aria-hidden="true"><svg viewBox="0 0 24 24">'+svgs[kind]+'</svg></span>';
+}
+function itpCommText(t){
+  return itpNorm([t&&t.category,t&&t.name,t&&t.subject,t&&t.description,t&&t.content].filter(Boolean).join(" "));
+}
+function itpCommSemanticKind(t){
+  const s=itpCommText(t);
+  if(/rendez.?vous|\brdv\b|creneau|prise de contact|prendre contact|planifier|planning|calendrier|appointment/.test(s))return "rdv";
+  if(/\bmfa\b|authentification|authenticator|mot de passe|password|securite|security|habilitation|acces compte/.test(s))return "security";
+  if(/\bvpn\b|zscaler vpn|citrix vpn|globalprotect|anyconnect/.test(s))return "vpn";
+  if(/telephone|smartphone|mobile|\bsim\b|iphone|android phone/.test(s))return "phone";
+  if(/expedition|livraison|restitution|mise a disposition|materiel|chargeur|casque|ecran|ordinateur|\bpc\b|poste utilisateur/.test(s))return "hardware";
+  if(/windows 10|windows 11|migration windows|mise a niveau windows|upgrade windows/.test(s))return "windows";
+  if(/outlook|teams|onedrive|word|excel|powerpoint|microsoft 365|office 365|intune|entra|azure|company portal|portail d.?entreprise/.test(s))return "m365";
+  if(/ticket|incident|rapport|escalade|cloture/.test(s))return "ticket";
+  return "general";
+}
+
+const _itpBrandFromTextV64=itpBrandFromText;
+itpBrandFromText=function(text){
+  const s=itpNorm(text||"");
+  if(/windows 10/.test(s))return itpWindowsLogo("10","itp-icon-card");
+  if(/windows 11|\bwindows\b/.test(s))return itpWindowsLogo("11","itp-icon-card");
+  return _itpBrandFromTextV64(text);
+};
+
+const _itpCategoryIconV64=itpCategoryIcon;
+itpCategoryIcon=function(c,size){
+  const cls=size==="home"?"itp-icon-home":size==="header"?"itp-icon-header":"itp-icon-nav";
+  if(c==="Système"||c==="Sécurité Windows"||c==="Windows Update")return itpWindowsLogo("11",cls);
+  return _itpCategoryIconV64(c,size);
+};
+
+itpCommunicationIcon=function(t,extra){
+  const cls=extra||"itp-icon-card";
+  const s=itpCommText(t);
+  const kind=itpCommSemanticKind(t);
+
+  if(kind==="rdv")return itpSemanticIcon("calendar","Rendez-vous / contact",cls);
+  if(kind==="security")return itpSemanticIcon("mfa","MFA / sécurité",cls);
+  if(kind==="vpn")return itpSemanticIcon("vpn","VPN / accès sécurisé",cls);
+  if(kind==="phone")return itpSemanticIcon("phone","Téléphone / mobile",cls);
+  if(kind==="hardware")return itpSemanticIcon("laptop","PC / matériel",cls);
+  if(kind==="windows"){
+    if(/windows 10/.test(s)&&!/windows 11/.test(s))return itpWindowsLogo("10",cls);
+    return itpWindowsLogo("11",cls);
+  }
+
+  if(/\boutlook\b/.test(s))return itpM365Product("outlook","Outlook",cls);
+  if(/\bteams\b|mtr|teams rooms?/.test(s))return itpM365Product("teams","Microsoft Teams",cls);
+  if(/\bonedrive\b/.test(s))return itpM365Product("onedrive","OneDrive",cls);
+  if(/\bword\b/.test(s))return itpM365Product("word","Word",cls);
+  if(/\bexcel\b/.test(s))return itpM365Product("excel","Excel",cls);
+  if(/powerpoint|power point/.test(s))return itpM365Product("powerpoint","PowerPoint",cls);
+  if(/\bintune\b|\bmdm\b|company portal|portail d.?entreprise/.test(s))return itpMicrosoftAdminLogo("intune",cls);
+  if(/\bentra\b|azure ad|identity|identite/.test(s))return itpMicrosoftAdminLogo("entra",cls);
+  if(/\bazure\b/.test(s))return itpMicrosoftAdminLogo("azure",cls);
+  if(/microsoft 365|office 365|\boffice\b/.test(s))return itpMicrosoftAdminLogo("m365",cls);
+  if(/\bedge\b/.test(s))return itpBrowserProduct("edge",cls);
+  if(/\bchrome\b/.test(s))return itpBrowserProduct("chrome",cls);
+  if(/\bfirefox\b/.test(s))return itpBrowserProduct("firefox",cls);
+
+  const brand=itpBrandFromText(s);
+  if(brand){
+    if(cls==="itp-icon-card")return brand;
+    return brand.replace(/itp-icon-card/g,cls);
+  }
+  if(kind==="ticket")return itpOfficialFluent("document","Ticket / incident",cls);
+  if(/message|communication|notification|information/.test(s))return itpOfficialFluent("chat","Communication",cls);
+  if(/mail|courriel|messagerie/.test(s))return itpOfficialFluent("mail","Mail",cls);
+  return itpOfficialFluent("mail","Communication",cls);
+};
+itpTemplateIcon=function(t){return itpCommunicationIcon(t,"itp-icon-card")};
+
+function itpCommFilterIcon(key,extra){
+  const cls=extra||"itp-icon-mini";
+  if(key==="Rendez-vous")return itpSemanticIcon("calendar",key,cls);
+  if(key==="Windows")return itpWindowsLogo("11",cls);
+  if(key==="Matériel")return itpSemanticIcon("laptop",key,cls);
+  if(key==="Téléphone")return itpSemanticIcon("phone",key,cls);
+  if(key==="MFA / Sécurité")return itpSemanticIcon("mfa",key,cls);
+  if(key==="VPN")return itpSemanticIcon("vpn",key,cls);
+  if(key==="Microsoft 365")return itpMicrosoftAdminLogo("m365",cls);
+  return itpOfficialFluent("mail",key,cls);
+}
+function itpCommFilterMatch(t,filter){
+  if(filter==="Tous")return true;
+  const kind=itpCommSemanticKind(t);
+  if(filter==="Rendez-vous")return kind==="rdv";
+  if(filter==="Windows")return kind==="windows";
+  if(filter==="Matériel")return kind==="hardware";
+  if(filter==="Téléphone")return kind==="phone";
+  if(filter==="MFA / Sécurité")return kind==="security";
+  if(filter==="VPN")return kind==="vpn";
+  if(filter==="Microsoft 365")return kind==="m365";
+  return true;
+}
+
+communications=function(){
+  try{
+    const raw=(typeof allTemplates==="function"?allTemplates():[])||[];
+    const normalized=raw.map(itpCommSafeTemplate);
+    const q=String($("#search")&&$("#search").value||"").trim().toLowerCase();
+    let ts=normalized.filter(x=>{
+      if(!q)return true;
+      return [x.name,x.category,x.subject,x.content].some(v=>String(v||"").toLowerCase().includes(q));
+    });
+    ts=ts.filter(x=>itpCommFilterMatch(x,templateFilter));
+
+    const filters=["Tous","Rendez-vous","Windows","Matériel","Téléphone","MFA / Sécurité","VPN","Microsoft 365"];
+    return '<div class="toolbar communication-topbar">'+
+      '<button class="btn primary itp-icon-btn" onclick="newTemplate()">'+itpOfficialFluent("document","Nouveau template","itp-icon-mini")+'<span>'+ui("+ Créer un template")+'</span></button>'+
+      '<span class="badge">'+ts.length+' '+(state.lang==="en"?"template(s)":"modèle(s)")+'</span>'+
+    '</div>'+
+    '<div class="toolbar itp-comm-filters">'+filters.map(f=>
+      '<button class="btn itp-icon-btn'+(templateFilter===f?' active':'')+'" onclick=\'setTemplateFilter('+JSON.stringify(f)+')\'>'+
+      itpCommFilterIcon(f,"itp-icon-mini")+'<span>'+esc(f)+'</span></button>'
+    ).join("")+'</div>'+
+    '<div class="grid itp-communications-grid">'+
+      (ts.length?ts.map(x=>{try{return templateCard(x)}catch(e){console.error("Template render failed",x&&x.name,e);return ""}}).join(""):'<div class="empty">'+ui("Aucun template trouvé.")+'</div>')+
+    '</div>';
+  }catch(e){
+    console.error("Communications rendering failed",e);
+    return '<div class="card"><h3>Communications</h3><p class="desc">'+
+      (state.lang==="en"?"The communications module could not load.":"Le module Communications n’a pas pu se charger.")+
+      '</p><div class="actions"><button class="btn primary" onclick="location.reload()">'+
+      (state.lang==="en"?"Reload":"Recharger")+'</button></div></div>';
+  }
+};
+
+const _itpWeatherBrandV64=itpWeatherBrand;
+itpWeatherBrand=function(name,extra){
+  const n=String(name||"");
+  const cls=extra||"itp-icon-card";
+  if(/windows 10/i.test(n))return itpWindowsLogo("10",cls);
+  if(/windows/i.test(n))return itpWindowsLogo("11",cls);
+  if(/outlook|exchange/i.test(n))return itpM365Product("outlook","Outlook",cls);
+  if(/teams/i.test(n))return itpM365Product("teams","Microsoft Teams",cls);
+  if(/onedrive/i.test(n))return itpM365Product("onedrive","OneDrive",cls);
+  return _itpWeatherBrandV64(name,extra);
+};
+
+itpWeatherCard=function(x){
+  const cls=itpWeatherStatusClass(x.status),share=itpWeatherShareText(x);
+  const preview=itpWeatherExcerpt(x.description,330);
+  const scope=x.scope||"";
+  return '<article class="card msw-card">'+
+    '<div class="msw-brand-row">'+itpWeatherBrand(x.service||x.title,"itp-icon-card")+
+      '<div class="msw-brand-copy"><div class="msw-card-top"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(itpWeatherStatusLabel(x.status))+'</span></div>'+
+      '<h3>'+esc(x.title||x.service||"IT")+'</h3>'+
+      '<div class="msw-tech-line">'+esc(x.service||"IT")+(x.lastUpdated?' • '+esc(itpWeatherDate(x.lastUpdated)):'')+'</div></div>'+
+    '</div>'+
+    (preview?'<p class="desc msw-preview-text">'+esc(preview)+'</p>':'')+
+    (scope?'<div class="msw-impact">'+(state.lang==="en"?"Impact / scope: ":"Impact / périmètre : ")+esc(scope)+'</div>':'')+
+    '<div class="actions">'+
+      (x.url?'<button class="btn primary" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Open article":"Ouvrir l’article")+'</button>':'')+
+      '<button class="btn" onclick=\'copy('+inlineArg(share)+')\'>'+ui("Copier")+'</button>'+
+      '<button class="btn" onclick=\'shareText('+inlineArg(x.title||"Météo IT")+','+inlineArg(share)+')\'>'+ui("Partager")+'</button>'+
+    '</div></article>';
+};
+
+function itpPublicStatusCompact(x){
+  const st=itpPublicStatusState[x.id]||"unknown",cls=itpWeatherStatusClass(st);
+  const label=x.api?itpWeatherStatusLabel(st):(state.lang==="en"?"Official status":"Statut officiel");
+  return '<article class="card msw-service-card"><div class="msw-brand-row">'+itpWeatherBrand(x.name,"itp-icon-card")+
+    '<div class="msw-brand-copy"><h3>'+esc(x.name)+'</h3><div class="msw-service-status"><span class="msw-dot '+cls+'"></span><span class="msw-status '+cls+'">'+esc(label)+'</span></div></div></div>'+
+    '<p class="desc">'+esc(x.detail||"")+'</p>'+
+    '<div class="actions"><button class="btn" onclick=\'window.open('+inlineArg(x.url)+',"_blank","noopener")\'>'+(state.lang==="en"?"Open status":"Ouvrir le statut")+'</button></div></article>';
+}
+microsoftWeather=function(){
+  if(!microsoftWeatherData&&!microsoftWeatherLoading)loadMicrosoftWeather(false);
+  let items=itpWeatherMergeIncidents();
+  const q=String($("#search")&&$("#search").value||"").trim().toLowerCase();
+  items=items.filter(itpWeatherMatchesFilter);
+  if(q)items=items.filter(x=>[x.title,x.description,x.service,x.status].some(v=>String(v||"").toLowerCase().includes(q)));
+  const active=itpWeatherActiveCount();
+  const statusValues=Object.values(itpPublicStatusState);
+  const major=statusValues.filter(v=>/major|critical/i.test(v)).length;
+  const warn=statusValues.filter(v=>/minor/i.test(v)).length;
+  const weather=major?"🌩️":warn||active?"🌦️":"🌤️";
+  const title=major?(state.lang==="en"?"Major incident detected":"Incident majeur détecté"):
+    warn||active?(state.lang==="en"?"IT services to watch":"Services IT à surveiller"):
+    (state.lang==="en"?"Public IT services look stable":"Services IT publics globalement stables");
+
+  return '<section class="msw-hero"><div><div class="msw-eyebrow">IT POCKET • PUBLIC STATUS</div><h3>'+weather+' '+esc(title)+'</h3>'+
+    '<p>'+(state.lang==="en"?"Major headlines first: affected technology, short impact summary, then the direct source.":"Les gros titres d’abord : technologie impactée, résumé court, puis accès direct à la source.")+'</p></div>'+
+    '<div class="actions msw-hero-actions"><button class="btn primary" onclick="loadMicrosoftWeather(true)">'+ui("Actualiser")+'</button></div></section>'+
+    '<div class="section-title">'+(state.lang==="en"?"Incidents to know":"Incidents à connaître")+'</div>'+
+    '<div class="type-filter msw-filters">'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Tous")\'>'+ui("Tous")+'</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Actifs")\'>'+ui("Incidents actifs")+'</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Outlook")\'>Outlook</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Teams")\'>Teams</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Windows")\'>Windows</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("M365")\'>Microsoft 365</button>'+
+      '<button class="btn" onclick=\'setMicrosoftWeatherFilter("Azure")\'>Azure</button>'+
+    '</div>'+
+    '<div class="grid msw-grid">'+(items.length?items.map(itpWeatherCard).join(""):'<div class="empty">'+ui("Aucun incident trouvé.")+'</div>')+'</div>'+
+    '<div class="section-title">'+(state.lang==="en"?"Public services":"État des services")+'</div>'+
+    '<div class="grid msw-public-grid">'+ITP_PUBLIC_STATUS.map(itpPublicStatusCompact).join("")+'</div>'+
+    '<div class="section-title">'+(state.lang==="en"?"Recent releases":"Releases récentes")+'</div>'+
+    '<div class="msw-release-strip">'+ITP_RELEASES.map(x=>'<span>'+esc(x.date.slice(0,5))+' · '+esc(x.name)+'</span>').join("")+'</div>';
+};
+
+Object.assign(window,{
+  communications,templateCard,itpTemplateIcon,itpCommunicationIcon,itpWindowsLogo,itpSemanticIcon,
+  microsoftWeather,itpWeatherCard,itpWeatherBrand
+});
+/* === /IT Pocket approved production logic v6.4 === */
+
 render();
